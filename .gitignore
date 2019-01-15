@@ -1,0 +1,12 @@
+*.iml
+.gradle
+/local.properties
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/app/release
+/app/src/main/java/com/cg/lrceditor/Timestamp.java
+.DS_Store
+/build
+/captures
+.externalNativeBuild
