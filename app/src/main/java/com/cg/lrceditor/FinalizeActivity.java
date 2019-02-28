@@ -360,6 +360,9 @@ public class FinalizeActivity extends AppCompatActivity {
             String timestamp = lyricData.get(i).getTimestamp();
             if (timestamp != null) {
                 String lyric = lyricData.get(i).getLyric();
+                if (lyric == null || lyric.equals("")) {
+                    lyric = " ";
+                }
                 sb.append("[").append(timestamp).append("]").append(lyric).append("\n");
             }
         }
