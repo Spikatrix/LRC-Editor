@@ -76,7 +76,7 @@ public class LyricReader {
 
                     //TODO: Very big timestamps won't be read
 
-                    if (temp.matches("^(\\[\\d\\d:\\d\\d[.|:]\\d\\d\\d?]).*$")) {
+                    if (temp.matches("^(\\[\\d\\d[:.]\\d\\d[:.]\\d\\d\\d?]).*$")) {
                         if (temp.charAt(9) != ']')
                             extras++;
                         timestamps.add(temp.substring(1, 9));

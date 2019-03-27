@@ -1,26 +1,37 @@
 package com.cg.lrceditor;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.SparseBooleanArray;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapter.item> {
     public LinkedList<File> mFileList;
     private LayoutInflater mInflator;
 
+    public boolean isDarkTheme = false;
+
     private LyricFileSelectListener mClickListener;
+
+    private SparseBooleanArray expandedItems;
 
     private SparseBooleanArray selectedItems;
 
@@ -28,6 +39,7 @@ public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapte
         mInflator = LayoutInflater.from(context);
         this.mFileList = fileList;
         selectedItems = new SparseBooleanArray();
+        expandedItems = new SparseBooleanArray();
     }
 
     @NonNull
@@ -40,7 +52,15 @@ public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapte
     @Override
     public void onBindViewHolder(@NonNull HomePageListAdapter.item holder, int position) {
         String mCurrent = mFileList.get(position).getName();
-        holder.songName.setText(mCurrent);
+        holder.fileName.setText(mCurrent);
+
+        if (expandedItems.get(position)) {
+            holder.subView.setVisibility(View.VISIBLE);
+            holder.expandableButton.setRotation(180);
+        } else {
+            holder.subView.setVisibility(View.GONE);
+            holder.expandableButton.setRotation(0);
+        }
 
         holder.itemView.setActivated(selectedItems.get(position, false));
 
@@ -50,11 +70,109 @@ public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapte
     private void applyClickEvents(final HomePageListAdapter.item holder, final int position) {
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                if (getSelectionCount() == 0)
-                    mClickListener.fileSelected(mFileList.get(holder.getLayoutPosition()).getName());
-                else
+            public void onClick(final View view) {
+                if (getSelectionCount() == 0) {
+                    //mClickListener.fileSelected(mFileList.get(holder.getLayoutPosition()).getName());
+
+                    if (expandedItems.get(holder.getAdapterPosition())) {
+                        expandedItems.delete(holder.getAdapterPosition());
+                        holder.expandableButton.animate().rotation(0).setDuration(300).start();
+                    } else {
+                        expandedItems.put(holder.getAdapterPosition(), true);
+                        holder.expandableButton.animate().rotation(180).setDuration(300).start();
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                LyricReader r = mClickListener.scanFile(holder.fileName.getText().toString());
+                                if (r.getErrorMsg() != null || !r.readLyrics()) {
+                                    Toast.makeText(view.getContext(), r.getErrorMsg(), Toast.LENGTH_LONG).show();
+                                    holder.lyricsTextview.setText(r.getErrorMsg());
+                                    return;
+                                }
+
+                                String[] lyrics = r.getLyrics();
+                                String[] timestamp = r.getTimestamps();
+
+                                final String[] lyricsToDisplay;
+                                if (lyrics.length > 8) {
+                                    lyricsToDisplay = new String[9];
+                                    for (int i = 0; i < 4; i++)
+                                        lyricsToDisplay[i] = "<font color=\"#2bb1e2\">[" + timestamp[i] + "]</font> <font color=\"#dd9911\">" + lyrics[i] + "</font>";
+                                    lyricsToDisplay[4] = "......\n";
+                                    for (int i = lyrics.length - 4, j = 5; i < lyrics.length; i++, j++) {
+                                        lyricsToDisplay[j] = "<font color=\"#2bb1e2\">[" + timestamp[i] + "]</font> <font color=\"#dd9911\">" + lyrics[i] + "</font>";
+                                    }
+                                } else {
+                                    lyricsToDisplay = new String[lyrics.length];
+                                    for (int i = 0; i < lyrics.length; i++) {
+                                        lyricsToDisplay[i] = "<font color=\"#2bb1e2\">[" + timestamp[i] + "]</font> <font color=\"#dd9911\">" + lyrics[i] + "</font>";
+                                    }
+                                }
+
+                                final SongMetaData songMetaData = r.getSongMetaData();
+                                view.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (!songMetaData.getSongName().trim().isEmpty()) {
+                                            holder.songName.setText(
+                                                    String.format(Locale.getDefault(), "%s %s",
+                                                            view.getContext().getString(R.string.song_name_prompt),
+                                                            songMetaData.getSongName()));
+                                        } else {
+                                            holder.songName.setText(
+                                                    String.format(Locale.getDefault(), "%s N/A",
+                                                            view.getContext().getString(R.string.song_name_prompt)));
+                                        }
+
+                                        if (!songMetaData.getArtistName().trim().isEmpty()) {
+                                            holder.artistName.setText(
+                                                    String.format(Locale.getDefault(), "%s %s",
+                                                            view.getContext().getString(R.string.artist_name_prompt),
+                                                            songMetaData.getArtistName()));
+                                        } else {
+                                            holder.artistName.setText(
+                                                    String.format(Locale.getDefault(), "%s N/A",
+                                                            view.getContext().getString(R.string.artist_name_prompt)));
+                                        }
+
+                                        if (!songMetaData.getAlbumName().trim().isEmpty()) {
+                                            holder.albumName.setText(
+                                                    String.format(Locale.getDefault(), "%s %s",
+                                                            view.getContext().getString(R.string.album_name_prompt),
+                                                            songMetaData.getAlbumName()));
+                                        } else {
+                                            holder.albumName.setText(
+                                                    String.format(Locale.getDefault(), "%s N/A",
+                                                            view.getContext().getString(R.string.album_name_prompt)));
+                                        }
+
+                                        if (!songMetaData.getComposerName().trim().isEmpty()) {
+                                            holder.composerName.setText(
+                                                    String.format(Locale.getDefault(), "%s %s",
+                                                            view.getContext().getString(R.string.composer_prompt),
+                                                            songMetaData.getComposerName()));
+                                        } else {
+                                            holder.composerName.setText(
+                                                    String.format(Locale.getDefault(), "%s N/A",
+                                                            view.getContext().getString(R.string.composer_prompt)));
+                                        }
+
+                                        holder.lyricsTextview.setText("");
+                                        for (String line : lyricsToDisplay) {
+                                            holder.lyricsTextview.append(Html.fromHtml(line));
+                                            holder.lyricsTextview.append("\n");
+                                        }
+                                    }
+                                });
+                            }
+                        }).start();
+                    }
+
+                    notifyItemChanged(holder.getAdapterPosition());
+                } else {
                     mClickListener.onLyricItemClicked(position);
+                }
             }
         });
 
@@ -93,6 +211,10 @@ public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapte
         notifyDataSetChanged();
     }
 
+    public void clearExpandedItems() {
+        expandedItems.clear();
+    }
+
     public void clearSelections() {
         selectedItems.clear();
         notifyDataSetChanged();
@@ -110,44 +232,75 @@ public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapte
         return selectedItems.size();
     }
 
+    public void animate(TextView t, int start, int end) {
+        Drawable[] myTextViewCompoundDrawables = t.getCompoundDrawables();
+        for (Drawable drawable : myTextViewCompoundDrawables) {
+            if (drawable == null)
+                continue;
+            ObjectAnimator anim = ObjectAnimator.ofInt(drawable, "level", start, end);
+            anim.start();
+        }
+    }
+
     public interface LyricFileSelectListener {
         void fileSelected(String fileName);
 
         void onLyricItemSelected(int position);
 
         void onLyricItemClicked(int position);
+
+        LyricReader scanFile(String fileName);
     }
 
-    class item extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    class item extends RecyclerView.ViewHolder {
         final HomePageListAdapter mAdapter;
+
         private final LinearLayout linearLayout;
-        private final TextView songName;
+
+        private final TextView fileName;
+        private Button editButton;
+        private ImageView expandableButton;
+
+        private LinearLayout subView;
+
+        private TextView songName;
+        private TextView albumName;
+        private TextView artistName;
+        private TextView composerName;
+
+        private TextView lyricsTextview;
 
         public item(View itemView, HomePageListAdapter adapter) {
             super(itemView);
-            linearLayout = itemView.findViewById(R.id.lyric_file_parent_linearlayout);
-            songName = itemView.findViewById(R.id.song_textview);
+
+            linearLayout = itemView.findViewById(R.id.lyricfileParentLinearlayout);
+            fileName = itemView.findViewById(R.id.fileNameTextview);
+            fileName.setSelected(true);
             this.mAdapter = adapter;
-            itemView.setOnClickListener(this);
-        }
 
-        @Override
-        public void onClick(View v) {
-            if (getSelectionCount() == 0) {
-                String song_name = mFileList.get(getLayoutPosition()).getName();
-                if (mClickListener != null) mClickListener.fileSelected(song_name);
-            } else {
-                mClickListener.onLyricItemClicked(getAdapterPosition());
+            subView = itemView.findViewById(R.id.lrcDetails);
+            editButton = itemView.findViewById(R.id.editButton);
+            expandableButton = itemView.findViewById(R.id.expandableButton);
+
+            if (isDarkTheme) {
+                expandableButton.setImageDrawable(itemView.getContext().getDrawable(R.drawable.ic_arrow_drop_down_light));
             }
-        }
 
-        @Override
-        public boolean onLongClick(View v) {
-            mClickListener.onLyricItemSelected(getAdapterPosition());
-            v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-            return false;
-        }
+            songName = itemView.findViewById(R.id.songNameTextview);
+            artistName = itemView.findViewById(R.id.artistNameTextview);
+            albumName = itemView.findViewById(R.id.albumNameTextview);
+            composerName = itemView.findViewById(R.id.composerNameTextview);
 
+            lyricsTextview = itemView.findViewById(R.id.lyricsTextview);
+
+            editButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String fileName = mFileList.get(getLayoutPosition()).getName();
+                    if (mClickListener != null) mClickListener.fileSelected(fileName);
+                }
+            });
+        }
     }
 }
 

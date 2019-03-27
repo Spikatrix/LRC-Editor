@@ -81,7 +81,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/home/jas/Downloads/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_open_in_new_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/home/jas/Downloads/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_arrow_drop_down_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -92,7 +92,7 @@
                         <option name="values">
                           <map>
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_open_in_new_light" />
+                            <entry key="outputName" value="ic_arrow_drop_down_light" />
                             <entry key="sourceFile" value="$USER_HOME$" />
                           </map>
                         </option>

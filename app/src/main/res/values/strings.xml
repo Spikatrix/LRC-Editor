@@ -16,10 +16,10 @@
     <string name="rate_and_feedback_string">This app is made and maintained by just me\nPlease rate the app and provide constructive feedback\n\n\nThank You!\n♥</string>
     <string name="toolbar_done_icon">Done</string>
     <string name="finalization_header">Finalization</string>
-    <string name="song_name_prompt">Song Name:</string>
-    <string name="album_name_prompt">Album Name:</string>
-    <string name="artist_name_prompt">Artist Name:</string>
-    <string name="composer_prompt">Composer:</string>
+    <string name="song_name_prompt">Song name: </string>
+    <string name="album_name_prompt">Album name: </string>
+    <string name="artist_name_prompt">Artist name: </string>
+    <string name="composer_prompt">Composer: </string>
     <string name="default_time">00:00.00</string>
     <string name="batch_edit_default_time">+00:00.00</string>
     <string name="processing_string">Processing</string>
@@ -85,5 +85,8 @@
     <string name="add_a_timestamp_button_hint">Add a timestamp button</string>
     <string name="decrease_timestamp_button_hint">Decrease timestamp button</string>
     <string name="increase_timestamp_button_hint">Increase timestamp button</string>
-    <string name="github_contribution_string">Contribute to the app: https://github.com/Spikatrix/LRC_Editor</string>
+    <string name="github_contribution_string">Contribute to the app: https://github.com/Spikatrix/LRC-Editor</string>
+    <string name="edit">Edit</string>
+    <string name="loading_lyrics">Loading lyrics...</string>
+    <string name="expandable_button_image">Expandable button image</string>
 </resources>

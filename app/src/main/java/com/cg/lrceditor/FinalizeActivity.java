@@ -357,13 +357,13 @@ public class FinalizeActivity extends AppCompatActivity {
                 .append("\n");
 
         for (int i = 0, len = lyricData.size(); i < len; i++) {
-            String timestamp = lyricData.get(i).getTimestamp();
+            Timestamp timestamp = lyricData.get(i).getTimestamp();
             if (timestamp != null) {
                 String lyric = lyricData.get(i).getLyric();
                 if (lyric == null || lyric.equals("")) {
                     lyric = " ";
                 }
-                sb.append("[").append(timestamp).append("]").append(lyric).append("\n");
+                sb.append("[").append(timestamp.toString()).append("]").append(lyric).append("\n");
             }
         }
 

@@ -2,14 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/item_parent_linearlayout"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/lyricitem_height"
-    android:layout_marginStart="@dimen/lyricitem_margin"
-    android:layout_marginLeft="@dimen/lyricitem_margin"
-    android:layout_marginEnd="@dimen/lyricitem_margin"
-    android:layout_marginRight="@dimen/lyricitem_margin"
+    android:layout_height="@dimen/dp110"
+    android:layout_marginStart="@dimen/dp2"
+    android:layout_marginLeft="@dimen/dp2"
+    android:layout_marginEnd="@dimen/dp2"
+    android:layout_marginRight="@dimen/dp2"
     android:background="@drawable/bg_list_row"
     android:orientation="horizontal"
-    android:padding="@dimen/item_padding">
+    android:padding="@dimen/dp10">
 
     <LinearLayout
         android:id="@+id/item_time_controls"
@@ -48,8 +48,8 @@
         android:layout_height="match_parent"
         android:layout_weight="5"
         android:gravity="center"
-        android:paddingLeft="@dimen/item_padding"
-        android:paddingRight="@dimen/item_padding"
+        android:paddingLeft="@dimen/dp10"
+        android:paddingRight="@dimen/dp10"
         android:textStyle="bold" />
 
     <ImageButton

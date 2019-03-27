@@ -7,14 +7,14 @@
     <LinearLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/normal_padding"
+        android:layout_margin="@dimen/dp15"
         android:orientation="vertical"
         tools:context=".SupportActivity">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/normal_padding"
+            android:layout_marginBottom="@dimen/dp15"
             android:gravity="center"
             android:text="@string/support_us"
             android:textSize="30sp"
@@ -23,14 +23,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/normal_padding"
+            android:layout_marginBottom="@dimen/dp15"
             android:gravity="center"
             android:text="@string/support_description" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/normal_padding"
+            android:layout_marginBottom="@dimen/dp15"
             android:gravity="center"
             android:text="@string/support_bonus_description" />
 
@@ -129,7 +129,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/normal_padding"
+            android:layout_marginBottom="@dimen/dp15"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -153,14 +153,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/normal_padding"
+            android:layout_marginTop="@dimen/dp15"
             android:gravity="center"
             android:text="@string/thanks_for_the_support" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/normal_padding"
+            android:layout_marginTop="@dimen/dp15"
             android:autoLink="web"
             android:gravity="center"
             android:text="@string/github_contribution_string" />

@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            android:layout_margin="@dimen/timetext_offset"
+            android:layout_margin="@dimen/dp16"
             android:ellipsize="marquee"
             android:fadingEdge="horizontal"
             android:focusable="true"
@@ -27,20 +27,20 @@
             android:scrollHorizontally="true"
             android:singleLine="true"
             android:text="@string/tapToAddSong_prompt"
-            android:textSize="@dimen/media_title_size"
+            android:textSize="@dimen/sp18"
             android:textStyle="bold" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/media_default_height">
+        android:layout_height="@dimen/dp48">
 
         <TextView
             android:id="@+id/startText"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="@dimen/timetext_offset"
+            android:layout_marginStart="@dimen/dp16"
             android:gravity="center"
             android:maxLines="1"
             android:text="@string/default_timetext"
@@ -52,8 +52,8 @@
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/seekBar_offsets"
-            android:layout_marginRight="@dimen/seekBar_offsets"
+            android:layout_marginLeft="@dimen/dp5"
+            android:layout_marginRight="@dimen/dp5"
             android:layout_toStartOf="@id/endText"
             android:layout_toEndOf="@id/startText" />
 
@@ -62,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/timetext_offset"
+            android:layout_marginEnd="@dimen/dp16"
             android:gravity="center"
             android:maxLines="1"
             android:text="@string/default_timetext"

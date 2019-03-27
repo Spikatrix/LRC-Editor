@@ -3,19 +3,19 @@ package com.cg.lrceditor;
 import java.io.Serializable;
 
 public class ItemData implements Serializable {
-    private String timestamp;
+    private Timestamp timestamp;
     private String lyric;
 
-    public ItemData(String lyric, String timestamp) {
+    public ItemData(String lyric, Timestamp timestamp) {
         this.lyric = lyric;
         this.timestamp = timestamp;
     }
 
-    public String getTimestamp() {
+    public Timestamp getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
 

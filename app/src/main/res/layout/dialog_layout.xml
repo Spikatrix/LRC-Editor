@@ -8,18 +8,18 @@
         android:id="@+id/dialog_prompt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dialog_margin"
-        android:layout_marginTop="@dimen/dialog_margin"
-        android:layout_marginRight="@dimen/dialog_margin"
-        android:textSize="@dimen/media_title_size"
+        android:layout_marginLeft="@dimen/dp18"
+        android:layout_marginTop="@dimen/dp18"
+        android:layout_marginRight="@dimen/dp18"
+        android:textSize="@dimen/sp18"
         android:textStyle="bold" />
 
     <EditText
         android:id="@+id/dialog_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dialog_margin"
-        android:layout_marginRight="@dimen/dialog_margin"
+        android:layout_marginLeft="@dimen/dp18"
+        android:layout_marginRight="@dimen/dp18"
         android:inputType="text"
         android:maxLines="1" />
 

@@ -8,11 +8,11 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dialog_margin"
-        android:layout_marginTop="@dimen/dialog_margin"
-        android:layout_marginRight="@dimen/dialog_margin"
+        android:layout_marginLeft="@dimen/dp18"
+        android:layout_marginTop="@dimen/dp18"
+        android:layout_marginRight="@dimen/dp18"
         android:text="@string/enter_timestamp_prompt"
-        android:textSize="@dimen/media_title_size"
+        android:textSize="@dimen/sp18"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -33,8 +33,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/item_padding"
-            android:paddingRight="@dimen/item_padding"
+            android:paddingLeft="@dimen/dp10"
+            android:paddingRight="@dimen/dp10"
             android:text="@string/colon"
             android:textStyle="bold" />
 
@@ -50,8 +50,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/item_padding"
-            android:paddingRight="@dimen/item_padding"
+            android:paddingLeft="@dimen/dp10"
+            android:paddingRight="@dimen/dp10"
             android:text="@string/colon"
             android:textStyle="bold" />
 

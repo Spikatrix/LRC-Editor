@@ -38,7 +38,7 @@ public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.Lyri
         if (lyricData.get(position).getTimestamp() != null) {
             holder.itemTimeControls.setVisibility(View.VISIBLE);
             holder.itemplay.setEnabled(true);
-            holder.itemTimeview.setText(lyricData.get(position).getTimestamp());
+            holder.itemTimeview.setText(lyricData.get(position).getTimestamp().toString());
         } else {
             holder.itemTimeControls.setVisibility(View.INVISIBLE);
             holder.itemplay.setEnabled(false);

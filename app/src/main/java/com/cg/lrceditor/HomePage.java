@@ -22,6 +22,7 @@ import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -74,7 +75,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                scan_lyrics();
+                scanLyrics();
                 swipeRefreshLayout.setRefreshing(false);
                 Toast.makeText(getApplicationContext(), "List refreshed!", Toast.LENGTH_SHORT).show();
             }
@@ -106,14 +107,20 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
             saveUri = Uri.parse(uriString);
 
         if (storagePermissionAlreadyGranted)
-            scan_lyrics();
+            scanLyrics();
     }
 
-    private void scan_lyrics() {
+    private void scanLyrics() {
         File f = new File(saveLocation);
 
         TextView empty_textview = findViewById(R.id.empty_message_textview);
         RecyclerView r = findViewById(R.id.recyclerview);
+
+        try {
+            ((SimpleItemAnimator) r.getItemAnimator()).setSupportsChangeAnimations(false);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
 
         if (!f.exists()) {
             if (!f.mkdir()) {
@@ -135,7 +142,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
                                     editor.putString("saveUri", null);
                                     editor.apply();
 
-                                    scan_lyrics();
+                                    scanLyrics();
                                 }
                             })
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -201,10 +208,13 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 
         if (mAdapter == null) {
             mAdapter = new HomePageListAdapter(this, list);
+            mAdapter.isDarkTheme = isDarkTheme;
             recyclerView.setAdapter(mAdapter);
             mAdapter.setClickListener(this);
         } else {
             mAdapter.mFileList = list;
+            mAdapter.isDarkTheme = isDarkTheme;
+            mAdapter.clearExpandedItems();
             mAdapter.notifyDataSetChanged();
         }
 
@@ -271,7 +281,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 
                 if (permission.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     if (grantResult == PackageManager.PERMISSION_GRANTED) {
-                        scan_lyrics();
+                        scanLyrics();
                         return;
                     } else {
                         Toast.makeText(this, "LRC Editor cannot read/save lyric files without the storage permission", Toast.LENGTH_LONG).show();
@@ -303,7 +313,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
         Intent intent;
         switch (item.getItemId()) {
             case R.id.action_refresh:
-                scan_lyrics();
+                scanLyrics();
                 Toast.makeText(this, "List refreshed!", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_settings:
@@ -322,7 +332,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
     @Override
     public void fileSelected(String fileName) {
         LyricReader r = new LyricReader(saveLocation, fileName);
-        if (!r.readLyrics()) {
+        if (r.getErrorMsg() != null || !r.readLyrics()) {
             Toast.makeText(this, r.getErrorMsg(), Toast.LENGTH_LONG).show();
             return;
         }
@@ -334,6 +344,13 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
         intent.putExtra("LRC FILE NAME", fileName);
 
         startActivity(intent);
+    }
+
+    @Override
+    public LyricReader scanFile(String fileName) {
+        LyricReader r = new LyricReader(saveLocation, fileName);
+        r.readLyrics();
+        return r;
     }
 
     @Override
@@ -392,7 +409,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
                             if (file == null || !file.delete())
                                 deleteFailure = true;
                         }
-                        scan_lyrics();
+                        scanLyrics();
 
                         if (deleteFailure) {
                             Toast.makeText(getApplicationContext(), "Failed to delete some/all the selected LRC files!", Toast.LENGTH_LONG).show();
@@ -447,7 +464,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
         DocumentFile file = pickedDir.findFile(fileName);
         if (file != null && file.renameTo(newName)) {
             Toast.makeText(this, "Renamed file successfully", Toast.LENGTH_LONG).show();
-            scan_lyrics();
+            scanLyrics();
         } else
             Toast.makeText(this, "Rename failed!", Toast.LENGTH_LONG).show();
 

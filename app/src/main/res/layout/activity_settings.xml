@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/normal_padding"
+    android:layout_margin="@dimen/dp15"
     android:orientation="vertical"
     tools:context=".SettingsActivity">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/normal_padding"
+        android:layout_marginBottom="@dimen/dp15"
         android:text="@string/save_location_description"
         android:textStyle="bold" />
 
@@ -18,7 +18,7 @@
         android:id="@+id/save_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/normal_padding" />
+        android:layout_marginBottom="@dimen/dp15" />
 
     <Button
         android:layout_width="wrap_content"
@@ -29,15 +29,15 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="@dimen/normal_padding"
-        android:layout_marginBottom="@dimen/normal_padding"
+        android:layout_marginTop="@dimen/dp15"
+        android:layout_marginBottom="@dimen/dp15"
         android:background="@android:color/darker_gray" />
 
     <TextView
         android:id="@+id/theme_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/normal_padding"
+        android:layout_marginBottom="@dimen/dp15"
         android:text="@string/select_a_theme_prompt"
         android:textStyle="bold"
         android:visibility="gone" />
