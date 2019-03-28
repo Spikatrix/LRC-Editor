@@ -558,7 +558,6 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
         endTime.setMilliseconds(0);
         endText.setText(String.format(Locale.getDefault(), "%02d:%02d", endTime.getMinutes(), endTime.getSeconds()));
         seekbar.setMax(duration);
-        seekbar.setProgress(0);
         seekbar.setProgress(player.getCurrentPosition());
         songFileName = FileUtil.getFileName(this, uri);
     }
@@ -585,9 +584,11 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        seekTimestamp.setTime(progress);
-        seekTimestamp.setMilliseconds(0);
-        startText.setText(String.format(Locale.getDefault(), "%02d:%02d", seekTimestamp.getMinutes(), seekTimestamp.getSeconds()));
+        if (seekTimestamp != null) {
+            seekTimestamp.setTime(progress);
+            seekTimestamp.setMilliseconds(0);
+            startText.setText(String.format(Locale.getDefault(), "%02d:%02d", seekTimestamp.getMinutes(), seekTimestamp.getSeconds()));
+        }
     }
 
     @Override
@@ -597,7 +598,8 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        player.seekTo((int) seekTimestamp.toMilliseconds());
+        if (seekTimestamp != null)
+            player.seekTo((int) seekTimestamp.toMilliseconds());
         updateBusy = false;
         seekbar.setProgress(player.getCurrentPosition());
     }

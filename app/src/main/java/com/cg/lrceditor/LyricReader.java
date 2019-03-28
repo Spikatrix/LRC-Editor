@@ -37,7 +37,7 @@ public class LyricReader {
             this.in = c.getContentResolver().openInputStream(uri);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            errorMsg = "Oops! File not found!\n" + e.getMessage();
+            errorMsg = "Oops! File not found! \n" + e.getMessage();
         }
     }
 
@@ -109,7 +109,7 @@ public class LyricReader {
             }
 
             if (lyrics.toString().equals("")) {
-                errorMsg = "Couldn't parse lyrics from the file\nCheck if the lrc file is properly formatted";
+                errorMsg = "Couldn't parse lyrics from the file. Check if the lrc file is properly formatted";
                 return false;
             }
 
@@ -129,11 +129,11 @@ public class LyricReader {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            errorMsg = "Oops! File not found!\n" + e.getMessage();
+            errorMsg = "Oops! File not found! \n" + e.getMessage();
             return false;
         } catch (IOException e) {
             e.printStackTrace();
-            errorMsg = "Oops! An error occurred while reading!\n" + e.getMessage();
+            errorMsg = "Oops! An error occurred while reading! \n" + e.getMessage();
             return false;
         }
 

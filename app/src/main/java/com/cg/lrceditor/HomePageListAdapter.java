@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -84,10 +83,15 @@ public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapte
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                LyricReader r = mClickListener.scanFile(holder.fileName.getText().toString());
+                                final LyricReader r = mClickListener.scanFile(holder.fileName.getText().toString());
                                 if (r.getErrorMsg() != null || !r.readLyrics()) {
-                                    Toast.makeText(view.getContext(), r.getErrorMsg(), Toast.LENGTH_LONG).show();
-                                    holder.lyricsTextview.setText(r.getErrorMsg());
+                                    view.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            String errorMsg = "<font color=\"#c61b1b\">" + r.getErrorMsg() + "</font>";
+                                            holder.lyricsTextview.setText(Html.fromHtml(errorMsg));
+                                        }
+                                    });
                                     return;
                                 }
 

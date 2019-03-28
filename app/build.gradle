@@ -6,7 +6,7 @@ android {
         applicationId "com.cg.lrceditor"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 25
+        versionCode 28
         versionName "2.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
