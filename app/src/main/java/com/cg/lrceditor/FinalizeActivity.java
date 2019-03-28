@@ -295,10 +295,8 @@ public class FinalizeActivity extends AppCompatActivity {
 
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();
-            resultTextView.setTextColor(Color.rgb(198, 27, 27));
+            resultTextView.setTextColor(Color.parseColor("#c61b1b"));
             resultTextView.setText(String.format(Locale.getDefault(), "Whoops! An Error Occurred!\n%s", e.getMessage()));
-
-            Toast.makeText(this, "Try changing the save location", Toast.LENGTH_LONG).show();
 
             Button copy_error = findViewById(R.id.copy_error_button);
             copy_error.setVisibility(View.VISIBLE);

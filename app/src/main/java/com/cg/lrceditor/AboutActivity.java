@@ -68,6 +68,7 @@ public class AboutActivity extends AppCompatActivity {
         deviceInfo += "\n OS API Level: " + android.os.Build.VERSION.SDK_INT;
         deviceInfo += "\n Device: " + android.os.Build.DEVICE;
         deviceInfo += "\n Model and Product: " + android.os.Build.MODEL + " (" + android.os.Build.PRODUCT + ")";
+        deviceInfo += "\n LRC Editor version " + BuildConfig.VERSION_NAME + " (Build: " + BuildConfig.VERSION_CODE + ")";
 
         Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", getString(R.string.dev_email), null));
         intent.putExtra(Intent.EXTRA_SUBJECT, "LRC Editor Feedback");
