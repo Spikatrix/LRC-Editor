@@ -778,9 +778,17 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
                         milText = milText + "0";
 
-                        mAdapter.lyricData.get(position).getTimestamp().setTime(Long.parseLong(minText),
-                                Long.parseLong(secText),
-                                Long.parseLong(milText));
+                        Timestamp timestamp = mAdapter.lyricData.get(position).getTimestamp();
+                        if (timestamp == null) {
+                            timestamp = new Timestamp(Long.parseLong(minText),
+                                    Long.parseLong(secText),
+                                    Long.parseLong(milText));
+                            mAdapter.lyricData.get(position).setTimestamp(timestamp);
+                        } else {
+                            timestamp.setTime(Long.parseLong(minText),
+                                    Long.parseLong(secText),
+                                    Long.parseLong(milText));
+                        }
 
                         mAdapter.notifyItemChanged(position);
 
