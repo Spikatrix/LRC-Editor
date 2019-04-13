@@ -64,10 +64,6 @@ public class Timestamp implements Serializable {
     public void alterTimestamp(long milliseconds) {
         long newTime = toMilliseconds() + milliseconds;
 
-        if (newTime < 0) {
-            newTime = -newTime;
-        }
-
         newTime = max(newTime, 0);
         newTime = min(newTime, MAX_TIMESTAMP_VALUE);
 

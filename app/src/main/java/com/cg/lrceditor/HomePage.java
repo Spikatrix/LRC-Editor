@@ -445,7 +445,11 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         setNewFileName(editText.getText().toString(), fileName);
-                        actionMode.finish();
+                        try {
+                            actionMode.finish();
+                        } catch (NullPointerException e) { // Occurs when the user quickly double taps on a menu item
+                            e.printStackTrace();
+                        }
                         actionMode = null;
                     }
                 })

@@ -484,7 +484,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
     private void readyMediaPlayer(Uri songUri) {
         try {
             player.setDataSource(this, songUri);
-        } catch (IOException | IllegalArgumentException e) {
+        } catch (IOException | IllegalArgumentException | IllegalStateException | SecurityException e) {
             Toast.makeText(this, "Whoops " + e.getMessage(), Toast.LENGTH_LONG).show();
             e.printStackTrace();
             return;
@@ -834,7 +834,11 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
                         changedData = true;
                         mAdapter.notifyDataSetChanged();
 
-                        actionMode.finish();
+                        try {
+                            actionMode.finish();
+                        } catch (NullPointerException e) { // Can occur when the user quickly double taps a menu item
+                            e.printStackTrace();
+                        }
                         actionMode = null;
                     }
                 })
@@ -860,7 +864,13 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
     }
 
     private void edit_lyric_data(final int lyric_change) {
-        final int position = mAdapter.getSelectedItems().get(0);
+        final int position;
+        try {
+            position = mAdapter.getSelectedItems().get(0);
+        } catch (IndexOutOfBoundsException e) { // Gets thrown when the user quickly double taps the edit menu button
+            e.printStackTrace();
+            return;
+        }
 
         LayoutInflater inflater = this.getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_layout, null);

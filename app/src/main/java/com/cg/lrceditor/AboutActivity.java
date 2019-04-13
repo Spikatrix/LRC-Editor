@@ -43,7 +43,7 @@ public class AboutActivity extends AppCompatActivity {
         }
 
         TextView version = findViewById(R.id.app_version);
-        version.setText(String.format(Locale.getDefault(), "Version %s", BuildConfig.VERSION_NAME));
+        version.setText(String.format(Locale.getDefault(), "Version %s (Build %s)", BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE));
     }
 
     public void rate_and_review(View view) {
