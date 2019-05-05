@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -11,12 +12,28 @@ import android.widget.Toast;
 
 public class CreateActivity extends AppCompatActivity {
 
+    private boolean isDarkTheme = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences preferences = getSharedPreferences("LRC Editor Preferences", MODE_PRIVATE);
-        if (preferences.getString("current_theme", "").equals("dark")) {
+        String theme = preferences.getString("current_theme", "default_light");
+        if (theme.equals("dark")) {
+            isDarkTheme = true;
             setTheme(R.style.AppThemeDark);
+        } else if (theme.equals("darker")) {
+            isDarkTheme = true;
+            setTheme(R.style.AppThemeDarker);
         }
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_create);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        if (isDarkTheme) {
+            toolbar.setPopupTheme(R.style.AppThemeDark_PopupOverlay);
+        }
+        setSupportActionBar(toolbar);
 
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -24,8 +41,9 @@ public class CreateActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create);
+        if (isDarkTheme) {
+            findViewById(R.id.lyrics_textbox).setBackground(getDrawable(R.drawable.rounded_border_light));
+        }
     }
 
 
@@ -45,6 +63,7 @@ public class CreateActivity extends AppCompatActivity {
         Intent intent = new Intent(this, EditorActivity.class);
         intent.putExtra("LYRICS", data.split("\\n"));
         intent.putExtra("TIMESTAMPS", timestamps);
+        intent.putExtra("NEW FILE", true);
         startActivity(intent);
     }
 

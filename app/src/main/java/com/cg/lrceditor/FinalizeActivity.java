@@ -22,6 +22,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.provider.DocumentFile;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -37,6 +38,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -67,6 +69,8 @@ public class FinalizeActivity extends AppCompatActivity {
 
     private SharedPreferences preferences;
 
+    private boolean isDarkTheme = false;
+
     public static void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         //Find the currently focused view, so we can grab the correct window token from it.
@@ -83,8 +87,13 @@ public class FinalizeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         preferences = getSharedPreferences("LRC Editor Preferences", MODE_PRIVATE);
-        if (preferences.getString("current_theme", "").equals("dark")) {
+        String theme = preferences.getString("current_theme", "default_light");
+        if (theme.equals("dark")) {
+            isDarkTheme = true;
             setTheme(R.style.AppThemeDark);
+        } else if (theme.equals("darker")) {
+            isDarkTheme = true;
+            setTheme(R.style.AppThemeDarker);
         }
 
         super.onCreate(savedInstanceState);
@@ -104,6 +113,12 @@ public class FinalizeActivity extends AppCompatActivity {
 
         resultTextView = findViewById(R.id.result_textview);
         resultTextView.setMovementMethod(new ScrollingMovementMethod());
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        if (isDarkTheme) {
+            toolbar.setPopupTheme(R.style.AppThemeDark_PopupOverlay);
+        }
+        setSupportActionBar(toolbar);
 
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -279,7 +294,7 @@ public class FinalizeActivity extends AppCompatActivity {
         DocumentFile file = pickedDir.createFile("application/*", fileName + ".lrc");
         try {
             OutputStream out = getContentResolver().openOutputStream(file.getUri());
-            InputStream in = new ByteArrayInputStream(lyricsToString().getBytes("UTF-8"));
+            InputStream in = new ByteArrayInputStream(lyricsToString().getBytes(StandardCharsets.UTF_8));
 
             byte[] buffer = new byte[1024];
             int read;

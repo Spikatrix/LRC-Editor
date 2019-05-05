@@ -176,14 +176,22 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences preferences = getSharedPreferences("LRC Editor Preferences", MODE_PRIVATE);
-        if (preferences.getString("current_theme", "").equals("dark")) {
+        String theme = preferences.getString("current_theme", "default_light");
+        if (theme.equals("dark")) {
             isDarkTheme = true;
-            setTheme(R.style.AppThemeDark_NoActionBar);
+            setTheme(R.style.AppThemeDark);
+        } else if (theme.equals("darker")) {
+            isDarkTheme = true;
+            setTheme(R.style.AppThemeDarker);
         }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
-        Toolbar toolbar = findViewById(R.id.Editortoolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        if (isDarkTheme) {
+            toolbar.setPopupTheme(R.style.AppThemeDark_PopupOverlay);
+        }
         setSupportActionBar(toolbar);
 
         try {
@@ -206,7 +214,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
             String[] lyrics = r.getLyrics();
             String[] timestamps = r.getTimestamps();
-            lyricData = populateDataSet(lyrics, timestamps);
+            lyricData = populateDataSet(lyrics, timestamps, false);
 
             songMetaData = r.getSongMetaData();
 
@@ -214,7 +222,13 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
         } else {                        /* New LRC file or existing opened from the homepage */
             String[] lyrics = intent.getStringArrayExtra("LYRICS");
             String[] timestamps = intent.getStringArrayExtra("TIMESTAMPS");
-            lyricData = populateDataSet(lyrics, timestamps);
+            boolean newFile = intent.getBooleanExtra("NEW FILE", false);
+
+            if (newFile) {
+                lyricData = populateDataSet(lyrics, timestamps, true);
+            } else {
+                lyricData = populateDataSet(lyrics, timestamps, false);
+            }
 
             songMetaData = (SongMetaData) intent.getSerializableExtra("SONG METADATA");
 
@@ -260,10 +274,10 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
         flasher.post(flash);
     }
 
-    private ArrayList<ItemData> populateDataSet(String[] lyrics, String[] timestamps) {
+    private ArrayList<ItemData> populateDataSet(String[] lyrics, String[] timestamps, boolean insertStartAndEndTimes) {
         ArrayList<ItemData> lyricData = new ArrayList<>();
 
-        if (!lyrics[0].trim().isEmpty())
+        if (insertStartAndEndTimes && !lyrics[0].trim().isEmpty())
             lyricData.add(new ItemData("", new Timestamp("00:00.00")));
 
         for (int i = 0, len = lyrics.length; i < len; i++) {
@@ -274,7 +288,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
             }
         }
 
-        if (!lyrics[lyrics.length - 1].trim().isEmpty())
+        if (insertStartAndEndTimes && !lyrics[lyrics.length - 1].trim().isEmpty())
             lyricData.add(new ItemData("", null));
 
         return lyricData;
@@ -826,7 +840,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
                             }
 
                             if (mAdapter.lyricData.size() == 0) {
-                                Toolbar toolbar = findViewById(R.id.Editortoolbar);
+                                Toolbar toolbar = findViewById(R.id.toolbar);
                                 toolbar.getMenu().findItem(R.id.action_add).setVisible(true);
                             }
                         }
@@ -1174,7 +1188,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
             case R.id.action_add:
                 mAdapter.lyricData.add(new ItemData(" ", null));
                 mAdapter.notifyItemChanged(0);
-                Toolbar toolbar = findViewById(R.id.Editortoolbar);
+                Toolbar toolbar = findViewById(R.id.toolbar);
                 toolbar.getMenu().findItem(R.id.action_add).setVisible(false);
                 return true;
             case android.R.id.home:

@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
@@ -21,18 +22,32 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView saveLocation;
 
     private RadioGroup themeGroup;
-    private RadioButton light, dark;
+    private RadioButton light, dark, darker;
 
     private SharedPreferences preferences;
 
+    private boolean isDarkTheme = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        preferences = getApplicationContext().getSharedPreferences("LRC Editor Preferences", MODE_PRIVATE);
-        if (preferences.getString("current_theme", "").equals("dark")) {
+        preferences = getSharedPreferences("LRC Editor Preferences", MODE_PRIVATE);
+        String theme = preferences.getString("current_theme", "default_light");
+        if (theme.equals("dark")) {
+            isDarkTheme = true;
             setTheme(R.style.AppThemeDark);
+        } else if (theme.equals("darker")) {
+            isDarkTheme = true;
+            setTheme(R.style.AppThemeDarker);
         }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        if (isDarkTheme) {
+            toolbar.setPopupTheme(R.style.AppThemeDark_PopupOverlay);
+        }
+        setSupportActionBar(toolbar);
 
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -45,9 +60,16 @@ public class SettingsActivity extends AppCompatActivity {
         themeGroup = findViewById(R.id.theme_group);
         light = findViewById(R.id.radioButtonLight);
         dark = findViewById(R.id.radioButtonDark);
+        darker = findViewById(R.id.radioButtonDarker);
 
-        if (preferences.getString("current_theme", "").equals("dark")) {
+        if (theme.equals("default_light")) {
+            light.setChecked(true);
+        } else if (theme.equals("dark")) {
             dark.setChecked(true);
+        } else if (theme.equals("darker")) {
+            darker.setChecked(true);
+        } else {
+            Toast.makeText(this, "An unexpected error occurred", Toast.LENGTH_SHORT).show();
         }
 
         themeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -58,7 +80,9 @@ public class SettingsActivity extends AppCompatActivity {
                 if (checkedId == dark.getId()) {
                     editor.putString("current_theme", "dark");
                 } else if (checkedId == light.getId()) {
-                    editor.putString("current_theme", "light");
+                    editor.putString("current_theme", "default_light");
+                } else if (checkedId == darker.getId()) {
+                    editor.putString("current_theme", "darker");
                 } else {
                     Toast.makeText(getApplicationContext(), "An unexpected error occurred", Toast.LENGTH_SHORT).show();
                     return;
