@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,9 +36,6 @@ public class SupportActivity extends AppCompatActivity {
 
     private SharedPreferences preferences;
 
-    private Button[] purchaseButtons = new Button[5];
-
-    private Context ctx;
     IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
         @Override
         public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
@@ -62,7 +60,7 @@ public class SupportActivity extends AppCompatActivity {
                 Purchase purchase = inventory.getPurchase(ITEM_SKUS[i]);
                 if (purchase != null && purchase.getPurchaseState() == 0) { //0 means purchased
                     if (!preferences.getString("lrceditor_purchased", "").equals("Y")) {
-                        Toast.makeText(ctx, "Dark theme should now be available in the settings", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ctx, "Dark themes should now be available in the settings", Toast.LENGTH_LONG).show();
                     }
 
                     SharedPreferences.Editor editor = preferences.edit();
@@ -76,6 +74,10 @@ public class SupportActivity extends AppCompatActivity {
             }
         }
     };
+
+    private Button[] purchaseButtons = new Button[5];
+
+    private Context ctx;
     IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
         @Override
         public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
@@ -91,7 +93,7 @@ public class SupportActivity extends AppCompatActivity {
                     if (purchase.getSku().equals(SKU)) {
                         new AlertDialog.Builder(ctx)
                                 .setTitle("Purchase Successful")
-                                .setMessage("Thank you so much for the purchase! Dark theme is now available in the settings")
+                                .setMessage("Thank you so much for the purchase! Dark themes are now available in the settings")
                                 .setNeutralButton("OK", null)
                                 .create()
                                 .show();
@@ -107,17 +109,30 @@ public class SupportActivity extends AppCompatActivity {
             }
         }
     };
+    private boolean isDarkTheme = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ctx = this;
 
-        preferences = ctx.getSharedPreferences("LRC Editor Preferences", MODE_PRIVATE);
-        if (preferences.getString("current_theme", "").equals("dark")) {
+        preferences = getSharedPreferences("LRC Editor Preferences", MODE_PRIVATE);
+        String theme = preferences.getString("current_theme", "default_light");
+        if (theme.equals("dark")) {
+            isDarkTheme = true;
             setTheme(R.style.AppThemeDark);
+        } else if (theme.equals("darker")) {
+            isDarkTheme = true;
+            setTheme(R.style.AppThemeDarker);
         }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_support);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        if (isDarkTheme) {
+            toolbar.setPopupTheme(R.style.AppThemeDark_PopupOverlay);
+        }
+        setSupportActionBar(toolbar);
 
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

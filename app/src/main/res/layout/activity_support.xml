@@ -1,169 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="vertical">
+    android:orientation="vertical">
 
-    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dp15"
-        android:orientation="vertical"
-        tools:context=".SupportActivity">
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <TextView
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="?android:attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical">
+
+        <LinearLayout xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp15"
-            android:gravity="center"
-            android:text="@string/support_us"
-            android:textSize="30sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp15"
-            android:gravity="center"
-            android:text="@string/support_description" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp15"
-            android:gravity="center"
-            android:text="@string/support_bonus_description" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_margin="@dimen/dp15"
+            android:orientation="vertical"
+            tools:context=".SupportActivity">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight=".3"
+                android:layout_marginBottom="@dimen/dp15"
                 android:gravity="center"
-                android:text="@string/small" />
-
-            <Button
-                android:id="@+id/one"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight=".6"
-                android:onClick="onePurchase"
-                android:text="@string/loading_string" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
+                android:text="@string/support_us"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight=".3"
+                android:layout_marginBottom="@dimen/dp15"
                 android:gravity="center"
-                android:text="@string/medium" />
-
-            <Button
-                android:id="@+id/two"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight=".6"
-                android:onClick="twoPurchase"
-                android:text="@string/loading_string" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
+                android:text="@string/support_description" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight=".3"
+                android:layout_marginBottom="@dimen/dp15"
                 android:gravity="center"
-                android:text="@string/large" />
+                android:text="@string/support_bonus_description" />
 
-            <Button
-                android:id="@+id/three"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight=".6"
-                android:onClick="threePurchase"
-                android:text="@string/loading_string" />
+                android:gravity="center"
+                android:orientation="horizontal">
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:gravity="center"
+                    android:text="@string/small" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
+                <Button
+                    android:id="@+id/one"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".6"
+                    android:onClick="onePurchase"
+                    android:text="@string/loading_string" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:gravity="center"
+                    android:text="@string/medium" />
+
+                <Button
+                    android:id="@+id/two"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".6"
+                    android:onClick="twoPurchase"
+                    android:text="@string/loading_string" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:gravity="center"
+                    android:text="@string/large" />
+
+                <Button
+                    android:id="@+id/three"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".6"
+                    android:onClick="threePurchase"
+                    android:text="@string/loading_string" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:gravity="center"
+                    android:text="@string/extra_large" />
+
+                <Button
+                    android:id="@+id/four"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".6"
+                    android:onClick="fourPurchase"
+                    android:text="@string/loading_string" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp15"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3"
+                    android:gravity="center"
+                    android:text="@string/largest" />
+
+                <Button
+                    android:id="@+id/five"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".6"
+                    android:onClick="fivePurchase"
+                    android:text="@string/loading_string" />
+
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight=".3"
+                android:layout_marginTop="@dimen/dp15"
                 android:gravity="center"
-                android:text="@string/extra_large" />
-
-            <Button
-                android:id="@+id/four"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight=".6"
-                android:onClick="fourPurchase"
-                android:text="@string/loading_string" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp15"
-            android:gravity="center"
-            android:orientation="horizontal">
+                android:text="@string/thanks_for_the_support" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight=".3"
+                android:layout_marginTop="@dimen/dp15"
+                android:autoLink="web"
                 android:gravity="center"
-                android:text="@string/largest" />
-
-            <Button
-                android:id="@+id/five"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight=".6"
-                android:onClick="fivePurchase"
-                android:text="@string/loading_string" />
+                android:text="@string/github_contribution_string" />
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp15"
-            android:gravity="center"
-            android:text="@string/thanks_for_the_support" />
+    </ScrollView>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp15"
-            android:autoLink="web"
-            android:gravity="center"
-            android:text="@string/github_contribution_string" />
-
-    </LinearLayout>
-</ScrollView>
+</LinearLayout>

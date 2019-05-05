@@ -55,15 +55,22 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         preferences = getSharedPreferences("LRC Editor Preferences", MODE_PRIVATE);
-        if (preferences.getString("current_theme", "").equals("dark")) {
+        String theme = preferences.getString("current_theme", "default_light");
+        if (theme.equals("dark")) {
             isDarkTheme = true;
-            setTheme(R.style.AppThemeDark_NoActionBar);
+            setTheme(R.style.AppThemeDark);
+        } else if (theme.equals("darker")) {
+            isDarkTheme = true;
+            setTheme(R.style.AppThemeDarker);
         }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
+        if (isDarkTheme) {
+            toolbar.setPopupTheme(R.style.AppThemeDark_PopupOverlay);
+        }
         setSupportActionBar(toolbar);
 
         if (isDarkTheme) {
