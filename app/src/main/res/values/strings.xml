@@ -12,7 +12,7 @@
     <string name="previous_5_text"><![CDATA[5 <<]]></string>
     <string name="forward_5_text"><![CDATA[>> 5]]></string>
     <string name="tapToAddSong_prompt">Tap here to select a song</string>
-    <string name="author_string">Made with ♥\n(and a lot of code :p)</string>
+    <string name="author_string">\nMade with ♥\n(and a lot of code :p)\n</string> <!-- Newlines for better spacing on small screens -->
     <string name="rate_and_feedback_string">This app is made and maintained by just me\nPlease rate the app and provide constructive feedback\n\n\nThank You!\n♥</string>
     <string name="toolbar_done_icon">Done</string>
     <string name="finalization_header">Finalization</string>
@@ -57,9 +57,10 @@
     <string name="select_a_theme_prompt">Select a theme:</string>
     <string name="light">Light</string>
     <string name="dark">Dark</string>
+    <string name="darker">Darker</string>
     <string name="support_us">Support me</string>
     <string name="support_description">You can pay what you want to support me. Your support helps me to grow bigger and better than ever</string>
-    <string name="support_bonus_description">As a bonus, once you make a purchase, you\'ll get access to the dark theme of the app!</string>
+    <string name="support_bonus_description">As a bonus, once you make a purchase, you\'ll get access to the two dark themes of the app!</string>
     <string name="thanks_for_the_support">Thank you for supporting!\n♥</string>
     <string name="small">♥</string>
     <string name="medium">♥♥</string>
@@ -89,5 +90,5 @@
     <string name="edit">Edit</string>
     <string name="loading_lyrics">Loading lyrics...</string>
     <string name="expandable_button_image">Expandable button image</string>
-    <string name="darker">Darker</string>
+    <string name="collapse_or_expand_mediaplayer">Expand or collapse the media player</string>
 </resources>

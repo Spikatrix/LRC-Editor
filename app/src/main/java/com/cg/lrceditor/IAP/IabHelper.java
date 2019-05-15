@@ -1,4 +1,4 @@
-package com.cg.lrceditor.util;
+package com.cg.lrceditor.IAP;
 
 /* Copyright (c) 2012 Google Inc.
  *
@@ -189,9 +189,9 @@ public class IabHelper {
         if (code <= IABHELPER_ERROR_BASE) {
             int index = IABHELPER_ERROR_BASE - code;
             if (index >= 0 && index < iabhelper_msgs.length) return iabhelper_msgs[index];
-            else return String.valueOf(code) + ":Unknown IAB Helper Error";
+            else return code + ":Unknown IAB Helper Error";
         } else if (code < 0 || code >= iab_msgs.length)
-            return String.valueOf(code) + ":Unknown";
+            return code + ":Unknown";
         else
             return iab_msgs[code];
     }
@@ -571,7 +571,7 @@ public class IabHelper {
             result = new IabResult(IABHELPER_USER_CANCELLED, "User canceled.");
             if (mPurchaseListener != null) mPurchaseListener.onIabPurchaseFinished(result, null);
         } else {
-            logError("Purchase failed. Result code: " + Integer.toString(resultCode)
+            logError("Purchase failed. Result code: " + resultCode
                     + ". Response: " + getResponseDesc(responseCode));
             result = new IabResult(IABHELPER_UNKNOWN_PURCHASE_RESPONSE, "Unknown purchase response.");
             if (mPurchaseListener != null) mPurchaseListener.onIabPurchaseFinished(result, null);
@@ -835,7 +835,7 @@ public class IabHelper {
                     itemType, continueToken);
 
             int response = getResponseCodeFromBundle(ownedItems);
-            logDebug("Owned items response: " + String.valueOf(response));
+            logDebug("Owned items response: " + response);
             if (response != BILLING_RESPONSE_RESULT_OK) {
                 logDebug("getPurchases() failed: " + getResponseDesc(response));
                 return response;

@@ -13,11 +13,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.cg.lrceditor.util.IabHelper;
-import com.cg.lrceditor.util.IabResult;
-import com.cg.lrceditor.util.Inventory;
-import com.cg.lrceditor.util.Purchase;
-import com.cg.lrceditor.util.SkuDetails;
+import com.cg.lrceditor.IAP.IabHelper;
+import com.cg.lrceditor.IAP.IabResult;
+import com.cg.lrceditor.IAP.Inventory;
+import com.cg.lrceditor.IAP.Purchase;
+import com.cg.lrceditor.IAP.SkuDetails;
 
 import java.util.Arrays;
 

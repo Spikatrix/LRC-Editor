@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mediaplayerLinearlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -8,7 +9,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"> <!-- titleText gets refreshed for some reason without this -->
 
         <TextView
             android:id="@+id/titleText"
@@ -35,6 +36,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/mediaplayerMid"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp48">
 
@@ -47,7 +49,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:text="@string/default_timetext"
-            android:textColor="@android:color/black" />
+            android:textStyle="bold" />
 
         <SeekBar
             android:id="@+id/seekBar"
@@ -60,6 +62,46 @@
             android:layout_toStartOf="@id/endText"
             android:layout_toEndOf="@id/startText" />
 
+        <LinearLayout
+            android:id="@+id/mediaControlsCollapsed"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/dp15"
+            android:layout_marginEnd="@dimen/dp15"
+            android:layout_toStartOf="@id/endText"
+            android:layout_toEndOf="@id/startText"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/left_5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".3"
+                android:contentDescription="@string/prev_description"
+                android:onClick="rewind5"
+                android:text="@string/previous_5_text" />
+
+            <ImageButton
+                android:id="@+id/play_pause_collapsed"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight=".35"
+                android:contentDescription="@string/play_description"
+                android:onClick="playPause"
+                android:src="@drawable/ic_play" />
+
+            <Button
+                android:id="@+id/right_5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".3"
+                android:contentDescription="@string/forward_description"
+                android:onClick="forward5"
+                android:text="@string/forward_5_text" />
+
+        </LinearLayout>
+
         <TextView
             android:id="@+id/endText"
             android:layout_width="wrap_content"
@@ -69,12 +111,13 @@
             android:gravity="center"
             android:maxLines="1"
             android:text="@string/default_timetext"
-            android:textColor="@android:color/black"
+            android:textStyle="bold"
             tools:ignore="RelativeOverlap" />
 
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/mediaControlsExpanded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

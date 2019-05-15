@@ -20,78 +20,85 @@
 
     </android.support.design.widget.AppBarLayout>
 
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/dp15"
-        android:orientation="vertical"
-        tools:context=".SettingsActivity">
+        android:scrollbars="vertical">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp15"
-            android:text="@string/save_location_description"
-            android:textStyle="bold" />
+            android:layout_margin="@dimen/dp15"
+            android:orientation="vertical"
+            tools:context=".SettingsActivity">
 
-        <TextView
-            android:id="@+id/save_location"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp15" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp15"
+                android:text="@string/save_location_description"
+                android:textStyle="bold" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="changeSaveLocation"
-            android:text="@string/save_location_button_text" />
+            <TextView
+                android:id="@+id/save_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp15" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="@dimen/dp15"
-            android:layout_marginBottom="@dimen/dp15"
-            android:background="@android:color/darker_gray" />
-
-        <TextView
-            android:id="@+id/theme_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp15"
-            android:text="@string/select_a_theme_prompt"
-            android:textStyle="bold"
-            android:visibility="gone" />
-
-        <RadioGroup
-            android:id="@+id/theme_group"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone">
-
-            <RadioButton
-                android:id="@+id/radioButtonLight"
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:checked="true"
-                android:text="@string/light" />
+                android:onClick="changeSaveLocation"
+                android:text="@string/save_location_button_text" />
 
-            <RadioButton
-                android:id="@+id/radioButtonDark"
-                android:layout_width="wrap_content"
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/dp15"
+                android:layout_marginBottom="@dimen/dp15"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/theme_title"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/dark" />
+                android:layout_marginBottom="@dimen/dp15"
+                android:text="@string/select_a_theme_prompt"
+                android:textStyle="bold"
+                android:visibility="gone" />
 
-            <RadioButton
-                android:id="@+id/radioButtonDarker"
-                android:layout_width="wrap_content"
+            <RadioGroup
+                android:id="@+id/theme_group"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/darker" />
-        </RadioGroup>
+                android:layout_marginBottom="@dimen/dp15"
+                android:visibility="gone">
 
-    </LinearLayout>
+                <RadioButton
+                    android:id="@+id/radioButtonLight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="@string/light" />
+
+                <RadioButton
+                    android:id="@+id/radioButtonDark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/dark" />
+
+                <RadioButton
+                    android:id="@+id/radioButtonDarker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/darker" />
+            </RadioGroup>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

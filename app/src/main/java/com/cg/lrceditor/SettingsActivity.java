@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private static final int LOCATION_REQUEST = 1;
     private TextView saveLocation;
 
     private RadioGroup themeGroup;
@@ -110,7 +109,7 @@ public class SettingsActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         try {
-            startActivityForResult(intent, LOCATION_REQUEST);
+            startActivityForResult(intent, Constants.LOCATION_REQUEST);
         } catch (ActivityNotFoundException e) {
             Toast.makeText(this, "Whoops! Couldn't open the directory picker!", Toast.LENGTH_SHORT).show();
             Toast.makeText(this, "Are you running Android 5.0+? Maybe enable DocumentsUI from your phone settings", Toast.LENGTH_LONG).show();
@@ -120,7 +119,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
-        if (requestCode == LOCATION_REQUEST && resultCode == Activity.RESULT_OK) {
+        if (requestCode == Constants.LOCATION_REQUEST && resultCode == Activity.RESULT_OK) {
             Uri uri;
             if (resultData != null) {
                 uri = resultData.getData();

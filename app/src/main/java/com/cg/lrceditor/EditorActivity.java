@@ -5,7 +5,6 @@ import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
@@ -21,15 +20,19 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.Toolbar;
 import android.util.SparseBooleanArray;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,10 +47,6 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
         MediaPlayer.OnPreparedListener,
         SeekBar.OnSeekBarChangeListener,
         MediaPlayer.OnCompletionListener {
-
-    private static final int FILE_REQUEST = 1;
-
-    private static final long MAX_TIMESTAMP_VALUE = Timestamp.MAX_TIMESTAMP_VALUE;
 
     private RecyclerView mRecyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -76,6 +75,8 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
     private Handler songTimeUpdater = new Handler();
     private SeekBar seekbar;
     private MediaPlayer player;
+
+    private boolean mediaplayerIsCollapsed = false;
 
     private Timestamp seekTimestamp;
 
@@ -148,7 +149,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
             }
 
             long time = timestamp.toMilliseconds();
-            if (time == MAX_TIMESTAMP_VALUE || time == 0) {
+            if (time == Constants.MAX_TIMESTAMP_VALUE || time == 0) {
                 longPressed = 0;
             }
 
@@ -263,8 +264,6 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
         if (isDarkTheme) {
             play_pause.setImageDrawable(getDrawable(R.drawable.ic_play_light));
-            startText.setTextColor(Color.WHITE);
-            endText.setTextColor(Color.WHITE);
         }
 
         player.setOnPreparedListener(this);
@@ -310,8 +309,8 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
         else
             pos = 0;
 
-        if (pos > MAX_TIMESTAMP_VALUE) {
-            pos = MAX_TIMESTAMP_VALUE;
+        if (pos > Constants.MAX_TIMESTAMP_VALUE) {
+            pos = Constants.MAX_TIMESTAMP_VALUE;
             Toast.makeText(this, "Timestamps larger than 99:59:999 are currently unsupported", Toast.LENGTH_SHORT).show();
         }
 
@@ -495,6 +494,52 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
         }
     }
 
+    private void collapseOrExpandMediaplayer() {
+        if (!mediaplayerIsCollapsed) {
+            titleText.setVisibility(View.GONE);
+            LinearLayout mediaControlsExpanded = findViewById(R.id.mediaControlsExpanded);
+            mediaControlsExpanded.setVisibility(View.GONE);
+            seekbar.setVisibility(View.GONE);
+            LinearLayout mediaControlsCollapsed = findViewById(R.id.mediaControlsCollapsed);
+            mediaControlsCollapsed.setVisibility(View.VISIBLE);
+            play_pause = findViewById(R.id.play_pause_collapsed);
+            RelativeLayout mediaplayerMid = findViewById(R.id.mediaplayerMid);
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) mediaplayerMid.getLayoutParams();
+            params.topMargin = (int) TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP, 15, getResources()
+                            .getDisplayMetrics());
+
+            mediaplayerIsCollapsed = true;
+        } else {
+            titleText.setVisibility(View.VISIBLE);
+            LinearLayout mediaControlsExpanded = findViewById(R.id.mediaControlsExpanded);
+            mediaControlsExpanded.setVisibility(View.VISIBLE);
+            seekbar.setVisibility(View.VISIBLE);
+            LinearLayout mediaControlsCollapsed = findViewById(R.id.mediaControlsCollapsed);
+            mediaControlsCollapsed.setVisibility(View.GONE);
+            play_pause = findViewById(R.id.play_pause);
+            RelativeLayout mediaplayerMid = findViewById(R.id.mediaplayerMid);
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) mediaplayerMid.getLayoutParams();
+            params.topMargin = 0;
+
+            mediaplayerIsCollapsed = false;
+        }
+
+        if (isPlaying) {
+            if (isDarkTheme) {
+                play_pause.setImageDrawable(getDrawable(R.drawable.ic_pause_light));
+            } else {
+                play_pause.setImageDrawable(getDrawable(R.drawable.ic_pause));
+            }
+        } else {
+            if (isDarkTheme) {
+                play_pause.setImageDrawable(getDrawable(R.drawable.ic_play_light));
+            } else {
+                play_pause.setImageDrawable(getDrawable(R.drawable.ic_play));
+            }
+        }
+    }
+
     private void readyMediaPlayer(Uri songUri) {
         try {
             player.setDataSource(this, songUri);
@@ -625,6 +670,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
         } else {
             play_pause.setImageDrawable(getDrawable(R.drawable.ic_play));
         }
+
         isPlaying = false;
     }
 
@@ -634,7 +680,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
         intent.setType("audio/*");
 
         try {
-            startActivityForResult(intent, FILE_REQUEST);
+            startActivityForResult(intent, Constants.FILE_REQUEST);
         } catch (ActivityNotFoundException e) {
             e.printStackTrace();
             Toast.makeText(this, "Failed to open the system song picker dialog; Are you sure you're running Android Kitkat or up?", Toast.LENGTH_SHORT).show();
@@ -643,7 +689,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
-        if (requestCode == FILE_REQUEST && resultCode == Activity.RESULT_OK) {
+        if (requestCode == Constants.FILE_REQUEST && resultCode == Activity.RESULT_OK) {
             if (resultData != null) {
                 Uri uri = resultData.getData();
 
@@ -887,16 +933,28 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
         }
 
         LayoutInflater inflater = this.getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_layout, null);
+        View view = inflater.inflate(R.layout.edit_dialog, null);
         final EditText editText = view.findViewById(R.id.dialog_edittext);
         TextView textView = view.findViewById(R.id.dialog_prompt);
 
         String hint = null, positive_button_text = null;
 
         if (lyric_change == 1) {         /* Insert lyrics */
-
             textView.setText(getString(R.string.insert_lyrics_prompt));
             positive_button_text = getString(R.string.insert_lyrics_positive_button_text);
+
+            editText.setLines(10);
+            editText.setSingleLine(false);
+            editText.setHorizontalScrollBarEnabled(false);
+            editText.setVerticalScrollBarEnabled(true);
+            editText.setVerticalFadingEdgeEnabled(true);
+            if (isDarkTheme) {
+                editText.setBackground(getDrawable(R.drawable.rounded_border_light));
+            } else {
+                editText.setBackground(getDrawable(R.drawable.rounded_border));
+            }
+            editText.setGravity(Gravity.CENTER);
+
         } else if (lyric_change == 2) {  /* Edit selected lyric */
 
             textView.setText(getString(R.string.edit_prompt));
@@ -904,18 +962,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
             positive_button_text = getString(R.string.edit_positive_button_text);
             hint = getString(R.string.edit_lyrics_hint);
-        }
-
-        if (hint != null) {
             editText.setHint(hint);
-        } else {
-            editText.setLines(10);
-            editText.setSingleLine(false);
-            editText.setHorizontalScrollBarEnabled(false);
-            editText.setVerticalScrollBarEnabled(true);
-            editText.setVerticalFadingEdgeEnabled(true);
-            editText.setBackground(getDrawable(R.drawable.rounded_border));
-            editText.setGravity(Gravity.CENTER);
         }
 
         AlertDialog dialog = new AlertDialog.Builder(this)
@@ -1190,6 +1237,14 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
                 mAdapter.notifyItemChanged(0);
                 Toolbar toolbar = findViewById(R.id.toolbar);
                 toolbar.getMenu().findItem(R.id.action_add).setVisible(false);
+                return true;
+            case R.id.action_collapse_or_expand:
+                collapseOrExpandMediaplayer();
+                if (mediaplayerIsCollapsed) {
+                    item.setIcon(getDrawable(R.drawable.ic_expand));
+                } else {
+                    item.setIcon(getDrawable(R.drawable.ic_collapse));
+                }
                 return true;
             case android.R.id.home:
                 onBackPressed();

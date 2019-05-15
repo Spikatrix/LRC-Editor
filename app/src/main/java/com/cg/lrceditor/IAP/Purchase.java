@@ -1,4 +1,4 @@
-package com.cg.lrceditor.util;
+package com.cg.lrceditor.IAP;
 
 /* Copyright (c) 2012 Google Inc.
  *

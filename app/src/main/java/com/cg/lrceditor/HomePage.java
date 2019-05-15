@@ -39,8 +39,6 @@ import java.util.List;
 
 public class HomePage extends AppCompatActivity implements HomePageListAdapter.LyricFileSelectListener {
 
-    private static final int WRITE_EXTERNAL_REQUEST = 1;
-    private final String defaultSaveLocation = Environment.getExternalStorageDirectory().getPath() + "/Lyrics";
     private boolean storagePermissionAlreadyGranted = false;
     private boolean scannedOnce = false;
     private String saveLocation;
@@ -98,7 +96,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
         });
 
         saveLocation = getSharedPreferences("LRC Editor Preferences", MODE_PRIVATE)
-                .getString("saveLocation", defaultSaveLocation);
+                .getString("saveLocation", Constants.defaultSaveLocation);
 
         ready_fileIO();
 
@@ -108,7 +106,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
     @Override
     protected void onResume() {
         super.onResume();
-        saveLocation = preferences.getString("saveLocation", defaultSaveLocation);
+        saveLocation = preferences.getString("saveLocation", Constants.defaultSaveLocation);
         String uriString = preferences.getString("saveUri", null);
         if (uriString != null)
             saveUri = Uri.parse(uriString);
@@ -133,19 +131,19 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
             if (!f.mkdir()) {
                 Toast.makeText(this, "Make sure you have granted permissions", Toast.LENGTH_LONG).show();
 
-                if (!saveLocation.equals(defaultSaveLocation)) {
+                if (!saveLocation.equals(Constants.defaultSaveLocation)) {
                     new AlertDialog.Builder(this)
                             .setMessage("Save location doesn't exist. Tried to create a 'Lyrics' folder at '" + f.getAbsolutePath() + "' but failed." +
                                     "Do you want to reset the save location to the default location?")
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    saveLocation = defaultSaveLocation;
+                                    saveLocation = Constants.defaultSaveLocation;
                                     saveUri = null;
 
                                     SharedPreferences.Editor editor = preferences.edit();
 
-                                    editor.putString("saveLocation", defaultSaveLocation);
+                                    editor.putString("saveLocation", Constants.defaultSaveLocation);
                                     editor.putString("saveUri", null);
                                     editor.apply();
 
@@ -269,7 +267,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 ActivityCompat.requestPermissions(HomePage.this,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_REQUEST);
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constants.WRITE_EXTERNAL_REQUEST);
             }
         });
         dialog.show();
@@ -281,7 +279,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if (requestCode == WRITE_EXTERNAL_REQUEST) {
+        if (requestCode == Constants.WRITE_EXTERNAL_REQUEST) {
             for (int i = 0; i < permissions.length; i++) {
                 String permission = permissions[i];
                 int grantResult = grantResults[i];
@@ -436,7 +434,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 
     private void renameLyricFile() {
         LayoutInflater inflater = this.getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_layout, null);
+        View view = inflater.inflate(R.layout.edit_dialog, null);
         final EditText editText = view.findViewById(R.id.dialog_edittext);
         TextView textView = view.findViewById(R.id.dialog_prompt);
 

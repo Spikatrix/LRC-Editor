@@ -44,8 +44,6 @@ import java.util.Locale;
 
 public class FinalizeActivity extends AppCompatActivity {
 
-    private static final int WRITE_EXTERNAL_REQUEST = 1;
-
     private ArrayList<ItemData> lyricData;
 
     private Uri uri;
@@ -418,7 +416,7 @@ public class FinalizeActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 ActivityCompat.requestPermissions(FinalizeActivity.this,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_REQUEST);
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constants.WRITE_EXTERNAL_REQUEST);
             }
         });
         dialog.show();
@@ -429,7 +427,7 @@ public class FinalizeActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if (requestCode == WRITE_EXTERNAL_REQUEST) {
+        if (requestCode == Constants.WRITE_EXTERNAL_REQUEST) {
             for (int i = 0; i < permissions.length; i++) {
                 String permission = permissions[i];
                 int grantResult = grantResults[i];
