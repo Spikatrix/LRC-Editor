@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".2"
                 android:gravity="center"
-                android:text="@string/author_string" />
+                android:text="@string/made_with_love_and_code_text" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -66,7 +66,7 @@
                 android:layout_marginRight="@dimen/dp15"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/rate_and_feedback_string" />
+                android:text="@string/rate_and_feedback_text" />
 
             <Button
                 android:id="@+id/rate_and_review_button"
@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:onClick="support_us"
-                android:text="@string/support_us" />
+                android:text="@string/support_me" />
 
         </LinearLayout>
 

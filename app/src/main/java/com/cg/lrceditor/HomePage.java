@@ -22,6 +22,7 @@ import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -33,56 +34,105 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 public class HomePage extends AppCompatActivity implements HomePageListAdapter.LyricFileSelectListener {
 
-    private boolean storagePermissionAlreadyGranted = false;
-    private boolean scannedOnce = false;
-    private String saveLocation;
-    private Uri saveUri;
-    private HomePageListAdapter mAdapter;
+    private boolean storagePermissionIsGranted = false;
+
+    private String readLocation;
+    private Uri readUri;
+
+    private RecyclerView recyclerView;
+    private HomePageListAdapter adapter;
+
     private ActionModeCallback actionModeCallback;
     private ActionMode actionMode;
+
     private SwipeRefreshLayout swipeRefreshLayout;
+
+    private String currentTheme = "light";
+
     private boolean isDarkTheme = false;
+    private boolean threadIsExecuting = false; // Variable to prevent multiple threading operations at once
+
     private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         preferences = getSharedPreferences("LRC Editor Preferences", MODE_PRIVATE);
-        String theme = preferences.getString("current_theme", "default_light");
+        String theme = preferences.getString("current_theme", "light");
         if (theme.equals("dark")) {
             isDarkTheme = true;
+            currentTheme = "dark";
             setTheme(R.style.AppThemeDark);
         } else if (theme.equals("darker")) {
             isDarkTheme = true;
+            currentTheme = "darker";
             setTheme(R.style.AppThemeDarker);
         }
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_page);
+        setContentView(R.layout.activity_homepage);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         if (isDarkTheme) {
+            /* Dark toolbar popups for dark themes */
             toolbar.setPopupTheme(R.style.AppThemeDark_PopupOverlay);
         }
         setSupportActionBar(toolbar);
 
         if (isDarkTheme) {
-            TextView empty_textview = findViewById(R.id.empty_message_textview);
-            empty_textview.setCompoundDrawablesRelativeWithIntrinsicBounds(null, getDrawable(R.drawable.ic_thats_a_miss_light_24dp), null, null);
+            /* Switch to a light icon when using a dark theme */
+            TextView emptyTextview = findViewById(R.id.empty_message_textview);
+            emptyTextview.setCompoundDrawablesRelativeWithIntrinsicBounds(null, getDrawable(R.drawable.ic_thats_a_miss_light), null, null);
         }
+
+        recyclerView = findViewById(R.id.recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        try {
+            ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        updateRecyclerviewAdapter();
 
         swipeRefreshLayout = findViewById(R.id.swiperefresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                scanLyrics();
-                swipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(getApplicationContext(), "List refreshed!", Toast.LENGTH_SHORT).show();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (threadIsExecuting) {
+                            showToastOnUiThread("Another operation is running. Please wait until it completes");
+                            return;
+                        }
+                        threadIsExecuting = true;
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                swipeRefreshLayout.setRefreshing(true);
+                            }
+                        });
+
+                        scanLyrics();
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                swipeRefreshLayout.setRefreshing(false);
+                            }
+                        });
+                        threadIsExecuting = false;
+                    }
+                }).start();
             }
         });
 
@@ -95,170 +145,303 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
             }
         });
 
-        saveLocation = getSharedPreferences("LRC Editor Preferences", MODE_PRIVATE)
-                .getString("saveLocation", Constants.defaultSaveLocation);
-
-        ready_fileIO();
+        readLocation = preferences.getString("readLocation", Constants.defaultLocation);
 
         actionModeCallback = new ActionModeCallback();
+
+        readyFileIO();
+        if (storagePermissionIsGranted) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if (threadIsExecuting) {
+                        showToastOnUiThread("Another operation is running. Please wait until it completes");
+                        return;
+                    }
+                    threadIsExecuting = true;
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            swipeRefreshLayout.setRefreshing(true);
+                        }
+                    });
+
+                    scanLyrics();
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    });
+                    threadIsExecuting = false;
+                }
+            }).start();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        saveLocation = preferences.getString("saveLocation", Constants.defaultSaveLocation);
-        String uriString = preferences.getString("saveUri", null);
-        if (uriString != null)
-            saveUri = Uri.parse(uriString);
 
-        if (storagePermissionAlreadyGranted)
-            scanLyrics();
-    }
-
-    private void scanLyrics() {
-        File f = new File(saveLocation);
-
-        TextView empty_textview = findViewById(R.id.empty_message_textview);
-        RecyclerView r = findViewById(R.id.recyclerview);
-
-        try {
-            ((SimpleItemAnimator) r.getItemAnimator()).setSupportsChangeAnimations(false);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+        String theme = preferences.getString("current_theme", "light");
+        if (!theme.equals(currentTheme)) {
+            recreate();
         }
 
-        if (!f.exists()) {
-            if (!f.mkdir()) {
-                Toast.makeText(this, "Make sure you have granted permissions", Toast.LENGTH_LONG).show();
+        String oldReadLocation = readLocation;
+        readLocation = preferences.getString("readLocation", Constants.defaultLocation);
+        String uriString = preferences.getString("readUri", null);
+        if (uriString != null) {
+            readUri = Uri.parse(uriString);
+        }
 
-                if (!saveLocation.equals(Constants.defaultSaveLocation)) {
-                    new AlertDialog.Builder(this)
-                            .setMessage("Save location doesn't exist. Tried to create a 'Lyrics' folder at '" + f.getAbsolutePath() + "' but failed." +
-                                    "Do you want to reset the save location to the default location?")
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    saveLocation = Constants.defaultSaveLocation;
-                                    saveUri = null;
-
-                                    SharedPreferences.Editor editor = preferences.edit();
-
-                                    editor.putString("saveLocation", Constants.defaultSaveLocation);
-                                    editor.putString("saveUri", null);
-                                    editor.apply();
-
-                                    scanLyrics();
-                                }
-                            })
-                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Toast.makeText(getApplicationContext(), "LRC Editor may not work as expected; Try changing the save location from the settings", Toast.LENGTH_LONG).show();
-                                }
-                            })
-                            .setCancelable(false)
-                            .create()
-                            .show();
-                } else {
-                    Toast.makeText(this, "Created a lyrics folder in the current save location successfully!", Toast.LENGTH_SHORT).show();
-                }
-            }
-            empty_textview.setVisibility(View.VISIBLE);
-            r.setVisibility(View.GONE);
-        } else {
-            int count;
-            try {
-                count = f.listFiles().length;
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-                Toast.makeText(this, "Failed to scan lyrics! Try changing the save location", Toast.LENGTH_LONG).show();
-                Toast.makeText(this, "Please send a bug report with as much detail as possible", Toast.LENGTH_LONG).show();
-                return;
-            }
-            if (count > 0) {
-                boolean lyricsAvailable = false;
-                for (File file : f.listFiles())
-                    if (file.getName().endsWith(".lrc")) {
-                        lyricsAvailable = true;
-                        break;
+        if (storagePermissionIsGranted && !oldReadLocation.equals(readLocation)) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if (threadIsExecuting) {
+                        showToastOnUiThread("Another operation is running. Couldn't refresh the list");
+                        return;
                     }
+                    threadIsExecuting = true;
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            swipeRefreshLayout.setRefreshing(true);
+                        }
+                    });
 
-                if (lyricsAvailable) {
-                    empty_textview.setVisibility(View.GONE);
-                    r.setVisibility(View.VISIBLE);
+                    scanLyrics();
 
-                    ready_recyclerView(f);
-                } else {
-                    empty_textview.setVisibility(View.VISIBLE);
-                    r.setVisibility(View.GONE);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    });
+                    threadIsExecuting = false;
                 }
-            } else {
-                empty_textview.setVisibility(View.VISIBLE);
-                r.setVisibility(View.GONE);
-            }
+            }).start();
         }
     }
 
-    private void ready_recyclerView(File f) {
-        RecyclerView recyclerView = findViewById(R.id.recyclerview);
+    /* Takes care of everything to scan lyrics and display it */
+    synchronized private void scanLyrics() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (actionMode != null) {
+                    actionMode.finish();
+                    actionMode = null;
+                }
 
-        LinkedList<File> list = new LinkedList<>();
-        File[] fileList = f.listFiles();
-        Arrays.sort(fileList);
-        for (File file : fileList) {
-            if (file.getName().endsWith(".lrc")) {
-                list.addLast(file);
+                Toolbar toolbar = findViewById(R.id.toolbar);
+                toolbar.collapseActionView();
             }
-        }
+        });
 
-        if (mAdapter == null) {
-            mAdapter = new HomePageListAdapter(this, list);
-            mAdapter.isDarkTheme = isDarkTheme;
-            recyclerView.setAdapter(mAdapter);
-            mAdapter.setClickListener(this);
-        } else {
-            mAdapter.mFileList = list;
-            mAdapter.isDarkTheme = isDarkTheme;
-            mAdapter.clearExpandedItems();
-            mAdapter.notifyDataSetChanged();
-        }
+        final File scanLocation = new File(readLocation);
 
-        if (scannedOnce) {
+        final TextView emptyTextview = findViewById(R.id.empty_message_textview);
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                updateRecyclerviewAdapter();
+            }
+        });
+
+        if (!scanLocation.exists()) {
+            if (!scanLocation.mkdir()) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showReadLocationResetDialog(scanLocation);
+                    }
+                });
+            }
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    emptyTextview.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+                }
+            });
+
             return;
         }
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        showToastOnUiThread("Scanning for LRC files in the read location (and sub directories)");
 
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
-                DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
+        try {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    emptyTextview.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                }
+            });
 
-        scannedOnce = true;
+            scanDirectory(scanLocation);
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (adapter != null) {
+                        final int noOfItems = adapter.listData.size();
+                        if (noOfItems <= 0) {
+                            Toast.makeText(getApplicationContext(), "No LRC files found", Toast.LENGTH_SHORT).show();
+                            emptyTextview.setVisibility(View.VISIBLE);
+                            recyclerView.setVisibility(View.GONE);
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Scanned " + noOfItems + " LRC files", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            });
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            showToastOnUiThread("Failed to scan lyrics! Try changing the read location");
+            showToastOnUiThread("Please send a bug report with as much detail as possible");
+        }
+
     }
 
-    private void ready_fileIO() {
+    /* Scans all directories and sub directories for LRC files and updates the recyclerview adapter */
+    private void scanDirectory(File dir) {
+        if (adapter == null) {
+            showToastOnUiThread("Failed to fetch the adapter of the recyclerview");
+            return;
+        }
+
+        File[] fileList = dir.listFiles();
+        Arrays.sort(fileList);
+
+        ArrayList<File> dirList = new ArrayList<>();
+        for (; ; ) {
+            for (final File file : fileList) {
+                if (file.isDirectory()) {
+                    dirList.add(file);
+                } else if (file.getName().endsWith(".lrc")) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.listData.add(new HomePageListItem(file, null, null));
+                            adapter.notifyItemInserted(adapter.listData.size() - 1);
+                        }
+                    });
+                }
+            }
+
+            if (!dirList.isEmpty()) {
+                fileList = dirList.remove(dirList.size() - 1).listFiles();
+                Arrays.sort(fileList);
+            } else {
+                break;
+            }
+        }
+    }
+
+    /* Creates/Clears the adapter of the recyclerview */
+    private void updateRecyclerviewAdapter() {
+        if (adapter == null) {
+            adapter = new HomePageListAdapter(this);
+            adapter.isDarkTheme = isDarkTheme;
+            recyclerView.setAdapter(adapter);
+            adapter.setClickListener(this);
+        } else {
+            adapter.clearExpandedItems();
+            adapter.listData.clear();
+            adapter.backupListData.clear();
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    private void showReadLocationResetDialog(File scanLocation) {
+        Toast.makeText(getApplicationContext(), "Make sure you have granted permissions", Toast.LENGTH_LONG).show();
+
+        if (!readLocation.equals(Constants.defaultLocation)) {
+            new AlertDialog.Builder(HomePage.this)
+                    .setMessage("Read location doesn't exist. Tried to create a folder at '" + scanLocation.getAbsolutePath() + "' but failed. " +
+                            "Do you want to reset the read location to the default location?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            SharedPreferences.Editor editor = preferences.edit();
+
+                            editor.putString("readLocation", Constants.defaultLocation);
+                            editor.apply();
+
+                            readLocation = Constants.defaultLocation;
+                            readUri = null;
+
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (threadIsExecuting) {
+                                        showToastOnUiThread("Another operation is running. Couldn't refresh the list");
+                                        return;
+                                    }
+                                    threadIsExecuting = true;
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            swipeRefreshLayout.setRefreshing(true);
+                                        }
+                                    });
+
+                                    scanLyrics();
+
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            swipeRefreshLayout.setRefreshing(false);
+                                        }
+                                    });
+                                    threadIsExecuting = false;
+                                }
+                            }).start();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(getApplicationContext(), "LRC Editor may not work as expected; Try changing the read location from the settings", Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .setCancelable(false)
+                    .create()
+                    .show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Read location doesn't exist. Failed to create a 'Lyrics' folder as well. Try changing the read location", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void readyFileIO() {
         if (!isExternalStorageWritable()) {
             Toast.makeText(this, "ERROR: Storage unavailable/busy", Toast.LENGTH_LONG).show();
             finish();
             return;
         }
 
-        if (Build.VERSION.SDK_INT < 23 || grantPermission()) /* 23 = Marshmellow */
-            storagePermissionAlreadyGranted = true;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || grantPermission()) /* Marshmallow onwards require runtime permissions */
+            storagePermissionIsGranted = true;
     }
 
     private boolean grantPermission() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            displayDialog();
+            showPermissionDialog();
             return false;
         }
 
         return true;
     }
 
-    private void displayDialog() {
+    private void showPermissionDialog() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setMessage("This app needs the storage permission for reading and saving the lyric files");
         dialog.setTitle("Need permissions");
@@ -286,7 +469,33 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 
                 if (permission.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     if (grantResult == PackageManager.PERMISSION_GRANTED) {
-                        scanLyrics();
+                        storagePermissionIsGranted = true;
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (threadIsExecuting) {
+                                    showToastOnUiThread("Another operation is running. Couldn't refresh the list");
+                                    return;
+                                }
+                                threadIsExecuting = true;
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        swipeRefreshLayout.setRefreshing(true);
+                                    }
+                                });
+
+                                scanLyrics();
+
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        swipeRefreshLayout.setRefreshing(false);
+                                    }
+                                });
+                                threadIsExecuting = false;
+                            }
+                        }).start();
                         return;
                     } else {
                         Toast.makeText(this, "LRC Editor cannot read/save lyric files without the storage permission", Toast.LENGTH_LONG).show();
@@ -306,8 +515,39 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_home_page, menu);
-        return true;
+        getMenuInflater().inflate(R.menu.menu_homepage_activity, menu);
+
+        final MenuItem searchItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                adapter.getFilter().filter(s);
+                return true;
+            }
+        });
+
+        searchItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem menuItem) {
+                adapter.backupListData = adapter.listData; // Backup current data
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem menuItem) {
+                adapter.listData = adapter.backupListData; // Restore backed up data
+                recyclerView.swapAdapter(adapter, false);
+                return true;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -318,13 +558,39 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
         Intent intent;
         switch (item.getItemId()) {
             case R.id.action_refresh:
-                scanLyrics();
-                Toast.makeText(this, "List refreshed!", Toast.LENGTH_SHORT).show();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (threadIsExecuting) {
+                            showToastOnUiThread("Another operation is running. Please wait until it completes");
+                            return;
+                        }
+                        threadIsExecuting = true;
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                swipeRefreshLayout.setRefreshing(true);
+                            }
+                        });
+
+                        scanLyrics();
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                swipeRefreshLayout.setRefreshing(false);
+                            }
+                        });
+                        threadIsExecuting = false;
+                    }
+                }).start();
                 return true;
+
             case R.id.action_settings:
                 intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return true;
+
             case R.id.action_about:
                 intent = new Intent(this, AboutActivity.class);
                 startActivity(intent);
@@ -334,9 +600,18 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
         }
     }
 
+    private void showToastOnUiThread(final String str) {
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     @Override
-    public void fileSelected(String fileName) {
-        LyricReader r = new LyricReader(saveLocation, fileName);
+    public void fileSelected(String fileLocation, String fileName) {
+        LyricReader r = new LyricReader(fileLocation, fileName);
         if (r.getErrorMsg() != null || !r.readLyrics()) {
             Toast.makeText(this, r.getErrorMsg(), Toast.LENGTH_LONG).show();
             return;
@@ -349,13 +624,6 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
         intent.putExtra("LRC FILE NAME", fileName);
 
         startActivity(intent);
-    }
-
-    @Override
-    public LyricReader scanFile(String fileName) {
-        LyricReader r = new LyricReader(saveLocation, fileName);
-        r.readLyrics();
-        return r;
     }
 
     @Override
@@ -376,8 +644,13 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
     }
 
     private void toggleSelection(int position) {
-        mAdapter.toggleSelection(position);
-        int count = mAdapter.getSelectionCount();
+        adapter.toggleSelection(position);
+
+        checkActionModeItems();
+    }
+
+    private void checkActionModeItems() {
+        int count = adapter.getSelectionCount();
 
         if (count == 0) {
             actionMode.finish();
@@ -396,34 +669,85 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
         }
     }
 
-    private void removeLyricFiles() {
+    private void deleteLyricFiles() {
+        if (threadIsExecuting) {
+            Toast.makeText(this, "Another operation is running. Please wait until it completes", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         new AlertDialog.Builder(this)
                 .setTitle("Confirmation")
                 .setMessage("Are you sure you want to delete the selected LRC files?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        List<Integer> selectedItemPositions =
-                                mAdapter.getSelectedItems();
-                        DocumentFile pickedDir = getPersistableDocumentFile();
+                        final List<Integer> selectedItemPositions =
+                                adapter.getSelectedItemIndices();
 
-                        boolean deleteFailure = false;
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (threadIsExecuting) {
+                                    showToastOnUiThread("Another operation is running. Please wait until it completes");
+                                    return;
+                                }
+                                threadIsExecuting = true;
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        swipeRefreshLayout.setRefreshing(true);
+                                    }
+                                });
 
-                        for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
-                            DocumentFile file = pickedDir.findFile(mAdapter.mFileList.get(selectedItemPositions.get(i)).getName());
-                            if (file == null || !file.delete())
-                                deleteFailure = true;
-                        }
-                        scanLyrics();
+                                showToastOnUiThread("Deleting... This may take a while depending on how far the file(s) are from the set read location");
 
-                        if (deleteFailure) {
-                            Toast.makeText(getApplicationContext(), "Failed to delete some/all the selected LRC files!", Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "Deleted the selected LRC files successfully", Toast.LENGTH_LONG).show();
-                        }
+                                DocumentFile pickedDir = FileUtil.getPersistableDocumentFile(readUri, readLocation, getApplicationContext());
 
-                        actionMode.finish();
-                        actionMode = null;
+                                boolean deleteFailure = false;
+
+                                for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
+                                    final int fileListIndex = selectedItemPositions.get(i);
+                                    File f = adapter.listData.get(fileListIndex).file;
+                                    final String location = FileUtil.stripFileNameFromPath(f.getAbsolutePath());
+
+                                    DocumentFile file = FileUtil.searchForFileOptimized(pickedDir, location, f.getName(), getApplicationContext().getExternalFilesDirs(null));
+                                    if (file == null || !file.delete()) {
+                                        deleteFailure = true;
+                                    } else {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toolbar toolbar = findViewById(R.id.toolbar);
+                                                if (toolbar.hasExpandedActionView()) {
+                                                    adapter.backupListData.remove(adapter.listData.get(fileListIndex));
+                                                }
+
+                                                adapter.listData.remove(fileListIndex);
+                                                adapter.notifyItemRemoved(fileListIndex);
+
+                                                checkActionModeItems();
+                                            }
+                                        });
+                                    }
+                                }
+
+                                final boolean finalDeleteFailure = deleteFailure;
+                                if (finalDeleteFailure) {
+                                    showToastOnUiThread("Failed to delete some/all of the selected LRC files!");
+                                } else {
+                                    showToastOnUiThread("Deleted the selected LRC files successfully");
+                                }
+
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        swipeRefreshLayout.setRefreshing(false);
+                                    }
+                                });
+
+                                threadIsExecuting = false;
+                            }
+                        }).start();
                     }
                 })
                 .setNegativeButton("No", null)
@@ -433,71 +757,107 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
     }
 
     private void renameLyricFile() {
+        if (threadIsExecuting) {
+            Toast.makeText(this, "Another operation is running. Please wait until it completes", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         LayoutInflater inflater = this.getLayoutInflater();
-        View view = inflater.inflate(R.layout.edit_dialog, null);
+        View view = inflater.inflate(R.layout.dialog_edit, null);
         final EditText editText = view.findViewById(R.id.dialog_edittext);
         TextView textView = view.findViewById(R.id.dialog_prompt);
 
-        final String fileName = mAdapter.mFileList.get(mAdapter.getSelectedItems().get(0)).getName();
+        final File f = adapter.listData.get(adapter.getSelectedItemIndices().get(0)).file;
+
+        String fileName = f.getName();
         textView.setText(getString(R.string.new_file_name_prompt));
         editText.setText(fileName);
 
         editText.setHint(getString(R.string.new_file_name_hint));
 
-        AlertDialog dialog = new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this)
                 .setView(view)
                 .setPositiveButton("Rename", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        setNewFileName(editText.getText().toString(), fileName);
-                        try {
-                            actionMode.finish();
-                        } catch (NullPointerException e) { // Occurs when the user quickly double taps on a menu item
-                            e.printStackTrace();
-                        }
-                        actionMode = null;
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (threadIsExecuting) {
+                                    showToastOnUiThread("Another operation is running. Please wait until it completes");
+                                    return;
+                                }
+                                threadIsExecuting = true;
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        swipeRefreshLayout.setRefreshing(true);
+                                    }
+                                });
+
+                                showToastOnUiThread("Renaming... This may take a while depending on how far the file is from the set read location");
+
+                                final String newName = editText.getText().toString();
+                                final int selectedItemIndex = adapter.getSelectedItemIndices().get(0);
+
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            actionMode.finish();
+                                        } catch (NullPointerException e) {
+                                            e.printStackTrace();
+                                        }
+                                        actionMode = null;
+                                    }
+                                });
+
+                                DocumentFile pickedDir = FileUtil.getPersistableDocumentFile(readUri, readLocation, getApplicationContext());
+                                final String location = FileUtil.stripFileNameFromPath(f.getAbsolutePath());
+
+                                if (new File(location, newName).exists()) {
+                                    showToastOnUiThread("File name already exists. Prefix might be added");
+                                }
+
+                                DocumentFile file = FileUtil.searchForFileOptimized(pickedDir, location, f.getName(), getApplicationContext().getExternalFilesDirs(null));
+
+                                if (file != null && file.renameTo(newName)) {
+                                    showToastOnUiThread("Renamed file successfully");
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            adapter.listData.get(selectedItemIndex).file = new File(location, newName);
+                                            adapter.notifyItemChanged(selectedItemIndex);
+
+                                            Toolbar toolbar = findViewById(R.id.toolbar);
+                                            if (toolbar.hasExpandedActionView()) {
+                                                int index = adapter.backupListData.indexOf(adapter.listData.get(selectedItemIndex));
+                                                adapter.backupListData.get(index).file = adapter.listData.get(selectedItemIndex).file;
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    showToastOnUiThread("Rename failed!");
+                                }
+
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        swipeRefreshLayout.setRefreshing(false);
+                                    }
+                                });
+                                threadIsExecuting = false;
+                            }
+                        }).start();
                     }
-                })
-                .setNegativeButton("Cancel", null)
-                .create();
-
-        dialog.show();
-    }
-
-    private void setNewFileName(String newName, String fileName) {
-        DocumentFile pickedDir = getPersistableDocumentFile();
-
-        if (new File(saveLocation, newName).exists())
-            Toast.makeText(this, "File name already exists. Prefix might be added", Toast.LENGTH_LONG).show();
-
-        DocumentFile file = pickedDir.findFile(fileName);
-        if (file != null && file.renameTo(newName)) {
-            Toast.makeText(this, "Renamed file successfully", Toast.LENGTH_LONG).show();
-            scanLyrics();
-        } else
-            Toast.makeText(this, "Rename failed!", Toast.LENGTH_LONG).show();
-
-    }
-
-    private DocumentFile getPersistableDocumentFile() {
-        DocumentFile pickedDir;
-        try {
-            pickedDir = DocumentFile.fromTreeUri(this, saveUri);
-            try {
-                getContentResolver().takePersistableUriPermission(saveUri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-            } catch (SecurityException e) {
-                e.printStackTrace();
-            }
-        } catch (IllegalArgumentException | NullPointerException e) {
-            pickedDir = DocumentFile.fromFile(new File(saveLocation));
-        }
-
-        return pickedDir;
+                }).setNegativeButton("Cancel", null)
+                .create()
+                .show();
     }
 
     private void selectAll() {
-        mAdapter.selectAll();
-        int count = mAdapter.getSelectionCount();
+        adapter.selectAll();
+        int count = adapter.getSelectionCount();
 
         if (count >= 2)
             actionMode.getMenu().findItem(R.id.action_rename_homepage).setVisible(false);
@@ -509,7 +869,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
     private class ActionModeCallback implements ActionMode.Callback {
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            mode.getMenuInflater().inflate(R.menu.contextual_toolbar_homepageactivity, menu);
+            mode.getMenuInflater().inflate(R.menu.contextual_menu_homepage_activity, menu);
             return true;
         }
 
@@ -522,7 +882,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.action_delete_homepage:
-                    removeLyricFiles();
+                    deleteLyricFiles();
                     return true;
 
                 case R.id.action_rename_homepage:
@@ -540,7 +900,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
-            mAdapter.clearSelections();
+            adapter.clearSelections();
             actionMode = null;
         }
     }

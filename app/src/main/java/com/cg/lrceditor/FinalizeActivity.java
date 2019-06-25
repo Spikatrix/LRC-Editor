@@ -44,22 +44,21 @@ import java.util.Locale;
 
 public class FinalizeActivity extends AppCompatActivity {
 
-    private ArrayList<ItemData> lyricData;
-
-    private Uri uri;
+    private ArrayList<LyricItem> lyricData;
 
     private EditText songName;
     private EditText artistName;
     private EditText albumName;
     private EditText composerName;
 
-    private TextView resultTextView;
+    private TextView statusTextView;
 
-    private String saveLocation;
     private Uri saveUri;
+    private String saveLocation;
 
     private String lrcFileName = null;
     private String songFileName = null;
+    private Uri songUri;
 
     private boolean overwriteFailed = false;
 
@@ -68,6 +67,8 @@ public class FinalizeActivity extends AppCompatActivity {
     private SharedPreferences preferences;
 
     private boolean isDarkTheme = false;
+
+    private boolean threadIsExecuting = false;
 
     public static void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -85,7 +86,7 @@ public class FinalizeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         preferences = getSharedPreferences("LRC Editor Preferences", MODE_PRIVATE);
-        String theme = preferences.getString("current_theme", "default_light");
+        String theme = preferences.getString("current_theme", "light");
         if (theme.equals("dark")) {
             isDarkTheme = true;
             setTheme(R.style.AppThemeDark);
@@ -98,9 +99,9 @@ public class FinalizeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_finalize);
 
         Intent intent = getIntent();
-        lyricData = (ArrayList<ItemData>) intent.getSerializableExtra("lyricData");
+        lyricData = (ArrayList<LyricItem>) intent.getSerializableExtra("LYRIC DATA");
         SongMetaData songMetaData = (SongMetaData) intent.getSerializableExtra("SONG METADATA");
-        uri = intent.getParcelableExtra("URI");
+        songUri = intent.getParcelableExtra("SONG URI");
         lrcFileName = intent.getStringExtra("LRC FILE NAME");
         songFileName = intent.getStringExtra("SONG FILE NAME");
 
@@ -109,8 +110,8 @@ public class FinalizeActivity extends AppCompatActivity {
         albumName = findViewById(R.id.albumName_edittext);
         composerName = findViewById(R.id.composer_edittext);
 
-        resultTextView = findViewById(R.id.result_textview);
-        resultTextView.setMovementMethod(new ScrollingMovementMethod());
+        statusTextView = findViewById(R.id.status_textview);
+        statusTextView.setMovementMethod(new ScrollingMovementMethod());
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         if (isDarkTheme) {
@@ -124,11 +125,7 @@ public class FinalizeActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if (preferences.getString("current_theme", "").equals("dark")) {
-            resultTextView.setTextColor(Color.WHITE);
-        }
-
-        if (Build.VERSION.SDK_INT >= 23) /* 23 = Marshmellow */
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) /* Marshmallow onwards require runtime permissions */
             grantPermission();
 
         if (songMetaData != null) {
@@ -142,10 +139,10 @@ public class FinalizeActivity extends AppCompatActivity {
                 composerName.setText(songMetaData.getComposerName());
         }
 
-        if (uri != null) {
+        if (songUri != null) {
             try {
                 MediaMetadataRetriever mmr = new MediaMetadataRetriever();
-                mmr.setDataSource(this, uri);
+                mmr.setDataSource(this, songUri);
 
                 if (songName.getText().toString().isEmpty())
                     songName.setText(mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE));
@@ -164,43 +161,57 @@ public class FinalizeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        saveLocation = preferences.getString("saveLocation", Environment.getExternalStorageDirectory().getPath() + "/Lyrics");
+        saveLocation = preferences.getString("saveLocation", Constants.defaultLocation);
         String uriString = preferences.getString("saveUri", null);
         if (uriString != null)
             saveUri = Uri.parse(uriString);
 
         if (dialogView != null) {
-            ((TextView) dialogView.findViewById(R.id.save_location_display)).setText("Save location: " + saveLocation);
+            ((TextView) dialogView.findViewById(R.id.save_location_display)).setText(getString(R.string.save_location_displayer, saveLocation));
         }
     }
 
-    public void saveLyrics(View view) {
+    public void displaySaveDialog(View view) {
         if (!isExternalStorageWritable()) {
             Toast.makeText(this, "ERROR: Storage unavailable/busy", Toast.LENGTH_LONG).show();
             return;
+        } else if (threadIsExecuting) {
+            Toast.makeText(this, "Another operation is running. Please wait until it completes", Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        resultTextView.setText(getString(R.string.processing_string));
-        resultTextView.setVisibility(View.VISIBLE);
+        statusTextView.setText(getString(R.string.processing));
+        statusTextView.setVisibility(View.VISIBLE);
 
-        Button copy_error = findViewById(R.id.copy_error_button);
-        copy_error.setVisibility(View.GONE);
+        Button copyError = findViewById(R.id.copy_error_button);
+        copyError.setVisibility(View.GONE);
 
-        if (Build.VERSION.SDK_INT >= 23 && !grantPermission()) /* 23 = Marshmellow */
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !grantPermission()) { /* Marshmallow onwards require runtime permissions */
+            statusTextView.setTextColor(Color.parseColor(Constants.ERROR_COLOR));
+            statusTextView.setText(getString(R.string.no_perm_to_write_text));
+
+            copyError = findViewById(R.id.copy_error_button);
+            copyError.setVisibility(View.VISIBLE);
+
             return;
+        } else if (!isDarkTheme) {
+            statusTextView.setTextColor(Color.BLACK);
+        } else {
+            statusTextView.setTextColor(Color.WHITE);
+        }
 
         overwriteFailed = false;
 
         LayoutInflater inflater = this.getLayoutInflater();
-        dialogView = inflater.inflate(R.layout.save_lrc_dialog, null);
+        dialogView = inflater.inflate(R.layout.dialog_save_lrc, null);
         final EditText editText = dialogView.findViewById(R.id.dialog_edittext);
-        TextView saveLocationDisplayer = dialogView.findViewById(R.id.save_location_display);
+        final TextView saveLocationDisplayer = dialogView.findViewById(R.id.save_location_display);
         TextView textView = dialogView.findViewById(R.id.dialog_prompt);
-        editText.setHint(getString(R.string.file_name_here_prompt));
+        editText.setHint(getString(R.string.file_name_hint));
         editText.setText(songName.getText().toString() + ".lrc");
-        textView.setText(getString(R.string.save_file_name_prompt));
+        textView.setText(getString(R.string.file_name_prompt));
 
-        saveLocationDisplayer.setText("Save location: " + saveLocation);
+        saveLocationDisplayer.setText(getString(R.string.save_location_displayer, saveLocation));
 
         if (songFileName == null) {
             dialogView.findViewById(R.id.same_name_as_song).setEnabled(false);
@@ -209,8 +220,6 @@ public class FinalizeActivity extends AppCompatActivity {
             dialogView.findViewById(R.id.same_name_as_lrc).setEnabled(false);
         }
 
-
-        final Context ctx = this;
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setView(dialogView)
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
@@ -218,56 +227,13 @@ public class FinalizeActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
 
-                        final String path;
-                        if (saveUri != null) {
-                            path = FileUtil.getFullPathFromTreeUri(saveUri, ctx);
-                        } else {
-                            path = saveLocation;
-                        }
-
-                        String fileName = editText.getText().toString();
-                        if (fileName.endsWith(".lrc"))
-                            fileName = fileName.substring(0, fileName.lastIndexOf('.'));
-
-                        if (path != null) {
-                            final File f = new File(path + "/" + fileName + ".lrc");
-                            if (f.exists()) {
-                                final String finalFileName = fileName;
-                                new AlertDialog.Builder(ctx)
-                                        .setTitle("Warning")
-                                        .setMessage("File '" + fileName + ".lrc' already exists in " + saveLocation + ". " +
-                                                "Are you sure you want to overwrite it?")
-                                        .setCancelable(false)
-                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                if (!deletefile(finalFileName)) {
-                                                    overwriteFailed = true;
-                                                    Toast.makeText(getApplicationContext(), "Failed to overwrite file; Suffix will be appended to the file name", Toast.LENGTH_LONG).show();
-                                                }
-
-                                                writeLyricsExternal(finalFileName);
-                                            }
-                                        })
-                                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                resultTextView.setVisibility(View.GONE);
-                                            }
-                                        })
-                                        .show();
-                            } else {
-                                writeLyricsExternal(fileName);
-                            }
-                        } else {
-                            writeLyricsExternal(fileName);
-                        }
+                        saveLyricsFile(editText.getText().toString());
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        resultTextView.setVisibility(View.GONE);
+                        statusTextView.setVisibility(View.GONE);
                     }
                 })
                 .setCancelable(false)
@@ -276,20 +242,97 @@ public class FinalizeActivity extends AppCompatActivity {
 
     }
 
-    private void writeLyricsExternal(String fileName) {
-        DocumentFile pickedDir;
-        try {
-            pickedDir = DocumentFile.fromTreeUri(this, saveUri);
-            try {
-                getContentResolver().takePersistableUriPermission(saveUri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-            } catch (SecurityException e) {
-                e.printStackTrace();
-            }
-        } catch (IllegalArgumentException | NullPointerException e) {
-            pickedDir = DocumentFile.fromFile(new File(saveLocation));
+    private void saveLyricsFile(String name) {
+        String path;
+        if (saveUri != null) {
+            path = FileUtil.getFullPathFromTreeUri(saveUri, this);
+        } else {
+            path = saveLocation;
         }
 
+        String fileName = name;
+        if (fileName.endsWith(".lrc"))
+            fileName = fileName.substring(0, fileName.lastIndexOf('.'));
+
+        if (path != null) { // I'm not sure why I wrote this, will this ever be false?
+            final File f = new File(path + "/" + fileName + ".lrc");
+            if (f.exists()) {
+                final String finalFileName = fileName;
+                new AlertDialog.Builder(this)
+                        .setTitle("Warning")
+                        .setMessage("File '" + fileName + ".lrc' already exists in " + saveLocation + ". " +
+                                "Are you sure you want to overwrite it?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        threadIsExecuting = true;
+
+                                        setStatusOnUiThread("Attempting to overwrite previous file");
+                                        if (!deletefile(finalFileName)) {
+                                            overwriteFailed = true;
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    Toast.makeText(getApplicationContext(), "Failed to overwrite file; Suffix will be appended to the file name", Toast.LENGTH_LONG).show();
+                                                }
+                                            });
+                                        }
+
+                                        setStatusOnUiThread("Writing the lyrics to the file");
+                                        writeLyrics(finalFileName);
+
+                                        threadIsExecuting = false;
+                                    }
+                                }).start();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                statusTextView.setVisibility(View.GONE);
+                            }
+                        })
+                        .show();
+            } else {
+                final String finalFileName = fileName;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        threadIsExecuting = true;
+
+                        setStatusOnUiThread("Writing the lyrics to the file");
+                        writeLyrics(finalFileName);
+
+                        threadIsExecuting = false;
+                    }
+                }).start();
+            }
+        } else {
+            final String finalFileName = fileName;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    threadIsExecuting = true;
+
+                    setStatusOnUiThread("Writing the lyrics to the file");
+                    writeLyrics(finalFileName);
+
+                    threadIsExecuting = false;
+                }
+            }).start();
+        }
+
+        hideKeyboard(this);
+    }
+
+    private void writeLyrics(final String fileName) {
+        DocumentFile pickedDir = FileUtil.getPersistableDocumentFile(saveUri, saveLocation, getApplicationContext());
         DocumentFile file = pickedDir.createFile("application/*", fileName + ".lrc");
+
         try {
             OutputStream out = getContentResolver().openOutputStream(file.getUri());
             InputStream in = new ByteArrayInputStream(lyricsToString().getBytes(StandardCharsets.UTF_8));
@@ -304,44 +347,51 @@ public class FinalizeActivity extends AppCompatActivity {
             out.flush();
             out.close();
 
-            saveSuccessful(fileName);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    saveSuccessful(fileName);
+                }
+            });
 
         } catch (IOException | NullPointerException e) {
             e.printStackTrace();
-            resultTextView.setTextColor(Color.parseColor("#c61b1b"));
-            resultTextView.setText(String.format(Locale.getDefault(), "Whoops! An Error Occurred!\n%s", e.getMessage()));
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    statusTextView.setTextColor(Color.parseColor(Constants.ERROR_COLOR));
+                    statusTextView.setText(String.format(Locale.getDefault(), "Whoops! An Error Occurred!\n%s", e.getMessage()));
 
-            Button copy_error = findViewById(R.id.copy_error_button);
-            copy_error.setVisibility(View.VISIBLE);
+                    Button copy_error = findViewById(R.id.copy_error_button);
+                    copy_error.setVisibility(View.VISIBLE);
+                }
+            });
         }
+    }
 
-        hideKeyboard(this);
+    private void setStatusOnUiThread(final String msg) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                statusTextView.setText(msg);
+            }
+        });
     }
 
     private boolean deletefile(String fileName) {
-        DocumentFile pickedDir;
-        try {
-            pickedDir = DocumentFile.fromTreeUri(this, saveUri);
-            try {
-                getContentResolver().takePersistableUriPermission(saveUri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-            } catch (SecurityException e) {
-                e.printStackTrace();
-            }
-        } catch (IllegalArgumentException | NullPointerException e) {
-            pickedDir = DocumentFile.fromFile(new File(saveLocation));
-        }
+        DocumentFile pickedDir = FileUtil.getPersistableDocumentFile(saveUri, saveLocation, getApplicationContext());
 
         DocumentFile file = pickedDir.findFile(fileName + ".lrc");
         return file != null && file.delete();
     }
 
     private void saveSuccessful(String fileName) {
-        resultTextView.setTextColor(Color.rgb(45, 168, 26));
+        statusTextView.setTextColor(Color.parseColor(Constants.SUCCESS_COLOR));
         if (overwriteFailed)
-            resultTextView.setText(String.format(Locale.getDefault(), "Successfully wrote the lyrics file at %s",
+            statusTextView.setText(String.format(Locale.getDefault(), "Successfully wrote the lyrics file at %s",
                     saveLocation + "/" + fileName + "<suffix> .lrc"));
         else
-            resultTextView.setText(String.format(Locale.getDefault(), "Successfully wrote the lyrics file at %s",
+            statusTextView.setText(String.format(Locale.getDefault(), "Successfully wrote the lyrics file at %s",
                     saveLocation + "/" + fileName + ".lrc"));
     }
 
@@ -371,7 +421,7 @@ public class FinalizeActivity extends AppCompatActivity {
             Timestamp timestamp = lyricData.get(i).getTimestamp();
             if (timestamp != null) {
                 String lyric = lyricData.get(i).getLyric();
-                if (lyric == null || lyric.equals("")) {
+                if (lyric == null || lyric.equals("")) { // Some players might skip empty lyric lines
                     lyric = " ";
                 }
                 sb.append("[").append(timestamp.toString()).append("]").append(lyric).append("\n");
@@ -381,20 +431,23 @@ public class FinalizeActivity extends AppCompatActivity {
         return sb.toString();
     }
 
+    public void setAsLRCFileName(View view) {
+        ((EditText) dialogView.findViewById(R.id.dialog_edittext)).setText(lrcFileName);
+    }
+
     public void setAsSongFileName(View view) {
         EditText editText = dialogView.findViewById(R.id.dialog_edittext);
         try {
-            if (songFileName.contains("."))
+            if (songFileName.contains(".") &&
+                    (songFileName.lastIndexOf('.') == songFileName.length() - 4 ||
+                            songFileName.lastIndexOf('.') == songFileName.length() - 5)) {
                 editText.setText(songFileName.substring(0, songFileName.lastIndexOf('.')) + ".lrc");
-            else
+            } else {
                 editText.setText(songFileName + ".lrc");
+            }
         } catch (IndexOutOfBoundsException e) {
             editText.setText(songFileName + ".lrc");
         }
-    }
-
-    public void setAsLRCFileName(View view) {
-        ((EditText) dialogView.findViewById(R.id.dialog_edittext)).setText(lrcFileName);
     }
 
     private boolean grantPermission() {
@@ -434,7 +487,7 @@ public class FinalizeActivity extends AppCompatActivity {
 
                 if (permission.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     if (grantResult == PackageManager.PERMISSION_GRANTED) {
-                        Button button = findViewById(R.id.done_button);
+                        Button button = findViewById(R.id.save_button);
                         button.performClick();
                         return;
                     } else {
@@ -451,7 +504,7 @@ public class FinalizeActivity extends AppCompatActivity {
         return Environment.MEDIA_MOUNTED.equals(state);
     }
 
-    public void copy_lrc(View view) {
+    public void copyLrc(View view) {
         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("Generated LRC data", lyricsToString());
         if (clipboard != null) {
@@ -464,9 +517,9 @@ public class FinalizeActivity extends AppCompatActivity {
         Toast.makeText(this, "Successfully copied the LRC file data into the System Clipboard!", Toast.LENGTH_LONG).show();
     }
 
-    public void copy_error(View view) {
+    public void copyError(View view) {
         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clip = ClipData.newPlainText("Save Error Info", resultTextView.getText().toString());
+        ClipData clip = ClipData.newPlainText("Save Error Info", statusTextView.getText().toString());
         if (clipboard != null) {
             clipboard.setPrimaryClip(clip);
         } else {

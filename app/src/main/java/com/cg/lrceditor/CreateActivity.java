@@ -17,7 +17,7 @@ public class CreateActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences preferences = getSharedPreferences("LRC Editor Preferences", MODE_PRIVATE);
-        String theme = preferences.getString("current_theme", "default_light");
+        String theme = preferences.getString("current_theme", "light");
         if (theme.equals("dark")) {
             isDarkTheme = true;
             setTheme(R.style.AppThemeDark);
@@ -31,6 +31,7 @@ public class CreateActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         if (isDarkTheme) {
+            /* Dark toolbar popups for dark themes */
             toolbar.setPopupTheme(R.style.AppThemeDark_PopupOverlay);
         }
         setSupportActionBar(toolbar);
@@ -42,6 +43,7 @@ public class CreateActivity extends AppCompatActivity {
         }
 
         if (isDarkTheme) {
+            /* Dark border when using a dark theme */
             findViewById(R.id.lyrics_textbox).setBackground(getDrawable(R.drawable.rounded_border_light));
         }
     }
@@ -56,14 +58,8 @@ public class CreateActivity extends AppCompatActivity {
             return;
         }
 
-        data = "\n" + data;
-        String[] timestamps = new String[1];
-        timestamps[0] = "00:00.00";
-
         Intent intent = new Intent(this, EditorActivity.class);
         intent.putExtra("LYRICS", data.split("\\n"));
-        intent.putExtra("TIMESTAMPS", timestamps);
-        intent.putExtra("NEW FILE", true);
         startActivity(intent);
     }
 

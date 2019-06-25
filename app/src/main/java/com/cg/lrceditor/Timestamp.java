@@ -9,7 +9,7 @@ import static java.lang.Math.min;
 
 public class Timestamp implements Serializable {
 
-    /* This class sets the value of the timestamp to MAX_TIMESTAMP_VALUE when it exceeds it */
+    /* Sets the value of the timestamp to MAX_TIMESTAMP_VALUE when it exceeds it */
     public static final long MAX_TIMESTAMP_VALUE = 5999999; /* 99:59:999 in milliseconds */
     private long minutes;
     private long seconds;
@@ -20,7 +20,7 @@ public class Timestamp implements Serializable {
             throw new IllegalArgumentException("Invalid timestamp format");
         }
 
-        String str[] = timestamp.split("[:.]");
+        String[] str = timestamp.split("[:.]");
 
         try {
             this.minutes = Integer.parseInt(str[0]);
@@ -31,7 +31,7 @@ public class Timestamp implements Serializable {
         }
 
         if (this.seconds >= 60) {
-            throw new IllegalArgumentException("Seconds cannot be greater than or equal to 60");
+            throw new IllegalArgumentException("Seconds must be less than 60");
         }
 
         if (this.milliseconds < 100) {

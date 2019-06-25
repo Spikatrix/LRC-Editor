@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -19,6 +18,7 @@ import android.widget.Toast;
 public class SettingsActivity extends AppCompatActivity {
 
     private TextView saveLocation;
+    private TextView readLocation;
 
     private RadioGroup themeGroup;
     private RadioButton light, dark, darker;
@@ -30,7 +30,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         preferences = getSharedPreferences("LRC Editor Preferences", MODE_PRIVATE);
-        String theme = preferences.getString("current_theme", "default_light");
+        String theme = preferences.getString("current_theme", "light");
         if (theme.equals("dark")) {
             isDarkTheme = true;
             setTheme(R.style.AppThemeDark);
@@ -55,13 +55,14 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         saveLocation = findViewById(R.id.save_location);
+        readLocation = findViewById(R.id.read_location);
 
         themeGroup = findViewById(R.id.theme_group);
         light = findViewById(R.id.radioButtonLight);
         dark = findViewById(R.id.radioButtonDark);
         darker = findViewById(R.id.radioButtonDarker);
 
-        if (theme.equals("default_light")) {
+        if (theme.equals("light")) {
             light.setChecked(true);
         } else if (theme.equals("dark")) {
             dark.setChecked(true);
@@ -79,7 +80,7 @@ public class SettingsActivity extends AppCompatActivity {
                 if (checkedId == dark.getId()) {
                     editor.putString("current_theme", "dark");
                 } else if (checkedId == light.getId()) {
-                    editor.putString("current_theme", "default_light");
+                    editor.putString("current_theme", "light");
                 } else if (checkedId == darker.getId()) {
                     editor.putString("current_theme", "darker");
                 } else {
@@ -93,8 +94,10 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        String location = preferences.getString("saveLocation", Environment.getExternalStorageDirectory().getPath() + "/Lyrics");
+        String location = preferences.getString("saveLocation", Constants.defaultLocation);
         saveLocation.setText(location);
+        location = preferences.getString("readLocation", Constants.defaultLocation);
+        readLocation.setText(location);
 
         if (preferences.getString("lrceditor_purchased", "").equals("Y")) {
             TextView themeTitle = findViewById(R.id.theme_title);
@@ -105,11 +108,23 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    public void changeReadLocation(View view) {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        try {
+            startActivityForResult(intent, Constants.READ_LOCATION_REQUEST);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, "Whoops! Couldn't open the directory picker!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Are you running Android 5.0+? Maybe enable DocumentsUI from your phone settings", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+    }
+
     public void changeSaveLocation(View view) {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         try {
-            startActivityForResult(intent, Constants.LOCATION_REQUEST);
+            startActivityForResult(intent, Constants.SAVE_LOCATION_REQUEST);
         } catch (ActivityNotFoundException e) {
             Toast.makeText(this, "Whoops! Couldn't open the directory picker!", Toast.LENGTH_SHORT).show();
             Toast.makeText(this, "Are you running Android 5.0+? Maybe enable DocumentsUI from your phone settings", Toast.LENGTH_LONG).show();
@@ -119,7 +134,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
-        if (requestCode == Constants.LOCATION_REQUEST && resultCode == Activity.RESULT_OK) {
+        if (requestCode == Constants.SAVE_LOCATION_REQUEST && resultCode == Activity.RESULT_OK) {
             Uri uri;
             if (resultData != null) {
                 uri = resultData.getData();
@@ -136,6 +151,32 @@ public class SettingsActivity extends AppCompatActivity {
                     }
                     editor.apply();
                     saveLocation.setText(realPath);
+
+                    try {
+                        getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                    } catch (SecurityException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } else if (requestCode == Constants.READ_LOCATION_REQUEST && resultCode == Activity.RESULT_OK) {
+            Uri uri;
+            if (resultData != null) {
+                uri = resultData.getData();
+                if (uri != null) {
+                    SharedPreferences.Editor editor = preferences.edit();
+
+                    String realPath = FileUtil.getFullPathFromTreeUri(uri, this);
+
+                    editor.putString("readLocation", realPath);
+                    try {
+                        editor.putString("readUri", uri.toString());
+                    } catch (ArrayIndexOutOfBoundsException ignored) {
+                        editor.putString("readUri", null);
+                    }
+                    editor.apply();
+
+                    readLocation.setText(realPath);
 
                     try {
                         getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);

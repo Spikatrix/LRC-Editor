@@ -22,7 +22,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <include
-        layout="@layout/lyric_adder"
+        layout="@layout/lyric_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="10" />
@@ -30,13 +30,13 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_weight=".1"
+        android:layout_weight=".05"
         android:background="?android:attr/listDivider" />
 
     <include
         layout="@layout/mediaplayer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight=".4" />
+        android:layout_weight=".3" />
 
 </LinearLayout>

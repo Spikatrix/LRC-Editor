@@ -13,23 +13,22 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class LyricReader {
 
     private String[] lyrics = null;
-    private String[] timestamps = null;
+    private Timestamp[] timestamps = null;
 
     private SongMetaData songMetaData = new SongMetaData();
 
     private String errorMsg;
 
-    private File f = null;
+    private File file = null;
 
     private InputStream in = null;
 
-    LyricReader(String path, String filename) {
-        f = new File(path, filename);
+    LyricReader(String path, String fileName) {
+        file = new File(path, fileName);
     }
 
     LyricReader(Uri uri, Context c) {
@@ -44,12 +43,13 @@ public class LyricReader {
     public boolean readLyrics() {
         try {
             DataInputStream in;
-            if (f != null) {
-                FileInputStream fis = new FileInputStream(f);
+            if (file != null) {
+                FileInputStream fis = new FileInputStream(file);
                 in = new DataInputStream(fis);
             } else if (this.in != null) {
                 in = new DataInputStream(this.in);
             } else {
+                errorMsg = "Oops! Failed to open an input stream to the file to read data!";
                 return false;
             }
 
@@ -57,6 +57,7 @@ public class LyricReader {
 
             StringBuilder contents = new StringBuilder();
             String temp;
+            /* Read the file's contents into `contents` */
             while ((temp = br.readLine()) != null) {
                 contents.append(temp);
                 contents.append('\n');
@@ -64,17 +65,19 @@ public class LyricReader {
 
             in.close();
 
-            StringBuilder lyrics = new StringBuilder();
+            List<String> lyrics = new ArrayList<>();
             List<String> timestamps = new ArrayList<>();
             int count, extras = 0;
-            boolean needToSort = false;
+            int offset = 0;
+
+            /* Loop over each line of `contents` */
             for (String line : contents.toString().split("\\n")) {
                 count = 0;
                 extras = 0;
+                /* Loop to find multiple timestamps in a single line (Condensed LRC format) */
                 while (true) {
+                    /* `count` keeps track of the number of timestamps and `extras` keeps track of three digit milliseconds in a timestamp */
                     temp = line.substring(count * 10 + extras);
-
-                    //TODO: Very big timestamps won't be read
 
                     if (temp.matches("^(\\[\\d\\d[:.]\\d\\d[:.]\\d\\d\\d?]).*$")) {
                         if (temp.charAt(9) != ']')
@@ -93,39 +96,42 @@ public class LyricReader {
                     } else if (songMetaData.getComposerName().isEmpty() && temp.matches("^\\[au:.*]$")) {
                         songMetaData.setComposerName(temp.substring(4, temp.length() - 1).trim());
                         break;
+                    } else if (offset == 0 && temp.matches("^\\[offset:.*]$")) {
+                        try {
+                            offset = Integer.parseInt(temp.substring(8, temp.length() - 1).trim());
+                        } catch (NumberFormatException e) { // Ignore the offset if we couldn't scan it
+                            e.printStackTrace();
+                        }
                     } else break;
-                }
-                if (count > 1) {
-                    needToSort = true;
                 }
 
                 if (temp.trim().isEmpty())
                     temp = " ";
 
                 for (int i = 0; i < count; i++) {
-                    lyrics.append(temp);
-                    lyrics.append("\n");
+                    lyrics.add(temp);
                 }
             }
 
-            if (lyrics.toString().equals("")) {
+            if (lyrics.size() == 0) {
                 errorMsg = "Couldn't parse lyrics from the file. Check if the lrc file is properly formatted";
                 return false;
             }
 
-            String[] items = lyrics.toString().split("\\n");
-            int size = items.length;
+            int size = lyrics.size();
             this.lyrics = new String[size];
-            this.timestamps = new String[size];
+            this.timestamps = new Timestamp[size];
 
             for (int i = 0; i < size; i++) {
-                this.lyrics[i] = items[i];
-                this.timestamps[i] = timestamps.get(i);
+                this.lyrics[i] = lyrics.get(i).trim();
+                this.timestamps[i] = new Timestamp(timestamps.get(i).trim());
+
+                if (offset != 0) {
+                    this.timestamps[i].alterTimestamp(offset);
+                }
             }
 
-            if (needToSort) {
-                sortLyrics();
-            }
+            sortLyrics();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -141,19 +147,19 @@ public class LyricReader {
     }
 
     private void sortLyrics() {
-        int size = timestamps.length;
-        int[] priority = new int[size];
+        int size = this.timestamps.length;
+        long[] priority = new long[size];
         for (int i = 0; i < size; i++)
-            priority[i] = valueOf(i);
+            priority[i] = this.timestamps[i].toMilliseconds();
 
         quickSort(0, size - 1, priority);
     }
 
-    private void quickSort(int lowerIndex, int higherIndex, int[] array) {
+    private void quickSort(int lowerIndex, int higherIndex, long[] array) {
         int i = lowerIndex;
         int j = higherIndex;
 
-        int pivot = array[lowerIndex + (higherIndex - lowerIndex) / 2];
+        long pivot = array[lowerIndex + (higherIndex - lowerIndex) / 2];
 
         while (i <= j) {
             while (array[i] < pivot) {
@@ -175,8 +181,8 @@ public class LyricReader {
             quickSort(i, higherIndex, array);
     }
 
-    private void swap(int i, int j, int[] array) {
-        int temp = array[i];
+    private void swap(int i, int j, long[] array) {
+        long temp = array[i];
         array[i] = array[j];
         array[j] = temp;
 
@@ -184,23 +190,17 @@ public class LyricReader {
         lyrics[i] = lyrics[j];
         lyrics[j] = s;
 
-        s = timestamps[i];
+        Timestamp t = timestamps[i];
         timestamps[i] = timestamps[j];
-        timestamps[j] = s;
+        timestamps[j] = t;
     }
 
-
-    private int valueOf(int position) {
-        return (int) (TimeUnit.MINUTES.toMillis(Integer.parseInt(this.timestamps[position].substring(0, 2))) +
-                TimeUnit.SECONDS.toMillis(Integer.parseInt(this.timestamps[position].substring(3, 5))) +
-                Integer.parseInt(this.timestamps[position].substring(6, 8)));
-    }
 
     public String[] getLyrics() {
         return this.lyrics;
     }
 
-    public String[] getTimestamps() {
+    public Timestamp[] getTimestamps() {
         return this.timestamps;
     }
 

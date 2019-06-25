@@ -139,7 +139,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/result_textview"
+                android:id="@+id/status_textview"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
                 android:layout_margin="@dimen/dp15"
@@ -148,7 +148,7 @@
                 android:maxLines="5"
                 android:scrollbars="vertical"
                 android:scrollHorizontally="true"
-                android:text="@string/processing_string"
+                android:text="@string/processing"
                 android:visibility="gone" />
 
             <LinearLayout
@@ -162,29 +162,29 @@
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="copy_lrc"
-                    android:text="@string/copy_lrc_contents_text" />
+                    android:onClick="copyLrc"
+                    android:text="@string/copy_lrc_contents" />
 
                 <Button
                     android:id="@+id/copy_error_button"
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="copy_error"
-                    android:text="@string/copy_error_text"
+                    android:onClick="copyError"
+                    android:text="@string/copy_error"
                     android:visibility="gone" />
 
             </LinearLayout>
 
             <Button
-                android:id="@+id/done_button"
+                android:id="@+id/save_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|bottom"
                 android:layout_marginTop="@dimen/dp15"
-                android:layout_marginBottom="@dimen/dp15"
-                android:onClick="saveLyrics"
-                android:text="@string/save_text" />
+                android:layout_marginBottom="@dimen/dp24"
+                android:onClick="displaySaveDialog"
+                android:text="@string/save" />
 
         </LinearLayout>
 

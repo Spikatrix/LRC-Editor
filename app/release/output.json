@@ -3,11 +3,11 @@
     "outputType": {
       "type": "APK"
     },
-    "apkInfo": {
+    "apkData": {
       "type": "MAIN",
       "splits": [],
-      "versionCode": 23,
-      "versionName": "2.2.2",
+      "versionCode": 33,
+      "versionName": "3.0.0",
       "enabled": true,
       "outputFile": "app-release.apk",
       "fullName": "release",

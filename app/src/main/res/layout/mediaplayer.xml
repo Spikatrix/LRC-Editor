@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mediaplayerLinearlayout"
+    android:id="@+id/mediaplayer_linearlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -9,11 +9,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"> <!-- titleText gets refreshed for some reason without this -->
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="selectSong"> <!-- player_title_text gets refreshed for some reason without this -->
 
         <TextView
-            android:id="@+id/titleText"
-            android:layout_width="wrap_content"
+            android:id="@+id/player_title_text"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
@@ -21,6 +24,7 @@
             android:layout_marginTop="@dimen/dp16"
             android:layout_marginRight="@dimen/dp16"
             android:layout_marginBottom="@dimen/dp10"
+            android:clickable="true"
             android:ellipsize="marquee"
             android:fadingEdge="horizontal"
             android:focusable="true"
@@ -30,18 +34,18 @@
             android:onClick="selectSong"
             android:scrollHorizontally="true"
             android:singleLine="true"
-            android:text="@string/tapToAddSong_prompt"
+            android:text="@string/tap_to_select_song_prompt"
             android:textSize="@dimen/sp18"
             android:textStyle="bold" />
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/mediaplayerMid"
+        android:id="@+id/mediaplayer_mid"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp48">
 
         <TextView
-            android:id="@+id/startText"
+            android:id="@+id/start_time_text"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
@@ -52,58 +56,56 @@
             android:textStyle="bold" />
 
         <SeekBar
-            android:id="@+id/seekBar"
+            android:id="@+id/seekbar"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/dp5"
             android:layout_marginRight="@dimen/dp5"
-            android:layout_toStartOf="@id/endText"
-            android:layout_toEndOf="@id/startText" />
+            android:layout_toStartOf="@id/end_time_text"
+            android:layout_toEndOf="@id/start_time_text" />
 
         <LinearLayout
-            android:id="@+id/mediaControlsCollapsed"
+            android:id="@+id/media_controls_collapsed"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/dp15"
             android:layout_marginEnd="@dimen/dp15"
-            android:layout_toStartOf="@id/endText"
-            android:layout_toEndOf="@id/startText"
+            android:layout_toStartOf="@id/end_time_text"
+            android:layout_toEndOf="@id/start_time_text"
             android:orientation="horizontal"
             android:visibility="gone">
 
             <Button
-                android:id="@+id/left_5"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight=".3"
-                android:contentDescription="@string/prev_description"
+                android:contentDescription="@string/previous_description"
                 android:onClick="rewind5"
-                android:text="@string/previous_5_text" />
+                android:text="@string/previous_5" />
 
             <ImageButton
                 android:id="@+id/play_pause_collapsed"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight=".35"
-                android:contentDescription="@string/play_description"
+                android:contentDescription="@string/play_button_description"
                 android:onClick="playPause"
                 android:src="@drawable/ic_play" />
 
             <Button
-                android:id="@+id/right_5"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight=".3"
                 android:contentDescription="@string/forward_description"
                 android:onClick="forward5"
-                android:text="@string/forward_5_text" />
+                android:text="@string/forward_5" />
 
         </LinearLayout>
 
         <TextView
-            android:id="@+id/endText"
+            android:id="@+id/end_time_text"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
@@ -111,30 +113,32 @@
             android:gravity="center"
             android:maxLines="1"
             android:text="@string/default_timetext"
-            android:textStyle="bold"
-            tools:ignore="RelativeOverlap" />
+            android:textStyle="bold" />
 
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/mediaControlsExpanded"
+        android:id="@+id/media_controls_expanded"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp8"
+        android:layout_marginEnd="@dimen/dp8"
+        android:orientation="horizontal">
 
         <Button
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:contentDescription="@string/prev_description"
+            android:contentDescription="@string/previous_description"
             android:onClick="rewind5"
-            android:text="@string/previous_5_text" />
+            android:text="@string/previous_5" />
 
         <ImageButton
             android:id="@+id/play_pause"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:contentDescription="@string/play_description"
+            android:contentDescription="@string/play_button_description"
             android:onClick="playPause"
             android:src="@drawable/ic_play" />
 
@@ -144,7 +148,7 @@
             android:layout_weight="1"
             android:contentDescription="@string/forward_description"
             android:onClick="forward5"
-            android:text="@string/forward_5_text" />
+            android:text="@string/forward_5" />
 
     </LinearLayout>
 

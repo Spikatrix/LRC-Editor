@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/dp15"
                 android:gravity="center"
-                android:text="@string/support_us"
+                android:text="@string/support_me"
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
@@ -74,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight=".6"
                     android:onClick="onePurchase"
-                    android:text="@string/loading_string" />
+                    android:text="@string/loading" />
 
             </LinearLayout>
 
@@ -97,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight=".6"
                     android:onClick="twoPurchase"
-                    android:text="@string/loading_string" />
+                    android:text="@string/loading" />
 
             </LinearLayout>
 
@@ -120,7 +120,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight=".6"
                     android:onClick="threePurchase"
-                    android:text="@string/loading_string" />
+                    android:text="@string/loading" />
 
             </LinearLayout>
 
@@ -143,7 +143,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight=".6"
                     android:onClick="fourPurchase"
-                    android:text="@string/loading_string" />
+                    android:text="@string/loading" />
 
             </LinearLayout>
 
@@ -159,7 +159,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight=".3"
                     android:gravity="center"
-                    android:text="@string/largest" />
+                    android:text="@string/huge" />
 
                 <Button
                     android:id="@+id/five"
@@ -167,7 +167,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight=".6"
                     android:onClick="fivePurchase"
-                    android:text="@string/loading_string" />
+                    android:text="@string/loading" />
 
             </LinearLayout>
 
@@ -182,9 +182,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp15"
+                android:layout_marginBottom="@dimen/dp15"
                 android:autoLink="web"
                 android:gravity="center"
-                android:text="@string/github_contribution_string" />
+                android:text="@string/github_contribution" />
 
         </LinearLayout>
 

@@ -15,55 +15,53 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.LyricViewHolder> {
-    public final List<ItemData> lyricData;
-    public boolean isDarkTheme = false;
-    private LayoutInflater mInflator;
-    private SparseBooleanArray selectedItems;
-    private SparseBooleanArray flashItems;
-    private ItemClickListener mClickListener;
+public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.LyricListItem> {
+    public final List<LyricItem> lyricData;
 
-    LyricListAdapter(Context context, List<ItemData> lyricData) {
-        mInflator = LayoutInflater.from(context);
+    public boolean isDarkTheme = false;
+
+    private LayoutInflater inflater;
+    private SparseBooleanArray flashItems;
+    private ItemClickListener clickListener;
+
+    LyricListAdapter(Context context, List<LyricItem> lyricData) {
+        inflater = LayoutInflater.from(context);
         this.lyricData = lyricData;
-        selectedItems = new SparseBooleanArray();
         flashItems = new SparseBooleanArray();
     }
 
     @Override
-    public void onBindViewHolder(@NonNull LyricListAdapter.LyricViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull LyricListItem holder, int position) {
         String mCurrent = lyricData.get(position).getLyric();
         holder.itemTextview.setText(mCurrent);
 
         if (lyricData.get(position).getTimestamp() != null) {
             holder.itemTimeControls.setVisibility(View.VISIBLE);
-            holder.itemplay.setEnabled(true);
             holder.itemTimeview.setText(lyricData.get(position).getTimestamp().toString());
         } else {
             holder.itemTimeControls.setVisibility(View.INVISIBLE);
-            holder.itemplay.setEnabled(false);
         }
 
-        holder.itemView.setActivated(selectedItems.get(position, false));
+        holder.itemView.setActivated(lyricData.get(position).isSelected);
         holder.itemView.setHovered(flashItems.get(position, false));
         if (holder.itemView.isHovered())
             holder.itemView.setActivated(false);
 
-        applyClickEvents(holder, position);
+        applyClickEvents(holder);
     }
 
-    private void applyClickEvents(LyricListAdapter.LyricViewHolder holder, final int position) {
+    private void applyClickEvents(final LyricListItem holder) {
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mClickListener.onLyricItemClicked(position);
+                clickListener.onLyricItemClicked(holder.getAdapterPosition());
             }
         });
 
         holder.linearLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                mClickListener.onLyricItemSelected(position);
+                clickListener.onLyricItemSelected(holder.getAdapterPosition());
                 view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                 return true;
             }
@@ -72,9 +70,9 @@ public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.Lyri
 
     @NonNull
     @Override
-    public LyricListAdapter.LyricViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View mItemView = mInflator.inflate(R.layout.lyriclist_item, parent, false);
-        return new LyricViewHolder(mItemView, this);
+    public LyricListItem onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View mItemView = inflater.inflate(R.layout.row_lyriclist_item, parent, false);
+        return new LyricListItem(mItemView, this);
     }
 
     @Override
@@ -97,40 +95,47 @@ public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.Lyri
     }
 
     public void toggleSelection(int pos) {
-        if (selectedItems.get(pos, false)) {
-            selectedItems.delete(pos);
-        } else {
-            selectedItems.put(pos, true);
-        }
-
+        lyricData.get(pos).isSelected = !lyricData.get(pos).isSelected;
         notifyItemChanged(pos);
     }
 
     public void selectAll() {
         for (int i = 0; i < getItemCount(); i++)
-            selectedItems.put(i, true);
+            lyricData.get(i).isSelected = true;
         notifyDataSetChanged();
     }
 
     public void clearSelections() {
-        selectedItems.clear();
-        notifyDataSetChanged();
+        for (int i = 0, len = getItemCount(); i < len; i++) {
+            LyricItem item = lyricData.get(i);
+            if (item.isSelected) {
+                item.isSelected = false;
+                notifyItemChanged(i);
+            }
+        }
     }
 
-    public List<Integer> getSelectedItems() {
-        List<Integer> items = new ArrayList<>(selectedItems.size());
-        for (int i = 0; i < selectedItems.size(); i++) {
-            items.add(selectedItems.keyAt(i));
+    public List<Integer> getSelectedItemIndices() {
+        List<Integer> items = new ArrayList<>();
+        for (int i = 0; i < getItemCount(); i++) {
+            if (lyricData.get(i).isSelected)
+                items.add(i);
         }
         return items;
     }
 
     public int getSelectionCount() {
-        return selectedItems.size();
+        int noOfSelectedItems = 0;
+        for (LyricItem item : lyricData) {
+            if (item.isSelected)
+                noOfSelectedItems++;
+        }
+
+        return noOfSelectedItems;
     }
 
     void setClickListener(ItemClickListener itemClickListener) {
-        this.mClickListener = itemClickListener;
+        this.clickListener = itemClickListener;
     }
 
     public interface ItemClickListener {
@@ -149,54 +154,53 @@ public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.Lyri
         void onLyricItemSelected(int position);
 
         void onLyricItemClicked(int position);
-
     }
 
-    class LyricViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener,
+    class LyricListItem extends RecyclerView.ViewHolder implements View.OnLongClickListener,
             View.OnClickListener {
-        final LyricListAdapter mAdapter;
+        final LyricListAdapter adapter;
         private final LinearLayout linearLayout;
         private final TextView itemTextview;
         private final LinearLayout itemTimeControls;
         private final TextView itemTimeview;
-        private final ImageButton itemplay;
-        private final ImageButton itemadd;
+        private final ImageButton itemPlay;
+        private final ImageButton itemAdd;
 
-        LyricViewHolder(final View itemView, LyricListAdapter adapter) {
+        LyricListItem(final View itemView, LyricListAdapter adapter) {
             super(itemView);
 
-            linearLayout = itemView.findViewById(R.id.item_parent_linearlayout);
+            linearLayout = itemView.findViewById(R.id.lyricitem_parent_linearlayout);
 
-            itemTextview = itemView.findViewById(R.id.item_text);
-            itemadd = itemView.findViewById(R.id.item_add);
+            itemTextview = itemView.findViewById(R.id.item_lyric);
+            itemAdd = itemView.findViewById(R.id.item_add);
             itemTimeControls = itemView.findViewById(R.id.item_time_controls);
             itemTimeview = itemView.findViewById(R.id.item_time);
-            itemplay = itemView.findViewById(R.id.item_play);
-            this.mAdapter = adapter;
+            itemPlay = itemView.findViewById(R.id.item_play);
+            this.adapter = adapter;
 
             if (isDarkTheme) {
-                Context ctx = mInflator.getContext();
+                Context ctx = inflater.getContext();
                 ImageButton time_increase = itemTimeControls.findViewById(R.id.increase_time_button);
                 time_increase.setImageDrawable(ctx.getDrawable(R.drawable.ic_add_light));
 
                 ImageButton time_decrease = itemTimeControls.findViewById(R.id.decrease_time_button);
                 time_decrease.setImageDrawable(ctx.getDrawable(R.drawable.ic_minus_light));
 
-                itemplay.setImageDrawable(ctx.getDrawable(R.drawable.ic_play_light));
-                itemadd.setImageDrawable(ctx.getDrawable(R.drawable.ic_add_light));
+                itemPlay.setImageDrawable(ctx.getDrawable(R.drawable.ic_play_light));
+                itemAdd.setImageDrawable(ctx.getDrawable(R.drawable.ic_add_light));
             }
 
-            itemadd.setOnClickListener(new View.OnClickListener() {
+            itemAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mClickListener.onAddButtonClick(getAdapterPosition());
+                    clickListener.onAddButtonClick(getAdapterPosition());
                 }
             });
 
-            itemplay.setOnClickListener(new View.OnClickListener() {
+            itemPlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mClickListener.onPlayButtonClick(getAdapterPosition());
+                    clickListener.onPlayButtonClick(getAdapterPosition());
                 }
             });
 
@@ -206,14 +210,14 @@ public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.Lyri
             incrTime.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mClickListener.onIncreaseTimeClick(getAdapterPosition());
+                    clickListener.onIncreaseTimeClick(getAdapterPosition());
                 }
             });
 
             incrTime.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    mClickListener.onLongPressIncrTime(getAdapterPosition());
+                    clickListener.onLongPressIncrTime(getAdapterPosition());
                     v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                     return false;
                 }
@@ -222,14 +226,14 @@ public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.Lyri
             decrTime.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mClickListener.onDecreaseTimeClick(getAdapterPosition());
+                    clickListener.onDecreaseTimeClick(getAdapterPosition());
                 }
             });
 
             decrTime.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    mClickListener.onLongPressDecrTime(getAdapterPosition());
+                    clickListener.onLongPressDecrTime(getAdapterPosition());
                     v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                     return false;
                 }
@@ -239,14 +243,14 @@ public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.Lyri
 
         @Override
         public boolean onLongClick(View v) {
-            mClickListener.onLyricItemSelected(getAdapterPosition());
+            clickListener.onLyricItemSelected(getAdapterPosition());
             v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
             return false;
         }
 
         @Override
         public void onClick(View v) {
-            mClickListener.onLyricItemClicked(getAdapterPosition());
+            clickListener.onLyricItemClicked(getAdapterPosition());
         }
     }
 }

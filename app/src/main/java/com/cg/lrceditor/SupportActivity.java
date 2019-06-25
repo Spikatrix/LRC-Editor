@@ -54,7 +54,7 @@ public class SupportActivity extends AppCompatActivity {
                 if (item != null) {
                     purchaseButtons[i].setText(item.getPrice());
                 } else {
-                    purchaseButtons[i].setText(R.string.error_string);
+                    purchaseButtons[i].setText(R.string.error);
                 }
 
                 Purchase purchase = inventory.getPurchase(ITEM_SKUS[i]);
@@ -68,7 +68,7 @@ public class SupportActivity extends AppCompatActivity {
                     editor.apply();
 
                     purchaseButtons[i].setEnabled(false);
-                    purchaseButtons[i].setText(R.string.purchased_string);
+                    purchaseButtons[i].setText(R.string.purchased);
 
                 }
             }
@@ -116,7 +116,7 @@ public class SupportActivity extends AppCompatActivity {
         ctx = this;
 
         preferences = getSharedPreferences("LRC Editor Preferences", MODE_PRIVATE);
-        String theme = preferences.getString("current_theme", "default_light");
+        String theme = preferences.getString("current_theme", "light");
         if (theme.equals("dark")) {
             isDarkTheme = true;
             setTheme(R.style.AppThemeDark);
