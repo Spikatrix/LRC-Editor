@@ -14,4 +14,4 @@ In case you'd like to fork this project, you must
  2. Name the original 'LRC Editor' explicitly and have a link back to it
  3. State the changes
 
-Contributions welcome ツ
+Contributions and translations welcome ツ
