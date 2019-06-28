@@ -27,14 +27,14 @@
             android:gravity="center"
             android:inputType="number"
             android:maxLength="2"
-            android:text="@string/two_zeros" />
+            android:text="00" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/dp10"
             android:paddingRight="@dimen/dp10"
-            android:text="@string/colon"
+            android:text=":"
             android:textStyle="bold" />
 
         <EditText
@@ -44,14 +44,14 @@
             android:gravity="center"
             android:inputType="number"
             android:maxLength="2"
-            android:text="@string/two_zeros" />
+            android:text="00" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/dp10"
             android:paddingRight="@dimen/dp10"
-            android:text="@string/colon"
+            android:text=":"
             android:textStyle="bold" />
 
         <EditText
@@ -61,7 +61,7 @@
             android:gravity="center"
             android:inputType="number"
             android:maxLength="2"
-            android:text="@string/two_zeros" />
+            android:text="00" />
 
     </LinearLayout>
 

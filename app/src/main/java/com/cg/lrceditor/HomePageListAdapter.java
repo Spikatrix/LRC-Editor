@@ -45,11 +45,11 @@ public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull LyricFileListItem holder, int position) {
-        String mCurrent = listData.get(position).file.getName();
-        holder.fileName.setText(mCurrent);
+        String name = listData.get(position).file.getName();
+        holder.fileName.setText(name);
 
-        String mLocation = listData.get(position).file.getAbsolutePath();
-        holder.fileLocation.setText(FileUtil.stripFileNameFromPath(mLocation));
+        String location = listData.get(position).file.getAbsolutePath();
+        holder.fileLocation.setText(FileUtil.stripFileNameFromPath(location));
 
         if (listData.get(position).isExpanded) {
             holder.subView.setVisibility(View.VISIBLE);

@@ -3,9 +3,10 @@ package com.cg.lrceditor;
 import java.io.Serializable;
 
 public class LyricItem implements Serializable {
-    public boolean isSelected = false;
     private Timestamp timestamp;
     private String lyric;
+
+    public boolean isSelected = false;
 
     public LyricItem(String lyric, Timestamp timestamp) {
         this.lyric = lyric;

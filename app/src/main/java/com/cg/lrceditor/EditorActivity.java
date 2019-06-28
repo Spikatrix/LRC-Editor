@@ -318,7 +318,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
         if (pos > Constants.MAX_TIMESTAMP_VALUE) {
             pos = Constants.MAX_TIMESTAMP_VALUE;
-            Toast.makeText(this, "Timestamps larger than 99:59:999 are currently unsupported", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.large_timestamp_unsupported_message), Toast.LENGTH_SHORT).show();
         }
 
         Timestamp timestamp = adapter.lyricData.get(position).getTimestamp();
@@ -337,13 +337,13 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
     @Override
     public void onPlayButtonClick(int position) {
         if (!playerPrepared) {
-            Toast.makeText(this, "Player not ready", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.player_not_ready_message), Toast.LENGTH_SHORT).show();
             return;
         }
 
         Timestamp timestamp = adapter.lyricData.get(position).getTimestamp();
         if (timestamp == null) {
-            Toast.makeText(this, "No timestamp set for the lyric item", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.no_timestamp_set_message), Toast.LENGTH_SHORT).show();
             return;
         }
         player.seekTo((int) timestamp.toMilliseconds());
@@ -556,48 +556,44 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
         }
     }
 
-    private void readyMediaPlayer(Uri songUri) {
-        try {
-            player.setDataSource(this, songUri);
-        } catch (IOException | IllegalArgumentException | IllegalStateException | SecurityException e) {
-            Toast.makeText(this, "Whoops " + e.getMessage(), Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-            return;
-        }
+    private void readyUpMediaPlayer(final Uri songUriArgument) {
+        titleText.setText(getString(R.string.setting_up_player_message));
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    player.setDataSource(getApplicationContext(), songUriArgument);
+                } catch (IOException | IllegalArgumentException | IllegalStateException | SecurityException e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "Whoops " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            titleText.setText(getString(R.string.tap_to_select_song_prompt));
+                            e.printStackTrace();
+                        }
+                    });
+                    return;
+                }
 
-        playerPrepared = false;
-        this.songUri = songUri;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        playerPrepared = false;
+                        songUri = songUriArgument;
 
-        MediaMetadataRetriever mmr = new MediaMetadataRetriever();
-        try {
-            mmr.setDataSource(this, this.songUri);
-            String title = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
-            if (title.trim().isEmpty()) {
-                throw new RuntimeException();
+                        titleText.setText(getString(R.string.preparing_the_player_message));
+                        player.prepareAsync();
+                    }
+                });
+
             }
-            titleText.setText(title);
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            File f = null;
-            try {
-                f = new File(this.songUri.getPath());
-                titleText.setText(f.getName().substring(0, f.getName().lastIndexOf('.')));
-            } catch (IndexOutOfBoundsException e2) {
-                e2.printStackTrace();
-                titleText.setText(f.getName());
-            } catch (Exception e3) {
-                e3.printStackTrace();
-                titleText.setText(R.string.title_error_text);
-            }
-        }
-
-        player.prepareAsync();
+        }).start();
     }
 
     public void playPause(View view) {
         if (!playerPrepared) {
             if (view != null) {
-                Toast.makeText(this, "Player not ready", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.player_not_ready_message), Toast.LENGTH_SHORT).show();
             }
             return;
         }
@@ -634,22 +630,49 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
         try {
             endTime = new Timestamp(duration);
         } catch (IllegalArgumentException e) { // Negative timestamp; live content?
-            Toast.makeText(this, "Unexpected error: Failed to get the duration of the media file", Toast.LENGTH_LONG).show();
+            titleText.setText(getString(R.string.tap_to_select_song_prompt));
+            Toast.makeText(this, getString(R.string.failed_to_get_duration_message), Toast.LENGTH_LONG).show();
             return;
         }
-        playerPrepared = true;
-        startText.setText(getString(R.string.default_timetext));
+        setPlayerTitle();
+        startText.setText("00:00.00");
         seekTimestamp = new Timestamp(0, 0, 0);
         endTime.setMilliseconds(0);
         endText.setText(String.format(Locale.getDefault(), "%02d:%02d", endTime.getMinutes(), endTime.getSeconds()));
         seekbar.setMax(duration);
         seekbar.setProgress(player.getCurrentPosition());
         songFileName = FileUtil.getFileName(this, songUri);
+        playerPrepared = true;
+    }
+
+    private void setPlayerTitle() {
+        MediaMetadataRetriever mmr = new MediaMetadataRetriever();
+        try {
+            mmr.setDataSource(this, this.songUri);
+            String title = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
+            if (title.trim().isEmpty()) {
+                throw new RuntimeException();
+            }
+            titleText.setText(title);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            File f = null;
+            try {
+                f = new File(this.songUri.getPath());
+                titleText.setText(f.getName().substring(0, f.getName().lastIndexOf('.')));
+            } catch (IndexOutOfBoundsException e2) {
+                e2.printStackTrace();
+                titleText.setText(f.getName());
+            } catch (Exception e3) {
+                e3.printStackTrace();
+                titleText.setText(R.string.title_error_text);
+            }
+        }
     }
 
     public void rewind5(View view) {
         if (!playerPrepared) {
-            Toast.makeText(this, "Player not ready", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.player_not_ready_message), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -659,7 +682,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
     public void forward5(View view) {
         if (!playerPrepared) {
-            Toast.makeText(this, "Player not ready", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.player_not_ready_message), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -709,7 +732,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
             startActivityForResult(intent, Constants.FILE_REQUEST);
         } catch (ActivityNotFoundException e) {
             e.printStackTrace();
-            Toast.makeText(this, "Failed to open the system file picker dialog; Are you sure you're running Android Kitkat or up?", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.failed_to_open_file_picker_message), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -720,11 +743,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
                 Uri uri = resultData.getData();
 
                 if (uri != null) {
-                    try {
-                        getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    } catch (SecurityException e) {
-                        e.printStackTrace();
-                    }
+                    playerPrepared = false;
 
                     if (isDarkTheme) {
                         playPause.setImageDrawable(getDrawable(R.drawable.ic_play_light));
@@ -736,7 +755,13 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
                     player.reset();
                     seekbar.setProgress(player.getCurrentPosition());
 
-                    readyMediaPlayer(uri);
+                    try {
+                        getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    } catch (SecurityException e) {
+                        e.printStackTrace();
+                    }
+
+                    readyUpMediaPlayer(uri);
                 }
             }
         }
@@ -767,7 +792,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
                     adapter.lyricData.get(selectedItemPositions.get(i)).getTimestamp());
         }
 
-        Toast.makeText(this, "Copied the lyrics to the internal clipboard", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.copied_lyrics_message), Toast.LENGTH_SHORT).show();
 
         actionMode.finish();
         actionMode = null;
@@ -793,7 +818,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
         changedData = true;
 
         if (mode == -1) {
-            recyclerView.smoothScrollToPosition(selectedItemPosition);
+            recyclerView.smoothScrollToPosition(selectedItemPosition - clipboard.length);
         } else if (mode == +1) {
             recyclerView.smoothScrollToPosition(selectedItemPosition + 1);
         }
@@ -818,8 +843,8 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
         final AlertDialog dialog = new AlertDialog.Builder(this)
                 .setView(view)
-                .setPositiveButton("Set", null)
-                .setNegativeButton("Cancel", null)
+                .setPositiveButton(getString(R.string.set), null)
+                .setNegativeButton(getString(R.string.cancel), null)
                 .setCancelable(false)
                 .create();
 
@@ -837,18 +862,18 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
                         String milText = mil.getText().toString().trim();
 
                         if (!minText.matches("^[0-9]+$")) {
-                            min.setError("Invalid time");
+                            min.setError(getString(R.string.invalid_time));
                             return;
                         } else if (!secText.matches("^[0-9]+$")) {
-                            sec.setError("Invalid time");
+                            sec.setError(getString(R.string.invalid_time));
                             return;
                         } else if (!milText.matches("^[0-9]+$")) {
-                            mil.setError("Invalid time");
+                            mil.setError(getString(R.string.invalid_time));
                             return;
                         }
 
                         if (Integer.parseInt(secText) >= 60) {
-                            sec.setError("Seconds must be less than 60");
+                            sec.setError(getString(R.string.seconds_less_than_60_message));
                             return;
                         }
 
@@ -891,11 +916,11 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
     }
 
     private void delete() {
-        String[] options = {"Delete timestamps only", "Delete both timestamps and the lyrics"};
+        String[] options = {getString(R.string.delete_timestamps_only_message), getString(R.string.delete_timestamps_and_lyrics_message)};
         new AlertDialog.Builder(this)
-                .setTitle("Choose what to delete")
+                .setTitle(R.string.delete_prompt)
                 .setSingleChoiceItems(options, 0, null)
-                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.delete), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         int selectedOption = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
@@ -931,7 +956,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
                         actionMode = null;
                     }
                 })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(getString(R.string.cancel), null)
                 .create()
                 .show();
     }
@@ -951,7 +976,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
         }
     }
 
-    private void edit_lyric_data(final int lyric_change) {
+    private void editLyricData(final int optionMode) {
         final int position;
         try {
             position = adapter.getSelectedItemIndices().get(0);
@@ -967,7 +992,9 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
         String hint = null, positive_button_text = null;
 
-        if (lyric_change == 1) {         /* Insert lyrics */
+        if (optionMode != 0) {
+            /* Insert lyrics */
+
             textView.setText(getString(R.string.insert_lyrics_prompt));
             positive_button_text = getString(R.string.insert);
 
@@ -983,7 +1010,8 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
             }
             editText.setGravity(Gravity.CENTER);
 
-        } else if (lyric_change == 2) {  /* Edit selected lyric */
+        } else {
+            /* Edit selected lyric */
 
             textView.setText(getString(R.string.modified_lyric_prompt));
             editText.setText(adapter.lyricData.get(position).getLyric());
@@ -999,13 +1027,17 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        if (lyric_change == 1) {         /* Insert lyrics */
+                        if (optionMode != 0) {
+                            /* Insert lyrics */
+
                             String data = editText.getText().toString().trim();
 
                             String[] lyrics = data.split("\\n");
-                            insertLyrics(lyrics);
+                            insertLyrics(lyrics, optionMode);
 
-                        } else if (lyric_change == 2) {  /* Edit selected lyric */
+                        } else {
+                            /* Edit selected lyric */
+
                             changedData = true;
 
                             adapter.lyricData.get(position).setLyric(editText.getText().toString());
@@ -1014,7 +1046,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
                         }
                     }
                 })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(getString(R.string.cancel), null)
                 .create();
 
 
@@ -1023,52 +1055,38 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
         dialog.show();
     }
 
-    private void insertLyrics(final String[] lyrics) {
-        String[] options = {"Before the selected lyric item", "After the selected lyric item"};
-        new AlertDialog.Builder(this)
-                .setTitle("Choose where to insert")
-                .setSingleChoiceItems(options, 0, null)
-                .setPositiveButton("Insert", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        int selectedOption = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+    private void insertLyrics(final String[] lyrics, int optionMode) {
+        int selectedItemPosition = adapter.getSelectedItemIndices().get(0);
+        longPressedPos = -1;
+        longPressed = 0;
 
-                        int selectedItemPosition = adapter.getSelectedItemIndices().get(0);
-                        longPressedPos = -1;
-                        longPressed = 0;
+        if (optionMode == -1) { /* Before */
+            for (int i = lyrics.length - 1; i >= 0; i--) {
+                adapter.lyricData.add(selectedItemPosition,
+                        new LyricItem(lyrics[i].trim(), null));
+                adapter.notifyItemInserted(selectedItemPosition);
+            }
+        } else if (optionMode == +1) { /* After */
+            for (int i = lyrics.length - 1; i >= 0; i--) {
+                adapter.lyricData.add(selectedItemPosition + 1,
+                        new LyricItem(lyrics[i].trim(), null));
+                adapter.notifyItemInserted(selectedItemPosition + 1);
+            }
+        }
 
-                        if (selectedOption == 0) { /* Before */
-                            for (int i = lyrics.length - 1; i >= 0; i--) {
-                                adapter.lyricData.add(selectedItemPosition,
-                                        new LyricItem(lyrics[i].trim(), null));
-                                adapter.notifyItemInserted(selectedItemPosition);
-                            }
-                        } else if (selectedOption == 1) { /* After */
-                            for (int i = lyrics.length - 1; i >= 0; i--) {
-                                adapter.lyricData.add(selectedItemPosition + 1,
-                                        new LyricItem(lyrics[i].trim(), null));
-                                adapter.notifyItemInserted(selectedItemPosition + 1);
-                            }
-                        }
+        changedData = true;
 
-                        changedData = true;
+        if (optionMode == -1) {
+            recyclerView.smoothScrollToPosition(selectedItemPosition - lyrics.length);
+        } else if (optionMode == +1) {
+            recyclerView.smoothScrollToPosition(selectedItemPosition + 1);
+        }
 
-                        if (selectedOption == 1) {
-                            recyclerView.smoothScrollToPosition(selectedItemPosition);
-                        } else if (selectedOption == 2) {
-                            recyclerView.smoothScrollToPosition(selectedItemPosition + 1);
-                        }
-
-                        actionMode.finish();
-                        actionMode = null;
-                    }
-                })
-                .setNegativeButton("Cancel", null)
-                .create()
-                .show();
+        actionMode.finish();
+        actionMode = null;
     }
 
-    private void batch_edit_lyrics() {
+    private void batchEditLyrics() {
 
         LayoutInflater inflater = this.getLayoutInflater();
         final View view = inflater.inflate(R.layout.dialog_batch_edit, null);
@@ -1205,8 +1223,8 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setView(view)
-                .setTitle("Batch Edit")
-                .setPositiveButton("Adjust", new DialogInterface.OnClickListener() {
+                .setTitle(R.string.batch_edit)
+                .setPositiveButton(getString(R.string.adjust), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         changedData = true;
@@ -1221,7 +1239,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
                         actionMode.finish();
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         longPressed[0] = 0;
@@ -1264,7 +1282,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
                 return true;
 
             case R.id.action_add:
-                adapter.lyricData.add(new LyricItem(" ", null));
+                adapter.lyricData.add(new LyricItem("", null));
                 adapter.notifyItemInserted(0);
 
                 Toolbar toolbar = findViewById(R.id.toolbar);
@@ -1296,16 +1314,16 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
     public void onBackPressed() {
         if (changedData) {
             new AlertDialog.Builder(this)
-                    .setTitle("Warning")
-                    .setMessage("You'll lose your modified data if you go back. Are you sure you want to go back?")
-                    .setPositiveButton("Go Back", new DialogInterface.OnClickListener() {
+                    .setTitle(getString(R.string.warning))
+                    .setMessage(R.string.go_back_warning_message)
+                    .setPositiveButton(getString(R.string.go_back), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             reset();
                             EditorActivity.super.onBackPressed();
                         }
                     })
-                    .setNegativeButton("Stay here", null)
+                    .setNegativeButton(getString(R.string.stay_here), null)
                     .show();
         } else {
             reset();
@@ -1384,8 +1402,8 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
                     return true;
 
                 case R.id.action_edit:
-                    optionMode = 2;
-                    edit_lyric_data(optionMode);
+                    optionMode = 0;
+                    editLyricData(optionMode);
                     mode.finish();
                     return true;
 
@@ -1411,13 +1429,18 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
                     paste(optionMode);
                     return true;
 
-                case R.id.action_insert:
-                    optionMode = 1;
-                    edit_lyric_data(optionMode);
+                case R.id.action_insert_before:
+                    optionMode = -1;
+                    editLyricData(optionMode);
+                    return true;
+
+                case R.id.action_insert_after:
+                    optionMode = +1;
+                    editLyricData(optionMode);
                     return true;
 
                 case R.id.action_batch_edit:
-                    batch_edit_lyrics();
+                    batchEditLyrics();
                     return true;
 
                 default:

@@ -178,7 +178,13 @@ public final class FileUtil {
 
         String[] folders = null;
         for (File file : storageMedias) {
-            String storageMediaPath = file.getAbsolutePath().split("/Android")[0];
+            String storageMediaPath;
+            try {
+                storageMediaPath = file.getAbsolutePath().split("/Android")[0];
+            } catch (NullPointerException e) { // Got a crash report
+                continue;
+            }
+
             if (location.startsWith(storageMediaPath)) {
                 String path;
                 try {
@@ -211,7 +217,7 @@ public final class FileUtil {
                     index++;
                 } while (index < folders.length);
             }
-        } catch (NullPointerException e) { // Unlikely to happen I think. Added as a precaution
+        } catch (NullPointerException e) {
             return pickedDir.findFile(name);
         }
 

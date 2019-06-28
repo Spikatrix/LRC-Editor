@@ -69,7 +69,7 @@ public class SettingsActivity extends AppCompatActivity {
         } else if (theme.equals("darker")) {
             darker.setChecked(true);
         } else {
-            Toast.makeText(this, "An unexpected error occurred", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.unexpected_error_message), Toast.LENGTH_SHORT).show();
         }
 
         themeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -77,18 +77,18 @@ public class SettingsActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 SharedPreferences.Editor editor = preferences.edit();
 
-                if (checkedId == dark.getId()) {
-                    editor.putString("current_theme", "dark");
-                } else if (checkedId == light.getId()) {
+                if (checkedId == light.getId()) {
                     editor.putString("current_theme", "light");
+                } else if (checkedId == dark.getId()) {
+                    editor.putString("current_theme", "dark");
                 } else if (checkedId == darker.getId()) {
                     editor.putString("current_theme", "darker");
                 } else {
-                    Toast.makeText(getApplicationContext(), "An unexpected error occurred", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.unexpected_error_message), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                Toast.makeText(getApplicationContext(), "Restart the app if the theme does not apply", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.restart_for_theme_message), Toast.LENGTH_SHORT).show();
                 editor.apply();
                 recreate();
             }
@@ -114,8 +114,8 @@ public class SettingsActivity extends AppCompatActivity {
         try {
             startActivityForResult(intent, Constants.READ_LOCATION_REQUEST);
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(this, "Whoops! Couldn't open the directory picker!", Toast.LENGTH_SHORT).show();
-            Toast.makeText(this, "Are you running Android 5.0+? Maybe enable DocumentsUI from your phone settings", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Whoops! " + getString(R.string.failed_to_open_directory_picker_message), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.documentsui_enable_message), Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
     }
@@ -126,8 +126,8 @@ public class SettingsActivity extends AppCompatActivity {
         try {
             startActivityForResult(intent, Constants.SAVE_LOCATION_REQUEST);
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(this, "Whoops! Couldn't open the directory picker!", Toast.LENGTH_SHORT).show();
-            Toast.makeText(this, "Are you running Android 5.0+? Maybe enable DocumentsUI from your phone settings", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Whoops! " + getString(R.string.failed_to_open_directory_picker_message), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.documentsui_enable_message), Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
     }

@@ -52,7 +52,7 @@
             android:layout_marginStart="@dimen/dp16"
             android:gravity="center"
             android:maxLines="1"
-            android:text="@string/default_timetext"
+            android:text="00:00"
             android:textStyle="bold" />
 
         <SeekBar
@@ -112,7 +112,7 @@
             android:layout_marginEnd="@dimen/dp16"
             android:gravity="center"
             android:maxLines="1"
-            android:text="@string/default_timetext"
+            android:text="00:00"
             android:textStyle="bold" />
 
     </RelativeLayout>

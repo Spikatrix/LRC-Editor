@@ -25,6 +25,8 @@ public class LyricReader {
 
     private File file = null;
 
+    private Context ctx;
+
     private InputStream in = null;
 
     LyricReader(String path, String fileName) {
@@ -32,11 +34,12 @@ public class LyricReader {
     }
 
     LyricReader(Uri uri, Context c) {
+        this.ctx = c;
         try {
             this.in = c.getContentResolver().openInputStream(uri);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            errorMsg = "Oops! File not found! \n" + e.getMessage();
+            errorMsg = "Oops! " + ctx.getString(R.string.file_not_found_message) + "\n" + e.getMessage();
         }
     }
 
@@ -49,7 +52,7 @@ public class LyricReader {
             } else if (this.in != null) {
                 in = new DataInputStream(this.in);
             } else {
-                errorMsg = "Oops! Failed to open an input stream to the file to read data!";
+                errorMsg = "Oops! " + ctx.getString(R.string.failed_to_open_input_stream_message);
                 return false;
             }
 
@@ -114,7 +117,7 @@ public class LyricReader {
             }
 
             if (lyrics.size() == 0) {
-                errorMsg = "Couldn't parse lyrics from the file. Check if the lrc file is properly formatted";
+                errorMsg = ctx.getString(R.string.could_not_parse_any_lyrics_message);
                 return false;
             }
 
@@ -135,11 +138,11 @@ public class LyricReader {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            errorMsg = "Oops! File not found! \n" + e.getMessage();
+            errorMsg = "Oops! " + ctx.getString(R.string.file_not_found_message) + "\n" + e.getMessage();
             return false;
         } catch (IOException e) {
             e.printStackTrace();
-            errorMsg = "Oops! An error occurred while reading! \n" + e.getMessage();
+            errorMsg = "Oops! " + ctx.getString(R.string.error_occurred_when_reading_message) + "\n" + e.getMessage();
             return false;
         }
 

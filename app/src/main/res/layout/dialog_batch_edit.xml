@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:gravity="center"
-            android:text="@string/batch_edit_default_timetext"
+            android:text="+00:00.00"
             android:textSize="@dimen/sp18" />
 
         <ImageButton

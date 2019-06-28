@@ -84,6 +84,19 @@ public class FinalizeActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        saveLocation = preferences.getString("saveLocation", Constants.defaultLocation);
+        String uriString = preferences.getString("saveUri", null);
+        if (uriString != null)
+            saveUri = Uri.parse(uriString);
+
+        if (dialogView != null) {
+            ((TextView) dialogView.findViewById(R.id.save_location_display)).setText(getString(R.string.save_location_displayer, saveLocation));
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         preferences = getSharedPreferences("LRC Editor Preferences", MODE_PRIVATE);
         String theme = preferences.getString("current_theme", "light");
@@ -153,30 +166,17 @@ public class FinalizeActivity extends AppCompatActivity {
                 if (composerName.getText().toString().isEmpty())
                     composerName.setText(mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_COMPOSER));
             } catch (RuntimeException e) {
-                Toast.makeText(this, "Failed to extract media metadata", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.failed_to_extract_metadata_message), Toast.LENGTH_LONG).show();
             }
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        saveLocation = preferences.getString("saveLocation", Constants.defaultLocation);
-        String uriString = preferences.getString("saveUri", null);
-        if (uriString != null)
-            saveUri = Uri.parse(uriString);
-
-        if (dialogView != null) {
-            ((TextView) dialogView.findViewById(R.id.save_location_display)).setText(getString(R.string.save_location_displayer, saveLocation));
         }
     }
 
     public void displaySaveDialog(View view) {
         if (!isExternalStorageWritable()) {
-            Toast.makeText(this, "ERROR: Storage unavailable/busy", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.storage_unavailable_message), Toast.LENGTH_LONG).show();
             return;
         } else if (threadIsExecuting) {
-            Toast.makeText(this, "Another operation is running. Please wait until it completes", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.another_operation_wait_message), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -188,7 +188,7 @@ public class FinalizeActivity extends AppCompatActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !grantPermission()) { /* Marshmallow onwards require runtime permissions */
             statusTextView.setTextColor(Color.parseColor(Constants.ERROR_COLOR));
-            statusTextView.setText(getString(R.string.no_perm_to_write_text));
+            statusTextView.setText(getString(R.string.no_permission_to_write_text));
 
             copyError = findViewById(R.id.copy_error_button);
             copyError.setVisibility(View.VISIBLE);
@@ -222,7 +222,7 @@ public class FinalizeActivity extends AppCompatActivity {
 
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setView(dialogView)
-                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.save), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -230,7 +230,7 @@ public class FinalizeActivity extends AppCompatActivity {
                         saveLyricsFile(editText.getText().toString());
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         statusTextView.setVisibility(View.GONE);
@@ -259,11 +259,10 @@ public class FinalizeActivity extends AppCompatActivity {
             if (f.exists()) {
                 final String finalFileName = fileName;
                 new AlertDialog.Builder(this)
-                        .setTitle("Warning")
-                        .setMessage("File '" + fileName + ".lrc' already exists in " + saveLocation + ". " +
-                                "Are you sure you want to overwrite it?")
+                        .setTitle(getString(R.string.warning))
+                        .setMessage(getString(R.string.overwrite_prompt, fileName, saveLocation))
                         .setCancelable(false)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 new Thread(new Runnable() {
@@ -271,18 +270,18 @@ public class FinalizeActivity extends AppCompatActivity {
                                     public void run() {
                                         threadIsExecuting = true;
 
-                                        setStatusOnUiThread("Attempting to overwrite previous file");
+                                        setStatusOnUiThread(getString(R.string.attempting_to_overwrite_message));
                                         if (!deletefile(finalFileName)) {
                                             overwriteFailed = true;
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    Toast.makeText(getApplicationContext(), "Failed to overwrite file; Suffix will be appended to the file name", Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(getApplicationContext(), getString(R.string.failed_to_overwrite_message), Toast.LENGTH_LONG).show();
                                                 }
                                             });
                                         }
 
-                                        setStatusOnUiThread("Writing the lyrics to the file");
+                                        setStatusOnUiThread(getString(R.string.writing_lyrics_message));
                                         writeLyrics(finalFileName);
 
                                         threadIsExecuting = false;
@@ -290,7 +289,7 @@ public class FinalizeActivity extends AppCompatActivity {
                                 }).start();
                             }
                         })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 statusTextView.setVisibility(View.GONE);
@@ -304,7 +303,7 @@ public class FinalizeActivity extends AppCompatActivity {
                     public void run() {
                         threadIsExecuting = true;
 
-                        setStatusOnUiThread("Writing the lyrics to the file");
+                        setStatusOnUiThread(getString(R.string.writing_lyrics_message));
                         writeLyrics(finalFileName);
 
                         threadIsExecuting = false;
@@ -318,7 +317,7 @@ public class FinalizeActivity extends AppCompatActivity {
                 public void run() {
                     threadIsExecuting = true;
 
-                    setStatusOnUiThread("Writing the lyrics to the file");
+                    setStatusOnUiThread(getString(R.string.writing_lyrics_message));
                     writeLyrics(finalFileName);
 
                     threadIsExecuting = false;
@@ -327,6 +326,22 @@ public class FinalizeActivity extends AppCompatActivity {
         }
 
         hideKeyboard(this);
+    }
+
+    private void setStatusOnUiThread(final String msg) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                statusTextView.setText(msg);
+            }
+        });
+    }
+
+    private boolean deletefile(String fileName) {
+        DocumentFile pickedDir = FileUtil.getPersistableDocumentFile(saveUri, saveLocation, getApplicationContext());
+
+        DocumentFile file = pickedDir.findFile(fileName + ".lrc");
+        return file != null && file.delete();
     }
 
     private void writeLyrics(final String fileName) {
@@ -360,39 +375,13 @@ public class FinalizeActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     statusTextView.setTextColor(Color.parseColor(Constants.ERROR_COLOR));
-                    statusTextView.setText(String.format(Locale.getDefault(), "Whoops! An Error Occurred!\n%s", e.getMessage()));
+                    statusTextView.setText(String.format(Locale.getDefault(), getString(R.string.whoops_error) + "\n%s", e.getMessage()));
 
                     Button copy_error = findViewById(R.id.copy_error_button);
                     copy_error.setVisibility(View.VISIBLE);
                 }
             });
         }
-    }
-
-    private void setStatusOnUiThread(final String msg) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                statusTextView.setText(msg);
-            }
-        });
-    }
-
-    private boolean deletefile(String fileName) {
-        DocumentFile pickedDir = FileUtil.getPersistableDocumentFile(saveUri, saveLocation, getApplicationContext());
-
-        DocumentFile file = pickedDir.findFile(fileName + ".lrc");
-        return file != null && file.delete();
-    }
-
-    private void saveSuccessful(String fileName) {
-        statusTextView.setTextColor(Color.parseColor(Constants.SUCCESS_COLOR));
-        if (overwriteFailed)
-            statusTextView.setText(String.format(Locale.getDefault(), "Successfully wrote the lyrics file at %s",
-                    saveLocation + "/" + fileName + "<suffix> .lrc"));
-        else
-            statusTextView.setText(String.format(Locale.getDefault(), "Successfully wrote the lyrics file at %s",
-                    saveLocation + "/" + fileName + ".lrc"));
     }
 
     private String lyricsToString() {
@@ -460,12 +449,20 @@ public class FinalizeActivity extends AppCompatActivity {
         return true;
     }
 
+    private void saveSuccessful(String fileName) {
+        statusTextView.setTextColor(Color.parseColor(Constants.SUCCESS_COLOR));
+        if (overwriteFailed)
+            statusTextView.setText(getString(R.string.save_successful, saveLocation + "/" + fileName + "<suffix> .lrc"));
+        else
+            statusTextView.setText(getString(R.string.save_successful, saveLocation + "/" + fileName + ".lrc"));
+    }
+
     private void displayDialog() {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setMessage("This app needs the storage permission for saving the lyric files");
-        dialog.setTitle("Need permissions");
+        dialog.setMessage(getString(R.string.storage_permission_prompt));
+        dialog.setTitle(getString(R.string.need_permissions));
         dialog.setCancelable(false);
-        dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        dialog.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 ActivityCompat.requestPermissions(FinalizeActivity.this,
@@ -491,7 +488,7 @@ public class FinalizeActivity extends AppCompatActivity {
                         button.performClick();
                         return;
                     } else {
-                        Toast.makeText(this, "Cannot save the file without the storage permission", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, getString(R.string.cannot_save_without_permission_message), Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -510,11 +507,11 @@ public class FinalizeActivity extends AppCompatActivity {
         if (clipboard != null) {
             clipboard.setPrimaryClip(clip);
         } else {
-            Toast.makeText(this, "Failed to fetch the System Clipboard Service!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.failed_to_fetch_clipboard_message), Toast.LENGTH_LONG).show();
             return;
         }
 
-        Toast.makeText(this, "Successfully copied the LRC file data into the System Clipboard!", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getString(R.string.copy_lrc_file_data_successful_message), Toast.LENGTH_LONG).show();
     }
 
     public void copyError(View view) {
@@ -523,11 +520,11 @@ public class FinalizeActivity extends AppCompatActivity {
         if (clipboard != null) {
             clipboard.setPrimaryClip(clip);
         } else {
-            Toast.makeText(this, "Failed to fetch the System Clipboard Service!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.failed_to_fetch_clipboard_message), Toast.LENGTH_LONG).show();
             return;
         }
 
-        Toast.makeText(this, "Successfully copied the generated error into the System Clipboard!", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getString(R.string.copy_error_successful_message), Toast.LENGTH_LONG).show();
     }
 
     public void editSaveLocation(View view) {

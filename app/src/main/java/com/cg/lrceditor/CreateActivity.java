@@ -54,7 +54,7 @@ public class CreateActivity extends AppCompatActivity {
         String data = editText.getText().toString().trim();
 
         if (data.isEmpty()) {
-            Toast.makeText(this, "You haven't typed/pasted any lyrics", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.no_lyrics_found_message), Toast.LENGTH_SHORT).show();
             return;
         }
 

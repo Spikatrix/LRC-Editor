@@ -71,6 +71,24 @@
         android:id="@+id/action_insert"
         android:orderInCategory="10"
         android:title="@string/toolbar_insert_lyrics_title"
-        app:showAsAction="never" />
+        app:showAsAction="never">
+
+        <menu>
+
+            <item
+                android:id="@+id/action_insert_before"
+                android:orderInCategory="11"
+                android:title="@string/toolbar_insert_lyrics_before_selected_title"
+                app:showAsAction="never" />
+
+            <item
+                android:id="@+id/action_insert_after"
+                android:orderInCategory="12"
+                android:title="@string/toolbar_insert_lyrics_after_selected_title"
+                app:showAsAction="never" />
+
+        </menu>
+
+    </item>
 
 </menu>

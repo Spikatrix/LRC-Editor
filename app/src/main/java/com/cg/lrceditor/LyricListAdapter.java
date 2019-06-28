@@ -32,8 +32,8 @@ public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.Lyri
 
     @Override
     public void onBindViewHolder(@NonNull LyricListItem holder, int position) {
-        String mCurrent = lyricData.get(position).getLyric();
-        holder.itemTextview.setText(mCurrent);
+        String lyric = lyricData.get(position).getLyric();
+        holder.itemTextview.setText(lyric);
 
         if (lyricData.get(position).getTimestamp() != null) {
             holder.itemTimeControls.setVisibility(View.VISIBLE);

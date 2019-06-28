@@ -16,7 +16,7 @@
         android:id="@+id/action_collapse_or_expand"
         android:icon="@drawable/ic_collapse_toolbar"
         android:orderInCategory="2"
-        android:title="@string/toolbar_collapse_or_expand_mediaplayer_title"
+        android:title="@string/toolbar_collapse_or_expand_player_title"
         app:showAsAction="ifRoom" />
 
     <item

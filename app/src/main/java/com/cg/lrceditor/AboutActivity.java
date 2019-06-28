@@ -83,8 +83,8 @@ public class AboutActivity extends AppCompatActivity {
 
         Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", getString(R.string.dev_email), null));
         intent.putExtra(Intent.EXTRA_SUBJECT, "LRC Editor Feedback");
-        intent.putExtra(Intent.EXTRA_TEXT, "Enter your feedback/bug report here\n\n" + deviceInfo);
-        startActivity(Intent.createChooser(intent, "Send Feedback:"));
+        intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.feedback_body_prompt) + deviceInfo);
+        startActivity(Intent.createChooser(intent, getString(R.string.send_feedback) + ":"));
     }
 
     public void support_us(View view) {

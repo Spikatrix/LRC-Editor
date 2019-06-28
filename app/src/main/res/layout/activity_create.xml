@@ -36,7 +36,8 @@
             android:layout_marginBottom="10dp"
             android:layout_weight=".3"
             android:gravity="center"
-            android:text="@string/paste_lyrics_prompt" />
+            android:text="@string/paste_lyrics_prompt"
+            android:textStyle="bold" />
 
         <ScrollView
             android:layout_width="match_parent"

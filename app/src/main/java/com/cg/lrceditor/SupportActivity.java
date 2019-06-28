@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -31,7 +30,6 @@ public class SupportActivity extends AppCompatActivity {
             "SKU5",
     };
 
-    private static final String TAG = "lrceditor.inappbilling";
     IabHelper mHelper;
 
     private SharedPreferences preferences;
@@ -39,13 +37,11 @@ public class SupportActivity extends AppCompatActivity {
     IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
         @Override
         public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
-            Log.d(TAG, "Inventory query complete");
-
             if (mHelper == null)
                 return;
 
             if (result.isFailure()) {
-                complain("Failed to query inventory: " + result);
+                complain(getString(R.string.failed_to_query_inventory_message) + ": " + result);
                 return;
             }
 
@@ -60,7 +56,7 @@ public class SupportActivity extends AppCompatActivity {
                 Purchase purchase = inventory.getPurchase(ITEM_SKUS[i]);
                 if (purchase != null && purchase.getPurchaseState() == 0) { //0 means purchased
                     if (!preferences.getString("lrceditor_purchased", "").equals("Y")) {
-                        Toast.makeText(ctx, "Dark themes should now be available in the settings", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ctx, getString(R.string.dark_themes_available_message), Toast.LENGTH_LONG).show();
                     }
 
                     SharedPreferences.Editor editor = preferences.edit();
@@ -87,20 +83,20 @@ public class SupportActivity extends AppCompatActivity {
             }
 
             if (result.isFailure()) {
-                complain("Failed to complete the purchase: " + result);
+                complain(getString(R.string.failed_to_complete_purchase_message) + ": " + result);
             } else {
                 for (String SKU : ITEM_SKUS) {
                     if (purchase.getSku().equals(SKU)) {
                         new AlertDialog.Builder(ctx)
-                                .setTitle("Purchase Successful")
-                                .setMessage("Thank you so much for the purchase! Dark themes are now available in the settings")
-                                .setNeutralButton("OK", null)
+                                .setTitle(getString(R.string.purchase_successful))
+                                .setMessage(getString(R.string.thank_you_for_the_purchase_message))
+                                .setNeutralButton(getString(R.string.ok), null)
                                 .create()
                                 .show();
                         try {
                             mHelper.queryInventoryAsync(true, Arrays.asList(ITEM_SKUS), null, mGotInventoryListener);
                         } catch (IabHelper.IabAsyncInProgressException e) {
-                            complain("Failed to query purchases:Finish:IabAsyncInProgress");
+                            complain(getString(R.string.failed_to_query_purchase_message) + ":Finish:IabAsyncInProgress");
                             e.printStackTrace();
                         }
                         break;
@@ -109,6 +105,7 @@ public class SupportActivity extends AppCompatActivity {
             }
         }
     };
+
     private boolean isDarkTheme = false;
 
     @Override
@@ -153,19 +150,17 @@ public class SupportActivity extends AppCompatActivity {
             @Override
             public void onIabSetupFinished(IabResult result) {
                 if (!result.isSuccess()) {
-                    complain("In-app Billing setup failed: " + result);
+                    complain(getString(R.string.iap_setup_failed_message) + ": " + result);
                     return;
                 }
 
                 if (mHelper == null)
                     return;
 
-                Log.d(TAG, "In-app Billing is set up OK");
-
                 try {
                     mHelper.queryInventoryAsync(true, Arrays.asList(ITEM_SKUS), null, mGotInventoryListener);
                 } catch (IabHelper.IabAsyncInProgressException e) {
-                    complain("Failed to query purchases:Setup:IabAsyncInProgress");
+                    complain(getString(R.string.failed_to_query_purchase_message) + ":Setup:IabAsyncInProgress");
                     e.printStackTrace();
                 }
             }
@@ -217,7 +212,7 @@ public class SupportActivity extends AppCompatActivity {
         } catch (IabHelper.IabAsyncInProgressException e) {
             e.printStackTrace();
         } catch (IllegalStateException e) {
-            complain("IAPs still loading");
+            complain(getString(R.string.iaps_loading_message));
         }
     }
 
@@ -228,7 +223,7 @@ public class SupportActivity extends AppCompatActivity {
         } catch (IabHelper.IabAsyncInProgressException e) {
             e.printStackTrace();
         } catch (IllegalStateException e) {
-            complain("IAPs still loading");
+            complain(getString(R.string.iaps_loading_message));
         }
     }
 
@@ -239,7 +234,7 @@ public class SupportActivity extends AppCompatActivity {
         } catch (IabHelper.IabAsyncInProgressException e) {
             e.printStackTrace();
         } catch (IllegalStateException e) {
-            complain("IAPs still loading");
+            complain(getString(R.string.iaps_loading_message));
         }
     }
 
@@ -250,19 +245,18 @@ public class SupportActivity extends AppCompatActivity {
         } catch (IabHelper.IabAsyncInProgressException e) {
             e.printStackTrace();
         } catch (IllegalStateException e) {
-            complain("IAPs still loading");
+            complain(getString(R.string.iaps_loading_message));
         }
     }
 
     void complain(String complaint) {
-        Log.e(TAG, "Billing error: " + complaint);
         alert("Billing Error: " + complaint);
     }
 
     void alert(String message) {
         new AlertDialog.Builder(ctx)
                 .setMessage(message)
-                .setNeutralButton("OK", null)
+                .setNeutralButton(getString(R.string.ok), null)
                 .create()
                 .show();
     }
