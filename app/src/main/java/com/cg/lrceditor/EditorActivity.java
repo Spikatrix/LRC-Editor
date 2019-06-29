@@ -818,7 +818,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
         changedData = true;
 
         if (mode == -1) {
-            recyclerView.smoothScrollToPosition(selectedItemPosition - clipboard.length);
+            recyclerView.smoothScrollToPosition(selectedItemPosition);
         } else if (mode == +1) {
             recyclerView.smoothScrollToPosition(selectedItemPosition + 1);
         }
@@ -1077,7 +1077,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
         changedData = true;
 
         if (optionMode == -1) {
-            recyclerView.smoothScrollToPosition(selectedItemPosition - lyrics.length);
+            recyclerView.smoothScrollToPosition(selectedItemPosition);
         } else if (optionMode == +1) {
             recyclerView.smoothScrollToPosition(selectedItemPosition + 1);
         }
