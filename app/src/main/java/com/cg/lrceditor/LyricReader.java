@@ -29,8 +29,9 @@ public class LyricReader {
 
     private InputStream in = null;
 
-    LyricReader(String path, String fileName) {
-        file = new File(path, fileName);
+    LyricReader(String path, String fileName, Context c) {
+        this.file = new File(path, fileName);
+        this.ctx = c;
     }
 
     LyricReader(Uri uri, Context c) {

@@ -659,7 +659,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 
     @Override
     public void fileSelected(String fileLocation, String fileName) {
-        LyricReader r = new LyricReader(fileLocation, fileName);
+        LyricReader r = new LyricReader(fileLocation, fileName, this);
         if (r.getErrorMsg() != null || !r.readLyrics()) {
             Toast.makeText(this, r.getErrorMsg(), Toast.LENGTH_LONG).show();
             return;

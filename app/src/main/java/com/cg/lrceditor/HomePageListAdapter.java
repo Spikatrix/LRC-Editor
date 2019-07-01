@@ -109,7 +109,7 @@ public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapte
         new Thread(new Runnable() {
             @Override
             public void run() {
-                final LyricReader r = new LyricReader(holder.fileLocation.getText().toString(), holder.fileName.getText().toString());
+                final LyricReader r = new LyricReader(holder.fileLocation.getText().toString(), holder.fileName.getText().toString(), holder.linearLayout.getContext());
                 if (r.getErrorMsg() != null || !r.readLyrics()) {
                     view.post(new Runnable() {
                         @Override
