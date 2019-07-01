@@ -214,7 +214,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
             /* LRC File opened from elsewhere */
 
             LyricReader r = new LyricReader(intent.getData(), this);
-            if (r.getErrorMsg() != null || !r.readLyrics()) {
+            if (r.getErrorMsg() != null || !r.readLyrics()) { // TODO: Read lyrics in a seperate thread to avoid ANRs
                 Toast.makeText(this, r.getErrorMsg(), Toast.LENGTH_LONG).show();
                 finish();
                 return;
@@ -1104,7 +1104,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
                 /* `longPressed[0]` will be +1 if the '+' button is pressed */
                 /* `longPressed[0]` will be -1 if the '-' button is pressed */
                 /* `longPressed[0]` will be 0 if none of the buttons are pressed */
-                /* `batchTimeNegative[0]` will be true when the offset is negative; positive otherwise */
+                /* `batchTimeNegative[0]` will be true when the offset is negative; false otherwise */
 
                 if (longPressed[0] != 0) {
                     if (longPressed[0] == 1) {
