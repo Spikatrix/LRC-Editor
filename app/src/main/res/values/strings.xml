@@ -32,7 +32,7 @@
     <string name="no">No</string>
     <string name="lrc_editor_may_not_work_as_expected_message">LRC Editor may not work as expected; Try changing the read location from the settings</string>
     <string name="read_location_non_existent_message">Read location doesn\'t exist. Failed to create a \'Lyrics\' folder as well. Try changing the read location</string>
-    <string name="storage_unavailable_message">ERROR: Storage unavailable/busy</string>
+    <string name="storage_unavailable_message">Error: Storage unavailable/busy</string>
     <string name="storage_permission_prompt">This app needs the storage permission for reading and saving the lyric files</string>
     <string name="need_permissions">Need permissions</string>
     <string name="ok">OK</string>
@@ -44,7 +44,7 @@
     <string name="delete_failed_message">Failed to delete some/all of the selected LRC files!</string>
     <string name="delete_successful_message">Deleted the selected LRC files successfully</string>
     <string name="rename">Rename</string>
-    <string name="renaming_message">Renaming... This may take a while depending on how far the file is from the set read location</string>
+    <string name="renaming_message">Renaming... This may take a while depending on how far the file is from the set read location</string> <!-- Ellipses look weird for me (Bad kerning :p) -->
     <string name="file_name_already_exists_message">File name already exists. Prefix might be added</string>
     <string name="rename_successful_message">Renamed file successfully</string>
     <string name="rename_failed_message">Rename failed!</string>
@@ -78,6 +78,7 @@
     <string name="toolbar_insert_lyrics_after_selected_title">Insert lyrics after selected</string>
     <string name="toolbar_manually_set_timestamp_title">Manually set the timestamp</string>
     <string name="toolbar_collapse_or_expand_player_title">Expand or collapse the player</string>
+    <string name="toolbar_playback_options_title">Playback options</string>
     <string name="enter_timestamp_prompt">Enter the timestamp</string>
     <string name="modified_lyric_prompt">Enter the modified lyric:</string>
     <string name="modified_lyric_hint">Modified lyric here</string>
@@ -107,6 +108,10 @@
     <string name="go_back_warning_message">You\'ll lose your modified data if you go back. Are you sure you want to go back?</string>
     <string name="go_back">Go Back</string>
     <string name="stay_here">Stay here</string>
+    <string name="playback_speed_displayer">Speed: %1$d%%</string>
+    <string name="playback_pitch_displayer">Pitch: %1$d%%</string>
+    <string name="playback_options_unsupported_message">Playback options are supported only on Android Marshmallow (6.0) and above</string>
+    <string name="player_playback_options_title">Media player playback options</string>
 
     <string name="finalization_header">Finalization</string>
     <string name="song_name_prompt">Song name: </string>
@@ -123,7 +128,7 @@
     <string name="attempting_to_overwrite_message">Attempting to overwrite previous file</string>
     <string name="failed_to_overwrite_message">Failed to overwrite file; Suffix will be appended to the file name</string>
     <string name="writing_lyrics_message">Writing the lyrics to the file</string>
-    <string name="whoops_error">Whoops! An Error Occurred!</string>
+    <string name="whoops_error">Whoops! An error occurred!</string>
     <string name="save_successful">Successfully saved the lyrics file in %1$s</string>
     <string name="cannot_save_without_permission_message">Cannot save the file without the storage permission</string>
     <string name="failed_to_fetch_clipboard_message">Failed to fetch the System Clipboard Service!</string>

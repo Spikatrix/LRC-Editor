@@ -9,8 +9,10 @@ import android.media.AudioManager;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
@@ -52,6 +54,8 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
     private LinearLayoutManager linearLayoutManager;
     private LyricListAdapter adapter;
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     private boolean isPlaying = false;
     private boolean updateBusy = false;
     private boolean playerPrepared = false;
@@ -69,10 +73,14 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
     private LyricItem[] clipboard = null;
 
+    private MenuItem playbackOptions;
+
     private ActionModeCallback actionModeCallback;
     private ActionMode actionMode;
 
     private MediaPlayer player;
+    private float currentPlayerSpeed;
+    private float currentPlayerPitch;
 
     private Handler songTimeUpdater = new Handler();
     private SeekBar seekbar;
@@ -174,7 +182,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
                 seekbar.setProgress(player.getCurrentPosition());
             }
 
-            songTimeUpdater.postDelayed(this, 400);
+            songTimeUpdater.postDelayed(this, 100);
         }
     };
 
@@ -206,33 +214,75 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
             e.printStackTrace();
         }
 
-        ArrayList<LyricItem> lyricData;
+        swipeRefreshLayout = findViewById(R.id.swiperefresh);
+        swipeRefreshLayout.setEnabled(false);
 
-        Intent intent = getIntent();
+        recyclerView = findViewById(R.id.recyclerview);
+        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+        linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
+        final Intent intent = getIntent();
 
         if (intent.getData() != null) {
             /* LRC File opened from elsewhere */
 
-            LyricReader r = new LyricReader(intent.getData(), this);
-            if (r.getErrorMsg() != null || !r.readLyrics()) { // TODO: Read lyrics in a seperate thread to avoid ANRs
-                Toast.makeText(this, r.getErrorMsg(), Toast.LENGTH_LONG).show();
-                finish();
-                return;
-            }
+            final LyricListAdapter.ItemClickListener clickListener = this;
 
-            String[] lyrics = r.getLyrics();
-            Timestamp[] timestamps = r.getTimestamps();
-            lyricData = populateDataSet(lyrics, timestamps, false);
+            final LyricReader r = new LyricReader(intent.getData(), this);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            swipeRefreshLayout.setRefreshing(true);
+                        }
+                    });
 
-            songMetaData = r.getSongMetaData();
-            lrcFileName = FileUtil.getFileName(this, intent.getData());
+                    if (r.getErrorMsg() != null || !r.readLyrics()) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), r.getErrorMsg(), Toast.LENGTH_LONG).show();
+                                swipeRefreshLayout.setRefreshing(false);
+                                finish();
+                            }
+                        });
+                        return;
+                    }
 
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String[] lyrics = r.getLyrics();
+                            Timestamp[] timestamps = r.getTimestamps();
+                            ArrayList<LyricItem> lyricData = populateDataSet(lyrics, timestamps, false);
+
+                            songMetaData = r.getSongMetaData();
+                            lrcFileName = FileUtil.getFileName(getApplicationContext(), intent.getData());
+
+                            adapter = new LyricListAdapter(getApplicationContext(), lyricData);
+                            adapter.isDarkTheme = isDarkTheme;
+                            adapter.setClickListener(clickListener);
+                            recyclerView.setAdapter(adapter);
+
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    });
+                }
+            }).start();
         } else {
             /* New LRC file or existing opened from the homepage */
 
             String[] lyrics = intent.getStringArrayExtra("LYRICS");
             Timestamp[] timestamps = (Timestamp[]) intent.getSerializableExtra("TIMESTAMPS");
 
+            ArrayList<LyricItem> lyricData;
             if (timestamps == null) { // Will be null when CreateActivity starts EditorActivity
                 lyricData = populateDataSet(lyrics, timestamps, true);
             } else {
@@ -241,25 +291,19 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
             songMetaData = (SongMetaData) intent.getSerializableExtra("SONG METADATA");
             lrcFileName = intent.getStringExtra("LRC FILE NAME");
+
+            adapter = new LyricListAdapter(this, lyricData);
+            adapter.isDarkTheme = isDarkTheme;
+            adapter.setClickListener(this);
+            recyclerView.setAdapter(adapter);
         }
-
-        recyclerView = findViewById(R.id.recyclerview);
-        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
-        adapter = new LyricListAdapter(this, lyricData);
-        adapter.isDarkTheme = this.isDarkTheme;
-        adapter.setClickListener(this);
-        recyclerView.setAdapter(adapter);
-        linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
-                DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
 
         actionModeCallback = new ActionModeCallback();
 
         player = new MediaPlayer();
         player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        currentPlayerSpeed = 1.0f;
+        currentPlayerPitch = 1.0f;
 
         seekbar = findViewById(R.id.seekbar);
         startText = findViewById(R.id.start_time_text);
@@ -593,7 +637,8 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
     public void playPause(View view) {
         if (!playerPrepared) {
             if (view != null) {
-                Toast.makeText(this, getString(R.string.player_not_ready_message), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, getString(R.string.player_not_ready_message), Toast.LENGTH_SHORT).show();
+                selectSong(view); // Many people could not open the song picker the usual way for some odd reason
             }
             return;
         }
@@ -641,6 +686,13 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
         endText.setText(String.format(Locale.getDefault(), "%02d:%02d", endTime.getMinutes(), endTime.getSeconds()));
         seekbar.setMax(duration);
         seekbar.setProgress(player.getCurrentPosition());
+        currentPlayerPitch = currentPlayerSpeed = 1.0f;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { // Because PlaybackParams is only supported on Android 6.0 and above
+            player.setPlaybackParams(player.getPlaybackParams().setSpeed(currentPlayerSpeed).setPitch(currentPlayerPitch));
+            player.pause();
+            player.seekTo(0);
+            playbackOptions.setVisible(true);
+        }
         songFileName = FileUtil.getFileName(this, songUri);
         playerPrepared = true;
     }
@@ -1251,10 +1303,96 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
         dialog.show();
     }
 
+    private void displayPlaybackOptions() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) { // Will never happen. Added so that Android Studio will stop complaining
+            Toast.makeText(this, getString(R.string.playback_options_unsupported_message), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        View view = inflater.inflate(R.layout.dialog_playback_options, null);
+
+        final SeekBar speedSeekbar = view.findViewById(R.id.speed_seekbar);
+        final SeekBar pitchSeekbar = view.findViewById(R.id.pitch_seekbar);
+        final TextView speedDisplayer = view.findViewById(R.id.speed_textview);
+        final TextView pitchDisplayer = view.findViewById(R.id.pitch_textview);
+
+        speedSeekbar.setMax(200);
+        speedSeekbar.setProgress((int) (currentPlayerSpeed * 100));
+        pitchSeekbar.setMax(200);
+        pitchSeekbar.setProgress((int) (currentPlayerPitch * 100));
+
+        speedDisplayer.setText(getString(R.string.playback_speed_displayer, speedSeekbar.getProgress()));
+        pitchDisplayer.setText(getString(R.string.playback_pitch_displayer, pitchSeekbar.getProgress()));
+
+        speedSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean user) {
+                progress = Math.max(progress, 10);
+                progress = Math.min(progress, speedSeekbar.getMax());
+                speedDisplayer.setText(getString(R.string.playback_speed_displayer, ((progress / 10) * 10)));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { // Always true, I know, but it won't compile without it
+                    String speedText = speedDisplayer.getText().toString();
+                    int speed = Integer.valueOf(speedText.substring(speedText.indexOf(':') + 1, speedText.length() - 1).trim());
+                    player.setPlaybackParams(player.getPlaybackParams().setSpeed(speed / 100.0f));
+                    if (!isPlaying) {
+                        player.pause();
+                    }
+                    currentPlayerSpeed = speed / 100.0f;
+                }
+            }
+        });
+
+        pitchSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean user) {
+                progress = Math.max(progress, 10);
+                progress = Math.min(progress, pitchSeekbar.getMax());
+                pitchDisplayer.setText(getString(R.string.playback_pitch_displayer, ((progress / 10) * 10)));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { // Always true, I know, but it won't compile without it
+                    String pitchText = pitchDisplayer.getText().toString();
+                    int pitch = Integer.valueOf(pitchText.substring(pitchText.indexOf(':') + 1, pitchText.length() - 1).trim());
+                    player.setPlaybackParams(player.getPlaybackParams().setPitch(pitch / 100.0f));
+                    if (!isPlaying) {
+                        player.pause();
+                    }
+                    currentPlayerPitch = pitch / 100.0f;
+                }
+            }
+        });
+
+        new AlertDialog.Builder(this)
+                .setView(view)
+                .setTitle(R.string.player_playback_options_title)
+                .setNegativeButton(getString(R.string.ok), null)
+                .create()
+                .show();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_editor_activity, menu);
+        playbackOptions = menu.findItem(R.id.action_playback_options);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -1270,14 +1408,16 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
                     longPressedPos = -1;
                 }
 
-                Intent intent = new Intent(this, FinalizeActivity.class);
-                intent.putExtra("LYRIC DATA", (ArrayList<LyricItem>) adapter.lyricData);
-                intent.putExtra("SONG URI", songUri);
-                intent.putExtra("SONG METADATA", songMetaData);
-                intent.putExtra("SONG FILE NAME", songFileName);
-                intent.putExtra("LRC FILE NAME", lrcFileName);
+                if (adapter != null) {
+                    Intent intent = new Intent(this, FinalizeActivity.class);
+                    intent.putExtra("LYRIC DATA", (ArrayList<LyricItem>) adapter.lyricData);
+                    intent.putExtra("SONG URI", songUri);
+                    intent.putExtra("SONG METADATA", songMetaData);
+                    intent.putExtra("SONG FILE NAME", songFileName);
+                    intent.putExtra("LRC FILE NAME", lrcFileName);
 
-                startActivity(intent);
+                    startActivity(intent);
+                }
 
                 return true;
 
@@ -1288,6 +1428,10 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
                 Toolbar toolbar = findViewById(R.id.toolbar);
                 toolbar.getMenu().findItem(R.id.action_add).setVisible(false);
 
+                return true;
+
+            case R.id.action_playback_options:
+                displayPlaybackOptions();
                 return true;
 
             case R.id.action_collapse_or_expand:

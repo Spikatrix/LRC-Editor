@@ -369,7 +369,7 @@ public class FinalizeActivity extends AppCompatActivity {
                 }
             });
 
-        } catch (IOException | NullPointerException e) {
+        } catch (IOException | NullPointerException | IllegalArgumentException e) {
             e.printStackTrace();
             runOnUiThread(new Runnable() {
                 @Override

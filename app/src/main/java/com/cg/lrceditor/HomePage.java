@@ -658,20 +658,49 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
     }
 
     @Override
-    public void fileSelected(String fileLocation, String fileName) {
-        LyricReader r = new LyricReader(fileLocation, fileName, this);
-        if (r.getErrorMsg() != null || !r.readLyrics()) { // TODO: Read lyrics in a seperate thread to avoid ANRs
-            Toast.makeText(this, r.getErrorMsg(), Toast.LENGTH_LONG).show();
-            return;
-        }
+    public void fileSelected(String fileLocation, final String fileName) {
+        final LyricReader r = new LyricReader(fileLocation, fileName, this);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (threadIsExecuting) {
+                    showToastOnUiThread(getString(R.string.another_operation_wait_message));
+                    return;
+                }
+                threadIsExecuting = true;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(true);
+                    }
+                });
 
-        Intent intent = new Intent(this, EditorActivity.class);
-        intent.putExtra("LYRICS", r.getLyrics());
-        intent.putExtra("TIMESTAMPS", r.getTimestamps());
-        intent.putExtra("SONG METADATA", r.getSongMetaData());
-        intent.putExtra("LRC FILE NAME", fileName);
+                if (r.getErrorMsg() != null || !r.readLyrics()) {
+                    showToastOnUiThread(r.getErrorMsg());
+                } else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(getApplicationContext(), EditorActivity.class);
+                            intent.putExtra("LYRICS", r.getLyrics());
+                            intent.putExtra("TIMESTAMPS", r.getTimestamps());
+                            intent.putExtra("SONG METADATA", r.getSongMetaData());
+                            intent.putExtra("LRC FILE NAME", fileName);
 
-        startActivity(intent);
+                            startActivity(intent);
+                        }
+                    });
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                });
+                threadIsExecuting = false;
+            }
+        }).start();
     }
 
     @Override
