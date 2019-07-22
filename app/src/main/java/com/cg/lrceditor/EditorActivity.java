@@ -302,8 +302,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
         player = new MediaPlayer();
         player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        currentPlayerSpeed = 1.0f;
-        currentPlayerPitch = 1.0f;
+        currentPlayerSpeed = currentPlayerPitch = 1.0f;
 
         seekbar = findViewById(R.id.seekbar);
         startText = findViewById(R.id.start_time_text);
@@ -686,11 +685,8 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
         endText.setText(String.format(Locale.getDefault(), "%02d:%02d", endTime.getMinutes(), endTime.getSeconds()));
         seekbar.setMax(duration);
         seekbar.setProgress(player.getCurrentPosition());
-        currentPlayerPitch = currentPlayerSpeed = 1.0f;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { // Because PlaybackParams is only supported on Android 6.0 and above
-            player.setPlaybackParams(player.getPlaybackParams().setSpeed(currentPlayerSpeed).setPitch(currentPlayerPitch));
-            player.pause();
-            player.seekTo(0);
+            currentPlayerPitch = currentPlayerSpeed = 1.0f;
             playbackOptions.setVisible(true);
         }
         songFileName = FileUtil.getFileName(this, songUri);
@@ -1343,11 +1339,15 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { // Always true, I know, but it won't compile without it
                     String speedText = speedDisplayer.getText().toString();
                     int speed = Integer.valueOf(speedText.substring(speedText.indexOf(':') + 1, speedText.length() - 1).trim());
-                    player.setPlaybackParams(player.getPlaybackParams().setSpeed(speed / 100.0f));
-                    if (!isPlaying) {
-                        player.pause();
+                    try {
+                        player.setPlaybackParams(player.getPlaybackParams().setSpeed(speed / 100.0f));
+                        if (!isPlaying) {
+                            player.pause();
+                        }
+                        currentPlayerSpeed = speed / 100.0f;
+                    } catch (SecurityException e) {
+                        Toast.makeText(getApplicationContext(), getString(R.string.failed_to_set_speed_message), Toast.LENGTH_SHORT).show();
                     }
-                    currentPlayerSpeed = speed / 100.0f;
                 }
             }
         });
@@ -1370,11 +1370,15 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { // Always true, I know, but it won't compile without it
                     String pitchText = pitchDisplayer.getText().toString();
                     int pitch = Integer.valueOf(pitchText.substring(pitchText.indexOf(':') + 1, pitchText.length() - 1).trim());
-                    player.setPlaybackParams(player.getPlaybackParams().setPitch(pitch / 100.0f));
-                    if (!isPlaying) {
-                        player.pause();
+                    try {
+                        player.setPlaybackParams(player.getPlaybackParams().setPitch(pitch / 100.0f));
+                        if (!isPlaying) {
+                            player.pause();
+                        }
+                        currentPlayerPitch = pitch / 100.0f;
+                    } catch (SecurityException e) {
+                        Toast.makeText(getApplicationContext(), getString(R.string.failed_to_set_pitch_message), Toast.LENGTH_SHORT).show();
                     }
-                    currentPlayerPitch = pitch / 100.0f;
                 }
             }
         });

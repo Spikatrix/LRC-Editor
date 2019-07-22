@@ -112,6 +112,8 @@
     <string name="playback_pitch_displayer">Pitch: %1$d%%</string>
     <string name="playback_options_unsupported_message">Playback options are supported only on Android Marshmallow (6.0) and above</string>
     <string name="player_playback_options_title">Media player playback options</string>
+    <string name="failed_to_set_speed_message">Failed to set the speed of the player</string>
+    <string name="failed_to_set_pitch_message">Failed to set the pitch of the player</string>
 
     <string name="finalization_header">Finalization</string>
     <string name="song_name_prompt">Song name: </string>

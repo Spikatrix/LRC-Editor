@@ -45,7 +45,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp24"
-            android:layout_marginRight="@dimen/dp24" />
+            android:layout_marginRight="@dimen/dp24"
+            android:layout_marginBottom="@dimen/dp14" />
 
 
     </LinearLayout>
