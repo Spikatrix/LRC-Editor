@@ -349,8 +349,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
     /* Creates/Clears the adapter of the recyclerview */
     private void updateRecyclerviewAdapter() {
         if (adapter == null) {
-            adapter = new HomePageListAdapter(this);
-            adapter.isDarkTheme = isDarkTheme;
+            adapter = new HomePageListAdapter(this, isDarkTheme);
             recyclerView.setAdapter(adapter);
             adapter.setClickListener(this);
         } else {

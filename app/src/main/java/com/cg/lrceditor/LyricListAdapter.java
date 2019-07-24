@@ -18,15 +18,16 @@ import java.util.List;
 public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.LyricListItem> {
     public final List<LyricItem> lyricData;
 
-    public boolean isDarkTheme = false;
+    private boolean isDarkTheme;
 
     private LayoutInflater inflater;
     private SparseBooleanArray flashItems;
     private ItemClickListener clickListener;
 
-    LyricListAdapter(Context context, List<LyricItem> lyricData) {
+    LyricListAdapter(Context context, List<LyricItem> lyricData, boolean isDarkTheme) {
         inflater = LayoutInflater.from(context);
         this.lyricData = lyricData;
+        this.isDarkTheme = isDarkTheme;
         flashItems = new SparseBooleanArray();
     }
 

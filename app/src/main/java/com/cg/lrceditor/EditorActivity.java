@@ -2,6 +2,7 @@ package com.cg.lrceditor;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -232,6 +233,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
             /* LRC File opened from elsewhere */
 
             final LyricListAdapter.ItemClickListener clickListener = this;
+            final Context ctx = this;
 
             final LyricReader r = new LyricReader(intent.getData(), this);
             new Thread(new Runnable() {
@@ -248,7 +250,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(getApplicationContext(), r.getErrorMsg(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(ctx, r.getErrorMsg(), Toast.LENGTH_LONG).show();
                                 swipeRefreshLayout.setRefreshing(false);
                                 finish();
                             }
@@ -264,10 +266,9 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
                             ArrayList<LyricItem> lyricData = populateDataSet(lyrics, timestamps, false);
 
                             songMetaData = r.getSongMetaData();
-                            lrcFileName = FileUtil.getFileName(getApplicationContext(), intent.getData());
+                            lrcFileName = FileUtil.getFileName(ctx, intent.getData());
 
-                            adapter = new LyricListAdapter(getApplicationContext(), lyricData);
-                            adapter.isDarkTheme = isDarkTheme;
+                            adapter = new LyricListAdapter(ctx, lyricData, isDarkTheme);
                             adapter.setClickListener(clickListener);
                             recyclerView.setAdapter(adapter);
 
@@ -292,8 +293,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
             songMetaData = (SongMetaData) intent.getSerializableExtra("SONG METADATA");
             lrcFileName = intent.getStringExtra("LRC FILE NAME");
 
-            adapter = new LyricListAdapter(this, lyricData);
-            adapter.isDarkTheme = isDarkTheme;
+            adapter = new LyricListAdapter(this, lyricData, isDarkTheme);
             adapter.setClickListener(this);
             recyclerView.setAdapter(adapter);
         }

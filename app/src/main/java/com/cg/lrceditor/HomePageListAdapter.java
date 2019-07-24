@@ -25,14 +25,14 @@ public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapte
 
     private LayoutInflater inflater;
 
-    public boolean isDarkTheme = false;
+    private boolean isDarkTheme;
 
     private LyricFileSelectListener clickListener;
 
-
-    public HomePageListAdapter(Context context) {
+    public HomePageListAdapter(Context context, boolean isDarkTheme) {
         inflater = LayoutInflater.from(context);
         this.listData = new ArrayList<>();
+        this.isDarkTheme = isDarkTheme;
         this.backupListData = new ArrayList<>();
     }
 
