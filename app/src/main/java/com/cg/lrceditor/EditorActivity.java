@@ -364,6 +364,8 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
             Toast.makeText(this, getString(R.string.large_timestamp_unsupported_message), Toast.LENGTH_SHORT).show();
         }
 
+        recyclerView.smoothScrollToPosition(position + 1);
+
         Timestamp timestamp = adapter.lyricData.get(position).getTimestamp();
         if (timestamp == null) {
             adapter.lyricData.get(position).setTimestamp(new Timestamp(pos));
@@ -374,7 +376,6 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
         changedData = true;
 
         adapter.notifyItemChanged(position);
-        recyclerView.smoothScrollToPosition(position + 1);
     }
 
     @Override
