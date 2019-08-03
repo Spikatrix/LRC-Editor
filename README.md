@@ -15,3 +15,8 @@ In case you'd like to fork this project, you must
  3. State the changes
 
 Contributions and translations welcome ツ
+
+<hr>
+
+A big thank you to all the translators:
+ - Portuguese (Brazil) (pt-rBR) by Ayrtown Karlos
