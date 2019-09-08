@@ -73,21 +73,28 @@ public class LyricReader {
             List<String> timestamps = new ArrayList<>();
             int count, extras = 0;
             int offset = 0;
+            int invalidTimestamps = 0;
 
             /* Loop over each line of `contents` */
             for (String line : contents.toString().split("\\n")) {
                 count = 0;
                 extras = 0;
+                invalidTimestamps = 0;
                 /* Loop to find multiple timestamps in a single line (Condensed LRC format) */
                 while (true) {
                     /* `count` keeps track of the number of timestamps and `extras` keeps track of three digit milliseconds in a timestamp */
                     temp = line.substring(count * 10 + extras);
 
                     if (temp.matches("^(\\[\\d\\d[:.]\\d\\d[:.]\\d\\d\\d?]).*$")) {
-                        if (temp.charAt(9) != ']')
-                            extras++;
-                        timestamps.add(temp.substring(1, 9));
                         count++;
+                        if (temp.charAt(4) - '0' >= 6) { // Invalid timestamp; seconds is >= 60; ignore it
+                            invalidTimestamps++;
+                            continue;
+                        }
+                        if (temp.charAt(9) != ']') {
+                            extras++;
+                        }
+                        timestamps.add(temp.substring(1, 9));
                     } else if (songMetaData.getSongName().isEmpty() && temp.matches("^\\[ti:.*]$")) {
                         songMetaData.setSongName(temp.substring(4, temp.length() - 1).trim());
                         break;
@@ -111,6 +118,8 @@ public class LyricReader {
 
                 if (temp.trim().isEmpty())
                     temp = " ";
+
+                count -= invalidTimestamps;
 
                 for (int i = 0; i < count; i++) {
                     lyrics.add(temp);

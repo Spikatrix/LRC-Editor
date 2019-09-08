@@ -61,6 +61,12 @@ public class Timestamp implements Serializable {
         setTime(min(milliseconds, MAX_TIMESTAMP_VALUE));
     }
 
+    Timestamp(Timestamp timestamp) {
+        this.minutes = timestamp.minutes;
+        this.seconds = timestamp.seconds;
+        this.milliseconds = timestamp.milliseconds;
+    }
+
     public void alterTimestamp(long milliseconds) {
         long newTime = toMilliseconds() + milliseconds;
 

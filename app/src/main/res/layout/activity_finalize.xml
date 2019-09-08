@@ -59,7 +59,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/dp15"
-                    android:layout_weight=".6"
+                    android:layout_weight=".56"
                     android:hint="@string/song_name_hint"
                     android:inputType="text"
                     android:maxLines="1" />
@@ -83,7 +83,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/dp15"
-                    android:layout_weight=".6"
+                    android:layout_weight=".56"
                     android:hint="@string/album_name_hint"
                     android:inputType="text"
                     android:maxLines="1" />
@@ -107,7 +107,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/dp15"
-                    android:layout_weight=".6"
+                    android:layout_weight=".56"
                     android:hint="@string/artist_name_hint"
                     android:inputType="text"
                     android:maxLines="1" />
@@ -131,7 +131,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/dp15"
-                    android:layout_weight=".6"
+                    android:layout_weight=".56"
                     android:hint="@string/composer_name_hint"
                     android:inputType="text"
                     android:maxLines="1" />

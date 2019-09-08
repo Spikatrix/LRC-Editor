@@ -209,8 +209,8 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
             public void run() {
                 if (actionMode != null) {
                     actionMode.finish();
-                    actionMode = null;
                 }
+                actionMode = null;
 
                 toolbar.collapseActionView();
             }
@@ -534,8 +534,8 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
                         // with selections while it is hidden behind the contextual menu bar
                         adapter.clearSelections();
                         actionMode.finish();
-                        actionMode = null;
                     }
+                    actionMode = null;
 
                     adapter.getFilter().filter(s);
                     return true;
@@ -731,8 +731,8 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
         if (count == 0) {
             if (actionMode != null) {
                 actionMode.finish();
-                actionMode = null;
             }
+            actionMode = null;
         } else {
             Menu menu = actionMode.getMenu();
             MenuItem itemRename = menu.findItem(R.id.action_rename_homepage);
@@ -887,13 +887,9 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
                                     @Override
                                     public void run() {
                                         if (actionMode != null) {
-                                            try {
-                                                actionMode.finish();
-                                            } catch (NullPointerException e) {
-                                                e.printStackTrace();
-                                            }
-                                            actionMode = null;
+                                            actionMode.finish();
                                         }
+                                        actionMode = null;
                                     }
                                 });
 

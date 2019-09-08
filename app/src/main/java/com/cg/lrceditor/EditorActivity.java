@@ -9,6 +9,8 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
+import android.media.session.MediaSession;
+import android.media.session.PlaybackState;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -80,6 +82,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
     private ActionMode actionMode;
 
     private MediaPlayer player;
+    private MediaSession mediaSession;
     private float currentPlayerSpeed;
     private float currentPlayerPitch;
 
@@ -101,33 +104,31 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
         @Override
         public void run() {
             if (!isPlaying) {
-                flasher.postDelayed(this, 50);
+                flasher.postDelayed(this, 30);
                 return;
             }
 
-            int time = player.getCurrentPosition();
             int first = linearLayoutManager.findFirstVisibleItemPosition();
             int last = linearLayoutManager.findLastVisibleItemPosition();
 
-            int pos = first;
             if (first == -1 || last == -1) {
-                flasher.postDelayed(this, 50);
+                flasher.postDelayed(this, 30);
                 return;
             }
 
             SparseBooleanArray s = adapter.getFlashingItems();
-            while (pos <= last) {
-                Timestamp timestamp;
+            Timestamp timestamp;
+            for (int pos = first; pos <= last; pos++) {
                 try {
                     timestamp = adapter.lyricData.get(pos).getTimestamp();
                 } catch (IndexOutOfBoundsException ignored) {
-                    pos++;
                     continue;
                 }
                 if (timestamp == null) {
-                    pos++;
                     continue;
                 }
+
+                int time = player.getCurrentPosition();
                 long currTime = timestamp.toMilliseconds();
                 long diff = time - currTime;
                 if (diff <= 100 && diff >= 0 && s.indexOfKey(pos) < 0) {
@@ -135,7 +136,6 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
                     adapter.startFlash(pos);
                     flasher.postDelayed(new stopFlash(pos), 450);
                 }
-                pos++;
             }
 
             flasher.postDelayed(this, 30);
@@ -230,7 +230,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
         final Intent intent = getIntent();
 
         if (intent.getData() != null) {
-            /* LRC File opened from elsewhere */
+            /* LRC File opened externally */
 
             final LyricListAdapter.ItemClickListener clickListener = this;
             final Context ctx = this;
@@ -303,6 +303,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
         player = new MediaPlayer();
         player.setAudioStreamType(AudioManager.STREAM_MUSIC);
         currentPlayerSpeed = currentPlayerPitch = 1.0f;
+        mediaSession = null;
 
         seekbar = findViewById(R.id.seekbar);
         startText = findViewById(R.id.start_time_text);
@@ -343,12 +344,66 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
         return lyricData;
     }
 
+    private void setUpMediaSession() {
+        if (mediaSession == null) {
+            mediaSession = new MediaSession(this, "MediaSession");
+            mediaSession.setCallback(new MediaSession.Callback() {
+                @Override
+                public void onPlay() {
+                    if (!playerPrepared) {
+                        Toast.makeText(getApplicationContext(), getString(R.string.player_not_ready_message), Toast.LENGTH_SHORT).show();
+                    }
+
+                    playPause(null);
+                    super.onPlay();
+                }
+
+                @Override
+                public void onPause() {
+                    playPause(null);
+                    super.onPause();
+                }
+
+                @Override
+                public void onFastForward() {
+                    forward5(null);
+                    super.onFastForward();
+                }
+
+                @Override
+                public void onRewind() {
+                    rewind5(null);
+                    super.onRewind();
+                }
+            });
+
+            mediaSession.setFlags(MediaSession.FLAG_HANDLES_MEDIA_BUTTONS |
+                    MediaSession.FLAG_HANDLES_TRANSPORT_CONTROLS);
+
+            PlaybackState state = new PlaybackState.Builder()
+                    .setActions(PlaybackState.ACTION_PLAY)
+                    .setState(PlaybackState.STATE_STOPPED, 0, currentPlayerSpeed)
+                    .build();
+
+            mediaSession.setPlaybackState(state);
+        }
+
+        mediaSession.setActive(true);
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
+        mediaSession.setActive(false);
         if (isPlaying) {
             playPause(null);
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setUpMediaSession();
     }
 
     @Override
@@ -406,7 +461,6 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
             player.start();
             isPlaying = true;
         }
-
         seekbar.setProgress(player.getCurrentPosition());
     }
 
@@ -527,7 +581,9 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
         int count = adapter.getSelectionCount();
 
         if (count == 0) {
-            actionMode.finish();
+            if (actionMode != null) {
+                actionMode.finish();
+            }
             actionMode = null;
         } else {
             Menu menu = actionMode.getMenu();
@@ -680,7 +736,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
             return;
         }
         setPlayerTitle();
-        startText.setText("00:00.00");
+        startText.setText("00:00");
         seekTimestamp = new Timestamp(0, 0, 0);
         endTime.setMilliseconds(0);
         endText.setText(String.format(Locale.getDefault(), "%02d:%02d", endTime.getMinutes(), endTime.getSeconds()));
@@ -743,7 +799,6 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         if (seekTimestamp != null) {
             seekTimestamp.setTime(progress);
-            seekTimestamp.setMilliseconds(0);
             startText.setText(String.format(Locale.getDefault(), "%02d:%02d", seekTimestamp.getMinutes(), seekTimestamp.getSeconds()));
         }
     }
@@ -755,8 +810,9 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        if (seekTimestamp != null)
+        if (seekTimestamp != null) {
             player.seekTo((int) seekTimestamp.toMilliseconds());
+        }
         updateBusy = false;
         seekbar.setProgress(player.getCurrentPosition());
     }
@@ -837,13 +893,21 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
         List<Integer> selectedItemPositions = adapter.getSelectedItemIndices();
         for (int i = 0; i < selectedItemPositions.size(); i++) {
-            clipboard[i] = new LyricItem(adapter.lyricData.get(selectedItemPositions.get(i)).getLyric(),
-                    adapter.lyricData.get(selectedItemPositions.get(i)).getTimestamp());
+            Timestamp timestamp = adapter.lyricData.get(selectedItemPositions.get(i)).getTimestamp();
+            if (timestamp != null) {
+                clipboard[i] = new LyricItem(adapter.lyricData.get(selectedItemPositions.get(i)).getLyric(),
+                        new Timestamp(timestamp));
+            } else {
+                clipboard[i] = new LyricItem(adapter.lyricData.get(selectedItemPositions.get(i)).getLyric(),
+                        null);
+            }
         }
 
         Toast.makeText(this, getString(R.string.copied_lyrics_message), Toast.LENGTH_SHORT).show();
 
-        actionMode.finish();
+        if (actionMode != null) {
+            actionMode.finish();
+        }
         actionMode = null;
     }
 
@@ -853,14 +917,26 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
         int selectedItemPosition = adapter.getSelectedItemIndices().get(0);
         for (int i = clipboard.length - 1; i >= 0; i--) {
+            Timestamp timestamp = clipboard[i].getTimestamp();
             if (mode == -1) {        /* Paste before */
-                adapter.lyricData.add(selectedItemPosition,
-                        new LyricItem(clipboard[i].getLyric(), clipboard[i].getTimestamp()));
+                if (timestamp != null) {
+                    adapter.lyricData.add(selectedItemPosition,
+                            new LyricItem(clipboard[i].getLyric(), new Timestamp(timestamp)));
+                } else {
+                    adapter.lyricData.add(selectedItemPosition,
+                            new LyricItem(clipboard[i].getLyric(), null));
+                }
                 adapter.notifyItemInserted(selectedItemPosition);
             } else if (mode == +1) { /* Paste after */
-                adapter.lyricData.add(selectedItemPosition + 1,
-                        new LyricItem(clipboard[i].getLyric(), clipboard[i].getTimestamp()));
+                if (timestamp != null) {
+                    adapter.lyricData.add(selectedItemPosition + 1,
+                            new LyricItem(clipboard[i].getLyric(), new Timestamp(timestamp)));
+                } else {
+                    adapter.lyricData.add(selectedItemPosition + 1,
+                            new LyricItem(clipboard[i].getLyric(), null));
+                }
                 adapter.notifyItemInserted(selectedItemPosition + 1);
+
             }
         }
 
@@ -872,7 +948,9 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
             recyclerView.smoothScrollToPosition(selectedItemPosition + 1);
         }
 
-        actionMode.finish();
+        if (actionMode != null) {
+            actionMode.finish();
+        }
         actionMode = null;
     }
 
@@ -997,10 +1075,8 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
                         changedData = true;
 
-                        try {
+                        if (actionMode != null) {
                             actionMode.finish();
-                        } catch (NullPointerException e) { // Can occur when the user quickly double taps the menu item
-                            e.printStackTrace();
                         }
                         actionMode = null;
                     }
@@ -1131,7 +1207,9 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
             recyclerView.smoothScrollToPosition(selectedItemPosition + 1);
         }
 
-        actionMode.finish();
+        if (actionMode != null) {
+            actionMode.finish();
+        }
         actionMode = null;
     }
 
@@ -1285,7 +1363,10 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
                             offsetTimestamps(timestamp.toMilliseconds());
                         }
 
-                        actionMode.finish();
+                        if (actionMode != null) {
+                            actionMode.finish();
+                        }
+                        actionMode = null;
                     }
                 })
                 .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
