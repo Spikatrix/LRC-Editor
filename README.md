@@ -20,3 +20,4 @@ Contributions and translations welcome ツ
 
 A big thank you to all the translators:
  - Portuguese (Brazil) (pt-rBR) by Ayrtown Karlos
+ - Polish (pl) by Zbigniew Zienko
