@@ -6,12 +6,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +59,17 @@ public class SettingsActivity extends AppCompatActivity {
 
         saveLocation = findViewById(R.id.save_location);
         readLocation = findViewById(R.id.read_location);
+
+        Switch threeDigitMillisecondsSwitch = findViewById(R.id.three_digit_milliseconds_switch);
+        threeDigitMillisecondsSwitch.setChecked(preferences.getBoolean("three_digit_milliseconds", false));
+        threeDigitMillisecondsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putBoolean("three_digit_milliseconds", checked);
+                editor.apply();
+            }
+        });
 
         themeGroup = findViewById(R.id.theme_group);
         light = findViewById(R.id.radioButtonLight);
@@ -130,6 +144,14 @@ public class SettingsActivity extends AppCompatActivity {
             Toast.makeText(this, getString(R.string.documentsui_enable_message), Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
+    }
+
+    public void showThreeDigitMillisecondsHelp(View view) {
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.three_digit_milliseconds_help)
+                .setNeutralButton(getString(R.string.ok), null)
+                .create()
+                .show();
     }
 
     @Override

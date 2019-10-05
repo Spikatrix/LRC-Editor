@@ -60,15 +60,14 @@ public class FinalizeActivity extends AppCompatActivity {
     private String songFileName = null;
     private Uri songUri;
 
-    private boolean overwriteFailed = false;
-
     private View dialogView;
 
     private SharedPreferences preferences;
 
     private boolean isDarkTheme = false;
-
+    private boolean overwriteFailed = false;
     private boolean threadIsExecuting = false;
+    private boolean useThreeDigitMilliseconds = false;
 
     public static void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -94,6 +93,8 @@ public class FinalizeActivity extends AppCompatActivity {
         if (dialogView != null) {
             ((TextView) dialogView.findViewById(R.id.save_location_display)).setText(getString(R.string.save_location_displayer, saveLocation));
         }
+
+        useThreeDigitMilliseconds = preferences.getBoolean("three_digit_milliseconds", false);
     }
 
     @Override
@@ -350,7 +351,7 @@ public class FinalizeActivity extends AppCompatActivity {
 
         try {
             OutputStream out = getContentResolver().openOutputStream(file.getUri());
-            InputStream in = new ByteArrayInputStream(lyricsToString().getBytes(StandardCharsets.UTF_8));
+            InputStream in = new ByteArrayInputStream(lyricsToString(useThreeDigitMilliseconds).getBytes(StandardCharsets.UTF_8));
 
             byte[] buffer = new byte[1024];
             int read;
@@ -384,7 +385,7 @@ public class FinalizeActivity extends AppCompatActivity {
         }
     }
 
-    private String lyricsToString() {
+    private String lyricsToString(boolean useThreeDigitMilliseconds) {
         StringBuilder sb = new StringBuilder();
 
         String str;
@@ -413,7 +414,11 @@ public class FinalizeActivity extends AppCompatActivity {
                 if (lyric == null || lyric.equals("")) { // Some players might skip empty lyric lines
                     lyric = " ";
                 }
-                sb.append("[").append(timestamp.toString()).append("]").append(lyric).append("\n");
+                if (useThreeDigitMilliseconds) {
+                    sb.append("[").append(timestamp.toStringWithThreeDigitMilliseconds()).append("]").append(lyric).append("\n");
+                } else {
+                    sb.append("[").append(timestamp.toString()).append("]").append(lyric).append("\n");
+                }
             }
         }
 
@@ -503,7 +508,7 @@ public class FinalizeActivity extends AppCompatActivity {
 
     public void copyLrc(View view) {
         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clip = ClipData.newPlainText("Generated LRC data", lyricsToString());
+        ClipData clip = ClipData.newPlainText("Generated LRC data", lyricsToString(useThreeDigitMilliseconds));
         if (clipboard != null) {
             clipboard.setPrimaryClip(clip);
         } else {

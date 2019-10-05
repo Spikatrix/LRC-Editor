@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- There might be lint suggestions to use ellipses rather than three dots that I've used in several of the strings here -->
+    <!-- But ellipses look weird for me (Bad kerning :p) which is why I want to keep using three dots -->
+
     <string name="add_timestamp_description">Adicionar um valor de tempo</string>
     <string name="adjust">Ajustar</string>
     <string name="album_name_hint">Nome do álbum aqui</string>
@@ -172,4 +175,6 @@
     <string name="whoops_error">oops! Um erro ocorreu!</string>
     <string name="writing_lyrics_message">Escrevendo as letras do arquivo</string>
     <string name="yes">Sim</string>
+    <string name="three_digit_milliseconds_prompt">Economize com três dígitos em milissegundos</string>
+    <string name="three_digit_milliseconds_help">Salvar com milissegundos de três dígitos pode ser útil para aplicativos que esperam arquivos LRC com timestamps de três dígitos em milissegundos em vez de timestamps de dois dígitos em milissegundos</string>
 </resources>

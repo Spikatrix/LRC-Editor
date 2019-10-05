@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- There might be lint suggestions to use ellipses rather than three dots that I've used in several of the strings here -->
+    <!-- But ellipses look weird for me (Bad kerning :p) which is why I want to keep using three dots -->
+
     <string name="add_timestamp_description">Dodaj przycisk znacznika czasu</string>
     <string name="adjust">Dostosuj</string>
     <string name="album_name_hint">tutaj Nazwa albumu</string>
     <string name="album_name_prompt">Nazwa albumu:</string>
     <string name="another_operation_refresh_failed_message">Trwa kolejna operacja. Nie można odświeżyć listy</string>
     <string name="another_operation_wait_message">Trwa kolejna operacja. Poczekaj na zakończenie</string>
-    <string name="app_name">LRC Editor</string>
     <string name="artist_name_hint">Nazwa wykonawcy tutaj</string>
     <string name="artist_name_prompt">Nazwa wykonawcy:</string>
     <string name="attempting_to_overwrite_message">Próba zastąpienia poprzedniego pliku</string>
@@ -37,7 +39,6 @@
     <string name="delete_timestamps_and_lyrics_message">Usuń zarówno znaczniki czasu, jak i teksty</string>
     <string name="delete_timestamps_only_message">Usuń tylko znaczniki czasu</string>
     <string name="deleting_message">Usuwanie... Może to chwilę potrwać w zależności od odległości plików od ustawionej lokalizacji odczytu</string>
-    <string name="dev_email">cg.devworks@gmail.com</string>
     <string name="documentsui_enable_message">Czy używasz Androida 5.0+? Może włączyć DocumentsUI w ustawieniach telefonu</string>
     <string name="done">Gotowe</string>
     <string name="edit">Edycja</string>
@@ -45,7 +46,6 @@
     <string name="error">Błąd</string>
     <string name="error_occurred_when_reading_message">Wystąpił błąd podczas czytania!</string>
     <string name="expandable_button_description">Rozwijany obraz przycisku</string>
-    <string name="extra_large">♥♥♥♥</string>
     <string name="failed_to_complete_purchase_message">Nie udało się sfinalizować zakupu</string>
     <string name="failed_to_extract_metadata_message">Nie udało się wyodrębnić metadanych mediów</string>
     <string name="failed_to_fetch_adapter_message">Nie udało się pobrać adaptera podglądu kosza</string>
@@ -67,26 +67,22 @@
     <string name="file_name_prompt">Nazwa pliku do zapisania:</string>
     <string name="file_not_found_message">Brak pliku!</string>
     <string name="finalization_header">Finalizacja</string>
-    <string name="forward_5">&gt;&gt; 5</string>
     <string name="forward_description">Przycisk skok 5 sekund do przodu</string>
     <string name="github_contribution">Wnieś wkład do aplikacji: https://github.com/Spikatrix/LRC-Editor</string>
     <string name="go_back">Powrót</string>
     <string name="go_back_warning_message">Jeśli wrócisz, utracisz zmodyfikowane dane. Czy na pewno chcesz wrócić?</string>
-    <string name="huge">♥♥♥♥♥</string>
     <string name="iap_setup_failed_message">Konfiguracja rozliczeń nie powiodła się</string>
     <string name="iaps_loading_message">IAP wciąż się ładuje</string>
     <string name="increase_timestamp_description">Przycisk zwiększania sygnatury czasowej</string>
     <string name="insert">Wstaw</string>
     <string name="insert_lyrics_prompt">Wpisz tekst do wstawienia:\n</string>
     <string name="invalid_time">Nieprawidłowy czas</string>
-    <string name="large">♥♥♥</string>
     <string name="large_timestamp_unsupported_message">Znaczniki czasu większe niż 99:59:999 są obecnie nieobsługiwane</string>
     <string name="light">Jasny</string>
     <string name="loading">Wczytywanie</string>
     <string name="loading_lyrics">Ładowanie tekstu...</string>
     <string name="lrc_editor_may_not_work_as_expected_message">LRC Edytor może nie działać zgodnie z oczekiwaniami; Spróbuj zmienić lokalizację odczytu w ustawieniach</string>
     <string name="made_with_love_and_code_text">\nWykonane z ♥\n(i dużo kodu :p)\n</string>
-    <string name="medium">♥♥</string>
     <string name="modified_lyric_hint">tutaj Zmodyfikowany tekst</string>
     <string name="modified_lyric_prompt">Wprowadź zmodyfikowany tekst:</string>
     <string name="modify">Zmień</string>
@@ -111,7 +107,6 @@
     <string name="player_not_ready_message">Odtwarzacz nie jest gotowy</string>
     <string name="player_playback_options_title">Opcje odtwarzania odtwarzacza</string>
     <string name="preparing_the_player_message">Przygotowanie odtwarzacza...</string>
-    <string name="previous_5">5 &lt;&lt;</string>
     <string name="previous_description">Przycisk skok 5 sekund do tyłu</string>
     <string name="processing">Przetwarzanie</string>
     <string name="purchase_successful">Zakup pomyślnie zakończony</string>
@@ -140,7 +135,6 @@
     <string name="set_as_lrc_file_name">Ustaw jako nazwę pliku LRC</string>
     <string name="set_as_song_file_name">Ustaw jako nazwę pliku utworu</string>
     <string name="setting_up_player_message">Konfigurowanie odtwarzacza...</string>
-    <string name="small">♥</string>
     <string name="song_name_hint">tutaj Nazwa utworu</string>
     <string name="song_name_prompt">Nazwa piosenki:</string>
     <string name="stay_here">Zostań tutaj</string>
@@ -181,4 +175,6 @@
     <string name="whoops_error">Ups! Wystąpił błąd!</string>
     <string name="writing_lyrics_message">Zapisywanie tekstów do pliku</string>
     <string name="yes">Tak</string>
+    <string name="three_digit_milliseconds_prompt">Oszczędzaj dzięki trzycyfrowym milisekundom</string>
+    <string name="three_digit_milliseconds_help">Zapisywanie z trzycyfrowymi milisekundami może być przydatne w aplikacjach, które oczekują plików LRC z trzycyfrowymi milisekundowymi znacznikami czasu, a nie dwucyfrowymi milisekundowymi znacznikami czasu</string>
 </resources>

@@ -51,7 +51,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private String currentTheme = "light";
+    private String currentTheme;
 
     private Toolbar toolbar;
     private MenuItem refreshItem;
@@ -67,13 +67,12 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
     protected void onCreate(Bundle savedInstanceState) {
         preferences = getSharedPreferences("LRC Editor Preferences", MODE_PRIVATE);
         String theme = preferences.getString("current_theme", "light");
+        currentTheme = theme;
         if (theme.equals("dark")) {
             isDarkTheme = true;
-            currentTheme = "dark";
             setTheme(R.style.AppThemeDark);
         } else if (theme.equals("darker")) {
             isDarkTheme = true;
-            currentTheme = "darker";
             setTheme(R.style.AppThemeDarker);
         }
 

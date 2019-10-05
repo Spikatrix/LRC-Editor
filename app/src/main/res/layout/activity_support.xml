@@ -66,7 +66,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight=".3"
                     android:gravity="center"
-                    android:text="@string/small" />
+                    android:text="♥" />
 
                 <Button
                     android:id="@+id/one"
@@ -89,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight=".3"
                     android:gravity="center"
-                    android:text="@string/medium" />
+                    android:text="♥♥" />
 
                 <Button
                     android:id="@+id/two"
@@ -112,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight=".3"
                     android:gravity="center"
-                    android:text="@string/large" />
+                    android:text="♥♥♥" />
 
                 <Button
                     android:id="@+id/three"
@@ -135,7 +135,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight=".3"
                     android:gravity="center"
-                    android:text="@string/extra_large" />
+                    android:text="♥♥♥♥" />
 
                 <Button
                     android:id="@+id/four"
@@ -159,7 +159,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight=".3"
                     android:gravity="center"
-                    android:text="@string/huge" />
+                    android:text="♥♥♥♥♥" />
 
                 <Button
                     android:id="@+id/five"

@@ -1,4 +1,7 @@
 <resources>
+    <!-- There might be lint suggestions to use ellipses rather than three dots that I've used in several of the strings here -->
+    <!-- But ellipses look weird for me (Bad kerning :p) which is why I want to keep using three dots -->
+
     <string name="app_name" translatable="false">LRC Editor</string>
 
     <string name="thats_a_miss">That\'s-a-miss\nNo lyric files found</string>
@@ -12,7 +15,7 @@
     <string name="new_file_name_prompt">Enter the new file name:</string>
     <string name="new_file_name_hint">New file name here</string>
     <string name="edit">Edit</string>
-    <string name="loading_lyrics">Loading lyrics...</string> <!-- Ellipses look weird for me (Bad kerning :p) -->
+    <string name="loading_lyrics">Loading lyrics...</string>
     <string name="expandable_button_description">Expandable button image</string>
     <string name="another_operation_wait_message">Another operation is running. Please wait until it completes</string>
     <string name="another_operation_refresh_failed_message">Another operation is running. Couldn\'t refresh the list</string>
@@ -40,11 +43,11 @@
     <string name="failed_to_initialize_search_message">Failed to initialize the search menu item</string>
     <string name="confirmation">Confirmation</string>
     <string name="delete_confirmation">Are you sure you want to delete the selected LRC files?</string>
-    <string name="deleting_message">Deleting... This may take a while depending on how far the file(s) are from the set read location</string> <!-- Ellipses look weird for me (Bad kerning :p) -->
+    <string name="deleting_message">Deleting... This may take a while depending on how far the file(s) are from the set read location</string>
     <string name="delete_failed_message">Failed to delete some/all of the selected LRC files!</string>
     <string name="delete_successful_message">Deleted the selected LRC files successfully</string>
     <string name="rename">Rename</string>
-    <string name="renaming_message">Renaming... This may take a while depending on how far the file is from the set read location</string> <!-- Ellipses look weird for me (Bad kerning :p) -->
+    <string name="renaming_message">Renaming... This may take a while depending on how far the file is from the set read location</string>
     <string name="file_name_already_exists_message">File name already exists. Prefix might be added</string>
     <string name="rename_successful_message">Renamed file successfully</string>
     <string name="rename_failed_message">Rename failed!</string>
@@ -56,8 +59,8 @@
     <string name="done">Done</string>
 
     <string name="tap_to_select_song_prompt">Tap here to select a song</string>
-    <string name="setting_up_player_message">Setting up the player...</string> <!-- Ellipses look weird for me (Bad kerning :p) -->
-    <string name="preparing_the_player_message">Preparing the player...</string> <!-- Ellipses look weird for me (Bad kerning :p) -->
+    <string name="setting_up_player_message">Setting up the player...</string>
+    <string name="preparing_the_player_message">Preparing the player...</string>
     <string name="title_error_text">An unexpected error occurred trying to set the title</string>
     <string name="previous_5" translatable="false"><![CDATA[5 <<]]></string>
     <string name="previous_description">Button to seek 5 seconds behind</string>
@@ -164,16 +167,13 @@
     <string name="darker">Darker</string>
     <string name="unexpected_error_message">An unexpected error occurred</string>
     <string name="restart_for_theme_message">Restart the app if the theme does not apply</string>
+    <string name="three_digit_milliseconds_prompt">Save with three digit milliseconds</string>
+    <string name="three_digit_milliseconds_help">Saving with three digit milliseconds might be useful for applications that expect LRC files with three digit millisecond timestamps rather than two digit millisecond timestamps</string>
     <string name="failed_to_open_directory_picker_message">Couldn\'t open the directory picker!</string>
     <string name="documentsui_enable_message">Are you running Android 5.0+? Maybe enable DocumentsUI from your phone settings</string>
 
     <string name="support_description">You can pay what you want to support me. Your support helps me to grow bigger and better than ever</string>
     <string name="support_bonus_description">As a bonus, once you make a purchase, you\'ll get access to the two dark themes of the app!</string>
-    <string name="small" translatable="false">♥</string>
-    <string name="medium" translatable="false">♥♥</string>
-    <string name="large" translatable="false">♥♥♥</string>
-    <string name="extra_large" translatable="false">♥♥♥♥</string>
-    <string name="huge" translatable="false">♥♥♥♥♥</string>
     <string name="thanks_for_the_support">Thank you for supporting!\n♥</string>
     <string name="loading">Loading</string>
     <string name="error">Error</string>

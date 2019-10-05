@@ -126,6 +126,10 @@ public class Timestamp implements Serializable {
         setMilliseconds(milliseconds - getSecondsInMilliseconds() - getMinutesInMilliseconds());
     }
 
+    public String toStringWithThreeDigitMilliseconds() {
+        return String.format(Locale.getDefault(), "%02d:%02d.%03d", this.minutes, this.seconds, this.milliseconds);
+    }
+
     @Override
     public String toString() {
         String str = String.format(Locale.getDefault(), "%02d:%02d.%03d", this.minutes, this.seconds, this.milliseconds);
