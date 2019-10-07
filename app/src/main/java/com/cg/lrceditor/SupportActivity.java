@@ -4,13 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.cg.lrceditor.IAP.IabHelper;
 import com.cg.lrceditor.IAP.IabResult;
@@ -33,7 +34,8 @@ public class SupportActivity extends AppCompatActivity {
     IabHelper mHelper;
 
     private SharedPreferences preferences;
-
+    private Button[] purchaseButtons = new Button[5];
+    private Context ctx;
     IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
         @Override
         public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
@@ -70,10 +72,6 @@ public class SupportActivity extends AppCompatActivity {
             }
         }
     };
-
-    private Button[] purchaseButtons = new Button[5];
-
-    private Context ctx;
     IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
         @Override
         public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
