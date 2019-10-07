@@ -58,7 +58,6 @@ public class FinalizeActivity extends AppCompatActivity {
 
     private String lrcFileName = null;
     private String songFileName = null;
-    private Uri songUri;
 
     private View dialogView;
 
@@ -115,7 +114,7 @@ public class FinalizeActivity extends AppCompatActivity {
         Intent intent = getIntent();
         lyricData = (ArrayList<LyricItem>) intent.getSerializableExtra("LYRIC DATA");
         SongMetaData songMetaData = (SongMetaData) intent.getSerializableExtra("SONG METADATA");
-        songUri = intent.getParcelableExtra("SONG URI");
+        Uri songUri = intent.getParcelableExtra("SONG URI");
         lrcFileName = intent.getStringExtra("LRC FILE NAME");
         songFileName = intent.getStringExtra("SONG FILE NAME");
 
@@ -539,10 +538,9 @@ public class FinalizeActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
         }
 
         return (super.onOptionsItemSelected(item));

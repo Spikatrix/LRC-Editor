@@ -71,9 +71,9 @@ public class LyricReader {
 
             List<String> lyrics = new ArrayList<>();
             List<String> timestamps = new ArrayList<>();
-            int count, extras = 0;
+            int count, extras;
             int offset = 0;
-            int invalidTimestamps = 0;
+            int invalidTimestamps;
 
             /* Loop over each line of `contents` */
             for (String line : contents.toString().split("\\n")) {
@@ -95,25 +95,28 @@ public class LyricReader {
                             extras++;
                         }
                         timestamps.add(temp.substring(1, 9));
-                    } else if (songMetaData.getSongName().isEmpty() && temp.matches("^\\[ti:.*]$")) {
-                        songMetaData.setSongName(temp.substring(4, temp.length() - 1).trim());
-                        break;
-                    } else if (songMetaData.getArtistName().isEmpty() && temp.matches("^\\[ar:.*]$")) {
-                        songMetaData.setArtistName(temp.substring(4, temp.length() - 1).trim());
-                        break;
-                    } else if (songMetaData.getAlbumName().isEmpty() && temp.matches("^\\[al:.*]$")) {
-                        songMetaData.setAlbumName(temp.substring(4, temp.length() - 1).trim());
-                        break;
-                    } else if (songMetaData.getComposerName().isEmpty() && temp.matches("^\\[au:.*]$")) {
-                        songMetaData.setComposerName(temp.substring(4, temp.length() - 1).trim());
-                        break;
-                    } else if (offset == 0 && temp.matches("^\\[offset:.*]$")) {
-                        try {
-                            offset = Integer.parseInt(temp.substring(8, temp.length() - 1).trim());
-                        } catch (NumberFormatException e) { // Ignore the offset if we couldn't scan it
-                            e.printStackTrace();
-                        }
-                    } else break;
+                    } else {
+                        String trim = temp.substring(4, temp.length() - 1).trim();
+                        if (songMetaData.getSongName().isEmpty() && temp.matches("^\\[ti:.*]$")) {
+                            songMetaData.setSongName(trim);
+                            break;
+                        } else if (songMetaData.getArtistName().isEmpty() && temp.matches("^\\[ar:.*]$")) {
+                            songMetaData.setArtistName(trim);
+                            break;
+                        } else if (songMetaData.getAlbumName().isEmpty() && temp.matches("^\\[al:.*]$")) {
+                            songMetaData.setAlbumName(trim);
+                            break;
+                        } else if (songMetaData.getComposerName().isEmpty() && temp.matches("^\\[au:.*]$")) {
+                            songMetaData.setComposerName(trim);
+                            break;
+                        } else if (offset == 0 && temp.matches("^\\[offset:.*]$")) {
+                            try {
+                                offset = Integer.parseInt(temp.substring(8, temp.length() - 1).trim());
+                            } catch (NumberFormatException e) { // Ignore the offset if we couldn't scan it
+                                e.printStackTrace();
+                            }
+                        } else break;
+                    }
                 }
 
                 if (temp.trim().isEmpty())

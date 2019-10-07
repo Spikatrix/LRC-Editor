@@ -275,7 +275,7 @@ public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapte
 
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                ArrayList<HomePageListItem> filteredResults = null;
+                ArrayList<HomePageListItem> filteredResults;
                 if (constraint.length() == 0) {
                     filteredResults = backupListData;
                 } else {
@@ -315,7 +315,6 @@ public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapte
 
         private final TextView fileName;
         private final TextView fileLocation;
-        private Button editButton;
         private ImageView expandableButton;
 
         private LinearLayout subView;
@@ -337,7 +336,7 @@ public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapte
             fileLocation.setSelected(true);
 
             subView = itemView.findViewById(R.id.lrc_details);
-            editButton = itemView.findViewById(R.id.edit_button);
+            Button editButton = itemView.findViewById(R.id.edit_button);
             expandableButton = itemView.findViewById(R.id.expandable_button);
 
             if (isDarkTheme) {

@@ -23,7 +23,6 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView saveLocation;
     private TextView readLocation;
 
-    private RadioGroup themeGroup;
     private RadioButton light, dark, darker;
 
     private SharedPreferences preferences;
@@ -71,22 +70,27 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        themeGroup = findViewById(R.id.theme_group);
+        RadioGroup themeGroup1 = findViewById(R.id.theme_group);
         light = findViewById(R.id.radioButtonLight);
         dark = findViewById(R.id.radioButtonDark);
         darker = findViewById(R.id.radioButtonDarker);
 
-        if (theme.equals("light")) {
-            light.setChecked(true);
-        } else if (theme.equals("dark")) {
-            dark.setChecked(true);
-        } else if (theme.equals("darker")) {
-            darker.setChecked(true);
-        } else {
-            Toast.makeText(this, getString(R.string.unexpected_error_message), Toast.LENGTH_SHORT).show();
+        switch (theme) {
+            case "light":
+                light.setChecked(true);
+                break;
+            case "dark":
+                dark.setChecked(true);
+                break;
+            case "darker":
+                darker.setChecked(true);
+                break;
+            default:
+                Toast.makeText(this, getString(R.string.unexpected_error_message), Toast.LENGTH_SHORT).show();
+                break;
         }
 
-        themeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        themeGroup1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 SharedPreferences.Editor editor = preferences.edit();
@@ -212,10 +216,9 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
         }
 
         return (super.onOptionsItemSelected(item));

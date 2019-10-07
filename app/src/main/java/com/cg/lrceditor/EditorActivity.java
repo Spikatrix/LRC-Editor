@@ -285,7 +285,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
             ArrayList<LyricItem> lyricData;
             if (timestamps == null) { // Will be null when CreateActivity starts EditorActivity
-                lyricData = populateDataSet(lyrics, timestamps, true);
+                lyricData = populateDataSet(lyrics, null, true);
             } else {
                 lyricData = populateDataSet(lyrics, timestamps, false);
             }
@@ -1115,7 +1115,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
         final EditText editText = view.findViewById(R.id.dialog_edittext);
         TextView textView = view.findViewById(R.id.dialog_prompt);
 
-        String hint = null, positive_button_text = null;
+        String hint, positive_button_text;
 
         if (optionMode != 0) {
             /* Insert lyrics */

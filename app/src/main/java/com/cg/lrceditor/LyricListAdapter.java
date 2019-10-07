@@ -164,8 +164,6 @@ public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.Lyri
         private final TextView itemTextview;
         private final LinearLayout itemTimeControls;
         private final TextView itemTimeview;
-        private final ImageButton itemPlay;
-        private final ImageButton itemAdd;
 
         LyricListItem(final View itemView, LyricListAdapter adapter) {
             super(itemView);
@@ -173,10 +171,10 @@ public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.Lyri
             linearLayout = itemView.findViewById(R.id.lyricitem_parent_linearlayout);
 
             itemTextview = itemView.findViewById(R.id.item_lyric);
-            itemAdd = itemView.findViewById(R.id.item_add);
+            ImageButton itemAdd = itemView.findViewById(R.id.item_add);
             itemTimeControls = itemView.findViewById(R.id.item_time_controls);
             itemTimeview = itemView.findViewById(R.id.item_time);
-            itemPlay = itemView.findViewById(R.id.item_play);
+            ImageButton itemPlay = itemView.findViewById(R.id.item_play);
             this.adapter = adapter;
 
             if (isDarkTheme) {

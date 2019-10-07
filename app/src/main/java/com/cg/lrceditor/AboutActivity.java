@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -75,10 +76,10 @@ public class AboutActivity extends AppCompatActivity {
 
     public void send_feedback(View view) {
         String deviceInfo = "";
-        deviceInfo += "\n OS Version: " + System.getProperty("os.version") + "(" + android.os.Build.VERSION.INCREMENTAL + ")";
-        deviceInfo += "\n OS API Level: " + android.os.Build.VERSION.SDK_INT;
-        deviceInfo += "\n Device: " + android.os.Build.DEVICE;
-        deviceInfo += "\n Model and Product: " + android.os.Build.MODEL + " (" + android.os.Build.PRODUCT + ")";
+        deviceInfo += "\n OS Version: " + System.getProperty("os.version") + "(" + Build.VERSION.INCREMENTAL + ")";
+        deviceInfo += "\n OS API Level: " + Build.VERSION.SDK_INT;
+        deviceInfo += "\n Device: " + Build.DEVICE;
+        deviceInfo += "\n Model and Product: " + Build.MODEL + " (" + Build.PRODUCT + ")";
         deviceInfo += "\n LRC Editor version " + BuildConfig.VERSION_NAME + " (Build: " + BuildConfig.VERSION_CODE + ")";
 
         Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", getString(R.string.dev_email), null));
@@ -94,10 +95,9 @@ public class AboutActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
         }
 
         return (super.onOptionsItemSelected(item));
