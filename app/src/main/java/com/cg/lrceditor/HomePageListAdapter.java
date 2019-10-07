@@ -20,8 +20,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapter.LyricFileListItem> implements Filterable {
-    public ArrayList<HomePageListItem> listData;
-    public ArrayList<HomePageListItem> backupListData;
+    ArrayList<HomePageListItem> listData;
+    ArrayList<HomePageListItem> backupListData;
 
     private LayoutInflater inflater;
 
@@ -29,7 +29,7 @@ public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapte
 
     private LyricFileSelectListener clickListener;
 
-    public HomePageListAdapter(Context context, boolean isDarkTheme) {
+    HomePageListAdapter(Context context, boolean isDarkTheme) {
         inflater = LayoutInflater.from(context);
         this.listData = new ArrayList<>();
         this.isDarkTheme = isDarkTheme;
@@ -212,18 +212,18 @@ public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapte
         this.clickListener = itemClickListener;
     }
 
-    public void toggleSelection(int pos) {
+    void toggleSelection(int pos) {
         listData.get(pos).isSelected = !listData.get(pos).isSelected;
         notifyItemChanged(pos);
     }
 
-    public void selectAll() {
+    void selectAll() {
         for (int i = 0; i < getItemCount(); i++)
             listData.get(i).isSelected = true;
         notifyDataSetChanged();
     }
 
-    public void clearExpandedItems() {
+    void clearExpandedItems() {
         for (int i = 0, len = getItemCount(); i < len; i++) {
             HomePageListItem item = listData.get(i);
             if (item.isExpanded) {
@@ -235,7 +235,7 @@ public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapte
         }
     }
 
-    public void clearSelections() {
+    void clearSelections() {
         for (int i = 0, len = getItemCount(); i < len; i++) {
             HomePageListItem item = listData.get(i);
             if (item.isSelected) {
@@ -245,7 +245,7 @@ public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapte
         }
     }
 
-    public List<Integer> getSelectedItemIndices() {
+    List<Integer> getSelectedItemIndices() {
         List<Integer> items = new ArrayList<>();
         for (int i = 0; i < getItemCount(); i++) {
             if (listData.get(i).isSelected)
@@ -254,7 +254,7 @@ public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapte
         return items;
     }
 
-    public int getSelectionCount() {
+    int getSelectionCount() {
         int noOfSelectedItems = 0;
         for (HomePageListItem item : listData) {
             if (item.isSelected)
@@ -327,7 +327,7 @@ public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapte
 
         private TextView lyricsTextview;
 
-        public LyricFileListItem(View itemView) {
+        LyricFileListItem(View itemView) {
             super(itemView);
 
             linearLayout = itemView.findViewById(R.id.lyricfile_parent_linearlayout);

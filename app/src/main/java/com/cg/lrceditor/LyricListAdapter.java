@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.LyricListItem> {
-    public final List<LyricItem> lyricData;
+    final List<LyricItem> lyricData;
 
     private boolean isDarkTheme;
 
@@ -81,32 +81,32 @@ public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.Lyri
         return lyricData.size();
     }
 
-    public void startFlash(int pos) {
+    void startFlash(int pos) {
         flashItems.put(pos, true);
         notifyItemChanged(pos);
     }
 
-    public SparseBooleanArray getFlashingItems() {
+    SparseBooleanArray getFlashingItems() {
         return this.flashItems;
     }
 
-    public void stopFlash(int pos) {
+    void stopFlash(int pos) {
         flashItems.delete(pos);
         notifyItemChanged(pos);
     }
 
-    public void toggleSelection(int pos) {
+    void toggleSelection(int pos) {
         lyricData.get(pos).isSelected = !lyricData.get(pos).isSelected;
         notifyItemChanged(pos);
     }
 
-    public void selectAll() {
+    void selectAll() {
         for (int i = 0; i < getItemCount(); i++)
             lyricData.get(i).isSelected = true;
         notifyDataSetChanged();
     }
 
-    public void clearSelections() {
+    void clearSelections() {
         for (int i = 0, len = getItemCount(); i < len; i++) {
             LyricItem item = lyricData.get(i);
             if (item.isSelected) {
@@ -116,7 +116,7 @@ public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.Lyri
         }
     }
 
-    public List<Integer> getSelectedItemIndices() {
+    List<Integer> getSelectedItemIndices() {
         List<Integer> items = new ArrayList<>();
         for (int i = 0; i < getItemCount(); i++) {
             if (lyricData.get(i).isSelected)
@@ -125,7 +125,7 @@ public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.Lyri
         return items;
     }
 
-    public int getSelectionCount() {
+    int getSelectionCount() {
         int noOfSelectedItems = 0;
         for (LyricItem item : lyricData) {
             if (item.isSelected)

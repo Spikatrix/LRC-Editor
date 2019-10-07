@@ -36,7 +36,7 @@ public class SkuDetails {
         this(IabHelper.ITEM_TYPE_INAPP, jsonSkuDetails);
     }
 
-    public SkuDetails(String itemType, String jsonSkuDetails) throws JSONException {
+    SkuDetails(String itemType, String jsonSkuDetails) throws JSONException {
         mItemType = itemType;
         mJson = jsonSkuDetails;
         JSONObject o = new JSONObject(mJson);
@@ -49,7 +49,7 @@ public class SkuDetails {
         mDescription = o.optString("description");
     }
 
-    public String getSku() {
+    String getSku() {
         return mSku;
     }
 

@@ -2,41 +2,41 @@ package com.cg.lrceditor;
 
 import java.io.Serializable;
 
-public class SongMetaData implements Serializable {
+class SongMetaData implements Serializable {
     private String artistName = "";
     private String albumName = "";
     private String songName = "";
     private String composerName = "";
 
-    public String getSongName() {
+    String getSongName() {
         return this.songName;
     }
 
-    public void setSongName(String songName) {
+    void setSongName(String songName) {
         this.songName = songName;
     }
 
-    public String getArtistName() {
+    String getArtistName() {
         return this.artistName;
     }
 
-    public void setArtistName(String artistName) {
+    void setArtistName(String artistName) {
         this.artistName = artistName;
     }
 
-    public String getAlbumName() {
+    String getAlbumName() {
         return this.albumName;
     }
 
-    public void setAlbumName(String albumName) {
+    void setAlbumName(String albumName) {
         this.albumName = albumName;
     }
 
-    public String getComposerName() {
+    String getComposerName() {
         return this.composerName;
     }
 
-    public void setComposerName(String composerName) {
+    void setComposerName(String composerName) {
         this.composerName = composerName;
     }
 }

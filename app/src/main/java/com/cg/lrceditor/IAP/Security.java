@@ -37,7 +37,7 @@ import java.security.spec.X509EncodedKeySpec;
  * make it harder for an attacker to replace the code with stubs that treat all
  * purchases as verified.
  */
-public class Security {
+class Security {
     private static final String TAG = "IABUtil/Security";
 
     private static final String KEY_FACTORY_ALGORITHM = "RSA";
@@ -53,7 +53,7 @@ public class Security {
      * @param signedData      the signed JSON string (signed, not encrypted)
      * @param signature       the signature for the data, signed with the private key
      */
-    public static boolean verifyPurchase(String base64PublicKey, String signedData, String signature) {
+    static boolean verifyPurchase(String base64PublicKey, String signedData, String signature) {
         if (TextUtils.isEmpty(signedData) || TextUtils.isEmpty(base64PublicKey) ||
                 TextUtils.isEmpty(signature)) {
             Log.e(TAG, "Purchase verification failed: missing data.");
@@ -71,7 +71,7 @@ public class Security {
      * @param encodedPublicKey Base64-encoded public key
      * @throws IllegalArgumentException if encodedPublicKey is invalid
      */
-    public static PublicKey generatePublicKey(String encodedPublicKey) {
+    private static PublicKey generatePublicKey(String encodedPublicKey) {
         try {
             byte[] decodedKey = Base64.decode(encodedPublicKey, Base64.DEFAULT);
             KeyFactory keyFactory = KeyFactory.getInstance(KEY_FACTORY_ALGORITHM);
@@ -93,7 +93,7 @@ public class Security {
      * @param signature  server signature
      * @return true if the data and signature match
      */
-    public static boolean verify(PublicKey publicKey, String signedData, String signature) {
+    private static boolean verify(PublicKey publicKey, String signedData, String signature) {
         byte[] signatureBytes;
         try {
             signatureBytes = Base64.decode(signature, Base64.DEFAULT);

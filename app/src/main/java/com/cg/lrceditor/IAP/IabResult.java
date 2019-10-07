@@ -24,10 +24,10 @@ package com.cg.lrceditor.IAP;
  * calling {@link #isSuccess()} and {@link #isFailure()}.
  */
 public class IabResult {
-    int mResponse;
-    String mMessage;
+    private int mResponse;
+    private String mMessage;
 
-    public IabResult(int response, String message) {
+    IabResult(int response, String message) {
         mResponse = response;
         if (message == null || message.trim().length() == 0) {
             mMessage = IabHelper.getResponseDesc(response);
@@ -36,11 +36,11 @@ public class IabResult {
         }
     }
 
-    public int getResponse() {
+    private int getResponse() {
         return mResponse;
     }
 
-    public String getMessage() {
+    String getMessage() {
         return mMessage;
     }
 

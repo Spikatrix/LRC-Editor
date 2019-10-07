@@ -10,7 +10,7 @@ import static java.lang.Math.min;
 public class Timestamp implements Serializable {
 
     /* Sets the value of the timestamp to MAX_TIMESTAMP_VALUE when it exceeds it */
-    public static final long MAX_TIMESTAMP_VALUE = 5999999; /* 99:59:999 in milliseconds */
+    static final long MAX_TIMESTAMP_VALUE = 5999999; /* 99:59:999 in milliseconds */
     private long minutes;
     private long seconds;
     private long milliseconds;
@@ -67,7 +67,7 @@ public class Timestamp implements Serializable {
         this.milliseconds = timestamp.milliseconds;
     }
 
-    public void alterTimestamp(long milliseconds) {
+    void alterTimestamp(long milliseconds) {
         long newTime = toMilliseconds() + milliseconds;
 
         newTime = max(newTime, 0);
@@ -76,57 +76,57 @@ public class Timestamp implements Serializable {
         setTime(newTime);
     }
 
-    public long toMilliseconds() {
+    long toMilliseconds() {
         return getMinutesInMilliseconds()
                 + getSecondsInMilliseconds()
                 + getMilliseconds();
     }
 
-    public long getMinutes() {
+    long getMinutes() {
         return this.minutes;
     }
 
-    public void setMinutes(long minute) {
+    private void setMinutes(long minute) {
         this.minutes = minute;
     }
 
-    public long getSeconds() {
+    long getSeconds() {
         return this.seconds;
     }
 
-    public void setSeconds(long seconds) {
+    private void setSeconds(long seconds) {
         this.seconds = seconds;
     }
 
-    public long getMilliseconds() {
+    long getMilliseconds() {
         return this.milliseconds;
     }
 
-    public void setMilliseconds(long milliseconds) {
+    void setMilliseconds(long milliseconds) {
         this.milliseconds = milliseconds;
     }
 
-    public long getMinutesInMilliseconds() {
+    private long getMinutesInMilliseconds() {
         return TimeUnit.MINUTES.toMillis(this.minutes);
     }
 
-    public long getSecondsInMilliseconds() {
+    private long getSecondsInMilliseconds() {
         return TimeUnit.SECONDS.toMillis(this.seconds);
     }
 
-    public void setTime(long minutes, long seconds, long milliseconds) {
+    void setTime(long minutes, long seconds, long milliseconds) {
         setMinutes(minutes);
         setSeconds(seconds);
         setMilliseconds(milliseconds);
     }
 
-    public void setTime(long milliseconds) {
+    void setTime(long milliseconds) {
         setMinutes(TimeUnit.MILLISECONDS.toMinutes(milliseconds));
         setSeconds(TimeUnit.MILLISECONDS.toSeconds(milliseconds) - TimeUnit.MINUTES.toSeconds(this.minutes));
         setMilliseconds(milliseconds - getSecondsInMilliseconds() - getMinutesInMilliseconds());
     }
 
-    public String toStringWithThreeDigitMilliseconds() {
+    String toStringWithThreeDigitMilliseconds() {
         return String.format(Locale.getDefault(), "%02d:%02d.%03d", this.minutes, this.seconds, this.milliseconds);
     }
 

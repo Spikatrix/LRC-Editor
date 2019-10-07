@@ -44,7 +44,7 @@ public class LyricReader {
         }
     }
 
-    public boolean readLyrics() {
+    boolean readLyrics() {
         try {
             DataInputStream in;
             if (file != null) {
@@ -213,15 +213,15 @@ public class LyricReader {
         return this.lyrics;
     }
 
-    public Timestamp[] getTimestamps() {
+    Timestamp[] getTimestamps() {
         return this.timestamps;
     }
 
-    public String getErrorMsg() {
+    String getErrorMsg() {
         return errorMsg;
     }
 
-    public SongMetaData getSongMetaData() {
+    SongMetaData getSongMetaData() {
         return songMetaData;
     }
 }
