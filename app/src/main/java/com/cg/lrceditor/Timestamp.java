@@ -86,7 +86,7 @@ public class Timestamp implements Serializable {
         return this.minutes;
     }
 
-    private void setMinutes(long minute) {
+    void setMinutes(long minute) {
         this.minutes = minute;
     }
 
@@ -94,7 +94,7 @@ public class Timestamp implements Serializable {
         return this.seconds;
     }
 
-    private void setSeconds(long seconds) {
+    void setSeconds(long seconds) {
         this.seconds = seconds;
     }
 
@@ -106,11 +106,11 @@ public class Timestamp implements Serializable {
         this.milliseconds = milliseconds;
     }
 
-    private long getMinutesInMilliseconds() {
+    long getMinutesInMilliseconds() {
         return TimeUnit.MINUTES.toMillis(this.minutes);
     }
 
-    private long getSecondsInMilliseconds() {
+    long getSecondsInMilliseconds() {
         return TimeUnit.SECONDS.toMillis(this.seconds);
     }
 
