@@ -71,7 +71,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        RadioGroup themeGroup1 = findViewById(R.id.theme_group);
+        RadioGroup themeGroup = findViewById(R.id.theme_group);
         light = findViewById(R.id.radioButtonLight);
         dark = findViewById(R.id.radioButtonDark);
         darker = findViewById(R.id.radioButtonDarker);
@@ -91,7 +91,7 @@ public class SettingsActivity extends AppCompatActivity {
                 break;
         }
 
-        themeGroup1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        themeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 SharedPreferences.Editor editor = preferences.edit();
@@ -120,7 +120,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         if (preferences.getString("lrceditor_purchased", "").equals("Y")) {
             TextView themeTitle = findViewById(R.id.theme_title);
-            RadioGroup themeGroup = findViewById(R.id.theme_group);
+            themeGroup = findViewById(R.id.theme_group);
 
             themeTitle.setVisibility(View.VISIBLE);
             themeGroup.setVisibility(View.VISIBLE);
