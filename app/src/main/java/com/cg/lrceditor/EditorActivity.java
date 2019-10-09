@@ -15,15 +15,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.ActionMode;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SimpleItemAnimator;
-import android.support.v7.widget.Toolbar;
 import android.util.SparseBooleanArray;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -41,6 +32,16 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.io.File;
 import java.io.IOException;
@@ -285,7 +286,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
             ArrayList<LyricItem> lyricData;
             if (timestamps == null) { // Will be null when CreateActivity starts EditorActivity
-                lyricData = populateDataSet(lyrics, timestamps, true);
+                lyricData = populateDataSet(lyrics, null, true);
             } else {
                 lyricData = populateDataSet(lyrics, timestamps, false);
             }
@@ -1115,7 +1116,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
         final EditText editText = view.findViewById(R.id.dialog_edittext);
         TextView textView = view.findViewById(R.id.dialog_prompt);
 
-        String hint = null, positive_button_text = null;
+        String hint, positive_button_text;
 
         if (optionMode != 0) {
             /* Insert lyrics */

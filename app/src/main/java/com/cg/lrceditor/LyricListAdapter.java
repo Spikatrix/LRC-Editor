@@ -1,8 +1,6 @@
 package com.cg.lrceditor;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
@@ -12,11 +10,14 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.LyricListItem> {
-    public final List<LyricItem> lyricData;
+    final List<LyricItem> lyricData;
 
     private boolean isDarkTheme;
 
@@ -81,32 +82,32 @@ public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.Lyri
         return lyricData.size();
     }
 
-    public void startFlash(int pos) {
+    void startFlash(int pos) {
         flashItems.put(pos, true);
         notifyItemChanged(pos);
     }
 
-    public SparseBooleanArray getFlashingItems() {
+    SparseBooleanArray getFlashingItems() {
         return this.flashItems;
     }
 
-    public void stopFlash(int pos) {
+    void stopFlash(int pos) {
         flashItems.delete(pos);
         notifyItemChanged(pos);
     }
 
-    public void toggleSelection(int pos) {
+    void toggleSelection(int pos) {
         lyricData.get(pos).isSelected = !lyricData.get(pos).isSelected;
         notifyItemChanged(pos);
     }
 
-    public void selectAll() {
+    void selectAll() {
         for (int i = 0; i < getItemCount(); i++)
             lyricData.get(i).isSelected = true;
         notifyDataSetChanged();
     }
 
-    public void clearSelections() {
+    void clearSelections() {
         for (int i = 0, len = getItemCount(); i < len; i++) {
             LyricItem item = lyricData.get(i);
             if (item.isSelected) {
@@ -116,7 +117,7 @@ public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.Lyri
         }
     }
 
-    public List<Integer> getSelectedItemIndices() {
+    List<Integer> getSelectedItemIndices() {
         List<Integer> items = new ArrayList<>();
         for (int i = 0; i < getItemCount(); i++) {
             if (lyricData.get(i).isSelected)
@@ -125,7 +126,7 @@ public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.Lyri
         return items;
     }
 
-    public int getSelectionCount() {
+    int getSelectionCount() {
         int noOfSelectedItems = 0;
         for (LyricItem item : lyricData) {
             if (item.isSelected)
@@ -164,8 +165,6 @@ public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.Lyri
         private final TextView itemTextview;
         private final LinearLayout itemTimeControls;
         private final TextView itemTimeview;
-        private final ImageButton itemPlay;
-        private final ImageButton itemAdd;
 
         LyricListItem(final View itemView, LyricListAdapter adapter) {
             super(itemView);
@@ -173,10 +172,10 @@ public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.Lyri
             linearLayout = itemView.findViewById(R.id.lyricitem_parent_linearlayout);
 
             itemTextview = itemView.findViewById(R.id.item_lyric);
-            itemAdd = itemView.findViewById(R.id.item_add);
+            ImageButton itemAdd = itemView.findViewById(R.id.item_add);
             itemTimeControls = itemView.findViewById(R.id.item_time_controls);
             itemTimeview = itemView.findViewById(R.id.item_time);
-            itemPlay = itemView.findViewById(R.id.item_play);
+            ImageButton itemPlay = itemView.findViewById(R.id.item_play);
             this.adapter = adapter;
 
             if (isDarkTheme) {

@@ -23,18 +23,18 @@ import org.json.JSONObject;
  */
 public class Purchase {
     String mItemType;  // ITEM_TYPE_INAPP or ITEM_TYPE_SUBS
-    String mOrderId;
-    String mPackageName;
-    String mSku;
-    long mPurchaseTime;
-    int mPurchaseState;
-    String mDeveloperPayload;
-    String mToken;
-    String mOriginalJson;
-    String mSignature;
-    boolean mIsAutoRenewing;
+    private String mOrderId;
+    private String mPackageName;
+    private String mSku;
+    private long mPurchaseTime;
+    private int mPurchaseState;
+    private String mDeveloperPayload;
+    private String mToken;
+    private String mOriginalJson;
+    private String mSignature;
+    private boolean mIsAutoRenewing;
 
-    public Purchase(String itemType, String jsonPurchaseInfo, String signature) throws JSONException {
+    Purchase(String itemType, String jsonPurchaseInfo, String signature) throws JSONException {
         mItemType = itemType;
         mOriginalJson = jsonPurchaseInfo;
         JSONObject o = new JSONObject(mOriginalJson);
@@ -49,7 +49,7 @@ public class Purchase {
         mSignature = signature;
     }
 
-    public String getItemType() {
+    String getItemType() {
         return mItemType;
     }
 
@@ -77,7 +77,7 @@ public class Purchase {
         return mDeveloperPayload;
     }
 
-    public String getToken() {
+    String getToken() {
         return mToken;
     }
 

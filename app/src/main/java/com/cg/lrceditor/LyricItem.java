@@ -2,30 +2,29 @@ package com.cg.lrceditor;
 
 import java.io.Serializable;
 
-public class LyricItem implements Serializable {
+class LyricItem implements Serializable {
+    boolean isSelected = false;
     private Timestamp timestamp;
     private String lyric;
 
-    public boolean isSelected = false;
-
-    public LyricItem(String lyric, Timestamp timestamp) {
+    LyricItem(String lyric, Timestamp timestamp) {
         this.lyric = lyric;
         this.timestamp = timestamp;
     }
 
-    public Timestamp getTimestamp() {
+    Timestamp getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
 
-    public String getLyric() {
+    String getLyric() {
         return lyric;
     }
 
-    public void setLyric(String lyric) {
+    void setLyric(String lyric) {
         this.lyric = lyric;
     }
 }

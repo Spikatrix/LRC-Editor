@@ -9,8 +9,9 @@ import android.os.Build;
 import android.os.storage.StorageManager;
 import android.provider.DocumentsContract;
 import android.provider.OpenableColumns;
-import android.support.annotation.Nullable;
-import android.support.v4.provider.DocumentFile;
+
+import androidx.annotation.Nullable;
+import androidx.documentfile.provider.DocumentFile;
 
 import java.io.File;
 import java.lang.reflect.Array;
@@ -22,7 +23,7 @@ public final class FileUtil {
 
     // From: https://stackoverflow.com/a/36162691 (Thanks @Anonymous)
     @Nullable
-    public static String getFullPathFromTreeUri(@Nullable final Uri treeUri, Context con) {
+    static String getFullPathFromTreeUri(@Nullable final Uri treeUri, Context con) {
         if (treeUri == null) return null;
         String volumePath = getVolumePath(getVolumeIdFromTreeUri(treeUri), con);
         if (volumePath == null) return File.separator;
@@ -93,17 +94,12 @@ public final class FileUtil {
     }
 
     // From: https://stackoverflow.com/a/25005243/ (Thanks @Stefan Haustein)
-    public static String getFileName(Context ctx, Uri uri) {
+    static String getFileName(Context ctx, Uri uri) {
         String result = null;
         if (uri.getScheme().equals("content")) {
-            Cursor cursor = ctx.getContentResolver().query(uri, null, null, null, null);
-            try {
+            try (Cursor cursor = ctx.getContentResolver().query(uri, null, null, null, null)) {
                 if (cursor != null && cursor.moveToFirst()) {
                     result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                }
-            } finally {
-                if (cursor != null) {
-                    cursor.close();
                 }
             }
         }
@@ -117,7 +113,7 @@ public final class FileUtil {
         return result;
     }
 
-    public static String stripFileNameFromPath(String path) {
+    static String stripFileNameFromPath(String path) {
         try {
             return path.substring(0, path.lastIndexOf(File.separator));
         } catch (IndexOutOfBoundsException e) { // Should not happen for the most part
@@ -125,7 +121,7 @@ public final class FileUtil {
         }
     }
 
-    public static DocumentFile getPersistableDocumentFile(Uri uri, String location, Context ctx) {
+    static DocumentFile getPersistableDocumentFile(Uri uri, String location, Context ctx) {
         DocumentFile pickedDir;
         try {
             pickedDir = DocumentFile.fromTreeUri(ctx, uri);
@@ -166,7 +162,7 @@ public final class FileUtil {
         return null;
     }
 
-    public static DocumentFile searchForFileOptimized(DocumentFile pickedDir, String location, String name, File[] storageMedias) {
+    static DocumentFile searchForFileOptimized(DocumentFile pickedDir, String location, String name, File[] storageMedias) {
         /* Speeds up the search using the fact that we already have the absolute path of the file */
 
         /* First, we need to get the absolute path of mounted storages (Internal storage, SD Card etc) */

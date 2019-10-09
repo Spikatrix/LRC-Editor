@@ -16,13 +16,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.provider.DocumentFile;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -32,6 +25,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.documentfile.provider.DocumentFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -58,7 +59,6 @@ public class FinalizeActivity extends AppCompatActivity {
 
     private String lrcFileName = null;
     private String songFileName = null;
-    private Uri songUri;
 
     private View dialogView;
 
@@ -115,7 +115,7 @@ public class FinalizeActivity extends AppCompatActivity {
         Intent intent = getIntent();
         lyricData = (ArrayList<LyricItem>) intent.getSerializableExtra("LYRIC DATA");
         SongMetaData songMetaData = (SongMetaData) intent.getSerializableExtra("SONG METADATA");
-        songUri = intent.getParcelableExtra("SONG URI");
+        Uri songUri = intent.getParcelableExtra("SONG URI");
         lrcFileName = intent.getStringExtra("LRC FILE NAME");
         songFileName = intent.getStringExtra("SONG FILE NAME");
 
@@ -539,10 +539,9 @@ public class FinalizeActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
         }
 
         return (super.onOptionsItemSelected(item));
