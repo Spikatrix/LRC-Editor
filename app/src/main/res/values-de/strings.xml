@@ -163,7 +163,7 @@
     <string name="darker">Sehr dunkel</string>
     <string name="unexpected_error_message">Ein unerwarteter Fehler ist aufgetreten</string>
     <string name="restart_for_theme_message">Starte die App neu, wenn das Thema nicht übernommen wird</string>
-    <string name="three_digit_milliseconds_prompt">Speichern Sie mit dreistelligen Millisekunden</string>
+    <string name="three_digit_milliseconds_prompt">Zeitstempel mit dreistelligen Millisekunden speichern</string>
     <string name="three_digit_milliseconds_help">Das Speichern mit dreistelligen Millisekunden kann für Anwendungen nützlich sein, die LRC-Dateien mit dreistelligen Millisekunden-Zeitstempeln anstelle von zweistelligen Millisekunden-Zeitstempeln erwarten</string>
     <string name="failed_to_open_directory_picker_message">Konnte die Verzeichnisauswahl nicht öffnen!</string>
     <string name="documentsui_enable_message">Verwendest du Android 5.0+? Versuche \"DocumentsUI\" in den Systemeinstellungen zu aktivieren</string>

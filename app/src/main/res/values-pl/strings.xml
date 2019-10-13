@@ -175,6 +175,6 @@
     <string name="whoops_error">Ups! Wystąpił błąd!</string>
     <string name="writing_lyrics_message">Zapisywanie tekstów do pliku</string>
     <string name="yes">Tak</string>
-    <string name="three_digit_milliseconds_prompt">Oszczędzaj dzięki trzycyfrowym milisekundom</string>
-    <string name="three_digit_milliseconds_help">Zapisywanie z trzycyfrowymi milisekundami może być przydatne w aplikacjach, które oczekują plików LRC z trzycyfrowymi milisekundowymi znacznikami czasu, a nie dwucyfrowymi milisekundowymi znacznikami czasu</string>
+    <string name="three_digit_milliseconds_prompt">Zapisz znaczniki z trzycyfrowymi milisekundami</string>
+    <string name="three_digit_milliseconds_help">Zapisywanie znaczników czasowych z trzycyfrowymi milisekundami może być przydatne w aplikacjach które oczekują pliku LRC z trzycyfrowymi znacznikami milisekund, a nie dwucyfrowymi znacznikami milisekund</string>
 </resources>

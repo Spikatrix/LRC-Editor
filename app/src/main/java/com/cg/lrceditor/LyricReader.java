@@ -184,7 +184,9 @@ public class LyricReader {
                 j--;
             }
             if (i <= j) {
-                swap(i, j, array);
+                if (array[i] != array[j]) { // Don't swap and change the order of the lyrics if the timestamps are equal
+                    swap(i, j, array);
+                }
                 i++;
                 j--;
             }

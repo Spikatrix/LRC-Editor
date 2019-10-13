@@ -844,6 +844,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+        super.onActivityResult(requestCode, resultCode, resultData);
         if (requestCode == Constants.FILE_REQUEST && resultCode == Activity.RESULT_OK) {
             if (resultData != null) {
                 Uri uri = resultData.getData();

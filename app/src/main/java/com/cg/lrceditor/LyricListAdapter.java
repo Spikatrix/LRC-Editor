@@ -172,9 +172,9 @@ public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.Lyri
             linearLayout = itemView.findViewById(R.id.lyricitem_parent_linearlayout);
 
             itemTextview = itemView.findViewById(R.id.item_lyric);
-            ImageButton itemAdd = itemView.findViewById(R.id.item_add);
             itemTimeControls = itemView.findViewById(R.id.item_time_controls);
             itemTimeview = itemView.findViewById(R.id.item_time);
+            ImageButton itemAdd = itemView.findViewById(R.id.item_add);
             ImageButton itemPlay = itemView.findViewById(R.id.item_play);
             this.adapter = adapter;
 
