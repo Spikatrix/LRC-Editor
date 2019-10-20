@@ -15,6 +15,7 @@ Contributions and translations welcome ツ
 <hr>
 
 A big thank you to all the translators:
+ - Chinesse (zh-rTW) by Martin C
  - German (de) by Leon Thelen
  - Polish (pl) by Zbigniew Zienko
  - Portuguese (Brazil) (pt-rBR) by Ayrtown Karlos
