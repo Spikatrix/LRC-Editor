@@ -1,6 +1,6 @@
 <resources>
-
-    <string name="app_name" translatable="false">LRC Editor</string>
+    <!-- There might be lint suggestions to use ellipses rather than three dots that I've used in several of the strings here -->
+    <!-- But ellipses look weird for me (Bad kerning :p) which is why I keep using three dots -->
 
     <string name="thats_a_miss">真的沒想到\n找不到歌詞檔</string>
     <string name="toolbar_refresh_title">重新整理清單</string>
@@ -60,9 +60,7 @@
     <string name="setting_up_player_message">正在設置播放器...</string>
     <string name="preparing_the_player_message">正在準備播放器...</string>
     <string name="title_error_text">設定標題時發生未預期的錯誤</string>
-    <string name="previous_5" translatable="false"><![CDATA[5 <<]]></string>
     <string name="previous_description">向後搜索5秒</string>
-    <string name="forward_5" translatable="false"><![CDATA[>> 5]]></string>
     <string name="forward_description">向前搜索5秒</string>
     <string name="play_button_description">播放/暫停</string>
     <string name="batch_edit_prompt">已選歌詞的時間標記偏差</string>
@@ -154,7 +152,6 @@
     <string name="rate_and_review_text">為App評分及評論</string>
     <string name="send_feedback">傳送意見回饋</string>
     <string name="support_me">支持我</string>
-    <string name="dev_email" translatable="false">cg.devworks@gmail.com</string>
     <string name="feedback_body_prompt">在此輸入您的意見/錯誤報告</string>
 
     <string name="change_location_text">變更這個位置</string>
@@ -184,7 +181,7 @@
     <string name="iap_setup_failed_message">應用程式內購買(In-app Billing)設定失敗</string>
     <string name="iaps_loading_message">應用程式內購服務(IAPs)仍在載入</string>
     <string name="purchased">已購買</string>
-    <string name="github_contribution">對App作出貢獻： https://github.com/Spikatrix/LRC-Editor</string>
+    <string name="github_contribution">對App作出貢獻：\nhttps://github.com/Spikatrix/LRC-Editor</string>
 
     <string name="file_not_found_message">找不到檔案！</string>
     <string name="failed_to_open_input_stream_message">無法開啟用於讀取數據的文件輸入流！</string>

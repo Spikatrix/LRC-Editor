@@ -1,6 +1,6 @@
 <resources>
     <!-- There might be lint suggestions to use ellipses rather than three dots that I've used in several of the strings here -->
-    <!-- But ellipses look weird for me (Bad kerning :p) which is why I want to keep using three dots -->
+    <!-- But ellipses look weird for me (Bad kerning :p) which is why I keep using three dots -->
 
     <string name="app_name" translatable="false">LRC Editor</string>
 
@@ -186,7 +186,7 @@
     <string name="iap_setup_failed_message">In-app Billing setup failed</string>
     <string name="iaps_loading_message">IAPs still loading</string>
     <string name="purchased">Purchased</string>
-    <string name="github_contribution">Contribute to the app: https://github.com/Spikatrix/LRC-Editor</string>
+    <string name="github_contribution">Contribute to the app:\nhttps://github.com/Spikatrix/LRC-Editor</string>
 
     <string name="file_not_found_message">File not found!</string>
     <string name="failed_to_open_input_stream_message">Failed to open an input stream to the file to read data!</string>
