@@ -8,13 +8,12 @@ An Android App that helps you to create and edit .lrc files easily
 
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Download from Google Play" height="80">](https://play.google.com/store/apps/details?id=com.cg.lrceditor)
 
-**Note for forkers:** In case you'd like to fork this project and make changes to it, please state the changes
-
 Contributions and translations welcome ツ
 
 <hr>
 
 A big thank you to all the translators:
+ - Chinese (zh-rTW) by Martin C
  - German (de) by Leon Thelen
  - Polish (pl) by Zbigniew Zienko
- - Portuguese (Brazil) (pt-rBR) by Ayrtown Karlos
+ - Portuguese (pt-rBR) by Ayrtown Karlos

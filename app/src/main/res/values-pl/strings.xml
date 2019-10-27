@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- There might be lint suggestions to use ellipses rather than three dots that I've used in several of the strings here -->
-    <!-- But ellipses look weird for me (Bad kerning :p) which is why I want to keep using three dots -->
+    <!-- But ellipses look weird for me (Bad kerning :p) which is why I keep using three dots -->
 
     <string name="add_timestamp_description">Dodaj przycisk znacznika czasu</string>
     <string name="adjust">Dostosuj</string>
@@ -68,7 +68,7 @@
     <string name="file_not_found_message">Brak pliku!</string>
     <string name="finalization_header">Finalizacja</string>
     <string name="forward_description">Przycisk skok 5 sekund do przodu</string>
-    <string name="github_contribution">Wnieś wkład do aplikacji: https://github.com/Spikatrix/LRC-Editor</string>
+    <string name="github_contribution">Wnieś wkład do aplikacji:\nhttps://github.com/Spikatrix/LRC-Editor</string>
     <string name="go_back">Powrót</string>
     <string name="go_back_warning_message">Jeśli wrócisz, utracisz zmodyfikowane dane. Czy na pewno chcesz wrócić?</string>
     <string name="iap_setup_failed_message">Konfiguracja rozliczeń nie powiodła się</string>

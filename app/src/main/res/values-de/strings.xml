@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- There might be lint suggestions to use ellipses rather than three dots that I've used in several of the strings here -->
-    <!-- But ellipses look weird for me (Bad kerning :p) which is why I want to keep using three dots -->
+    <!-- But ellipses look weird for me (Bad kerning :p) which is why I keep using three dots -->
 
     <string name="thats_a_miss">Fehlgeschlagen\nKeine LRC-Dateien gefunden</string>
     <string name="toolbar_refresh_title">Liste aktualisieren</string>
@@ -182,7 +182,7 @@
     <string name="iap_setup_failed_message">Konnte die In-App-Abrechnung nicht einrichten</string>
     <string name="iaps_loading_message">IAPs laden noch</string>
     <string name="purchased">Bezahlt</string>
-    <string name="github_contribution">Zur App beitragen: https://github.com/Spikatrix/LRC-Editor</string>
+    <string name="github_contribution">Zur App beitragen:\nhttps://github.com/Spikatrix/LRC-Editor</string>
 
     <string name="file_not_found_message">Datei nicht gefunden!</string>
     <string name="failed_to_open_input_stream_message">Fehler beim Öffnen eines Eingabestreams, um Daten aus der Datei zu lesen!</string>
