@@ -15,5 +15,6 @@ Contributions and translations welcome ツ
 A big thank you to all the translators:
  - Chinese (zh-rTW) by Martin C
  - German (de) by Leon Thelen
+ - Indonesian (in) by Fajar Maulana
  - Polish (pl) by Zbigniew Zienko
  - Portuguese (pt-rBR) by Ayrtown Karlos
