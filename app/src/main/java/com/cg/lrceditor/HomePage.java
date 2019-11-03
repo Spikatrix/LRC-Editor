@@ -330,7 +330,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
                         @Override
                         public void run() {
                             adapter.listData.add(new HomePageListItem(file, null, null));
-                            // Need to optimize this. Currently causes noticeable stuttering and skipped frames
+                            // TODO: Need to optimize this. Currently causes noticeable stuttering and skipped frames
                             // Due to `notifyItemInserted` being called multiple times in a small time interval
                             adapter.notifyItemInserted(adapter.listData.size() - 1);
                         }

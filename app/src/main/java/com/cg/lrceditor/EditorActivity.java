@@ -1429,7 +1429,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
                             player.pause();
                         }
                         currentPlayerSpeed = speed / 100.0f;
-                    } catch (SecurityException e) {
+                    } catch (SecurityException | IllegalStateException | IllegalArgumentException e) {
                         Toast.makeText(getApplicationContext(), getString(R.string.failed_to_set_speed_message), Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -1460,7 +1460,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
                             player.pause();
                         }
                         currentPlayerPitch = pitch / 100.0f;
-                    } catch (SecurityException e) {
+                    } catch (SecurityException | IllegalStateException | IllegalArgumentException e) {
                         Toast.makeText(getApplicationContext(), getString(R.string.failed_to_set_pitch_message), Toast.LENGTH_SHORT).show();
                     }
                 }
