@@ -134,7 +134,7 @@
     <string name="save_successful">Die Datei wurde erfolgreich unter %1$s gespeichert!</string>
     <string name="cannot_save_without_permission_message">Die Datei kann ohne Speicherzugriff nicht gespeichert werden!</string>
     <string name="failed_to_fetch_clipboard_message">Abrufen des Zwischenablagedienstes fehlgeschlagen!</string>
-    <string name="copy_lrc_file_data_successful_message">Die LRC-Dateiinhalt wurden erfolgreich in die Zwischenablage kopiert!</string>
+    <string name="copy_lrc_file_data_successful_message">Der LRC-Dateiinhalt wurde erfolgreich in die Zwischenablage kopiert!</string>
     <string name="copy_error_successful_message">Der Fehler wurde erfolgreich in die Zwischenablage kopiert!</string>
     <string name="no_permission_to_write_text">Konnte die Berechtigung zum Beschreiben nicht erhalten</string>
     <string name="save_location_description">Verzeichnis zum Speichern von Dateien:</string>
