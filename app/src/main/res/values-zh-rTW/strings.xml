@@ -12,7 +12,7 @@
     <string name="toolbar_rename_lyric_file_title">重新命名歌詞檔</string>
     <string name="new_file_name_prompt">請輸入新檔名：</string>
     <string name="new_file_name_hint">在此輸入新檔名</string>
-    <string name="edit">修改</string>
+    <string name="edit">編輯</string>
     <string name="loading_lyrics">正在載入歌詞檔...</string>
     <string name="expandable_button_description">折疊式按鈕圖片</string>
     <string name="another_operation_wait_message">有另一操作正在運行中，請等待直到完成</string>
@@ -128,7 +128,7 @@
     <string name="overwrite_prompt">檔案 \'%1$s.lrc\' 已經存在於 %2$s 。您確定要覆寫此檔案？</string>
     <string name="attempting_to_overwrite_message">正在嘗試覆寫上一檔案</string>
     <string name="failed_to_overwrite_message">無法覆寫檔案；檔案名稱將會加上後綴</string>
-    <string name="writing_lyrics_message">將歌詞寫入檔案</string>
+    <string name="writing_lyrics_message">正在將歌詞寫入檔案</string>
     <string name="whoops_error">噢！發生了未預期的錯誤！</string>
     <string name="save_successful">成功將歌詞檔儲存於 %1$s </string>
     <string name="cannot_save_without_permission_message">沒有存儲權限，無法儲存文件</string>
@@ -148,7 +148,7 @@
     <string name="save">儲存</string>
 
     <string name="made_with_love_and_code_text">\n用 ♥ 創造\n(還有大量的程式碼 :p)\n</string>
-    <string name="rate_and_feedback_text">這個App由我開發/維護\n請為這個App評分及留下有用的評論\n\n\n非常感謝！\n♥</string>
+    <string name="rate_and_feedback_text">這個App由我自已開發及維護的\n請為這個App評分及留下有用的評論\n\n\n非常感謝！\n♥</string>
     <string name="rate_and_review_text">為App評分及評論</string>
     <string name="send_feedback">傳送意見回饋</string>
     <string name="support_me">支持我</string>
@@ -159,7 +159,7 @@
     <string name="select_a_theme_prompt">選擇主題：</string>
     <string name="light">淺色</string>
     <string name="dark">深色</string>
-    <string name="darker">暗色</string>
+    <string name="darker">暗黑</string>
     <string name="unexpected_error_message">發生未預期的錯誤</string>
     <string name="restart_for_theme_message">如果主題未被應用請重新啟動App</string>
     <string name="three_digit_milliseconds_prompt">以三位數毫秒儲存</string>
