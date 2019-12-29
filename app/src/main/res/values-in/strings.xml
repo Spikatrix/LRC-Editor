@@ -187,4 +187,5 @@
     <string name="failed_to_open_input_stream_message">Gagal membuka input stream ke berkas untuk membaca data!</string>
     <string name="could_not_parse_any_lyrics_message">Gagal menguraikan lirik dari berkas. Periksa apakah format berkas LRC tersebut sudah benar</string>
     <string name="error_occurred_when_reading_message">Terjadi kesalahan ketika membaca!</string>
+    <string name="no_permission_to_read_text">Tidak dapat izin untuk membaca</string>
 </resources>

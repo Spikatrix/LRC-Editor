@@ -75,7 +75,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_weight=".05"
                 android:drawableEnd="@drawable/ic_open_in_new"
-                android:onClick="rate_and_review"
+                android:onClick="rateAndReview"
                 android:text="@string/rate_and_review_text" />
 
             <Button
@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:drawableEnd="@drawable/ic_open_in_new"
-                android:onClick="send_feedback"
+                android:onClick="sendFeedback"
                 android:text="@string/send_feedback" />
 
             <Button

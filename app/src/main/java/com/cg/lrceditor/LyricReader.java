@@ -12,12 +12,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 public class LyricReader {
 
-    private String[] lyrics = null;
-    private Timestamp[] timestamps = null;
+    private LyricItem[] lyricData;
 
     private SongMetaData songMetaData = new SongMetaData();
 
@@ -41,6 +42,9 @@ public class LyricReader {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             errorMsg = "Oops! " + ctx.getString(R.string.file_not_found_message) + "\n" + e.getMessage();
+        } catch (SecurityException e) {
+            e.printStackTrace();
+            errorMsg = "Oops! " + ctx.getString(R.string.no_permission_to_read_text) + "\n" + e.getMessage();
         }
     }
 
@@ -134,19 +138,17 @@ public class LyricReader {
             }
 
             int size = lyrics.size();
-            this.lyrics = new String[size];
-            this.timestamps = new Timestamp[size];
+            this.lyricData = new LyricItem[size];
 
             for (int i = 0; i < size; i++) {
-                this.lyrics[i] = lyrics.get(i).trim();
-                this.timestamps[i] = new Timestamp(timestamps.get(i).trim());
+                this.lyricData[i] = new LyricItem(lyrics.get(i).trim(), new Timestamp(timestamps.get(i).trim()));
 
                 if (offset != 0) {
-                    this.timestamps[i].alterTimestamp(offset);
+                    this.lyricData[i].getTimestamp().alterTimestamp(offset);
                 }
             }
 
-            sortLyrics();
+            Arrays.sort(this.lyricData, new LyricTimestampComparator());
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -161,64 +163,26 @@ public class LyricReader {
         return true;
     }
 
-    private void sortLyrics() {
-        int size = this.timestamps.length;
-        long[] priority = new long[size];
-        for (int i = 0; i < size; i++)
-            priority[i] = this.timestamps[i].toMilliseconds();
-
-        quickSort(0, size - 1, priority);
-    }
-
-    private void quickSort(int lowerIndex, int higherIndex, long[] array) {
-        int i = lowerIndex;
-        int j = higherIndex;
-
-        long pivot = array[lowerIndex + (higherIndex - lowerIndex) / 2];
-
-        while (i <= j) {
-            while (array[i] < pivot) {
-                i++;
-            }
-            while (array[j] > pivot) {
-                j--;
-            }
-            if (i <= j) {
-                if (array[i] != array[j]) { // Don't swap and change the order of the lyrics if the timestamps are equal
-                    swap(i, j, array);
-                }
-                i++;
-                j--;
-            }
+    String[] getLyrics() {
+        if (this.lyricData == null) {
+            return null;
         }
-
-        if (lowerIndex < j)
-            quickSort(lowerIndex, j, array);
-        if (i < higherIndex)
-            quickSort(i, higherIndex, array);
-    }
-
-    private void swap(int i, int j, long[] array) {
-        long temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-
-        String s = lyrics[i];
-        lyrics[i] = lyrics[j];
-        lyrics[j] = s;
-
-        Timestamp t = timestamps[i];
-        timestamps[i] = timestamps[j];
-        timestamps[j] = t;
-    }
-
-
-    public String[] getLyrics() {
-        return this.lyrics;
+        String[] lyrics = new String[this.lyricData.length];
+        for (int i = 0; i < this.lyricData.length; i++) {
+            lyrics[i] = this.lyricData[i].getLyric();
+        }
+        return lyrics;
     }
 
     Timestamp[] getTimestamps() {
-        return this.timestamps;
+        if (this.lyricData == null) {
+            return null;
+        }
+        Timestamp[] timestamps = new Timestamp[this.lyricData.length];
+        for (int i = 0; i < this.lyricData.length; i++) {
+            timestamps[i] = this.lyricData[i].getTimestamp();
+        }
+        return timestamps;
     }
 
     String getErrorMsg() {
@@ -227,5 +191,12 @@ public class LyricReader {
 
     SongMetaData getSongMetaData() {
         return songMetaData;
+    }
+
+    class LyricTimestampComparator implements Comparator<LyricItem> {
+        @Override
+        public int compare(LyricItem l1, LyricItem l2) {
+            return Long.compare(l1.getTimestamp().toMilliseconds(), l2.getTimestamp().toMilliseconds());
+        }
     }
 }

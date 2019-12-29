@@ -56,10 +56,14 @@ public class AboutActivity extends AppCompatActivity {
         }
 
         TextView version = findViewById(R.id.app_version);
-        version.setText(String.format(Locale.getDefault(), "Version %s (Build %s)", BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE));
+        if (BuildConfig.DEBUG) {
+            version.setText(String.format(Locale.getDefault(), "Version %s (Debug Build %s)", BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE));
+        } else {
+            version.setText(String.format(Locale.getDefault(), "Version %s (Build %s)", BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE));
+        }
     }
 
-    public void rate_and_review(View view) {
+    public void rateAndReview(View view) {
         Uri uri = Uri.parse("market://details?id=" + this.getPackageName());
         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
         // To count with Play market backstack, After pressing back button,
@@ -75,7 +79,7 @@ public class AboutActivity extends AppCompatActivity {
         }
     }
 
-    public void send_feedback(View view) {
+    public void sendFeedback(View view) {
         String deviceInfo = "";
         deviceInfo += "\n OS Version: " + System.getProperty("os.version") + "(" + Build.VERSION.INCREMENTAL + ")";
         deviceInfo += "\n OS API Level: " + Build.VERSION.SDK_INT;
@@ -89,7 +93,7 @@ public class AboutActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(intent, getString(R.string.send_feedback) + ":"));
     }
 
-    public void support_us(View view) {
+    public void startSupportActivity(View view) {
         Intent intent = new Intent(this, SupportActivity.class);
         startActivity(intent);
     }

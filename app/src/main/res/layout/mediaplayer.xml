@@ -4,6 +4,7 @@
     android:id="@+id/mediaplayer_linearlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:orientation="vertical"
     tools:context=".EditorActivity">
 
@@ -42,6 +43,7 @@
     <RelativeLayout
         android:id="@+id/mediaplayer_mid"
         android:layout_width="match_parent"
+        android:animateLayoutChanges="true"
         android:layout_height="@dimen/dp48">
 
         <TextView

@@ -638,6 +638,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
             RelativeLayout mediaplayerMid = findViewById(R.id.mediaplayer_mid);
             ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) mediaplayerMid.getLayoutParams();
             params.topMargin = 0;
+            titleText.setSelected(true);
 
             mediaplayerIsCollapsed = false;
         }

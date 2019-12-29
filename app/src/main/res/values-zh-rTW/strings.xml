@@ -187,4 +187,5 @@
     <string name="failed_to_open_input_stream_message">無法開啟用於讀取數據的文件輸入流！</string>
     <string name="could_not_parse_any_lyrics_message">無法解析檔案中的文字。請檢查LRC檔案的格式是否正確</string>
     <string name="error_occurred_when_reading_message">讀取時發生錯誤！</string>
+    <string name="no_permission_to_read_text">无法获得读入权限</string>
 </resources>

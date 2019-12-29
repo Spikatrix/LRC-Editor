@@ -177,4 +177,5 @@
     <string name="yes">Sim</string>
     <string name="three_digit_milliseconds_prompt">Economize com três dígitos em milissegundos</string>
     <string name="three_digit_milliseconds_help">Salvar com milissegundos de três dígitos pode ser útil para aplicativos que esperam arquivos LRC com timestamps de três dígitos em milissegundos em vez de timestamps de dois dígitos em milissegundos</string>
+    <string name="no_permission_to_read_text">Não foi possível obter permissões para ler arquivos</string>
 </resources>

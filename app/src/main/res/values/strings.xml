@@ -192,4 +192,5 @@
     <string name="failed_to_open_input_stream_message">Failed to open an input stream to the file to read data!</string>
     <string name="could_not_parse_any_lyrics_message">Couldn\'t parse lyrics from the file. Check if the lrc file is properly formatted</string>
     <string name="error_occurred_when_reading_message">An error occurred while reading!</string>
+    <string name="no_permission_to_read_text">Could not obtain permissions to read</string>
 </resources>

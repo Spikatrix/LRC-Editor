@@ -188,4 +188,5 @@
     <string name="failed_to_open_input_stream_message">Fehler beim Öffnen eines Eingabestreams, um Daten aus der Datei zu lesen!</string>
     <string name="could_not_parse_any_lyrics_message">Der Text aus der Datei konnte nicht analysiert werden. Prüfe, ob die LRC-Datei korrekt formatiert ist</string>
     <string name="error_occurred_when_reading_message">Ein fehler trat beim Lesen der Datei auf!</string>
+    <string name="no_permission_to_read_text">Konnte die Berechtigung lesen Beschreiben nicht erhalten</string>
 </resources>
