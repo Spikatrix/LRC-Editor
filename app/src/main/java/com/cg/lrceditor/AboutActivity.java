@@ -87,10 +87,16 @@ public class AboutActivity extends AppCompatActivity {
         deviceInfo += "\n Model and Product: " + Build.MODEL + " (" + Build.PRODUCT + ")";
         deviceInfo += "\n LRC Editor version " + BuildConfig.VERSION_NAME + " (Build: " + BuildConfig.VERSION_CODE + ")";
 
-        Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", getString(R.string.dev_email), null));
-        intent.putExtra(Intent.EXTRA_SUBJECT, "LRC Editor Feedback");
-        intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.feedback_body_prompt) + deviceInfo);
-        startActivity(Intent.createChooser(intent, getString(R.string.send_feedback) + ":"));
+        Intent selectorIntent = new Intent(Intent.ACTION_SENDTO);
+        selectorIntent.setData(Uri.parse("mailto:"));
+
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.dev_email)});
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "LRC Editor Feedback");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.feedback_body_prompt) + "\n" + deviceInfo);
+        emailIntent.setSelector(selectorIntent);
+
+        startActivity(Intent.createChooser(emailIntent, getString(R.string.send_feedback)));
     }
 
     public void startSupportActivity(View view) {
