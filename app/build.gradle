@@ -8,8 +8,8 @@ android {
         applicationId "com.cg.lrceditor"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 46
-        versionName "3.2.1"
+        versionCode 47
+        versionName "3.2.2"
 
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
