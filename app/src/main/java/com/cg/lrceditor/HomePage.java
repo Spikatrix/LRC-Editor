@@ -294,9 +294,6 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
                             Toast.makeText(getApplicationContext(), getString(R.string.scan_cancelled_message) + "; " + getResources().getQuantityString(R.plurals.scanned_x_lrc_files_message, noOfItems, noOfItems), Toast.LENGTH_SHORT).show();
                         }
                     }
-
-                    stopScanning = true;
-                    refreshItem.setIcon(getDrawable(R.drawable.ic_refresh_toolbar));
                 }
             });
         } catch (NullPointerException e) {
@@ -304,6 +301,14 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
             showToastOnUiThread(getString(R.string.failed_to_scan_lyrics_message));
             showToastOnUiThread(getString(R.string.send_a_bug_report_message));
         }
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                stopScanning = true;
+                refreshItem.setIcon(getDrawable(R.drawable.ic_refresh_toolbar));
+            }
+        });
     }
 
     /* Scans all directories and sub directories for LRC files and updates the recyclerview adapter */
