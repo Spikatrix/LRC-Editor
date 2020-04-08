@@ -1,133 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/lyricfile_parent_linearlayout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/bg_list_row"
-    android:clickable="true"
-    android:focusable="true"
-    android:orientation="vertical"
-    android:padding="@dimen/dp10">
+	android:id="@+id/lyricfile_parent_linearlayout"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:background="@drawable/bg_list_row"
+	android:clickable="true"
+	android:focusable="true"
+	android:orientation="vertical"
+	android:padding="@dimen/dp10">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp5"
-            android:layout_weight="9"
-            android:orientation="vertical">
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_centerVertical="true"
+			android:layout_marginStart="@dimen/dp5"
+			android:layout_toStartOf="@id/expandable_button"
+			android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/filename_textview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:scrollHorizontally="true"
-                android:singleLine="true"
-                android:textSize="@dimen/sp18"
-                android:textStyle="bold" />
+			<TextView
+				android:id="@+id/filename_textview"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:ellipsize="marquee"
+				android:fadingEdge="horizontal"
+				android:focusable="true"
+				android:focusableInTouchMode="true"
+				android:marqueeRepeatLimit="marquee_forever"
+				android:scrollHorizontally="true"
+				android:singleLine="true"
+				android:textSize="@dimen/sp18"
+				android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/filelocation_textview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:fadingEdge="horizontal"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:scrollHorizontally="true"
-                android:singleLine="true"
-                android:textSize="@dimen/sp10" />
+			<TextView
+				android:id="@+id/filelocation_textview"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:ellipsize="marquee"
+				android:fadingEdge="horizontal"
+				android:focusable="true"
+				android:focusableInTouchMode="true"
+				android:marqueeRepeatLimit="marquee_forever"
+				android:scrollHorizontally="true"
+				android:singleLine="true"
+				android:textSize="@dimen/sp10" />
 
-        </LinearLayout>
+		</LinearLayout>
 
-        <ImageView
-            android:id="@+id/expandable_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/dp4"
-            android:layout_marginEnd="@dimen/dp4"
-            android:layout_weight=".01"
-            android:contentDescription="@string/expandable_button_description"
-            android:src="@drawable/ic_arrow_drop_down" />
+		<ImageView
+			android:id="@+id/expandable_button"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerVertical="true"
+			android:layout_gravity="center"
+			android:layout_marginStart="@dimen/dp5"
+			android:layout_marginEnd="@dimen/dp5"
+			android:layout_toStartOf="@id/edit_button"
+			android:contentDescription="@string/expandable_button_description"
+			android:src="@drawable/ic_arrow_drop_down" />
 
-        <Button
-            android:id="@+id/edit_button"
-            android:layout_width="@dimen/dp60"
-            android:layout_height="wrap_content"
-            android:layout_weight=".01"
-            android:text="@string/edit" />
+		<Button
+			android:id="@+id/edit_button"
+			android:layout_width="@dimen/dp60"
+			android:layout_height="wrap_content"
+			android:layout_alignParentEnd="true"
+			android:layout_centerVertical="true"
+			android:text="@string/edit" />
 
-    </LinearLayout>
+	</RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/lrc_details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp10"
-        android:orientation="vertical"
-        android:paddingStart="@dimen/dp5"
-        android:paddingEnd="@dimen/dp5"
-        android:visibility="gone">
+	<LinearLayout
+		android:id="@+id/lrc_details"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="@dimen/dp10"
+		android:orientation="vertical"
+		android:paddingStart="@dimen/dp5"
+		android:paddingEnd="@dimen/dp5"
+		android:visibility="gone">
 
-        <TextView
-            android:id="@+id/songname_textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="none"
-            android:fadingEdgeLength="40dp"
-            android:requiresFadingEdge="horizontal"
-            android:singleLine="true"
-            android:text="@string/song_name_prompt" />
+		<TextView
+			android:id="@+id/songname_textview"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:ellipsize="none"
+			android:fadingEdgeLength="40dp"
+			android:requiresFadingEdge="horizontal"
+			android:singleLine="true"
+			android:text="@string/song_name_prompt" />
 
-        <TextView
-            android:id="@+id/albumname_textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="none"
-            android:fadingEdgeLength="40dp"
-            android:requiresFadingEdge="horizontal"
-            android:singleLine="true"
-            android:text="@string/album_name_prompt" />
+		<TextView
+			android:id="@+id/albumname_textview"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:ellipsize="none"
+			android:fadingEdgeLength="40dp"
+			android:requiresFadingEdge="horizontal"
+			android:singleLine="true"
+			android:text="@string/album_name_prompt" />
 
-        <TextView
-            android:id="@+id/artistname_textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="none"
-            android:fadingEdgeLength="40dp"
-            android:requiresFadingEdge="horizontal"
-            android:singleLine="true"
-            android:text="@string/artist_name_prompt" />
+		<TextView
+			android:id="@+id/artistname_textview"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:ellipsize="none"
+			android:fadingEdgeLength="40dp"
+			android:requiresFadingEdge="horizontal"
+			android:singleLine="true"
+			android:text="@string/artist_name_prompt" />
 
-        <TextView
-            android:id="@+id/composername_textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="none"
-            android:fadingEdgeLength="40dp"
-            android:requiresFadingEdge="horizontal"
-            android:singleLine="true"
-            android:text="@string/composer_prompt" />
+		<TextView
+			android:id="@+id/composername_textview"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:ellipsize="none"
+			android:fadingEdgeLength="40dp"
+			android:requiresFadingEdge="horizontal"
+			android:singleLine="true"
+			android:text="@string/composer_prompt" />
 
-        <TextView
-            android:id="@+id/lyrics_textview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/dp8"
-            android:text="@string/loading_lyrics" />
+		<TextView
+			android:id="@+id/lyrics_textview"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginTop="@dimen/dp8"
+			android:text="@string/loading_lyrics" />
 
-    </LinearLayout>
+	</LinearLayout>
 
 </LinearLayout>

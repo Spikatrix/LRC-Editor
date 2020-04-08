@@ -1,157 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mediaplayer_linearlayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
-    android:orientation="vertical"
-    tools:context=".EditorActivity">
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:animateLayoutChanges="true"
+	android:orientation="vertical"
+	tools:context=".EditorActivity">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        android:onClick="selectSong"> <!-- player_title_text gets refreshed for some reason without this -->
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:clickable="true"
+		android:focusable="true"
+		android:onClick="selectSong"> <!-- player_title_text gets refreshed for some reason without this -->
 
-        <TextView
-            android:id="@+id/player_title_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginLeft="@dimen/dp16"
-            android:layout_marginTop="@dimen/dp16"
-            android:layout_marginRight="@dimen/dp16"
-            android:layout_marginBottom="@dimen/dp10"
-            android:clickable="true"
-            android:ellipsize="marquee"
-            android:fadingEdge="horizontal"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:gravity="center"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:onClick="selectSong"
-            android:scrollHorizontally="true"
-            android:singleLine="true"
-            android:text="@string/tap_to_select_song_prompt"
-            android:textSize="@dimen/sp18"
-            android:textStyle="bold" />
-    </RelativeLayout>
+		<TextView
+			android:id="@+id/player_title_text"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_alignParentStart="true"
+			android:layout_alignParentEnd="true"
+			android:layout_marginLeft="@dimen/dp16"
+			android:layout_marginTop="@dimen/dp16"
+			android:layout_marginRight="@dimen/dp16"
+			android:layout_marginBottom="@dimen/dp10"
+			android:clickable="true"
+			android:ellipsize="marquee"
+			android:fadingEdge="horizontal"
+			android:focusable="true"
+			android:focusableInTouchMode="true"
+			android:gravity="center"
+			android:marqueeRepeatLimit="marquee_forever"
+			android:onClick="selectSong"
+			android:scrollHorizontally="true"
+			android:singleLine="true"
+			android:text="@string/tap_to_select_song_prompt"
+			android:textSize="@dimen/sp18"
+			android:textStyle="bold" />
+	</RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/mediaplayer_mid"
-        android:layout_width="match_parent"
-        android:animateLayoutChanges="true"
-        android:layout_height="@dimen/dp48">
+	<RelativeLayout
+		android:id="@+id/mediaplayer_mid"
+		android:layout_width="match_parent"
+		android:layout_height="@dimen/dp48"
+		android:animateLayoutChanges="true">
 
-        <TextView
-            android:id="@+id/start_time_text"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="@dimen/dp16"
-            android:gravity="center"
-            android:maxLines="1"
-            android:text="00:00"
-            android:textStyle="bold" />
+		<TextView
+			android:id="@+id/start_time_text"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:layout_alignParentStart="true"
+			android:layout_marginStart="@dimen/dp16"
+			android:gravity="center"
+			android:maxLines="1"
+			android:text="00:00"
+			android:textStyle="bold" />
 
-        <SeekBar
-            android:id="@+id/seekbar"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/dp5"
-            android:layout_marginRight="@dimen/dp5"
-            android:layout_toStartOf="@id/end_time_text"
-            android:layout_toEndOf="@id/start_time_text" />
+		<SeekBar
+			android:id="@+id/seekbar"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:layout_centerInParent="true"
+			android:layout_gravity="center"
+			android:layout_marginLeft="@dimen/dp5"
+			android:layout_marginRight="@dimen/dp5"
+			android:layout_toStartOf="@id/end_time_text"
+			android:layout_toEndOf="@id/start_time_text" />
 
-        <LinearLayout
-            android:id="@+id/media_controls_collapsed"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/dp15"
-            android:layout_marginEnd="@dimen/dp15"
-            android:layout_toStartOf="@id/end_time_text"
-            android:layout_toEndOf="@id/start_time_text"
-            android:orientation="horizontal"
-            android:visibility="gone">
+		<LinearLayout
+			android:id="@+id/media_controls_collapsed"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:layout_marginStart="@dimen/dp16"
+			android:layout_marginEnd="@dimen/dp16"
+			android:layout_toStartOf="@id/end_time_text"
+			android:layout_toEndOf="@id/start_time_text"
+			android:orientation="horizontal"
+			android:visibility="gone">
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight=".3"
-                android:contentDescription="@string/previous_description"
-                android:onClick="rewind5"
-                android:text="@string/previous_5" />
+			<Button
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:layout_weight=".3"
+				android:contentDescription="@string/previous_description"
+				android:onClick="rewind5"
+				android:text="@string/previous_5" />
 
-            <ImageButton
-                android:id="@+id/play_pause_collapsed"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight=".35"
-                android:contentDescription="@string/play_button_description"
-                android:onClick="playPause"
-                android:src="@drawable/ic_play" />
+			<ImageButton
+				android:id="@+id/play_pause_collapsed"
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				android:layout_weight=".35"
+				android:contentDescription="@string/play_button_description"
+				android:onClick="playPause"
+				android:src="@drawable/ic_play" />
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight=".3"
-                android:contentDescription="@string/forward_description"
-                android:onClick="forward5"
-                android:text="@string/forward_5" />
+			<Button
+				android:layout_width="0dp"
+				android:layout_height="match_parent"
+				android:layout_weight=".3"
+				android:contentDescription="@string/forward_description"
+				android:onClick="forward5"
+				android:text="@string/forward_5" />
 
-        </LinearLayout>
+		</LinearLayout>
 
-        <TextView
-            android:id="@+id/end_time_text"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/dp16"
-            android:gravity="center"
-            android:maxLines="1"
-            android:text="00:00"
-            android:textStyle="bold" />
+		<TextView
+			android:id="@+id/end_time_text"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:layout_alignParentEnd="true"
+			android:layout_marginEnd="@dimen/dp16"
+			android:gravity="center"
+			android:maxLines="1"
+			android:text="00:00"
+			android:textStyle="bold" />
 
-    </RelativeLayout>
+	</RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/media_controls_expanded"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp8"
-        android:layout_marginEnd="@dimen/dp8"
-        android:orientation="horizontal">
+	<LinearLayout
+		android:id="@+id/media_controls_expanded"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/dp8"
+		android:layout_marginEnd="@dimen/dp8"
+		android:orientation="horizontal">
 
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:contentDescription="@string/previous_description"
-            android:onClick="rewind5"
-            android:text="@string/previous_5" />
+		<Button
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:contentDescription="@string/previous_description"
+			android:onClick="rewind5"
+			android:text="@string/previous_5" />
 
-        <ImageButton
-            android:id="@+id/play_pause"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:contentDescription="@string/play_button_description"
-            android:onClick="playPause"
-            android:src="@drawable/ic_play" />
+		<ImageButton
+			android:id="@+id/play_pause"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="2"
+			android:contentDescription="@string/play_button_description"
+			android:onClick="playPause"
+			android:src="@drawable/ic_play" />
 
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:contentDescription="@string/forward_description"
-            android:onClick="forward5"
-            android:text="@string/forward_5" />
+		<Button
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:contentDescription="@string/forward_description"
+			android:onClick="forward5"
+			android:text="@string/forward_5" />
 
-    </LinearLayout>
+	</LinearLayout>
 
 </LinearLayout>

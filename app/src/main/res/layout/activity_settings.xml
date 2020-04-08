@@ -1,158 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+	<com.google.android.material.appbar.AppBarLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:theme="@style/AppTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            android:background="?android:attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+		<androidx.appcompat.widget.Toolbar
+			android:id="@+id/toolbar"
+			android:layout_width="match_parent"
+			android:layout_height="?android:attr/actionBarSize"
+			android:background="?android:attr/colorPrimary"
+			app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-    </com.google.android.material.appbar.AppBarLayout>
+	</com.google.android.material.appbar.AppBarLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical">
+	<ScrollView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:scrollbars="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp15"
-            android:orientation="vertical"
-            tools:context=".SettingsActivity">
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="@dimen/dp16"
+			android:orientation="vertical"
+			tools:context=".SettingsActivity">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dp15"
-                android:text="@string/read_location_description"
-                android:textSize="@dimen/sp16"
-                android:textStyle="bold" />
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="@dimen/dp16"
+				android:text="@string/read_location_description"
+				android:textSize="@dimen/sp16"
+				android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/read_location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dp15" />
+			<TextView
+				android:id="@+id/read_location"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="@dimen/dp16" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="changeReadLocation"
-                android:text="@string/change_location_text" />
+			<Button
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:onClick="changeReadLocation"
+				android:text="@string/change_location_text" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/dp15"
-                android:layout_marginBottom="@dimen/dp15"
-                android:background="@android:color/darker_gray" />
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:layout_marginTop="@dimen/dp16"
+				android:layout_marginBottom="@dimen/dp16"
+				android:background="@android:color/darker_gray" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dp15"
-                android:text="@string/save_location_description"
-                android:textSize="@dimen/sp16"
-                android:textStyle="bold" />
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="@dimen/dp16"
+				android:text="@string/save_location_description"
+				android:textSize="@dimen/sp16"
+				android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/save_location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dp15" />
+			<TextView
+				android:id="@+id/save_location"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="@dimen/dp16" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="changeSaveLocation"
-                android:text="@string/change_location_text" />
+			<Button
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:onClick="changeSaveLocation"
+				android:text="@string/change_location_text" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp15"
-                android:layout_marginBottom="@dimen/dp4"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="@dimen/dp16"
+				android:layout_marginBottom="@dimen/dp4"
+				android:gravity="center_vertical"
+				android:orientation="horizontal">
 
-                <Switch
-                    android:id="@+id/three_digit_milliseconds_switch"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".8"
-                    android:text="@string/three_digit_milliseconds_prompt" />
+				<Switch
+					android:id="@+id/three_digit_milliseconds_switch"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight=".8"
+					android:text="@string/three_digit_milliseconds_prompt" />
 
-                <Button
-                    android:id="@+id/three_digit_milliseconds_help"
-                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".1"
-                    android:onClick="showThreeDigitMillisecondsHelp"
-                    android:text="\?" />
+				<Button
+					style="@style/Widget.AppCompat.Button.Borderless.Colored"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight=".1"
+					android:onClick="showThreeDigitMillisecondsHelp"
+					android:text="\?" />
 
-            </LinearLayout>
+			</LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/dp15"
-                android:layout_marginBottom="@dimen/dp15"
-                android:background="@android:color/darker_gray" />
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:layout_marginTop="@dimen/dp16"
+				android:layout_marginBottom="@dimen/dp16"
+				android:background="@android:color/darker_gray" />
 
-            <TextView
-                android:id="@+id/theme_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dp15"
-                android:text="@string/select_a_theme_prompt"
-                android:textStyle="bold"
-                android:visibility="gone" />
+			<TextView
+				android:id="@+id/theme_title"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="@dimen/dp16"
+				android:text="@string/select_a_theme_prompt"
+				android:textStyle="bold"
+				android:visibility="gone" />
 
-            <RadioGroup
-                android:id="@+id/theme_group"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dp15"
-                android:visibility="gone">
+			<RadioGroup
+				android:id="@+id/theme_group"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="@dimen/dp16"
+				android:visibility="gone">
 
-                <RadioButton
-                    android:id="@+id/radioButtonLight"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:checked="true"
-                    android:text="@string/light" />
+				<RadioButton
+					android:id="@+id/radioButtonLight"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="@dimen/dp10"
+					android:layout_weight="1"
+					android:checked="true"
+					android:text="@string/light" />
 
-                <RadioButton
-                    android:id="@+id/radioButtonDark"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/dark" />
+				<RadioButton
+					android:id="@+id/radioButtonDark"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="@dimen/dp10"
+					android:layout_weight="1"
+					android:text="@string/dark" />
 
-                <RadioButton
-                    android:id="@+id/radioButtonDarker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/darker" />
-            </RadioGroup>
+				<RadioButton
+					android:id="@+id/radioButtonDarker"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="@dimen/dp10"
+					android:layout_weight="1"
+					android:text="@string/darker" />
+			</RadioGroup>
 
-        </LinearLayout>
+		</LinearLayout>
 
-    </ScrollView>
+	</ScrollView>
 
 </LinearLayout>

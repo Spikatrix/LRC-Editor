@@ -1,193 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+	<com.google.android.material.appbar.AppBarLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:theme="@style/AppTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            android:background="?android:attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+		<androidx.appcompat.widget.Toolbar
+			android:id="@+id/toolbar"
+			android:layout_width="match_parent"
+			android:layout_height="?android:attr/actionBarSize"
+			android:background="?android:attr/colorPrimary"
+			app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-    </com.google.android.material.appbar.AppBarLayout>
+	</com.google.android.material.appbar.AppBarLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical">
+	<ScrollView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:scrollbars="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp15"
-            android:animateLayoutChanges="true"
-            android:orientation="vertical"
-            android:scrollbars="vertical"
-            tools:context=".FinalizeActivity">
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="@dimen/dp16"
+			android:animateLayoutChanges="true"
+			android:orientation="vertical"
+			android:scrollbars="vertical"
+			tools:context=".FinalizeActivity">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/finalization_header"
-                android:textSize="25sp"
-                android:textStyle="bold" />
+			<RelativeLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+				<TextView
+					android:id="@+id/songName_prompt"
+					android:layout_width="@dimen/dp84"
+					android:layout_height="wrap_content"
+					android:layout_centerVertical="true"
+					android:layout_margin="@dimen/dp16"
+					android:text="@string/song_name_prompt" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dp15"
-                    android:layout_weight="1"
-                    android:text="@string/song_name_prompt" />
+				<EditText
+					android:id="@+id/songName_edittext"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_centerVertical="true"
+					android:layout_margin="@dimen/dp16"
+					android:layout_toEndOf="@id/songName_prompt"
+					android:hint="@string/song_name_hint"
+					android:inputType="text"
+					android:maxLines="1" />
 
-                <EditText
-                    android:id="@+id/songName_edittext"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dp15"
-                    android:layout_weight=".56"
-                    android:hint="@string/song_name_hint"
-                    android:inputType="text"
-                    android:maxLines="1" />
+			</RelativeLayout>
 
-            </LinearLayout>
+			<RelativeLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+				<TextView
+					android:id="@+id/albumName_prompt"
+					android:layout_width="@dimen/dp84"
+					android:layout_height="wrap_content"
+					android:layout_centerVertical="true"
+					android:layout_margin="@dimen/dp16"
+					android:text="@string/album_name_prompt" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dp15"
-                    android:layout_weight="1"
-                    android:text="@string/album_name_prompt" />
+				<EditText
+					android:id="@+id/albumName_edittext"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_centerVertical="true"
+					android:layout_margin="@dimen/dp16"
+					android:layout_toEndOf="@id/albumName_prompt"
+					android:hint="@string/album_name_hint"
+					android:inputType="text"
+					android:maxLines="1" />
 
-                <EditText
-                    android:id="@+id/albumName_edittext"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dp15"
-                    android:layout_weight=".56"
-                    android:hint="@string/album_name_hint"
-                    android:inputType="text"
-                    android:maxLines="1" />
+			</RelativeLayout>
 
-            </LinearLayout>
+			<RelativeLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+				<TextView
+					android:id="@+id/artistName_prompt"
+					android:layout_width="@dimen/dp84"
+					android:layout_height="wrap_content"
+					android:layout_centerVertical="true"
+					android:layout_margin="@dimen/dp16"
+					android:text="@string/artist_name_prompt" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dp15"
-                    android:layout_weight="1"
-                    android:text="@string/artist_name_prompt" />
+				<EditText
+					android:id="@+id/artistName_edittext"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_centerVertical="true"
+					android:layout_margin="@dimen/dp16"
+					android:layout_toEndOf="@id/artistName_prompt"
+					android:hint="@string/artist_name_hint"
+					android:inputType="text"
+					android:maxLines="1" />
 
-                <EditText
-                    android:id="@+id/artistName_edittext"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dp15"
-                    android:layout_weight=".56"
-                    android:hint="@string/artist_name_hint"
-                    android:inputType="text"
-                    android:maxLines="1" />
+			</RelativeLayout>
 
-            </LinearLayout>
+			<RelativeLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+				<TextView
+					android:id="@+id/composer_prompt"
+					android:layout_width="@dimen/dp84"
+					android:layout_height="wrap_content"
+					android:layout_centerVertical="true"
+					android:layout_margin="@dimen/dp16"
+					android:text="@string/composer_prompt" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dp15"
-                    android:layout_weight="1"
-                    android:text="@string/composer_prompt" />
+				<EditText
+					android:id="@+id/composer_edittext"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_centerVertical="true"
+					android:layout_margin="@dimen/dp16"
+					android:layout_toEndOf="@id/composer_prompt"
+					android:hint="@string/composer_name_hint"
+					android:inputType="text"
+					android:maxLines="1" />
 
-                <EditText
-                    android:id="@+id/composer_edittext"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dp15"
-                    android:layout_weight=".56"
-                    android:hint="@string/composer_name_hint"
-                    android:inputType="text"
-                    android:maxLines="1" />
+			</RelativeLayout>
 
-            </LinearLayout>
+			<TextView
+				android:id="@+id/status_textview"
+				android:layout_width="match_parent"
+				android:layout_height="90dp"
+				android:layout_margin="@dimen/dp16"
+				android:ellipsize="end"
+				android:gravity="center"
+				android:maxLines="5"
+				android:scrollbars="vertical"
+				android:scrollHorizontally="true"
+				android:text="@string/processing"
+				android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/status_textview"
-                android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:layout_margin="@dimen/dp15"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="5"
-                android:scrollbars="vertical"
-                android:scrollHorizontally="true"
-                android:text="@string/processing"
-                android:visibility="gone" />
+			<LinearLayout
+				style="?android:attr/buttonBarStyle"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:orientation="horizontal">
 
-            <LinearLayout
-                style="?android:attr/buttonBarStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
+				<Button
+					style="?android:attr/buttonBarButtonStyle"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:onClick="copyLrc"
+					android:text="@string/copy_lrc_contents" />
 
-                <Button
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="copyLrc"
-                    android:text="@string/copy_lrc_contents" />
+				<Button
+					android:id="@+id/copy_error_button"
+					style="?android:attr/buttonBarButtonStyle"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:onClick="copyError"
+					android:text="@string/copy_error"
+					android:visibility="gone" />
 
-                <Button
-                    android:id="@+id/copy_error_button"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="copyError"
-                    android:text="@string/copy_error"
-                    android:visibility="gone" />
+			</LinearLayout>
 
-            </LinearLayout>
+			<Button
+				android:id="@+id/save_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center|bottom"
+				android:layout_marginTop="@dimen/dp16"
+				android:layout_marginBottom="@dimen/dp24"
+				android:onClick="displaySaveDialog"
+				android:text="@string/save" />
 
-            <Button
-                android:id="@+id/save_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|bottom"
-                android:layout_marginTop="@dimen/dp15"
-                android:layout_marginBottom="@dimen/dp24"
-                android:onClick="displaySaveDialog"
-                android:text="@string/save" />
+		</LinearLayout>
 
-        </LinearLayout>
-
-    </ScrollView>
+	</ScrollView>
 
 </LinearLayout>

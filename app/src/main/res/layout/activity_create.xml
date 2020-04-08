@@ -1,69 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".CreateActivity">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	tools:context=".CreateActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+	<com.google.android.material.appbar.AppBarLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:theme="@style/AppTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            android:background="?android:attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+		<androidx.appcompat.widget.Toolbar
+			android:id="@+id/toolbar"
+			android:layout_width="match_parent"
+			android:layout_height="?android:attr/actionBarSize"
+			android:background="?android:attr/colorPrimary"
+			app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-    </com.google.android.material.appbar.AppBarLayout>
+	</com.google.android.material.appbar.AppBarLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/dp18"
-        android:layout_marginTop="@dimen/dp10"
-        android:layout_marginRight="@dimen/dp18"
-        android:layout_marginBottom="@dimen/dp10"
-        android:orientation="vertical">
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/dp18"
+		android:layout_marginTop="@dimen/dp18"
+		android:layout_marginEnd="@dimen/dp18"
+		android:layout_marginBottom="@dimen/dp18"
+		android:gravity="center"
+		android:text="@string/paste_lyrics_prompt"
+		android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_weight=".3"
-            android:gravity="center"
-            android:text="@string/paste_lyrics_prompt"
-            android:textStyle="bold" />
+	<ScrollView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_marginStart="@dimen/dp18"
+		android:layout_marginEnd="@dimen/dp18"
+		android:layout_marginBottom="@dimen/dp18"
+		android:fillViewport="true">
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="10"
-            android:fillViewport="true">
+		<EditText
+			android:id="@+id/lyrics_textbox"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="@drawable/rounded_border"
+			android:gravity="center"
+			android:scrollbars="vertical" />
 
-            <EditText
-                android:id="@+id/lyrics_textbox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_border"
-                android:gravity="center"
-                android:scrollbars="vertical" />
-
-        </ScrollView>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_weight=".2"
-            android:onClick="startEditor"
-            android:text="@string/done" />
-
-    </LinearLayout>
+	</ScrollView>
 
 </LinearLayout>

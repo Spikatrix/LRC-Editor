@@ -50,7 +50,8 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
     implementation 'com.google.android.material:material:1.1.0'
-    implementation 'com.android.billingclient:billing:2.0.3' // Updating to 2.1.0/2.2.0 gives import errors :(
+    implementation 'com.android.billingclient:billing:2.0.3'
+    // Updating billingclient to 2.1.0/2.2.0 gives import errors :(
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'

@@ -18,99 +18,99 @@ import java.util.Locale;
 
 public class AboutActivity extends AppCompatActivity {
 
-    private boolean isDarkTheme = false;
+	private boolean isDarkTheme = false;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        SharedPreferences preferences = getSharedPreferences("LRC Editor Preferences", MODE_PRIVATE);
-        String theme = preferences.getString("current_theme", "light");
-        if (theme.equals("dark")) {
-            isDarkTheme = true;
-            setTheme(R.style.AppThemeDark);
-        } else if (theme.equals("darker")) {
-            isDarkTheme = true;
-            setTheme(R.style.AppThemeDarker);
-        }
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		SharedPreferences preferences = getSharedPreferences("LRC Editor Preferences", MODE_PRIVATE);
+		String theme = preferences.getString("current_theme", "light");
+		if (theme.equals("dark")) {
+			isDarkTheme = true;
+			setTheme(R.style.AppThemeDark);
+		} else if (theme.equals("darker")) {
+			isDarkTheme = true;
+			setTheme(R.style.AppThemeDarker);
+		}
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_about);
 
-        if (isDarkTheme) {
-            Button b = findViewById(R.id.rate_and_review_button);
-            b.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, getDrawable(R.drawable.ic_open_in_new_light), null);
+		if (isDarkTheme) {
+			Button b = findViewById(R.id.rate_and_review_button);
+			b.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, getDrawable(R.drawable.ic_open_in_new_light), null);
 
-            b = findViewById(R.id.send_feedback_button);
-            b.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, getDrawable(R.drawable.ic_open_in_new_light), null);
-        }
+			b = findViewById(R.id.send_feedback_button);
+			b.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, getDrawable(R.drawable.ic_open_in_new_light), null);
+		}
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        if (isDarkTheme) {
-            toolbar.setPopupTheme(R.style.AppThemeDark_PopupOverlay);
-        }
-        setSupportActionBar(toolbar);
+		Toolbar toolbar = findViewById(R.id.toolbar);
+		if (isDarkTheme) {
+			toolbar.setPopupTheme(R.style.AppThemeDark_PopupOverlay);
+		}
+		setSupportActionBar(toolbar);
 
-        try {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
+		try {
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
 
-        TextView version = findViewById(R.id.app_version);
-        if (BuildConfig.DEBUG) {
-            version.setText(String.format(Locale.getDefault(), "Version %s (Debug Build %s)", BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE));
-        } else {
-            version.setText(String.format(Locale.getDefault(), "Version %s (Build %s)", BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE));
-        }
-    }
+		TextView version = findViewById(R.id.app_version);
+		if (BuildConfig.DEBUG) {
+			version.setText(String.format(Locale.getDefault(), "Version %s (Debug Build %s)", BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE));
+		} else {
+			version.setText(String.format(Locale.getDefault(), "Version %s (Build %s)", BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE));
+		}
+	}
 
-    public void rateAndReview(View view) {
-        Uri uri = Uri.parse("market://details?id=" + this.getPackageName());
-        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-        // To count with Play market backstack, After pressing back button,
-        // to taken back to our application, we need to add following flags to intent.
-        goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
-                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
-                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-        try {
-            startActivity(goToMarket);
-        } catch (ActivityNotFoundException e) {
-            startActivity(new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("http://play.google.com/store/apps/details?id=" + this.getPackageName())));
-        }
-    }
+	public void rateAndReview(View view) {
+		Uri uri = Uri.parse("market://details?id=" + this.getPackageName());
+		Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+		// To count with Play market backstack, After pressing back button,
+		// to taken back to our application, we need to add following flags to intent.
+		goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+			Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+			Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+		try {
+			startActivity(goToMarket);
+		} catch (ActivityNotFoundException e) {
+			startActivity(new Intent(Intent.ACTION_VIEW,
+				Uri.parse("http://play.google.com/store/apps/details?id=" + this.getPackageName())));
+		}
+	}
 
-    public void sendFeedback(View view) {
-        String deviceInfo = "";
-        deviceInfo += "\n OS Version: " + System.getProperty("os.version") + "(" + Build.VERSION.INCREMENTAL + ")";
-        deviceInfo += "\n OS API Level: " + Build.VERSION.SDK_INT;
-        deviceInfo += "\n Device: " + Build.DEVICE;
-        deviceInfo += "\n Model and Product: " + Build.MODEL + " (" + Build.PRODUCT + ")";
-        deviceInfo += "\n LRC Editor version " + BuildConfig.VERSION_NAME + " (Build: " + BuildConfig.VERSION_CODE + ")";
+	public void sendFeedback(View view) {
+		String deviceInfo = "";
+		deviceInfo += "\n OS Version: " + System.getProperty("os.version") + "(" + Build.VERSION.INCREMENTAL + ")";
+		deviceInfo += "\n OS API Level: " + Build.VERSION.SDK_INT;
+		deviceInfo += "\n Device: " + Build.DEVICE;
+		deviceInfo += "\n Model and Product: " + Build.MODEL + " (" + Build.PRODUCT + ")";
+		deviceInfo += "\n LRC Editor version " + BuildConfig.VERSION_NAME + " (Build: " + BuildConfig.VERSION_CODE + ")";
 
-        Intent selectorIntent = new Intent(Intent.ACTION_SENDTO);
-        selectorIntent.setData(Uri.parse("mailto:"));
+		Intent selectorIntent = new Intent(Intent.ACTION_SENDTO);
+		selectorIntent.setData(Uri.parse("mailto:"));
 
-        Intent emailIntent = new Intent(Intent.ACTION_SEND);
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.dev_email)});
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "LRC Editor Feedback");
-        emailIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.feedback_body_prompt) + "\n" + deviceInfo);
-        emailIntent.setSelector(selectorIntent);
+		Intent emailIntent = new Intent(Intent.ACTION_SEND);
+		emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.dev_email)});
+		emailIntent.putExtra(Intent.EXTRA_SUBJECT, "LRC Editor Feedback");
+		emailIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.feedback_body_prompt) + "\n" + deviceInfo);
+		emailIntent.setSelector(selectorIntent);
 
-        startActivity(Intent.createChooser(emailIntent, getString(R.string.send_feedback)));
-    }
+		startActivity(Intent.createChooser(emailIntent, getString(R.string.send_feedback)));
+	}
 
-    public void startSupportActivity(View view) {
-        Intent intent = new Intent(this, SupportActivity.class);
-        startActivity(intent);
-    }
+	public void startSupportActivity(View view) {
+		Intent intent = new Intent(this, SupportActivity.class);
+		startActivity(intent);
+	}
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-            return true;
-        }
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == android.R.id.home) {
+			onBackPressed();
+			return true;
+		}
 
-        return (super.onOptionsItemSelected(item));
-    }
+		return (super.onOptionsItemSelected(item));
+	}
 }

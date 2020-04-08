@@ -1,67 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/lyricitem_parent_linearlayout"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/dp110"
-    android:background="@drawable/bg_list_row"
-    android:orientation="horizontal"
-    android:padding="@dimen/dp8">
+	android:id="@+id/lyricitem_parent_linearlayout"
+	android:layout_width="match_parent"
+	android:layout_height="@dimen/dp110"
+	android:background="@drawable/bg_list_row"
+	android:orientation="horizontal"
+	android:padding="@dimen/dp8">
 
-    <LinearLayout
-        android:id="@+id/item_time_controls"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="invisible">
+	<LinearLayout
+		android:id="@+id/item_time_controls"
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:gravity="center"
+		android:orientation="vertical"
+		android:visibility="invisible">
 
-        <ImageButton
-            android:id="@+id/increase_time_button"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:contentDescription="@string/increase_timestamp_description"
-            android:src="@drawable/ic_add" />
+		<ImageButton
+			android:id="@+id/increase_time_button"
+			android:layout_width="match_parent"
+			android:layout_height="40dp"
+			android:contentDescription="@string/increase_timestamp_description"
+			android:src="@drawable/ic_add" />
 
-        <TextView
-            android:id="@+id/item_time"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:gravity="center"
-            android:text="00:00.00" />
+		<TextView
+			android:id="@+id/item_time"
+			android:layout_width="wrap_content"
+			android:layout_height="20dp"
+			android:gravity="center"
+			android:text="00:00.00" />
 
-        <ImageButton
-            android:id="@+id/decrease_time_button"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:contentDescription="@string/decrease_timestamp_description"
-            android:src="@drawable/ic_minus" />
+		<ImageButton
+			android:id="@+id/decrease_time_button"
+			android:layout_width="match_parent"
+			android:layout_height="40dp"
+			android:contentDescription="@string/decrease_timestamp_description"
+			android:src="@drawable/ic_minus" />
 
-    </LinearLayout>
+	</LinearLayout>
 
-    <TextView
-        android:id="@+id/item_lyric"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="5"
-        android:gravity="center"
-        android:paddingLeft="@dimen/dp10"
-        android:paddingRight="@dimen/dp10"
-        android:textStyle="bold" />
+	<TextView
+		android:id="@+id/item_lyric"
+		android:layout_width="0dp"
+		android:layout_height="match_parent"
+		android:layout_weight="5"
+		android:gravity="center"
+		android:paddingLeft="@dimen/dp10"
+		android:paddingRight="@dimen/dp10"
+		android:textStyle="bold" />
 
-    <ImageButton
-        android:id="@+id/item_add"
-        android:layout_width="36dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:contentDescription="@string/add_timestamp_description"
-        android:src="@drawable/ic_add" />
+	<ImageButton
+		android:id="@+id/item_add"
+		android:layout_width="36dp"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:contentDescription="@string/add_timestamp_description"
+		android:src="@drawable/ic_add" />
 
-    <ImageButton
-        android:id="@+id/item_play"
-        android:layout_width="36dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:contentDescription="@string/play_lyric_description"
-        android:src="@drawable/ic_play" />
+	<ImageButton
+		android:id="@+id/item_play"
+		android:layout_width="36dp"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:contentDescription="@string/play_lyric_description"
+		android:src="@drawable/ic_play" />
 
 </LinearLayout>

@@ -3,4 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+	<color name="errorColor">#c61b1b</color>
+	<color name="successColor">#2da81a</color>
+
+	<color name="homepageTimestampColor">#2bb1e2</color>
+	<color name="homepageLyricColor">#dd9911</color>
+	<!-- See drawable/bg_list_row.xml for colors of list items -->
 </resources>
