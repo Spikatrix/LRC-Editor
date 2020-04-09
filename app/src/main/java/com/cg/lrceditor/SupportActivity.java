@@ -44,6 +44,7 @@ public class SupportActivity extends AppCompatActivity {
 
 			if (result.isFailure()) {
 				complain(getString(R.string.failed_to_query_inventory_message) + ": " + result);
+				setPurchaseButtonTexts(ctx.getString(R.string.error));
 				return;
 			}
 
@@ -56,7 +57,7 @@ public class SupportActivity extends AppCompatActivity {
 				}
 
 				Purchase purchase = inventory.getPurchase(ITEM_SKUS[i]);
-				if (purchase != null && purchase.getPurchaseState() == 0) { //0 means purchased
+				if (purchase != null && purchase.getPurchaseState() == 0) { // 0 means purchased
 					if (!preferences.getString("lrceditor_purchased", "").equals("Y")) {
 						Toast.makeText(ctx, getString(R.string.dark_themes_available_message), Toast.LENGTH_LONG).show();
 					}
@@ -95,6 +96,7 @@ public class SupportActivity extends AppCompatActivity {
 							mHelper.queryInventoryAsync(true, Arrays.asList(ITEM_SKUS), null, mGotInventoryListener);
 						} catch (IabHelper.IabAsyncInProgressException e) {
 							complain(getString(R.string.failed_to_query_purchase_message) + ":Finish:IabAsyncInProgress");
+							setPurchaseButtonTexts(ctx.getString(R.string.error));
 							e.printStackTrace();
 						}
 						break;
@@ -144,25 +146,33 @@ public class SupportActivity extends AppCompatActivity {
 		String base64EncodedPublicKey = "Base64EncodedString";
 		mHelper = new IabHelper(ctx, base64EncodedPublicKey);
 
-		mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
-			@Override
-			public void onIabSetupFinished(IabResult result) {
-				if (!result.isSuccess()) {
-					complain(getString(R.string.iap_setup_failed_message) + ": " + result);
-					return;
-				}
+		if (base64EncodedPublicKey.equals("Base64" + "EncodedString")) {
+			complain("IAPs won't work as the original encoded key is not used (for security purposes). " +
+				"Download and install the APK release from the GitHub page or from the Play Store if you want to use IAPs");
+			setPurchaseButtonTexts(getString(R.string.error));
+		} else {
+			mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+				@Override
+				public void onIabSetupFinished(IabResult result) {
+					if (!result.isSuccess()) {
+						complain(getString(R.string.iap_setup_failed_message) + ": " + result);
+						setPurchaseButtonTexts(ctx.getString(R.string.error));
+						return;
+					}
 
-				if (mHelper == null)
-					return;
+					if (mHelper == null)
+						return;
 
-				try {
-					mHelper.queryInventoryAsync(true, Arrays.asList(ITEM_SKUS), null, mGotInventoryListener);
-				} catch (IabHelper.IabAsyncInProgressException e) {
-					complain(getString(R.string.failed_to_query_purchase_message) + ":Setup:IabAsyncInProgress");
-					e.printStackTrace();
+					try {
+						mHelper.queryInventoryAsync(true, Arrays.asList(ITEM_SKUS), null, mGotInventoryListener);
+					} catch (IabHelper.IabAsyncInProgressException e) {
+						complain(getString(R.string.failed_to_query_purchase_message) + ":Setup:IabAsyncInProgress");
+						setPurchaseButtonTexts(ctx.getString(R.string.error));
+						e.printStackTrace();
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 
 	@Override
@@ -188,6 +198,16 @@ public class SupportActivity extends AppCompatActivity {
 		if (mHelper != null) {
 			mHelper.disposeWhenFinished();
 			mHelper = null;
+		}
+	}
+
+	private void setPurchaseButtonTexts(String text) {
+		for (Button purchaseButton : purchaseButtons) {
+			purchaseButton.setText(text);
+
+			if (text.equals(ctx.getString(R.string.error))) {
+				purchaseButton.setEnabled(false);
+			}
 		}
 	}
 
