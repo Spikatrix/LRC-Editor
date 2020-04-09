@@ -8,8 +8,8 @@ android {
         applicationId "com.cg.lrceditor"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 47
-        versionName "3.2.2"
+        versionCode 48
+        versionName "3.2.3"
 
         // Targeting Android 11 (API level 30) or above might result in the app not being able
         // to read/write to storage because of the "Scoped Storage" enforcement
@@ -49,7 +49,7 @@ dependencies {
     implementation 'androidx.documentfile:documentfile:1.0.1'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
-    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.google.android.material:material:1.0.0'
     implementation 'com.android.billingclient:billing:2.0.3'
     // Updating billingclient to 2.1.0/2.2.0 gives import errors :(
 
