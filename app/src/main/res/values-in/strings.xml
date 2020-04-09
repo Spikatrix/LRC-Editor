@@ -138,7 +138,7 @@
 	<string name="copy_lrc_file_data_successful_message">Data berkas LRC sudah tersalin dengan sukses ke Papan Klip Sistem!</string>
 	<string name="copy_error_successful_message">Riwayat kesalahan tersalin dengan sukses ke Papan Klip Sistem!</string>
 	<string name="no_permission_to_write_text">Tidak dapat izin untuk menulis</string>
-	<string name="save_location_description">Lokasi untuk menyimpan berkas lirik:</string>
+	<string name="save_location_description">Lokasi untuk menyimpan berkas lirik</string>
 	<string name="save_location_displayer">Lokasi penyimpanan: %1$s</string>
 	<string name="change">Ubah</string>
 	<string name="file_name_prompt">Nama berkas yang akan disimpan:</string>
@@ -156,8 +156,8 @@
 	<string name="support_me">Dukung Saya</string>
 	<string name="feedback_body_prompt">Masukkan umpan balik/laporan kesalahan Anda di sini</string>
 
-	<string name="change_location_text">Ubah lokasi ini</string>
-	<string name="read_location_description">Lokasi untuk memindai/membaca berkas lirik (termasuk sub-direktori):</string>
+	<string name="read_location_description">Lokasi untuk memindai/membaca berkas lirik</string>
+	<string name="read_location_extra_description">Termasuk sub-direktori</string>
 	<string name="select_a_theme_prompt">Pilih tema:</string>
 	<string name="light">Terang</string>
 	<string name="dark">Gelap</string>

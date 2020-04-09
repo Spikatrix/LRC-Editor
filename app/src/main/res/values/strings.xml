@@ -142,7 +142,7 @@
 	<string name="copy_lrc_file_data_successful_message">Successfully copied the LRC file data into the System Clipboard!</string>
 	<string name="copy_error_successful_message">Successfully copied the generated error into the System Clipboard!</string>
 	<string name="no_permission_to_write_text">Could not obtain permissions to write</string>
-	<string name="save_location_description">Location for saving lyric files:</string>
+	<string name="save_location_description">Location for saving lyric files</string>
 	<string name="save_location_displayer">Save location: %1$s</string>
 	<string name="change">Change</string>
 	<string name="file_name_prompt">File name to save:</string>
@@ -161,8 +161,8 @@
 	<string name="dev_email" translatable="false">cg.devworks@gmail.com</string>
 	<string name="feedback_body_prompt">Enter your feedback/bug report here</string>
 
-	<string name="change_location_text">Change this location</string>
-	<string name="read_location_description">Location for reading lyric files (sub directories will also be scanned):</string>
+	<string name="read_location_description">Location for reading lyric files</string>
+	<string name="read_location_extra_description">Sub directories will also be scanned</string>
 	<string name="select_a_theme_prompt">Select a theme:</string>
 	<string name="light">Light</string>
 	<string name="dark">Dark</string>

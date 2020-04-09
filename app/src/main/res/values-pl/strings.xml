@@ -17,7 +17,6 @@
 	<string name="cancel">Anuluj</string>
 	<string name="cannot_save_without_permission_message">Nie można zapisać pliku bez pozwolenia na przechowywanie</string>
 	<string name="change">Przeglądaj</string>
-	<string name="change_location_text">Zmień tę lokalizację</string>
 	<string name="composer_name_hint">Nazwa kompozytora tutaj</string>
 	<string name="composer_prompt">Kompozytor:</string>
 	<string name="confirmation">Potwierdzenie</string>
@@ -115,7 +114,8 @@
 	<string name="purchased">Zakupione</string>
 	<string name="rate_and_feedback_text">Ta aplikacja jest tworzona i obsługiwana przeze mnie\nOceń aplikację i przekaż konstruktywną opinię\n\n\nDziękuję Ci!\n♥</string>
 	<string name="rate_and_review_text">Oceń i przejrzyj aplikację</string>
-	<string name="read_location_description">Miejsce odczytu plików tekstowych (skanowane będą również podkatalogi):</string>
+	<string name="read_location_description">Miejsce odczytu plików tekstowych</string>
+	<string name="read_location_extra_description">Skanowane będą również podkatalogi</string>
 	<string name="read_location_invalid_message">Lokalizacja odczytu nie istnieje. Próbowałem utworzyć folder na %1$s, ale nie powiodło się. Czy chcesz zresetować lokalizację odczytu do domyślnej?</string>
 	<string name="read_location_non_existent_message">"Lokalizacja odczytu nie istnieje. Nie udało się również utworzyć folderu 'Lyrics'. Spróbuj zmienić lokalizację odczytu"</string>
 	<string name="rename">Zmień nazwę</string>
@@ -124,7 +124,7 @@
 	<string name="renaming_message">Zmiana nazwy ... Może to chwilę potrwać w zależności od odległości pliku od ustawionej lokalizacji odczytu</string>
 	<string name="restart_for_theme_message">Uruchom ponownie aplikację, jeśli motyw nie ma zastosowania</string>
 	<string name="save">Zapisz</string>
-	<string name="save_location_description">Miejsce zapisywania plików tekstowych:</string>
+	<string name="save_location_description">Miejsce zapisywania plików tekstowych</string>
 	<string name="save_location_displayer">Zapisz lokalizację: %1$s</string>
 	<string name="save_successful">Pomyślnie zapisano plik z tekstem w %1$s</string>
 	<string name="scan_cancelled_message">Skanowanie anulowane</string>

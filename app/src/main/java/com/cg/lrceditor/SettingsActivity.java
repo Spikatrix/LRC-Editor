@@ -23,6 +23,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 	private TextView saveLocation;
 	private TextView readLocation;
+	private Switch threeDigitMillisecondsSwitch;
 
 	private RadioButton light, dark, darker;
 
@@ -60,7 +61,7 @@ public class SettingsActivity extends AppCompatActivity {
 		saveLocation = findViewById(R.id.save_location);
 		readLocation = findViewById(R.id.read_location);
 
-		Switch threeDigitMillisecondsSwitch = findViewById(R.id.three_digit_milliseconds_switch);
+		threeDigitMillisecondsSwitch = findViewById(R.id.three_digit_milliseconds_switch);
 		threeDigitMillisecondsSwitch.setChecked(preferences.getBoolean("three_digit_milliseconds", false));
 		threeDigitMillisecondsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
@@ -157,6 +158,10 @@ public class SettingsActivity extends AppCompatActivity {
 			.setNeutralButton(getString(R.string.ok), null)
 			.create()
 			.show();
+	}
+
+	public void toggleThreeDigitMillisecondSwitch(View view) {
+		threeDigitMillisecondsSwitch.toggle();
 	}
 
 	@Override

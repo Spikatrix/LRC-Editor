@@ -28,64 +28,89 @@
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_margin="@dimen/dp16"
 			android:orientation="vertical"
 			tools:context=".SettingsActivity">
-
-			<TextView
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginBottom="@dimen/dp16"
-				android:text="@string/read_location_description"
-				android:textSize="@dimen/sp16"
-				android:textStyle="bold" />
-
-			<TextView
-				android:id="@+id/read_location"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginBottom="@dimen/dp16" />
-
-			<Button
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:onClick="changeReadLocation"
-				android:text="@string/change_location_text" />
-
-			<View
-				android:layout_width="match_parent"
-				android:layout_height="1dp"
-				android:layout_marginTop="@dimen/dp16"
-				android:layout_marginBottom="@dimen/dp16"
-				android:background="@android:color/darker_gray" />
-
-			<TextView
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginBottom="@dimen/dp16"
-				android:text="@string/save_location_description"
-				android:textSize="@dimen/sp16"
-				android:textStyle="bold" />
-
-			<TextView
-				android:id="@+id/save_location"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginBottom="@dimen/dp16" />
-
-			<Button
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:onClick="changeSaveLocation"
-				android:text="@string/change_location_text" />
 
 			<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="@dimen/dp16"
-				android:layout_marginBottom="@dimen/dp4"
+				android:background="?attr/selectableItemBackground"
+				android:clickable="true"
+				android:focusable="true"
+				android:onClick="changeReadLocation"
+				android:orientation="vertical"
+				android:padding="@dimen/dp16">
+
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/read_location_description"
+					android:textSize="@dimen/sp18"
+					android:textStyle="bold" />
+
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="@dimen/dp10"
+					android:text="@string/read_location_extra_description"
+					android:textSize="@dimen/sp10" />
+
+				<TextView
+					android:id="@+id/read_location"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="@dimen/dp10"
+					android:layout_marginBottom="@dimen/dp10" />
+
+			</LinearLayout>
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:background="@android:color/darker_gray" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="?attr/selectableItemBackground"
+				android:clickable="true"
+				android:focusable="true"
+				android:onClick="changeSaveLocation"
+				android:orientation="vertical"
+				android:padding="@dimen/dp16">
+
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="@dimen/dp10"
+					android:text="@string/save_location_description"
+					android:textSize="@dimen/sp18"
+					android:textStyle="bold" />
+
+				<TextView
+					android:id="@+id/save_location"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="@dimen/dp10"
+					android:layout_marginBottom="@dimen/dp10" />
+
+			</LinearLayout>
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:background="@android:color/darker_gray" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="?attr/selectableItemBackground"
+				android:clickable="true"
+				android:focusable="true"
 				android:gravity="center_vertical"
-				android:orientation="horizontal">
+				android:onClick="toggleThreeDigitMillisecondSwitch"
+				android:orientation="horizontal"
+				android:padding="@dimen/dp16">
 
 				<Switch
 					android:id="@+id/three_digit_milliseconds_switch"
@@ -107,15 +132,13 @@
 			<View
 				android:layout_width="match_parent"
 				android:layout_height="1dp"
-				android:layout_marginTop="@dimen/dp16"
-				android:layout_marginBottom="@dimen/dp16"
 				android:background="@android:color/darker_gray" />
 
 			<TextView
 				android:id="@+id/theme_title"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginBottom="@dimen/dp16"
+				android:layout_margin="@dimen/dp16"
 				android:text="@string/select_a_theme_prompt"
 				android:textStyle="bold"
 				android:visibility="gone" />
@@ -124,6 +147,8 @@
 				android:id="@+id/theme_group"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:layout_marginStart="@dimen/dp16"
+				android:layout_marginEnd="@dimen/dp16"
 				android:layout_marginBottom="@dimen/dp16"
 				android:visibility="gone">
 
@@ -131,8 +156,7 @@
 					android:id="@+id/radioButtonLight"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_marginBottom="@dimen/dp10"
-					android:layout_weight="1"
+					android:layout_marginBottom="@dimen/dp14"
 					android:checked="true"
 					android:text="@string/light" />
 
@@ -140,17 +164,16 @@
 					android:id="@+id/radioButtonDark"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_marginBottom="@dimen/dp10"
-					android:layout_weight="1"
+					android:layout_marginBottom="@dimen/dp14"
 					android:text="@string/dark" />
 
 				<RadioButton
 					android:id="@+id/radioButtonDarker"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_marginBottom="@dimen/dp10"
-					android:layout_weight="1"
+					android:layout_marginBottom="@dimen/dp14"
 					android:text="@string/darker" />
+
 			</RadioGroup>
 
 		</LinearLayout>

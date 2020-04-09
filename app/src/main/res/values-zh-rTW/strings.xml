@@ -138,7 +138,7 @@
 	<string name="copy_lrc_file_data_successful_message">成功將LRC檔的資訊複製至系統剪貼簿！</string>
 	<string name="copy_error_successful_message">成功將產生的錯誤信息資訊複製至系統剪貼簿！</string>
 	<string name="no_permission_to_write_text">無法獲得寫入權限</string>
-	<string name="save_location_description">儲存歌詞檔的位置：</string>
+	<string name="save_location_description">儲存歌詞檔的位置</string>
 	<string name="save_location_displayer">儲存位置： %1$s</string>
 	<string name="change">變更</string>
 	<string name="file_name_prompt">儲存檔案名稱：</string>
@@ -156,8 +156,8 @@
 	<string name="support_me">支持我</string>
 	<string name="feedback_body_prompt">在此輸入您的意見/錯誤報告</string>
 
-	<string name="change_location_text">變更這個位置</string>
-	<string name="read_location_description">讀取歌詞檔的位置 (子目錄亦會被掃描)：</string>
+	<string name="read_location_description">讀取歌詞檔的位置</string>
+	<string name="read_location_extra_description">子目錄亦會被掃描</string>
 	<string name="select_a_theme_prompt">選擇主題：</string>
 	<string name="light">淺色</string>
 	<string name="dark">深色</string>

@@ -17,7 +17,6 @@
 	<string name="cancel">Cancelar</string>
 	<string name="cannot_save_without_permission_message">Não é possível salvar o arquivo sem a permissão de armazenamento</string>
 	<string name="change">Mudar</string>
-	<string name="change_location_text">Mudar localização</string>
 	<string name="composer_name_hint">Nome do compositor aqui</string>
 	<string name="composer_prompt">Compositor:</string>
 	<string name="confirmation">Confirmação</string>
@@ -115,7 +114,8 @@
 	<string name="purchased">Compra finalizada</string>
 	<string name="rate_and_feedback_text">Este aplicativo é feito e mantido apenas por mim\nPor favor, classifique o aplicativo e forneça um feedback construtivo\n\n\n Obrigado!\n ♥</string>
 	<string name="rate_and_review_text">Avalie e comente o aplicativo</string>
-	<string name="read_location_description">Localização para ler arquivos de letras (as subpastas também serão verificadas):</string>
+	<string name="read_location_description">Localização para ler arquivos de letras</string>
+	<string name="read_location_extra_description">As subpastas também serão verificadas</string>
 	<string name="read_location_invalid_message">A localização de leitura não existe.  Tentei criar uma pasta em %1$s, mas falhou. Você deseja redefinir o local de leitura para o local padrão?</string>
 	<string name="read_location_non_existent_message">A localização de leitura não existe.  Falha ao criar uma pasta \'Lyrics\' também. Tente alterar o local de leitura</string>
 	<string name="rename">Renomear</string>
@@ -124,7 +124,7 @@
 	<string name="renaming_message">Renomeando... Isso pode demorar um pouco dependendo de quão longe o arquivo está do local de leitura definido</string>
 	<string name="restart_for_theme_message">Reinicie o aplicativo se o tema não se aplicar</string>
 	<string name="save">Salvar</string>
-	<string name="save_location_description">Localização dos arquivos salvos:</string>
+	<string name="save_location_description">Localização dos arquivos salvos</string>
 	<string name="save_location_displayer">Salvar em: %1$s</string>
 	<string name="save_successful">Arquivo de letras salvo com sucesso em %1$s</string>
 	<string name="scan_cancelled_message">Escaneamento cancelado</string>
