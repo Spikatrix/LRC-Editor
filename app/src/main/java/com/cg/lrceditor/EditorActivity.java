@@ -395,17 +395,29 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
 	@Override
 	protected void onSaveInstanceState(@NonNull Bundle outState) {
-		outState.putSerializable("LYRIC DATA", (ArrayList<LyricItem>) adapter.lyricData);
-		outState.putParcelable("SONG URI", songUri);
+		try {
+			outState.putSerializable("LYRIC DATA", (ArrayList<LyricItem>) adapter.lyricData);
+		} catch (NullPointerException e) { // Not sure why I get crash reports on this. `adapter.lyricData` should not be `null`...
+			e.printStackTrace();
+		}
+
+		try {
+			outState.putParcelable("SONG URI", songUri);
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
 		super.onSaveInstanceState(outState);
 	}
 
 	@Override
 	protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-		adapter = new LyricListAdapter(this, (ArrayList<LyricItem>) savedInstanceState.getSerializable("LYRIC DATA"), isDarkTheme);
-		adapter.setClickListener(this);
-		adapter.clearSelections();
-		recyclerView.setAdapter(adapter);
+		ArrayList<LyricItem> lyricData = (ArrayList<LyricItem>) savedInstanceState.getSerializable("LYRIC DATA");
+		if (lyricData != null) {
+			adapter = new LyricListAdapter(this, lyricData, isDarkTheme);
+			adapter.setClickListener(this);
+			adapter.clearSelections();
+			recyclerView.setAdapter(adapter);
+		}
 
 		songUri = savedInstanceState.getParcelable("SONG URI");
 		if (songUri != null) {
