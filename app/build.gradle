@@ -8,7 +8,7 @@ android {
 		applicationId "com.cg.lrceditor"
 		minSdkVersion 21
 		targetSdkVersion 29
-		versionCode 49
+		versionCode 50
 		versionName "3.2.3"
 
 		// Targeting Android 11 (API level 30) or above might result in the app not being able
@@ -51,6 +51,7 @@ dependencies {
 	implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
 	implementation 'com.google.android.material:material:1.0.0'
 	implementation 'com.android.billingclient:billing:2.0.3'
+	// Updating material to 1.1.0 results in a 20% increase in APK size with no noticeable benefits
 	// Updating billingclient to 2.1.0/2.2.0 gives import errors :(
 
 	testImplementation 'junit:junit:4.12'

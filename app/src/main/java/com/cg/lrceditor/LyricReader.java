@@ -102,23 +102,20 @@ public class LyricReader {
 					} else {
 						if (songMetaData.getSongName().isEmpty() && temp.matches("^\\[ti:.*]$")) {
 							songMetaData.setSongName(temp.substring(4, temp.length() - 1).trim());
-							break;
 						} else if (songMetaData.getArtistName().isEmpty() && temp.matches("^\\[ar:.*]$")) {
 							songMetaData.setArtistName(temp.substring(4, temp.length() - 1).trim());
-							break;
 						} else if (songMetaData.getAlbumName().isEmpty() && temp.matches("^\\[al:.*]$")) {
 							songMetaData.setAlbumName(temp.substring(4, temp.length() - 1).trim());
-							break;
 						} else if (songMetaData.getComposerName().isEmpty() && temp.matches("^\\[au:.*]$")) {
 							songMetaData.setComposerName(temp.substring(4, temp.length() - 1).trim());
-							break;
 						} else if (offset == 0 && temp.matches("^\\[offset:.*]$")) {
 							try {
 								offset = Integer.parseInt(temp.substring(8, temp.length() - 1).trim());
 							} catch (NumberFormatException e) { // Ignore the offset if we couldn't scan it
 								e.printStackTrace();
 							}
-						} else break;
+						}
+						break;
 					}
 				}
 
