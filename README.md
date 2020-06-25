@@ -7,10 +7,10 @@ LRC Editor is an Android app that helps you to create and edit .lrc files easily
 It is currently available to download on the [Google Play Store][play_store_page] as well as on [GitHub][github_release_page]. It will be available on [F-Droid][fdroid_branch_page] [soon](https://github.com/Spikatrix/LRC-Editor/issues/15).
 
 <p>
-	<a href="https://play.google.com/store/apps/details?id=com.cg.lrceditor" target="&#95;blank">
+	<a href="https://play.google.com/store/apps/details?id=com.cg.lrceditor" target="_blank">
 		<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Download from Google Play" height="80px">
 	</a>
-	<a href="https://github.com/Spikatrix/LRC-Editor/releases" target="&#95;blank">
+	<a href="https://github.com/Spikatrix/LRC-Editor/releases" target="_blank">
 		<img src="https://i.stack.imgur.com/S4MQt.png" alt="Download from GitHub" height="80px">
 	</a>
 </p>
