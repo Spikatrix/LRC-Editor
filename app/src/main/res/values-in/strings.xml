@@ -168,6 +168,7 @@
 	<string name="three_digit_milliseconds_help">Meyimpan dengan milidetik tiga angka mungkin akan berguna bagi aplikasi yang menganggap berkas LRC dengan cap waktu milidetik tiga angka daripada cap waktu dengan milidetik dua angka saja</string>
 	<string name="failed_to_open_directory_picker_message">Tak dapat membuka pemilih direktori!</string>
 	<string name="documentsui_enable_message">Apakah Anda sedang menjalankan Android 5.0+? Coba aktifkan DocumentsUI dari setelan ponsel Anda</string>
+	<string name="generic_path_error">Gagal mendapatkan jalur yang benar; Pilih lokasi yang berbeda</string>
 
 	<string name="support_description">Bayar semampunya untuk mendukung saya. Dukungan Anda membantu saya agar berkembang lebih baik</string>
 	<string name="support_bonus_description">Sebagai bonus, setelah Anda melakukan pembelian, Anda akan dapat menggunakan dua tema gelap pada aplikasi ini!</string>

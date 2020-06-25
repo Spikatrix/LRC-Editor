@@ -190,6 +190,10 @@ public class SettingsActivity extends AppCompatActivity {
 					} catch (SecurityException e) {
 						e.printStackTrace();
 					}
+
+					if (realPath == null || realPath.equals("/")) {
+						Toast.makeText(getApplicationContext(), R.string.generic_path_error, Toast.LENGTH_LONG).show();
+					}
 				}
 			}
 		} else if (requestCode == Constants.READ_LOCATION_REQUEST && resultCode == Activity.RESULT_OK) {
@@ -215,6 +219,10 @@ public class SettingsActivity extends AppCompatActivity {
 						getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 					} catch (SecurityException e) {
 						e.printStackTrace();
+					}
+
+					if (realPath == null || realPath.equals("/")) {
+						Toast.makeText(getApplicationContext(), R.string.generic_path_error, Toast.LENGTH_LONG).show();
 					}
 				}
 			}

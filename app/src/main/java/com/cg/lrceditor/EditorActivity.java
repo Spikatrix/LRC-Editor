@@ -1458,7 +1458,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 			public void onStopTrackingTouch(SeekBar seekBar) {
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { // Always true, I know, but it won't compile without it
 					String speedText = speedDisplayer.getText().toString();
-					int speed = Integer.valueOf(speedText.substring(speedText.indexOf(':') + 1, speedText.length() - 1).trim());
+					int speed = Integer.parseInt(speedText.substring(speedText.indexOf(':') + 1, speedText.length() - 1).trim());
 					try {
 						player.setPlaybackParams(player.getPlaybackParams().setSpeed(speed / 100.0f));
 						if (!isPlaying) {
@@ -1489,7 +1489,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 			public void onStopTrackingTouch(SeekBar seekBar) {
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { // Always true, I know, but it won't compile without it
 					String pitchText = pitchDisplayer.getText().toString();
-					int pitch = Integer.valueOf(pitchText.substring(pitchText.indexOf(':') + 1, pitchText.length() - 1).trim());
+					int pitch = Integer.parseInt(pitchText.substring(pitchText.indexOf(':') + 1, pitchText.length() - 1).trim());
 					try {
 						player.setPlaybackParams(player.getPlaybackParams().setPitch(pitch / 100.0f));
 						if (!isPlaying) {

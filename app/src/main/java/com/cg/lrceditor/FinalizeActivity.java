@@ -240,7 +240,6 @@ public class FinalizeActivity extends AppCompatActivity {
 			.setCancelable(false)
 			.create();
 		dialog.show();
-
 	}
 
 	private void saveLyricsFile(String name) {

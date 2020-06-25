@@ -69,6 +69,7 @@
 	<string name="file_not_found_message">Brak pliku!</string>
 	<string name="finalization_header">Finalizacja</string>
 	<string name="forward_description">Przycisk skok 5 sekund do przodu</string>
+	<string name="generic_path_error">Nie udało się uzyskać właściwej ścieżki; spróbuj wybrać inną lokalizację</string>
 	<string name="github_contribution">Wnieś wkład do aplikacji:\nhttps://github.com/Spikatrix/LRC-Editor</string>
 	<string name="go_back">Powrót</string>
 	<string name="go_back_warning_message">Jeśli wrócisz, utracisz zmodyfikowane dane. Czy na pewno chcesz wrócić?</string>

@@ -168,6 +168,7 @@
 	<string name="three_digit_milliseconds_help">以三位數毫秒儲存功能，對於需要三位數毫秒而並非二位數毫秒的LRC文件的應用程序或會有用</string>
 	<string name="failed_to_open_directory_picker_message">無法開啟系統資料夾對話方塊！</string>
 	<string name="documentsui_enable_message">您的Android系統當前是否運行5.0或以上版本？或許可以從您的手機設定啟用DocumentsUI</string>
+	<string name="generic_path_error">無法獲得正確的路徑； 嘗試選擇其他位置</string>
 
 	<string name="support_description">您可以支付所需的費用來支持我。您的支持可以協助我比以前更強大，更好地成長</string>
 	<string name="support_bonus_description">當您購買之後，便會得到兩個暗黑主題作為獎勵。</string>

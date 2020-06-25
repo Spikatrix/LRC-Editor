@@ -169,6 +169,7 @@
 	<string name="three_digit_milliseconds_help">Das Speichern mit dreistelligen Millisekunden kann für Anwendungen nützlich sein, die LRC-Dateien mit dreistelligen Millisekunden-Zeitstempeln anstelle von zweistelligen Millisekunden-Zeitstempeln erwarten</string>
 	<string name="failed_to_open_directory_picker_message">Konnte die Verzeichnisauswahl nicht öffnen!</string>
 	<string name="documentsui_enable_message">Verwendest du Android 5.0+? Versuche \"DocumentsUI\" in den Systemeinstellungen zu aktivieren</string>
+	<string name="generic_path_error">Fehler beim Erhalten des richtigen Pfades; Versuchen Sie, einen anderen Ort auszuwählen</string>
 
 	<string name="support_description">Du kannst bezahlen soviel du willst, um mich zu unterstützen. Deine Unterstützung hilft mir größer und besser zu werden als je zuvor!</string>
 	<string name="support_bonus_description">Als kleinen Bonus kriegst du, wenn du mich unterstützt, die beiden dunklen Themen der App!</string>
