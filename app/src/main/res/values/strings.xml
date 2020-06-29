@@ -173,7 +173,8 @@
 	<string name="three_digit_milliseconds_help">Saving with three digit milliseconds might be useful for applications that expect LRC files with three digit millisecond timestamps rather than two digit millisecond timestamps</string>
 	<string name="failed_to_open_directory_picker_message">Couldn\'t open the directory picker!</string>
 	<string name="documentsui_enable_message">Are you running Android 5.0+? Maybe enable DocumentsUI from your phone settings</string>
-	<string name="generic_path_error">Failed to get the proper path; try selecting a different location</string>
+	<string name="generic_read_path_error">Failed to parse the path location. Reading might have issues</string>
+	<string name="generic_save_path_error">Failed to parse the path location. Saving might have issues</string>
 
 	<string name="support_description">You can pay what you want to support me. Your support helps me to grow bigger and better than ever</string>
 	<string name="support_bonus_description">As a bonus, once you make a purchase, you\'ll get access to the two dark themes of the app!</string>

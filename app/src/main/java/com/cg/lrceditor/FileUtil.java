@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.os.storage.StorageManager;
 import android.provider.DocumentsContract;
 import android.provider.OpenableColumns;
@@ -25,6 +26,10 @@ public final class FileUtil {
 	@Nullable
 	static String getFullPathFromTreeUri(@Nullable final Uri treeUri, Context con) {
 		if (treeUri == null) return null;
+		else if (treeUri.toString().equals("content://com.android.providers.downloads.documents/tree/downloads")) {
+			// The root of the Downloads folder was selected from the Downloads option in the sidebar
+			return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+		}
 		String volumePath = getVolumePath(getVolumeIdFromTreeUri(treeUri), con);
 		if (volumePath == null) return File.separator;
 		if (volumePath.endsWith(File.separator))
@@ -46,7 +51,7 @@ public final class FileUtil {
 	private static String getVolumePath(final String volumeId, Context context) {
 		try {
 			StorageManager mStorageManager =
-				(StorageManager) context.getSystemService(Context.STORAGE_SERVICE);
+					(StorageManager) context.getSystemService(Context.STORAGE_SERVICE);
 			Class<?> storageVolumeClazz = Class.forName("android.os.storage.StorageVolume");
 			Method getVolumeList = mStorageManager.getClass().getMethod("getVolumeList");
 			Method getUuid = storageVolumeClazz.getMethod("getUuid");

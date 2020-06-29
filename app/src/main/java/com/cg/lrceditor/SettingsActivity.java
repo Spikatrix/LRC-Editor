@@ -192,7 +192,7 @@ public class SettingsActivity extends AppCompatActivity {
 					}
 
 					if (realPath == null || realPath.equals("/")) {
-						Toast.makeText(getApplicationContext(), R.string.generic_path_error, Toast.LENGTH_LONG).show();
+						Toast.makeText(getApplicationContext(), R.string.generic_save_path_error, Toast.LENGTH_LONG).show();
 					}
 				}
 			}
@@ -222,7 +222,7 @@ public class SettingsActivity extends AppCompatActivity {
 					}
 
 					if (realPath == null || realPath.equals("/")) {
-						Toast.makeText(getApplicationContext(), R.string.generic_path_error, Toast.LENGTH_LONG).show();
+						Toast.makeText(getApplicationContext(), R.string.generic_read_path_error, Toast.LENGTH_LONG).show();
 					}
 				}
 			}
