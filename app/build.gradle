@@ -30,6 +30,16 @@ android {
 		}
 	}
 
+	flavorDimensions "target_app_store"
+	productFlavors {
+		playstore {
+			dimension "target_app_store" // Dimensions aren't required since there's only 1, added for brevity
+		}
+		fdroid {
+			dimension "target_app_store"
+		}
+	}
+
 	compileOptions {
 		encoding = 'UTF-8'
 		sourceCompatibility JavaVersion.VERSION_1_7
@@ -45,13 +55,14 @@ dependencies {
 	implementation 'androidx.annotation:annotation:1.1.0'
 	implementation 'androidx.appcompat:appcompat:1.1.0'
 	implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
-	implementation 'androidx.core:core:1.2.0'
+	implementation 'androidx.core:core:1.3.0'
 	implementation 'androidx.documentfile:documentfile:1.0.1'
 	implementation 'androidx.recyclerview:recyclerview:1.1.0'
-	implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+	implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 	implementation 'com.google.android.material:material:1.0.0'
-	implementation 'com.android.billingclient:billing:2.0.3'
-	// Updating material to 1.1.0 results in a 20% increase in APK size with no noticeable benefits
+	// Updating material to 1.1.0 results in a 20% increase in APK size
+
+	playstoreImplementation 'com.android.billingclient:billing:2.0.3'
 	// Updating billingclient to 2.1.0/2.2.0 gives import errors :(
 
 	testImplementation 'junit:junit:4.12'

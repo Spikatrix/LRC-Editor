@@ -12,6 +12,7 @@
 		android:layout_height="wrap_content"
 		android:clickable="true"
 		android:focusable="true"
+		android:focusableInTouchMode="true"
 		android:onClick="selectSong"> <!-- player_title_text gets refreshed for some reason without this -->
 
 		<TextView
