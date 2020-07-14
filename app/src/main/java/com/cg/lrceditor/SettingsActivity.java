@@ -154,10 +154,10 @@ public class SettingsActivity extends AppCompatActivity {
 
 	public void showThreeDigitMillisecondsHelp(View view) {
 		new AlertDialog.Builder(this)
-			.setMessage(R.string.three_digit_milliseconds_help)
-			.setNeutralButton(getString(R.string.ok), null)
-			.create()
-			.show();
+				.setMessage(R.string.three_digit_milliseconds_help)
+				.setNeutralButton(getString(R.string.ok), null)
+				.create()
+				.show();
 	}
 
 	public void toggleThreeDigitMillisecondSwitch(View view) {

@@ -222,23 +222,23 @@ public class FinalizeActivity extends AppCompatActivity {
 		}
 
 		AlertDialog dialog = new AlertDialog.Builder(this)
-			.setView(dialogView)
-			.setPositiveButton(getString(R.string.save), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
+				.setView(dialogView)
+				.setPositiveButton(getString(R.string.save), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
 
-					saveLyricsFile(editText.getText().toString());
-				}
-			})
-			.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					statusTextView.setVisibility(View.GONE);
-				}
-			})
-			.setCancelable(false)
-			.create();
+						saveLyricsFile(editText.getText().toString());
+					}
+				})
+				.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						statusTextView.setVisibility(View.GONE);
+					}
+				})
+				.setCancelable(false)
+				.create();
 		dialog.show();
 	}
 
@@ -259,43 +259,43 @@ public class FinalizeActivity extends AppCompatActivity {
 			if (f.exists()) {
 				final String finalFileName = fileName;
 				new AlertDialog.Builder(this)
-					.setTitle(getString(R.string.warning))
-					.setMessage(getString(R.string.overwrite_prompt, fileName, saveLocation))
-					.setCancelable(false)
-					.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							new Thread(new Runnable() {
-								@Override
-								public void run() {
-									threadIsExecuting = true;
+						.setTitle(getString(R.string.warning))
+						.setMessage(getString(R.string.overwrite_prompt, fileName, saveLocation))
+						.setCancelable(false)
+						.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								new Thread(new Runnable() {
+									@Override
+									public void run() {
+										threadIsExecuting = true;
 
-									setStatusOnUiThread(getString(R.string.attempting_to_overwrite_message));
-									if (!deletefile(finalFileName)) {
-										overwriteFailed = true;
-										runOnUiThread(new Runnable() {
-											@Override
-											public void run() {
-												Toast.makeText(getApplicationContext(), getString(R.string.failed_to_overwrite_message), Toast.LENGTH_LONG).show();
-											}
-										});
+										setStatusOnUiThread(getString(R.string.attempting_to_overwrite_message));
+										if (!deletefile(finalFileName)) {
+											overwriteFailed = true;
+											runOnUiThread(new Runnable() {
+												@Override
+												public void run() {
+													Toast.makeText(getApplicationContext(), getString(R.string.failed_to_overwrite_message), Toast.LENGTH_LONG).show();
+												}
+											});
+										}
+
+										setStatusOnUiThread(getString(R.string.writing_lyrics_message));
+										writeLyrics(finalFileName);
+
+										threadIsExecuting = false;
 									}
-
-									setStatusOnUiThread(getString(R.string.writing_lyrics_message));
-									writeLyrics(finalFileName);
-
-									threadIsExecuting = false;
-								}
-							}).start();
-						}
-					})
-					.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							statusTextView.setVisibility(View.GONE);
-						}
-					})
-					.show();
+								}).start();
+							}
+						})
+						.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								statusTextView.setVisibility(View.GONE);
+							}
+						})
+						.show();
 			} else {
 				final String finalFileName = fileName;
 				new Thread(new Runnable() {
@@ -402,9 +402,9 @@ public class FinalizeActivity extends AppCompatActivity {
 			sb.append("[au: ").append(str).append("]\n");
 
 		sb.append("\n")
-			.append("[re: ").append(getString(R.string.app_name)).append(" - Android app").append("]\n")
-			.append("[ve: ").append("Version ").append(BuildConfig.VERSION_NAME).append("]\n")
-			.append("\n");
+				.append("[re: ").append(getString(R.string.app_name)).append(" - Android app").append("]\n")
+				.append("[ve: ").append("Version ").append(BuildConfig.VERSION_NAME).append("]\n")
+				.append("\n");
 
 		for (int i = 0, len = lyricData.size(); i < len; i++) {
 			Timestamp timestamp = lyricData.get(i).getTimestamp();
@@ -432,8 +432,8 @@ public class FinalizeActivity extends AppCompatActivity {
 		EditText editText = dialogView.findViewById(R.id.dialog_edittext);
 		try {
 			if (songFileName.contains(".") &&
-				(songFileName.lastIndexOf('.') == songFileName.length() - 4 ||
-					songFileName.lastIndexOf('.') == songFileName.length() - 5)) {
+					(songFileName.lastIndexOf('.') == songFileName.length() - 4 ||
+							songFileName.lastIndexOf('.') == songFileName.length() - 5)) {
 				editText.setText(songFileName.substring(0, songFileName.lastIndexOf('.')) + ".lrc");
 			} else {
 				editText.setText(songFileName + ".lrc");
@@ -445,8 +445,8 @@ public class FinalizeActivity extends AppCompatActivity {
 
 	private boolean grantPermission() {
 		if (ContextCompat.checkSelfPermission(this,
-			Manifest.permission.WRITE_EXTERNAL_STORAGE)
-			!= PackageManager.PERMISSION_GRANTED) {
+				Manifest.permission.WRITE_EXTERNAL_STORAGE)
+				!= PackageManager.PERMISSION_GRANTED) {
 			displayDialog();
 			return false;
 		}
@@ -470,7 +470,7 @@ public class FinalizeActivity extends AppCompatActivity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				ActivityCompat.requestPermissions(FinalizeActivity.this,
-					new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constants.WRITE_EXTERNAL_REQUEST);
+						new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constants.WRITE_EXTERNAL_REQUEST);
 			}
 		});
 		dialog.show();

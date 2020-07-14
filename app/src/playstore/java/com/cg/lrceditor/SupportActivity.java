@@ -24,11 +24,11 @@ import java.util.Arrays;
 public class SupportActivity extends AppCompatActivity {
 
 	private static final String[] ITEM_SKUS = {
-		"SKU1",
-		"SKU2",
-		"SKU3",
-		"SKU4",
-		"SKU5",
+			"SKU1",
+			"SKU2",
+			"SKU3",
+			"SKU4",
+			"SKU5",
 	};
 
 	IabHelper mHelper;
@@ -87,11 +87,11 @@ public class SupportActivity extends AppCompatActivity {
 				for (String SKU : ITEM_SKUS) {
 					if (purchase.getSku().equals(SKU)) {
 						new AlertDialog.Builder(ctx)
-							.setTitle(getString(R.string.purchase_successful))
-							.setMessage(getString(R.string.thank_you_for_the_purchase_message))
-							.setNeutralButton(getString(R.string.ok), null)
-							.create()
-							.show();
+								.setTitle(getString(R.string.purchase_successful))
+								.setMessage(getString(R.string.thank_you_for_the_purchase_message))
+								.setNeutralButton(getString(R.string.ok), null)
+								.create()
+								.show();
 						try {
 							mHelper.queryInventoryAsync(true, Arrays.asList(ITEM_SKUS), null, mGotInventoryListener);
 						} catch (IabHelper.IabAsyncInProgressException e) {
@@ -148,7 +148,7 @@ public class SupportActivity extends AppCompatActivity {
 
 		if (base64EncodedPublicKey.equals("Base64" + "EncodedString")) {
 			complain("IAPs won't work as the original encoded key is not used (for security purposes). " +
-				"Download and install the APK release from the GitHub page or from the Play Store if you want to use IAPs");
+					"Download and install the APK release from the GitHub page or from the Play Store if you want to use IAPs");
 			setPurchaseButtonTexts(getString(R.string.error));
 		} else {
 			mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
@@ -214,7 +214,7 @@ public class SupportActivity extends AppCompatActivity {
 	public void onePurchase(View view) {
 		try {
 			mHelper.launchPurchaseFlow(this, ITEM_SKUS[0], 1,
-				mPurchaseFinishedListener, "S_PURCHASE");
+					mPurchaseFinishedListener, "S_PURCHASE");
 		} catch (IabHelper.IabAsyncInProgressException e) {
 			e.printStackTrace();
 		} catch (IllegalStateException e) {
@@ -225,7 +225,7 @@ public class SupportActivity extends AppCompatActivity {
 	public void twoPurchase(View view) {
 		try {
 			mHelper.launchPurchaseFlow(this, ITEM_SKUS[1], 2,
-				mPurchaseFinishedListener, "M_PURCHASE");
+					mPurchaseFinishedListener, "M_PURCHASE");
 		} catch (IabHelper.IabAsyncInProgressException e) {
 			e.printStackTrace();
 		} catch (IllegalStateException e) {
@@ -236,7 +236,7 @@ public class SupportActivity extends AppCompatActivity {
 	public void threePurchase(View view) {
 		try {
 			mHelper.launchPurchaseFlow(this, ITEM_SKUS[2], 3,
-				mPurchaseFinishedListener, "L_PURCHASE");
+					mPurchaseFinishedListener, "L_PURCHASE");
 		} catch (IabHelper.IabAsyncInProgressException e) {
 			e.printStackTrace();
 		} catch (IllegalStateException e) {
@@ -247,7 +247,7 @@ public class SupportActivity extends AppCompatActivity {
 	public void fourPurchase(View view) {
 		try {
 			mHelper.launchPurchaseFlow(this, ITEM_SKUS[3], 4,
-				mPurchaseFinishedListener, "XL_PURCHASE");
+					mPurchaseFinishedListener, "XL_PURCHASE");
 		} catch (IabHelper.IabAsyncInProgressException e) {
 			e.printStackTrace();
 		} catch (IllegalStateException e) {
@@ -258,7 +258,7 @@ public class SupportActivity extends AppCompatActivity {
 	public void fivePurchase(View view) {
 		try {
 			mHelper.launchPurchaseFlow(this, ITEM_SKUS[4], 5,
-				mPurchaseFinishedListener, "XXL_PURCHASE");
+					mPurchaseFinishedListener, "XXL_PURCHASE");
 		} catch (IabHelper.IabAsyncInProgressException e) {
 			e.printStackTrace();
 		} catch (IllegalStateException e) {
@@ -272,9 +272,9 @@ public class SupportActivity extends AppCompatActivity {
 
 	void alert(String message) {
 		new AlertDialog.Builder(ctx)
-			.setMessage(message)
-			.setNeutralButton(getString(R.string.ok), null)
-			.create()
-			.show();
+				.setMessage(message)
+				.setNeutralButton(getString(R.string.ok), null)
+				.create()
+				.show();
 	}
 }

@@ -78,8 +78,8 @@ public class Timestamp implements Serializable {
 
 	long toMilliseconds() {
 		return getMinutesInMilliseconds()
-			+ getSecondsInMilliseconds()
-			+ getMilliseconds();
+				+ getSecondsInMilliseconds()
+				+ getMilliseconds();
 	}
 
 	long getMinutes() {

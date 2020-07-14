@@ -98,7 +98,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 		recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 		DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
-			DividerItemDecoration.VERTICAL);
+				DividerItemDecoration.VERTICAL);
 		recyclerView.addItemDecoration(dividerItemDecoration);
 		try {
 			((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
@@ -371,55 +371,55 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 
 		if (!readLocation.equals(Constants.defaultLocation)) {
 			new AlertDialog.Builder(HomePage.this)
-				.setMessage(getString(R.string.read_location_invalid_message, scanLocation.getAbsolutePath()))
-				.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						SharedPreferences.Editor editor = preferences.edit();
+					.setMessage(getString(R.string.read_location_invalid_message, scanLocation.getAbsolutePath()))
+					.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							SharedPreferences.Editor editor = preferences.edit();
 
-						editor.putString("readLocation", Constants.defaultLocation);
-						editor.apply();
+							editor.putString("readLocation", Constants.defaultLocation);
+							editor.apply();
 
-						readLocation = Constants.defaultLocation;
-						readUri = null;
+							readLocation = Constants.defaultLocation;
+							readUri = null;
 
-						new Thread(new Runnable() {
-							@Override
-							public void run() {
-								if (threadIsExecuting) {
-									showToastOnUiThread(getString(R.string.another_operation_refresh_failed_message));
-									return;
+							new Thread(new Runnable() {
+								@Override
+								public void run() {
+									if (threadIsExecuting) {
+										showToastOnUiThread(getString(R.string.another_operation_refresh_failed_message));
+										return;
+									}
+									threadIsExecuting = true;
+									runOnUiThread(new Runnable() {
+										@Override
+										public void run() {
+											swipeRefreshLayout.setRefreshing(true);
+										}
+									});
+
+									scanLyrics();
+
+									runOnUiThread(new Runnable() {
+										@Override
+										public void run() {
+											swipeRefreshLayout.setRefreshing(false);
+										}
+									});
+									threadIsExecuting = false;
 								}
-								threadIsExecuting = true;
-								runOnUiThread(new Runnable() {
-									@Override
-									public void run() {
-										swipeRefreshLayout.setRefreshing(true);
-									}
-								});
-
-								scanLyrics();
-
-								runOnUiThread(new Runnable() {
-									@Override
-									public void run() {
-										swipeRefreshLayout.setRefreshing(false);
-									}
-								});
-								threadIsExecuting = false;
-							}
-						}).start();
-					}
-				})
-				.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						Toast.makeText(getApplicationContext(), getString(R.string.lrc_editor_may_not_work_as_expected_message), Toast.LENGTH_LONG).show();
-					}
-				})
-				.setCancelable(false)
-				.create()
-				.show();
+							}).start();
+						}
+					})
+					.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							Toast.makeText(getApplicationContext(), getString(R.string.lrc_editor_may_not_work_as_expected_message), Toast.LENGTH_LONG).show();
+						}
+					})
+					.setCancelable(false)
+					.create()
+					.show();
 		} else {
 			Toast.makeText(getApplicationContext(), getString(R.string.read_location_non_existent_message), Toast.LENGTH_LONG).show();
 		}
@@ -438,8 +438,8 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 
 	private boolean grantPermission() {
 		if (ContextCompat.checkSelfPermission(this,
-			Manifest.permission.WRITE_EXTERNAL_STORAGE)
-			!= PackageManager.PERMISSION_GRANTED) {
+				Manifest.permission.WRITE_EXTERNAL_STORAGE)
+				!= PackageManager.PERMISSION_GRANTED) {
 			showPermissionDialog();
 			return false;
 		}
@@ -456,7 +456,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				ActivityCompat.requestPermissions(HomePage.this,
-					new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constants.WRITE_EXTERNAL_REQUEST);
+						new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constants.WRITE_EXTERNAL_REQUEST);
 			}
 		});
 		dialog.show();
@@ -760,87 +760,87 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 		}
 
 		new AlertDialog.Builder(this)
-			.setTitle(getString(R.string.confirmation))
-			.setMessage(getString(R.string.delete_confirmation))
-			.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					final List<HomePageListItem> itemsToDelete = new ArrayList<>();
-					for (int i : adapter.getSelectedItemIndices()) {
-						itemsToDelete.add(adapter.listData.get(i));
-					}
-
-					new Thread(new Runnable() {
-						@Override
-						public void run() {
-							if (threadIsExecuting) {
-								showToastOnUiThread(getString(R.string.another_operation_wait_message));
-								return;
-							}
-							threadIsExecuting = true;
-							runOnUiThread(new Runnable() {
-								@Override
-								public void run() {
-									swipeRefreshLayout.setRefreshing(true);
-								}
-							});
-
-							showToastOnUiThread(getString(R.string.deleting_message));
-
-							DocumentFile pickedDir = FileUtil.getPersistableDocumentFile(readUri, readLocation, getApplicationContext());
-
-							boolean deleteFailure = false;
-
-							while (!itemsToDelete.isEmpty()) {
-								final HomePageListItem currentItem = itemsToDelete.remove(itemsToDelete.size() - 1);
-								File f = currentItem.file;
-								final String location = FileUtil.stripFileNameFromPath(f.getAbsolutePath());
-
-								DocumentFile file = FileUtil.searchForFileOptimized(pickedDir, location, f.getName(), getApplicationContext().getExternalFilesDirs(null));
-								if (file == null || !file.delete()) {
-									deleteFailure = true;
-								} else {
-									runOnUiThread(new Runnable() {
-										@Override
-										public void run() {
-											if (toolbar.hasExpandedActionView()) {
-												adapter.backupListData.remove(currentItem);
-											}
-
-											int index = adapter.listData.indexOf(currentItem);
-											if (index != -1) {
-												adapter.listData.remove(currentItem);
-												adapter.notifyItemRemoved(index);
-											}
-
-											checkActionModeItems();
-										}
-									});
-								}
-							}
-
-							final boolean finalDeleteFailure = deleteFailure;
-							if (finalDeleteFailure) {
-								showToastOnUiThread(getString(R.string.delete_failed_message));
-							} else {
-								showToastOnUiThread(getString(R.string.delete_successful_message));
-							}
-
-							runOnUiThread(new Runnable() {
-								@Override
-								public void run() {
-									swipeRefreshLayout.setRefreshing(false);
-								}
-							});
-
-							threadIsExecuting = false;
+				.setTitle(getString(R.string.confirmation))
+				.setMessage(getString(R.string.delete_confirmation))
+				.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						final List<HomePageListItem> itemsToDelete = new ArrayList<>();
+						for (int i : adapter.getSelectedItemIndices()) {
+							itemsToDelete.add(adapter.listData.get(i));
 						}
-					}).start();
-				}
-			})
-			.setNegativeButton(getString(R.string.no), null)
-			.create()
-			.show();
+
+						new Thread(new Runnable() {
+							@Override
+							public void run() {
+								if (threadIsExecuting) {
+									showToastOnUiThread(getString(R.string.another_operation_wait_message));
+									return;
+								}
+								threadIsExecuting = true;
+								runOnUiThread(new Runnable() {
+									@Override
+									public void run() {
+										swipeRefreshLayout.setRefreshing(true);
+									}
+								});
+
+								showToastOnUiThread(getString(R.string.deleting_message));
+
+								DocumentFile pickedDir = FileUtil.getPersistableDocumentFile(readUri, readLocation, getApplicationContext());
+
+								boolean deleteFailure = false;
+
+								while (!itemsToDelete.isEmpty()) {
+									final HomePageListItem currentItem = itemsToDelete.remove(itemsToDelete.size() - 1);
+									File f = currentItem.file;
+									final String location = FileUtil.stripFileNameFromPath(f.getAbsolutePath());
+
+									DocumentFile file = FileUtil.searchForFileOptimized(pickedDir, location, f.getName(), getApplicationContext().getExternalFilesDirs(null));
+									if (file == null || !file.delete()) {
+										deleteFailure = true;
+									} else {
+										runOnUiThread(new Runnable() {
+											@Override
+											public void run() {
+												if (toolbar.hasExpandedActionView()) {
+													adapter.backupListData.remove(currentItem);
+												}
+
+												int index = adapter.listData.indexOf(currentItem);
+												if (index != -1) {
+													adapter.listData.remove(currentItem);
+													adapter.notifyItemRemoved(index);
+												}
+
+												checkActionModeItems();
+											}
+										});
+									}
+								}
+
+								final boolean finalDeleteFailure = deleteFailure;
+								if (finalDeleteFailure) {
+									showToastOnUiThread(getString(R.string.delete_failed_message));
+								} else {
+									showToastOnUiThread(getString(R.string.delete_successful_message));
+								}
+
+								runOnUiThread(new Runnable() {
+									@Override
+									public void run() {
+										swipeRefreshLayout.setRefreshing(false);
+									}
+								});
+
+								threadIsExecuting = false;
+							}
+						}).start();
+					}
+				})
+				.setNegativeButton(getString(R.string.no), null)
+				.create()
+				.show();
 
 	}
 
@@ -864,88 +864,88 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 		editText.setHint(getString(R.string.new_file_name_hint));
 
 		new AlertDialog.Builder(this)
-			.setView(view)
-			.setPositiveButton(getString(R.string.rename), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					final HomePageListItem itemToRename = adapter.listData.get(adapter.getSelectedItemIndices().get(0));
+				.setView(view)
+				.setPositiveButton(getString(R.string.rename), new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						final HomePageListItem itemToRename = adapter.listData.get(adapter.getSelectedItemIndices().get(0));
 
-					new Thread(new Runnable() {
-						@Override
-						public void run() {
-							if (threadIsExecuting) {
-								showToastOnUiThread(getString(R.string.another_operation_wait_message));
-								return;
-							}
-							threadIsExecuting = true;
-							runOnUiThread(new Runnable() {
-								@Override
-								public void run() {
-									swipeRefreshLayout.setRefreshing(true);
+						new Thread(new Runnable() {
+							@Override
+							public void run() {
+								if (threadIsExecuting) {
+									showToastOnUiThread(getString(R.string.another_operation_wait_message));
+									return;
 								}
-							});
-
-							showToastOnUiThread(getString(R.string.renaming_message));
-
-							final String newName = editText.getText().toString();
-
-							runOnUiThread(new Runnable() {
-								@Override
-								public void run() {
-									if (actionMode != null) {
-										actionMode.finish();
-									}
-									actionMode = null;
-								}
-							});
-
-							DocumentFile pickedDir = FileUtil.getPersistableDocumentFile(readUri, readLocation, getApplicationContext());
-							final String location = FileUtil.stripFileNameFromPath(f.getAbsolutePath());
-
-							if (new File(location, newName).exists()) {
-								showToastOnUiThread(getString(R.string.file_name_already_exists_message));
-							}
-
-							DocumentFile file = FileUtil.searchForFileOptimized(pickedDir, location, f.getName(), getApplicationContext().getExternalFilesDirs(null));
-
-							if (file != null && file.renameTo(newName)) {
-								showToastOnUiThread(getString(R.string.rename_successful_message));
+								threadIsExecuting = true;
 								runOnUiThread(new Runnable() {
 									@Override
 									public void run() {
-										int index = adapter.listData.indexOf(itemToRename);
-										if (index != -1) {
-											adapter.listData.get(index).file = new File(location, newName);
-											adapter.notifyItemChanged(index);
-										}
-
-										if (toolbar.hasExpandedActionView()) {
-											int index2 = adapter.backupListData.indexOf(itemToRename);
-											if (index != -1) {
-												adapter.backupListData.get(index2).file = adapter.listData.get(index).file;
-											} else {
-												adapter.backupListData.get(index2).file = new File(location, newName);
-											}
-										}
+										swipeRefreshLayout.setRefreshing(true);
 									}
 								});
-							} else {
-								showToastOnUiThread(getString(R.string.rename_failed_message));
-							}
 
-							runOnUiThread(new Runnable() {
-								@Override
-								public void run() {
-									swipeRefreshLayout.setRefreshing(false);
+								showToastOnUiThread(getString(R.string.renaming_message));
+
+								final String newName = editText.getText().toString();
+
+								runOnUiThread(new Runnable() {
+									@Override
+									public void run() {
+										if (actionMode != null) {
+											actionMode.finish();
+										}
+										actionMode = null;
+									}
+								});
+
+								DocumentFile pickedDir = FileUtil.getPersistableDocumentFile(readUri, readLocation, getApplicationContext());
+								final String location = FileUtil.stripFileNameFromPath(f.getAbsolutePath());
+
+								if (new File(location, newName).exists()) {
+									showToastOnUiThread(getString(R.string.file_name_already_exists_message));
 								}
-							});
-							threadIsExecuting = false;
-						}
-					}).start();
-				}
-			}).setNegativeButton(getString(R.string.cancel), null)
-			.create()
-			.show();
+
+								DocumentFile file = FileUtil.searchForFileOptimized(pickedDir, location, f.getName(), getApplicationContext().getExternalFilesDirs(null));
+
+								if (file != null && file.renameTo(newName)) {
+									showToastOnUiThread(getString(R.string.rename_successful_message));
+									runOnUiThread(new Runnable() {
+										@Override
+										public void run() {
+											int index = adapter.listData.indexOf(itemToRename);
+											if (index != -1) {
+												adapter.listData.get(index).file = new File(location, newName);
+												adapter.notifyItemChanged(index);
+											}
+
+											if (toolbar.hasExpandedActionView()) {
+												int index2 = adapter.backupListData.indexOf(itemToRename);
+												if (index != -1) {
+													adapter.backupListData.get(index2).file = adapter.listData.get(index).file;
+												} else {
+													adapter.backupListData.get(index2).file = new File(location, newName);
+												}
+											}
+										}
+									});
+								} else {
+									showToastOnUiThread(getString(R.string.rename_failed_message));
+								}
+
+								runOnUiThread(new Runnable() {
+									@Override
+									public void run() {
+										swipeRefreshLayout.setRefreshing(false);
+									}
+								});
+								threadIsExecuting = false;
+							}
+						}).start();
+					}
+				}).setNegativeButton(getString(R.string.cancel), null)
+				.create()
+				.show();
 	}
 
 	private void selectAll() {

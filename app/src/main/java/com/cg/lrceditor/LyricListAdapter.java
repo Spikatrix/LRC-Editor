@@ -159,7 +159,7 @@ public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.Lyri
 	}
 
 	class LyricListItem extends RecyclerView.ViewHolder implements View.OnLongClickListener,
-		View.OnClickListener {
+			View.OnClickListener {
 		final LyricListAdapter adapter;
 		private final LinearLayout linearLayout;
 		private final TextView itemTextview;
