@@ -1,0 +1,184 @@
+<resources>
+	<!-- There might be lint suggestions to use ellipses rather than three dots that I've used in several of the strings here -->
+	<!-- But ellipses look weird for me (Bad kerning :p) which is why I keep using three dots -->
+
+	<string name="app_name" translatable="false">LRC Editor</string>
+
+	<string name="thats_a_miss">That\'s-a-miss\nNo lyric files found</string>
+	<string name="toolbar_refresh_title">Refresh the list</string>
+	<string name="toolbar_search_title">Search the list</string>
+	<string name="about">About</string>
+	<string name="settings">Settings</string>
+	<string name="toolbar_select_all_title">Select all</string>
+	<string name="toolbar_delete_lyric_files_title">Delete lyric files</string>
+	<string name="toolbar_rename_lyric_file_title">Rename lyric file</string>
+	<string name="new_file_name_prompt">Enter the new file name:</string>
+	<string name="new_file_name_hint">New file name here</string>
+	<string name="edit">Edit</string>
+	<string name="loading_lyrics">Loading lyrics...</string>
+	<string name="expandable_button_description">Expandable button image</string>
+	<string name="another_operation_wait_message">Another operation is running. Please wait until it completes</string>
+	<string name="another_operation_refresh_failed_message">Another operation is running. Couldn\'t refresh the list</string>
+	<string name="scanning_directories_message">Scanning for LRC files in the read location (and sub directories)</string>
+	<string name="no_lrc_files_found_message">No LRC files found</string>
+	<plurals name="scanned_x_lrc_files_message">
+		<item quantity="one">Scanned %1$s LRC file</item>
+		<item quantity="other">Scanned %1$s LRC files</item>
+	</plurals>
+	<string name="scan_cancelled_message">Scan cancelled</string>
+	<string name="failed_to_scan_lyrics_message">Failed to scan lyrics! Try changing the read location</string>
+	<string name="send_a_bug_report_message">Please send a bug report with as much detail as possible</string>
+	<string name="failed_to_fetch_adapter_message">Failed to fetch the adapter of the recyclerview</string>
+	<string name="permission_check_message">Make sure you have granted permissions</string>
+	<string name="read_location_invalid_message">Read location doesn\'t exist. Tried to create a folder at %1$s but failed. Do you want to reset the read location to the default location?</string>
+	<string name="yes">Yes</string>
+	<string name="no">No</string>
+	<string name="lrc_editor_may_not_work_as_expected_message">LRC Editor may not work as expected; Try changing the read location from the settings</string>
+	<string name="read_location_non_existent_message">Read location doesn\'t exist. Failed to create a \'Lyrics\' folder as well. Try changing the read location</string>
+	<string name="storage_unavailable_message">Error: Storage unavailable/busy</string>
+	<string name="storage_permission_prompt">This app needs the storage permission for reading and saving the lyric files</string>
+	<string name="need_permissions">Need permissions</string>
+	<string name="ok">OK</string>
+	<string name="no_permission_granted_message">LRC Editor cannot read/save lyric files without the storage permission</string>
+	<string name="failed_to_initialize_search_message">Failed to initialize the search menu item</string>
+	<string name="confirmation">Confirmation</string>
+	<string name="delete_confirmation">Are you sure you want to delete the selected LRC files?</string>
+	<string name="deleting_message">Deleting... This may take a while depending on how far the file(s) are from the set read location</string>
+	<string name="delete_failed_message">Failed to delete some/all of the selected LRC files!</string>
+	<string name="delete_successful_message">Deleted the selected LRC files successfully</string>
+	<string name="rename">Rename</string>
+	<string name="renaming_message">Renaming... This may take a while depending on how far the file is from the set read location</string>
+	<string name="file_name_already_exists_message">File name already exists. Prefix might be added</string>
+	<string name="rename_successful_message">Renamed file successfully</string>
+	<string name="rename_failed_message">Rename failed!</string>
+	<string name="cancel">Cancel</string>
+	<string name="ui_reference_failed_message">Failed to get UI element references. Try refreshing the list</string>
+
+	<string name="create">Create</string>
+	<string name="paste_lyrics_prompt">Paste the lyrics below</string>
+	<string name="no_lyrics_found_message">You haven\'t typed/pasted any lyrics</string>
+	<string name="done">Done</string>
+
+	<string name="editor">Editor</string>
+	<string name="tap_to_select_song_prompt">Tap here to select a song</string>
+	<string name="setting_up_player_message">Setting up the player...</string>
+	<string name="preparing_the_player_message">Preparing the player...</string>
+	<string name="title_error_text">An unexpected error occurred trying to set the title</string>
+	<string name="previous_5" translatable="false"><![CDATA[5 <<]]></string>
+	<string name="previous_description">Button to seek 5 seconds behind</string>
+	<string name="forward_5" translatable="false"><![CDATA[>> 5]]></string>
+	<string name="forward_description">Button to seek 5 seconds forward</string>
+	<string name="play_button_description">Button to play/pause media</string>
+	<string name="batch_edit_prompt">Offset for the timestamps of the selected lyrics</string>
+	<string name="toolbar_batch_edit_lyrics_title">Batch edit lyrics</string>
+	<string name="toolbar_edit_lyric_title">Edit lyric</string>
+	<string name="toolbar_delete_lyrics_title">Delete selected</string>
+	<string name="toolbar_add_a_lyric_title">Add a lyric</string>
+	<string name="toolbar_copy_lyrics_title">Copy the selected lyrics</string>
+	<string name="toolbar_paste_title">Paste</string>
+	<string name="toolbar_paste_lyrics_before_selected_title">Paste lyrics before selected</string>
+	<string name="toolbar_paste_lyrics_after_selected_title">Paste lyrics after selected</string>
+	<string name="toolbar_insert_lyrics_title">Insert lyrics</string>
+	<string name="toolbar_insert_lyrics_before_selected_title">Insert lyrics before selected</string>
+	<string name="toolbar_insert_lyrics_after_selected_title">Insert lyrics after selected</string>
+	<string name="toolbar_manually_set_timestamp_title">Manually set the timestamp</string>
+	<string name="toolbar_collapse_or_expand_player_title">Expand or collapse the player</string>
+	<string name="toolbar_playback_options_title">Playback options</string>
+	<string name="enter_timestamp_prompt">Enter the timestamp</string>
+	<string name="modified_lyric_prompt">Enter the modified lyric:</string>
+	<string name="modified_lyric_hint">Modified lyric here</string>
+	<string name="modify">Modify</string>
+	<string name="insert_lyrics_prompt">Enter the lyrics to insert:\n</string>
+	<string name="insert">Insert</string>
+	<string name="play_lyric_description">Play this lyric button</string>
+	<string name="add_timestamp_description">Add a timestamp button</string>
+	<string name="decrease_timestamp_description">Decrease timestamp button</string>
+	<string name="increase_timestamp_description">Increase timestamp button</string>
+	<string name="large_timestamp_unsupported_message">Timestamps larger than 99:59:999 are currently unsupported</string>
+	<string name="player_not_ready_message">Player not ready</string>
+	<string name="no_timestamp_set_message">No timestamp set for the lyric item</string>
+	<string name="failed_to_get_duration_message">Unexpected error: Failed to get the duration of the media file</string>
+	<string name="failed_to_open_file_picker_message">Failed to open the system file picker dialog; Are you sure you\'re running Android Kitkat or up?</string>
+	<string name="copied_lyrics_message">Copied the lyrics to the internal clipboard</string>
+	<string name="set">Set</string>
+	<string name="invalid_time">Invalid time</string>
+	<string name="seconds_less_than_60_message">Seconds must be less than 60</string>
+	<string name="delete_timestamps_only_message">Delete timestamps only</string>
+	<string name="delete_timestamps_and_lyrics_message">Delete both timestamps and the lyrics</string>
+	<string name="delete_prompt">Choose what to delete</string>
+	<string name="delete">Delete</string>
+	<string name="batch_edit">Batch Edit</string>
+	<string name="adjust">Adjust</string>
+	<string name="warning">Warning</string>
+	<string name="go_back_warning_message">You\'ll lose your modified data if you go back. Are you sure you want to go back?</string>
+	<string name="go_back">Go Back</string>
+	<string name="stay_here">Stay here</string>
+	<string name="playback_speed_displayer">Speed: %1$d%%</string>
+	<string name="playback_pitch_displayer">Pitch: %1$d%%</string>
+	<string name="playback_options_unsupported_message">Playback options are supported only on Android Marshmallow (6.0) and above</string>
+	<string name="player_playback_options_title">Media player playback options</string>
+	<string name="failed_to_set_speed_message">Failed to set the speed of the player</string>
+	<string name="failed_to_set_pitch_message">Failed to set the pitch of the player</string>
+
+	<string name="finalization_header">Finalization</string>
+	<string name="song_name_prompt">Song name: </string>
+	<string name="song_name_hint">Song name here</string>
+	<string name="album_name_prompt">Album name: </string>
+	<string name="album_name_hint">Album name here</string>
+	<string name="artist_name_prompt">Artist name: </string>
+	<string name="artist_name_hint">Artist name here</string>
+	<string name="composer_prompt">Composer: </string>
+	<string name="composer_name_hint">Composer name here</string>
+	<string name="processing">Processing</string>
+	<string name="failed_to_extract_metadata_message">Failed to extract media metadata</string>
+	<string name="overwrite_prompt">File \'%1$s.lrc\' already exists in %2$s. Are you sure you want to overwrite it?</string>
+	<string name="attempting_to_overwrite_message">Attempting to overwrite previous file</string>
+	<string name="failed_to_overwrite_message">Failed to overwrite file; Suffix will be appended to the file name</string>
+	<string name="writing_lyrics_message">Writing the lyrics to the file</string>
+	<string name="whoops_error">Whoops! An error occurred!</string>
+	<string name="save_successful">Successfully saved the lyrics file in %1$s</string>
+	<string name="cannot_save_without_permission_message">Cannot save the file without the storage permission</string>
+	<string name="failed_to_fetch_clipboard_message">Failed to fetch the System Clipboard Service!</string>
+	<string name="copy_lrc_file_data_successful_message">Successfully copied the LRC file data into the System Clipboard!</string>
+	<string name="copy_error_successful_message">Successfully copied the generated error into the System Clipboard!</string>
+	<string name="no_permission_to_write_text">Could not obtain permissions to write</string>
+	<string name="save_location_description">Location for saving lyric files</string>
+	<string name="save_location_displayer">Save location: %1$s</string>
+	<string name="change">Change</string>
+	<string name="file_name_prompt">File name to save:</string>
+	<string name="file_name_hint">File name here</string>
+	<string name="set_as_song_file_name">Set as the song file name</string>
+	<string name="set_as_lrc_file_name">Set as the LRC file name</string>
+	<string name="copy_lrc_contents">Copy LRC contents ⎘</string>
+	<string name="copy_error">Copy error ⎘</string>
+	<string name="save">Save</string>
+
+	<string name="made_with_love_and_code_text">\nMade with ♥\n(and a lot of code :p)\n</string> <!-- Newlines for better spacing on small screens -->
+	<string name="rate_and_feedback_text">This app is made and maintained by just me\nPlease rate the app and provide constructive feedback\n\n\nThank You!\n♥</string>
+	<string name="view_the_app_on_f_droid">View the app on F-Droid</string>
+	<string name="send_feedback">Send feedback</string>
+	<string name="dev_email" translatable="false">cg.devworks@gmail.com</string>
+	<string name="feedback_body_prompt">Enter your feedback/bug report here</string>
+
+	<string name="read_location_description">Location for reading lyric files</string>
+	<string name="read_location_extra_description">Sub directories will also be scanned</string>
+	<string name="select_a_theme_prompt">Select a theme:</string>
+	<string name="light">Light</string>
+	<string name="dark">Dark</string>
+	<string name="darker">Darker</string>
+	<string name="unexpected_error_message">An unexpected error occurred</string>
+	<string name="restart_for_theme_message">Restart the app if the theme does not apply</string>
+	<string name="three_digit_milliseconds_prompt">Save with three digit milliseconds</string>
+	<string name="three_digit_milliseconds_help">Saving with three digit milliseconds might be useful for applications that expect LRC files with three digit millisecond timestamps rather than two digit millisecond timestamps</string>
+	<string name="failed_to_open_directory_picker_message">Couldn\'t open the directory picker!</string>
+	<string name="documentsui_enable_message">Are you running Android 5.0+? Maybe enable DocumentsUI from your phone settings</string>
+	<string name="github_contribution">Contribute to the app:\nhttps://github.com/Spikatrix/LRC-Editor/tree/fdroid</string>
+	<string name="generic_read_path_error">Failed to parse the path location. Reading might have issues</string>
+	<string name="generic_save_path_error">Failed to parse the path location. Saving might have issues</string>
+
+	<string name="file_not_found_message">File not found!</string>
+	<string name="failed_to_open_input_stream_message">Failed to open an input stream to the file to read data!</string>
+	<string name="could_not_parse_any_lyrics_message">Couldn\'t parse lyrics from the file. Check if the lrc file is properly formatted</string>
+	<string name="error_occurred_when_reading_message">An error occurred while reading!</string>
+	<string name="no_permission_to_read_text">Could not obtain permissions to read</string>
+</resources>

@@ -313,7 +313,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 		playPause = findViewById(R.id.play_pause);
 		titleText = findViewById(R.id.player_title_text);
 
-		titleText.setSelected(true);
+		titleText.requestFocus();
 
 		if (isDarkTheme) {
 			playPause.setImageDrawable(getDrawable(R.drawable.ic_play_light));

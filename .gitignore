@@ -4,6 +4,8 @@ local.properties
 .idea/
 app/release/
 app/debug/
+app/playstore/
+app/fdroid/
 .DS_Store
 build/
 captures/
