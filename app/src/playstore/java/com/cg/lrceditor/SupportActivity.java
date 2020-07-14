@@ -151,25 +151,22 @@ public class SupportActivity extends AppCompatActivity {
 					"Download and install the APK release from the GitHub page or from the Play Store if you want to use IAPs");
 			setPurchaseButtonTexts(getString(R.string.error));
 		} else {
-			mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
-				@Override
-				public void onIabSetupFinished(IabResult result) {
-					if (!result.isSuccess()) {
-						complain(getString(R.string.iap_setup_failed_message) + ": " + result);
-						setPurchaseButtonTexts(ctx.getString(R.string.error));
-						return;
-					}
+			mHelper.startSetup(result -> {
+				if (!result.isSuccess()) {
+					complain(getString(R.string.iap_setup_failed_message) + ": " + result);
+					setPurchaseButtonTexts(ctx.getString(R.string.error));
+					return;
+				}
 
-					if (mHelper == null)
-						return;
+				if (mHelper == null)
+					return;
 
-					try {
-						mHelper.queryInventoryAsync(true, Arrays.asList(ITEM_SKUS), null, mGotInventoryListener);
-					} catch (IabHelper.IabAsyncInProgressException e) {
-						complain(getString(R.string.failed_to_query_purchase_message) + ":Setup:IabAsyncInProgress");
-						setPurchaseButtonTexts(ctx.getString(R.string.error));
-						e.printStackTrace();
-					}
+				try {
+					mHelper.queryInventoryAsync(true, Arrays.asList(ITEM_SKUS), null, mGotInventoryListener);
+				} catch (IabHelper.IabAsyncInProgressException e) {
+					complain(getString(R.string.failed_to_query_purchase_message) + ":Setup:IabAsyncInProgress");
+					setPurchaseButtonTexts(ctx.getString(R.string.error));
+					e.printStackTrace();
 				}
 			});
 		}

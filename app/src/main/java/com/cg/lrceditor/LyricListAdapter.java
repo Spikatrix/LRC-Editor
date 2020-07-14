@@ -53,20 +53,12 @@ public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.Lyri
 	}
 
 	private void applyClickEvents(final LyricListItem holder) {
-		holder.linearLayout.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				clickListener.onLyricItemClicked(holder.getAdapterPosition());
-			}
-		});
+		holder.linearLayout.setOnClickListener(view -> clickListener.onLyricItemClicked(holder.getAdapterPosition()));
 
-		holder.linearLayout.setOnLongClickListener(new View.OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View view) {
-				clickListener.onLyricItemSelected(holder.getAdapterPosition());
-				view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-				return true;
-			}
+		holder.linearLayout.setOnLongClickListener(view -> {
+			clickListener.onLyricItemSelected(holder.getAdapterPosition());
+			view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+			return true;
 		});
 	}
 
@@ -190,53 +182,27 @@ public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.Lyri
 				itemAdd.setImageDrawable(ctx.getDrawable(R.drawable.ic_add_light));
 			}
 
-			itemAdd.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					clickListener.onAddButtonClick(getAdapterPosition());
-				}
-			});
+			itemAdd.setOnClickListener(v -> clickListener.onAddButtonClick(getAdapterPosition()));
 
-			itemPlay.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					clickListener.onPlayButtonClick(getAdapterPosition());
-				}
-			});
+			itemPlay.setOnClickListener(v -> clickListener.onPlayButtonClick(getAdapterPosition()));
 
 			ImageButton incrTime = itemView.findViewById(R.id.increase_time_button);
 			ImageButton decrTime = itemView.findViewById(R.id.decrease_time_button);
 
-			incrTime.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					clickListener.onIncreaseTimeClick(getAdapterPosition());
-				}
+			incrTime.setOnClickListener(v -> clickListener.onIncreaseTimeClick(getAdapterPosition()));
+
+			incrTime.setOnLongClickListener(v -> {
+				clickListener.onLongPressIncrTime(getAdapterPosition());
+				v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+				return false;
 			});
 
-			incrTime.setOnLongClickListener(new View.OnLongClickListener() {
-				@Override
-				public boolean onLongClick(View v) {
-					clickListener.onLongPressIncrTime(getAdapterPosition());
-					v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-					return false;
-				}
-			});
+			decrTime.setOnClickListener(v -> clickListener.onDecreaseTimeClick(getAdapterPosition()));
 
-			decrTime.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					clickListener.onDecreaseTimeClick(getAdapterPosition());
-				}
-			});
-
-			decrTime.setOnLongClickListener(new View.OnLongClickListener() {
-				@Override
-				public boolean onLongClick(View v) {
-					clickListener.onLongPressDecrTime(getAdapterPosition());
-					v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-					return false;
-				}
+			decrTime.setOnLongClickListener(v -> {
+				clickListener.onLongPressDecrTime(getAdapterPosition());
+				v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+				return false;
 			});
 
 		}

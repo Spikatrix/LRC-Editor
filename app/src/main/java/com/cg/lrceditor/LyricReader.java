@@ -100,14 +100,15 @@ public class LyricReader {
 						}
 						timestamps.add(temp.substring(1, 9));
 					} else {
+						String str = temp.substring(4, temp.length() - 1).trim();
 						if (songMetaData.getSongName().isEmpty() && temp.matches("^\\[ti:.*]$")) {
-							songMetaData.setSongName(temp.substring(4, temp.length() - 1).trim());
+							songMetaData.setSongName(str);
 						} else if (songMetaData.getArtistName().isEmpty() && temp.matches("^\\[ar:.*]$")) {
-							songMetaData.setArtistName(temp.substring(4, temp.length() - 1).trim());
+							songMetaData.setArtistName(str);
 						} else if (songMetaData.getAlbumName().isEmpty() && temp.matches("^\\[al:.*]$")) {
-							songMetaData.setAlbumName(temp.substring(4, temp.length() - 1).trim());
+							songMetaData.setAlbumName(str);
 						} else if (songMetaData.getComposerName().isEmpty() && temp.matches("^\\[au:.*]$")) {
-							songMetaData.setComposerName(temp.substring(4, temp.length() - 1).trim());
+							songMetaData.setComposerName(str);
 						} else if (offset == 0 && temp.matches("^\\[offset:.*]$")) {
 							try {
 								offset = Integer.parseInt(temp.substring(8, temp.length() - 1).trim());
@@ -190,7 +191,7 @@ public class LyricReader {
 		return songMetaData;
 	}
 
-	class LyricTimestampComparator implements Comparator<LyricItem> {
+	static class LyricTimestampComparator implements Comparator<LyricItem> {
 		@Override
 		public int compare(LyricItem l1, LyricItem l2) {
 			return Long.compare(l1.getTimestamp().toMilliseconds(), l2.getTimestamp().toMilliseconds());

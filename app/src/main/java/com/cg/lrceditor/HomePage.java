@@ -2,7 +2,6 @@ package com.cg.lrceditor;
 
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -109,45 +108,24 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 		updateRecyclerviewAdapter();
 
 		swipeRefreshLayout = findViewById(R.id.swiperefresh);
-		swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-			@Override
-			public void onRefresh() {
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						if (threadIsExecuting) {
-							showToastOnUiThread(getString(R.string.another_operation_wait_message));
-							return;
-						}
-						threadIsExecuting = true;
-						runOnUiThread(new Runnable() {
-							@Override
-							public void run() {
-								swipeRefreshLayout.setRefreshing(true);
-							}
-						});
-
-						scanLyrics();
-
-						runOnUiThread(new Runnable() {
-							@Override
-							public void run() {
-								swipeRefreshLayout.setRefreshing(false);
-							}
-						});
-						threadIsExecuting = false;
-					}
-				}).start();
+		swipeRefreshLayout.setOnRefreshListener(() -> new Thread(() -> {
+			if (threadIsExecuting) {
+				showToastOnUiThread(getString(R.string.another_operation_wait_message));
+				return;
 			}
-		});
+			threadIsExecuting = true;
+			runOnUiThread(() -> swipeRefreshLayout.setRefreshing(true));
+
+			scanLyrics();
+
+			runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
+			threadIsExecuting = false;
+		}).start());
 
 		FloatingActionButton fab = findViewById(R.id.fab);
-		fab.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				Intent intent = new Intent(HomePage.this, CreateActivity.class);
-				startActivity(intent);
-			}
+		fab.setOnClickListener(view -> {
+			Intent intent = new Intent(HomePage.this, CreateActivity.class);
+			startActivity(intent);
 		});
 
 		readLocation = preferences.getString("readLocation", Constants.defaultLocation);
@@ -174,47 +152,31 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 		}
 
 		if (storagePermissionIsGranted && !oldReadLocation.equals(readLocation)) {
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					if (threadIsExecuting) {
-						showToastOnUiThread(getString(R.string.another_operation_refresh_failed_message));
-						return;
-					}
-					threadIsExecuting = true;
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							swipeRefreshLayout.setRefreshing(true);
-						}
-					});
-
-					scanLyrics();
-
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							swipeRefreshLayout.setRefreshing(false);
-						}
-					});
-					threadIsExecuting = false;
+			new Thread(() -> {
+				if (threadIsExecuting) {
+					showToastOnUiThread(getString(R.string.another_operation_refresh_failed_message));
+					return;
 				}
+				threadIsExecuting = true;
+				runOnUiThread(() -> swipeRefreshLayout.setRefreshing(true));
+
+				scanLyrics();
+
+				runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
+				threadIsExecuting = false;
 			}).start();
 		}
 	}
 
 	/* Takes care of everything to scan lyrics and display it */
 	synchronized private void scanLyrics() {
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				if (actionMode != null) {
-					actionMode.finish();
-				}
-				actionMode = null;
-
-				toolbar.collapseActionView();
+		runOnUiThread(() -> {
+			if (actionMode != null) {
+				actionMode.finish();
 			}
+			actionMode = null;
+
+			toolbar.collapseActionView();
 		});
 
 		final File scanLocation = new File(readLocation);
@@ -229,29 +191,16 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 
 		final TextView emptyTextview = textView;
 
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				updateRecyclerviewAdapter();
-			}
-		});
+		runOnUiThread(this::updateRecyclerviewAdapter);
 
 		if (!scanLocation.exists()) {
 			if (!scanLocation.mkdir()) {
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						showReadLocationResetDialog(scanLocation);
-					}
-				});
+				runOnUiThread(() -> showReadLocationResetDialog(scanLocation));
 			}
 
-			runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					emptyTextview.setVisibility(View.VISIBLE);
-					recyclerView.setVisibility(View.GONE);
-				}
+			runOnUiThread(() -> {
+				emptyTextview.setVisibility(View.VISIBLE);
+				recyclerView.setVisibility(View.GONE);
 			});
 
 			return;
@@ -263,36 +212,30 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 		stopScanning = false;
 
 		try {
-			runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					refreshItem.setIcon(getDrawable(R.drawable.ic_cancel_toolbar));
+			runOnUiThread(() -> {
+				refreshItem.setIcon(getDrawable(R.drawable.ic_cancel_toolbar));
 
-					emptyTextview.setVisibility(View.GONE);
-					recyclerView.setVisibility(View.VISIBLE);
-				}
+				emptyTextview.setVisibility(View.GONE);
+				recyclerView.setVisibility(View.VISIBLE);
 			});
 
 			scanDirectory(scanLocation);
 
-			runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					if (adapter != null) {
-						final int noOfItems = adapter.listData.size();
-						if (noOfItems <= 0) {
-							if (!stopScanning) {
-								Toast.makeText(getApplicationContext(), getString(R.string.no_lrc_files_found_message), Toast.LENGTH_SHORT).show();
-							} else {
-								Toast.makeText(getApplicationContext(), getString(R.string.scan_cancelled_message), Toast.LENGTH_SHORT).show();
-							}
-							emptyTextview.setVisibility(View.VISIBLE);
-							recyclerView.setVisibility(View.GONE);
-						} else if (!stopScanning) {
-							Toast.makeText(getApplicationContext(), getResources().getQuantityString(R.plurals.scanned_x_lrc_files_message, noOfItems, noOfItems), Toast.LENGTH_SHORT).show();
+			runOnUiThread(() -> {
+				if (adapter != null) {
+					final int noOfItems = adapter.listData.size();
+					if (noOfItems <= 0) {
+						if (!stopScanning) {
+							Toast.makeText(getApplicationContext(), getString(R.string.no_lrc_files_found_message), Toast.LENGTH_SHORT).show();
 						} else {
-							Toast.makeText(getApplicationContext(), getString(R.string.scan_cancelled_message) + "; " + getResources().getQuantityString(R.plurals.scanned_x_lrc_files_message, noOfItems, noOfItems), Toast.LENGTH_SHORT).show();
+							Toast.makeText(getApplicationContext(), getString(R.string.scan_cancelled_message), Toast.LENGTH_SHORT).show();
 						}
+						emptyTextview.setVisibility(View.VISIBLE);
+						recyclerView.setVisibility(View.GONE);
+					} else if (!stopScanning) {
+						Toast.makeText(getApplicationContext(), getResources().getQuantityString(R.plurals.scanned_x_lrc_files_message, noOfItems, noOfItems), Toast.LENGTH_SHORT).show();
+					} else {
+						Toast.makeText(getApplicationContext(), getString(R.string.scan_cancelled_message) + "; " + getResources().getQuantityString(R.plurals.scanned_x_lrc_files_message, noOfItems, noOfItems), Toast.LENGTH_SHORT).show();
 					}
 				}
 			});
@@ -302,12 +245,9 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 			showToastOnUiThread(getString(R.string.send_a_bug_report_message));
 		}
 
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				stopScanning = true;
-				refreshItem.setIcon(getDrawable(R.drawable.ic_refresh_toolbar));
-			}
+		runOnUiThread(() -> {
+			stopScanning = true;
+			refreshItem.setIcon(getDrawable(R.drawable.ic_refresh_toolbar));
 		});
 	}
 
@@ -331,14 +271,11 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 				if (file.isDirectory()) {
 					dirList.add(file);
 				} else if (file.getName().endsWith(".lrc")) {
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							adapter.listData.add(new HomePageListItem(file, null, null));
-							// TODO: Need to optimize this. Currently causes noticeable stuttering and skipped frames
-							// Due to `notifyItemInserted` being called multiple times in a small time interval
-							adapter.notifyItemInserted(adapter.listData.size() - 1);
-						}
+					runOnUiThread(() -> {
+						adapter.listData.add(new HomePageListItem(file, null, null));
+						// TODO: Need to optimize this. Currently causes noticeable stuttering and skipped frames
+						// Due to `notifyItemInserted` being called multiple times in a small time interval
+						adapter.notifyItemInserted(adapter.listData.size() - 1);
 					});
 				}
 			}
@@ -372,51 +309,33 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 		if (!readLocation.equals(Constants.defaultLocation)) {
 			new AlertDialog.Builder(HomePage.this)
 					.setMessage(getString(R.string.read_location_invalid_message, scanLocation.getAbsolutePath()))
-					.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							SharedPreferences.Editor editor = preferences.edit();
+					.setPositiveButton(getString(R.string.yes), (dialog, which) -> {
+						SharedPreferences.Editor editor = preferences.edit();
 
-							editor.putString("readLocation", Constants.defaultLocation);
-							editor.apply();
+						editor.putString("readLocation", Constants.defaultLocation);
+						editor.apply();
 
-							readLocation = Constants.defaultLocation;
-							readUri = null;
+						readLocation = Constants.defaultLocation;
+						readUri = null;
 
-							new Thread(new Runnable() {
-								@Override
-								public void run() {
-									if (threadIsExecuting) {
-										showToastOnUiThread(getString(R.string.another_operation_refresh_failed_message));
-										return;
-									}
-									threadIsExecuting = true;
-									runOnUiThread(new Runnable() {
-										@Override
-										public void run() {
-											swipeRefreshLayout.setRefreshing(true);
-										}
-									});
+						new Thread(() -> {
+							if (threadIsExecuting) {
+								showToastOnUiThread(getString(R.string.another_operation_refresh_failed_message));
+								return;
+							}
+							threadIsExecuting = true;
+							runOnUiThread(() -> swipeRefreshLayout.setRefreshing(true));
 
-									scanLyrics();
+							scanLyrics();
 
-									runOnUiThread(new Runnable() {
-										@Override
-										public void run() {
-											swipeRefreshLayout.setRefreshing(false);
-										}
-									});
-									threadIsExecuting = false;
-								}
-							}).start();
-						}
+							runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
+							threadIsExecuting = false;
+						}).start();
 					})
-					.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							Toast.makeText(getApplicationContext(), getString(R.string.lrc_editor_may_not_work_as_expected_message), Toast.LENGTH_LONG).show();
-						}
-					})
+					.setNegativeButton(getString(R.string.no), (dialog, which) ->
+							Toast.makeText(getApplicationContext(),
+									getString(R.string.lrc_editor_may_not_work_as_expected_message),
+									Toast.LENGTH_LONG).show())
 					.setCancelable(false)
 					.create()
 					.show();
@@ -452,13 +371,8 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 		dialog.setMessage(getString(R.string.storage_permission_prompt));
 		dialog.setTitle(getString(R.string.need_permissions));
 		dialog.setCancelable(false);
-		dialog.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				ActivityCompat.requestPermissions(HomePage.this,
-						new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constants.WRITE_EXTERNAL_REQUEST);
-			}
-		});
+		dialog.setPositiveButton(getString(R.string.ok), (dialog1, which) -> ActivityCompat.requestPermissions(HomePage.this,
+				new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constants.WRITE_EXTERNAL_REQUEST));
 		dialog.show();
 
 	}
@@ -476,31 +390,18 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 				if (permission.equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 					if (grantResult == PackageManager.PERMISSION_GRANTED) {
 						storagePermissionIsGranted = true;
-						new Thread(new Runnable() {
-							@Override
-							public void run() {
-								if (threadIsExecuting) {
-									showToastOnUiThread(getString(R.string.another_operation_refresh_failed_message));
-									return;
-								}
-								threadIsExecuting = true;
-								runOnUiThread(new Runnable() {
-									@Override
-									public void run() {
-										swipeRefreshLayout.setRefreshing(true);
-									}
-								});
-
-								scanLyrics();
-
-								runOnUiThread(new Runnable() {
-									@Override
-									public void run() {
-										swipeRefreshLayout.setRefreshing(false);
-									}
-								});
-								threadIsExecuting = false;
+						new Thread(() -> {
+							if (threadIsExecuting) {
+								showToastOnUiThread(getString(R.string.another_operation_refresh_failed_message));
+								return;
 							}
+							threadIsExecuting = true;
+							runOnUiThread(() -> swipeRefreshLayout.setRefreshing(true));
+
+							scanLyrics();
+
+							runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
+							threadIsExecuting = false;
 						}).start();
 						return;
 					} else {
@@ -568,31 +469,18 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 		}
 
 		if (storagePermissionIsGranted) {
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					if (threadIsExecuting) {
-						showToastOnUiThread(getString(R.string.another_operation_refresh_failed_message));
-						return;
-					}
-					threadIsExecuting = true;
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							swipeRefreshLayout.setRefreshing(true);
-						}
-					});
-
-					scanLyrics();
-
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							swipeRefreshLayout.setRefreshing(false);
-						}
-					});
-					threadIsExecuting = false;
+			new Thread(() -> {
+				if (threadIsExecuting) {
+					showToastOnUiThread(getString(R.string.another_operation_refresh_failed_message));
+					return;
 				}
+				threadIsExecuting = true;
+				runOnUiThread(() -> swipeRefreshLayout.setRefreshing(true));
+
+				scanLyrics();
+
+				runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
+				threadIsExecuting = false;
 			}).start();
 		}
 
@@ -608,31 +496,18 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 		switch (item.getItemId()) {
 			case R.id.action_refresh:
 				if (stopScanning) { // If this is true, scanning is not taking place; clicked on the refresh button
-					new Thread(new Runnable() {
-						@Override
-						public void run() {
-							if (threadIsExecuting) {
-								showToastOnUiThread(getString(R.string.another_operation_wait_message));
-								return;
-							}
-							threadIsExecuting = true;
-							runOnUiThread(new Runnable() {
-								@Override
-								public void run() {
-									swipeRefreshLayout.setRefreshing(true);
-								}
-							});
-
-							scanLyrics();
-
-							runOnUiThread(new Runnable() {
-								@Override
-								public void run() {
-									swipeRefreshLayout.setRefreshing(false);
-								}
-							});
-							threadIsExecuting = false;
+					new Thread(() -> {
+						if (threadIsExecuting) {
+							showToastOnUiThread(getString(R.string.another_operation_wait_message));
+							return;
 						}
+						threadIsExecuting = true;
+						runOnUiThread(() -> swipeRefreshLayout.setRefreshing(true));
+
+						scanLyrics();
+
+						runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
+						threadIsExecuting = false;
 					}).start();
 				} else { // Scan is taking place; clicked on the cancel scan button
 					stopScanning = true;
@@ -654,57 +529,36 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 	}
 
 	private void showToastOnUiThread(final String str) {
-		this.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show();
-			}
-		});
+		this.runOnUiThread(() -> Toast.makeText(getApplicationContext(), str, Toast.LENGTH_SHORT).show());
 	}
 
 	@Override
 	public void fileSelected(String fileLocation, final String fileName) {
 		final LyricReader r = new LyricReader(fileLocation, fileName, this);
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				if (threadIsExecuting) {
-					showToastOnUiThread(getString(R.string.another_operation_wait_message));
-					return;
-				}
-				threadIsExecuting = true;
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						swipeRefreshLayout.setRefreshing(true);
-					}
-				});
-
-				if (r.getErrorMsg() != null || !r.readLyrics()) {
-					showToastOnUiThread(r.getErrorMsg());
-				} else {
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							Intent intent = new Intent(getApplicationContext(), EditorActivity.class);
-							intent.putExtra("LYRICS", r.getLyrics());
-							intent.putExtra("TIMESTAMPS", r.getTimestamps());
-							intent.putExtra("SONG METADATA", r.getSongMetaData());
-							intent.putExtra("LRC FILE NAME", fileName);
-
-							startActivity(intent);
-						}
-					});
-				}
-
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						swipeRefreshLayout.setRefreshing(false);
-					}
-				});
-				threadIsExecuting = false;
+		new Thread(() -> {
+			if (threadIsExecuting) {
+				showToastOnUiThread(getString(R.string.another_operation_wait_message));
+				return;
 			}
+			threadIsExecuting = true;
+			runOnUiThread(() -> swipeRefreshLayout.setRefreshing(true));
+
+			if (r.getErrorMsg() != null || !r.readLyrics()) {
+				showToastOnUiThread(r.getErrorMsg());
+			} else {
+				runOnUiThread(() -> {
+					Intent intent = new Intent(getApplicationContext(), EditorActivity.class);
+					intent.putExtra("LYRICS", r.getLyrics());
+					intent.putExtra("TIMESTAMPS", r.getTimestamps());
+					intent.putExtra("SONG METADATA", r.getSongMetaData());
+					intent.putExtra("LRC FILE NAME", fileName);
+
+					startActivity(intent);
+				});
+			}
+
+			runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
+			threadIsExecuting = false;
 		}).start();
 	}
 
@@ -762,81 +616,62 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 		new AlertDialog.Builder(this)
 				.setTitle(getString(R.string.confirmation))
 				.setMessage(getString(R.string.delete_confirmation))
-				.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						final List<HomePageListItem> itemsToDelete = new ArrayList<>();
-						for (int i : adapter.getSelectedItemIndices()) {
-							itemsToDelete.add(adapter.listData.get(i));
+				.setPositiveButton(getString(R.string.yes), (dialog, which) -> {
+					final List<HomePageListItem> itemsToDelete = new ArrayList<>();
+					for (int i : adapter.getSelectedItemIndices()) {
+						itemsToDelete.add(adapter.listData.get(i));
+					}
+
+					new Thread(() -> {
+						if (threadIsExecuting) {
+							showToastOnUiThread(getString(R.string.another_operation_wait_message));
+							return;
+						}
+						threadIsExecuting = true;
+						runOnUiThread(() -> swipeRefreshLayout.setRefreshing(true));
+
+						showToastOnUiThread(getString(R.string.deleting_message));
+
+						DocumentFile pickedDir = FileUtil.getPersistableDocumentFile(readUri, readLocation, getApplicationContext());
+
+						boolean deleteFailure = false;
+
+						while (!itemsToDelete.isEmpty()) {
+							final HomePageListItem currentItem = itemsToDelete.remove(itemsToDelete.size() - 1);
+							File f = currentItem.file;
+							final String location = FileUtil.stripFileNameFromPath(f.getAbsolutePath());
+
+							DocumentFile file = FileUtil.searchForFileOptimized(pickedDir, location, f.getName(), getApplicationContext().getExternalFilesDirs(null));
+							if (file == null || !file.delete()) {
+								deleteFailure = true;
+							} else {
+								runOnUiThread(() -> {
+									if (toolbar.hasExpandedActionView()) {
+										adapter.backupListData.remove(currentItem);
+									}
+
+									int index = adapter.listData.indexOf(currentItem);
+									if (index != -1) {
+										adapter.listData.remove(currentItem);
+										adapter.notifyItemRemoved(index);
+									}
+
+									checkActionModeItems();
+								});
+							}
 						}
 
-						new Thread(new Runnable() {
-							@Override
-							public void run() {
-								if (threadIsExecuting) {
-									showToastOnUiThread(getString(R.string.another_operation_wait_message));
-									return;
-								}
-								threadIsExecuting = true;
-								runOnUiThread(new Runnable() {
-									@Override
-									public void run() {
-										swipeRefreshLayout.setRefreshing(true);
-									}
-								});
+						final boolean finalDeleteFailure = deleteFailure;
+						if (finalDeleteFailure) {
+							showToastOnUiThread(getString(R.string.delete_failed_message));
+						} else {
+							showToastOnUiThread(getString(R.string.delete_successful_message));
+						}
 
-								showToastOnUiThread(getString(R.string.deleting_message));
+						runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
 
-								DocumentFile pickedDir = FileUtil.getPersistableDocumentFile(readUri, readLocation, getApplicationContext());
-
-								boolean deleteFailure = false;
-
-								while (!itemsToDelete.isEmpty()) {
-									final HomePageListItem currentItem = itemsToDelete.remove(itemsToDelete.size() - 1);
-									File f = currentItem.file;
-									final String location = FileUtil.stripFileNameFromPath(f.getAbsolutePath());
-
-									DocumentFile file = FileUtil.searchForFileOptimized(pickedDir, location, f.getName(), getApplicationContext().getExternalFilesDirs(null));
-									if (file == null || !file.delete()) {
-										deleteFailure = true;
-									} else {
-										runOnUiThread(new Runnable() {
-											@Override
-											public void run() {
-												if (toolbar.hasExpandedActionView()) {
-													adapter.backupListData.remove(currentItem);
-												}
-
-												int index = adapter.listData.indexOf(currentItem);
-												if (index != -1) {
-													adapter.listData.remove(currentItem);
-													adapter.notifyItemRemoved(index);
-												}
-
-												checkActionModeItems();
-											}
-										});
-									}
-								}
-
-								final boolean finalDeleteFailure = deleteFailure;
-								if (finalDeleteFailure) {
-									showToastOnUiThread(getString(R.string.delete_failed_message));
-								} else {
-									showToastOnUiThread(getString(R.string.delete_successful_message));
-								}
-
-								runOnUiThread(new Runnable() {
-									@Override
-									public void run() {
-										swipeRefreshLayout.setRefreshing(false);
-									}
-								});
-
-								threadIsExecuting = false;
-							}
-						}).start();
-					}
+						threadIsExecuting = false;
+					}).start();
 				})
 				.setNegativeButton(getString(R.string.no), null)
 				.create()
@@ -865,84 +700,62 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 
 		new AlertDialog.Builder(this)
 				.setView(view)
-				.setPositiveButton(getString(R.string.rename), new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						final HomePageListItem itemToRename = adapter.listData.get(adapter.getSelectedItemIndices().get(0));
+				.setPositiveButton(getString(R.string.rename), (dialog, which) -> {
+					final HomePageListItem itemToRename = adapter.listData.get(adapter.getSelectedItemIndices().get(0));
 
-						new Thread(new Runnable() {
-							@Override
-							public void run() {
-								if (threadIsExecuting) {
-									showToastOnUiThread(getString(R.string.another_operation_wait_message));
-									return;
-								}
-								threadIsExecuting = true;
-								runOnUiThread(new Runnable() {
-									@Override
-									public void run() {
-										swipeRefreshLayout.setRefreshing(true);
-									}
-								});
+					new Thread(() -> {
+						if (threadIsExecuting) {
+							showToastOnUiThread(getString(R.string.another_operation_wait_message));
+							return;
+						}
+						threadIsExecuting = true;
+						runOnUiThread(() -> swipeRefreshLayout.setRefreshing(true));
 
-								showToastOnUiThread(getString(R.string.renaming_message));
+						showToastOnUiThread(getString(R.string.renaming_message));
 
-								final String newName = editText.getText().toString();
+						final String newName = editText.getText().toString();
 
-								runOnUiThread(new Runnable() {
-									@Override
-									public void run() {
-										if (actionMode != null) {
-											actionMode.finish();
-										}
-										actionMode = null;
-									}
-								});
-
-								DocumentFile pickedDir = FileUtil.getPersistableDocumentFile(readUri, readLocation, getApplicationContext());
-								final String location = FileUtil.stripFileNameFromPath(f.getAbsolutePath());
-
-								if (new File(location, newName).exists()) {
-									showToastOnUiThread(getString(R.string.file_name_already_exists_message));
-								}
-
-								DocumentFile file = FileUtil.searchForFileOptimized(pickedDir, location, f.getName(), getApplicationContext().getExternalFilesDirs(null));
-
-								if (file != null && file.renameTo(newName)) {
-									showToastOnUiThread(getString(R.string.rename_successful_message));
-									runOnUiThread(new Runnable() {
-										@Override
-										public void run() {
-											int index = adapter.listData.indexOf(itemToRename);
-											if (index != -1) {
-												adapter.listData.get(index).file = new File(location, newName);
-												adapter.notifyItemChanged(index);
-											}
-
-											if (toolbar.hasExpandedActionView()) {
-												int index2 = adapter.backupListData.indexOf(itemToRename);
-												if (index != -1) {
-													adapter.backupListData.get(index2).file = adapter.listData.get(index).file;
-												} else {
-													adapter.backupListData.get(index2).file = new File(location, newName);
-												}
-											}
-										}
-									});
-								} else {
-									showToastOnUiThread(getString(R.string.rename_failed_message));
-								}
-
-								runOnUiThread(new Runnable() {
-									@Override
-									public void run() {
-										swipeRefreshLayout.setRefreshing(false);
-									}
-								});
-								threadIsExecuting = false;
+						runOnUiThread(() -> {
+							if (actionMode != null) {
+								actionMode.finish();
 							}
-						}).start();
-					}
+							actionMode = null;
+						});
+
+						DocumentFile pickedDir = FileUtil.getPersistableDocumentFile(readUri, readLocation, getApplicationContext());
+						final String location = FileUtil.stripFileNameFromPath(f.getAbsolutePath());
+
+						if (new File(location, newName).exists()) {
+							showToastOnUiThread(getString(R.string.file_name_already_exists_message));
+						}
+
+						DocumentFile file = FileUtil.searchForFileOptimized(pickedDir, location, f.getName(), getApplicationContext().getExternalFilesDirs(null));
+
+						if (file != null && file.renameTo(newName)) {
+							showToastOnUiThread(getString(R.string.rename_successful_message));
+							runOnUiThread(() -> {
+								int index = adapter.listData.indexOf(itemToRename);
+								if (index != -1) {
+									adapter.listData.get(index).file = new File(location, newName);
+									adapter.notifyItemChanged(index);
+								}
+
+								if (toolbar.hasExpandedActionView()) {
+									int index2 = adapter.backupListData.indexOf(itemToRename);
+									if (index != -1) {
+										adapter.backupListData.get(index2).file = adapter.listData.get(index).file;
+									} else {
+										adapter.backupListData.get(index2).file = new File(location, newName);
+									}
+								}
+							});
+						} else {
+							showToastOnUiThread(getString(R.string.rename_failed_message));
+						}
+
+						runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
+						threadIsExecuting = false;
+					}).start();
 				}).setNegativeButton(getString(R.string.cancel), null)
 				.create()
 				.show();

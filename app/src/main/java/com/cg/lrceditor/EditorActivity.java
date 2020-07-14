@@ -3,7 +3,6 @@ package com.cg.lrceditor;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
@@ -238,46 +237,32 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 			final Context ctx = this;
 
 			final LyricReader r = new LyricReader(intent.getData(), this);
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							swipeRefreshLayout.setRefreshing(true);
-						}
+			new Thread(() -> {
+				runOnUiThread(() -> swipeRefreshLayout.setRefreshing(true));
+
+				if (r.getErrorMsg() != null || !r.readLyrics()) {
+					runOnUiThread(() -> {
+						Toast.makeText(ctx, r.getErrorMsg(), Toast.LENGTH_LONG).show();
+						swipeRefreshLayout.setRefreshing(false);
+						finish();
 					});
-
-					if (r.getErrorMsg() != null || !r.readLyrics()) {
-						runOnUiThread(new Runnable() {
-							@Override
-							public void run() {
-								Toast.makeText(ctx, r.getErrorMsg(), Toast.LENGTH_LONG).show();
-								swipeRefreshLayout.setRefreshing(false);
-								finish();
-							}
-						});
-						return;
-					}
-
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							String[] lyrics = r.getLyrics();
-							Timestamp[] timestamps = r.getTimestamps();
-							ArrayList<LyricItem> lyricData = populateDataSet(lyrics, timestamps, false);
-
-							songMetaData = r.getSongMetaData();
-							lrcFileName = FileUtil.getFileName(ctx, intent.getData());
-
-							adapter = new LyricListAdapter(ctx, lyricData, isDarkTheme);
-							adapter.setClickListener(clickListener);
-							recyclerView.setAdapter(adapter);
-
-							swipeRefreshLayout.setRefreshing(false);
-						}
-					});
+					return;
 				}
+
+				runOnUiThread(() -> {
+					String[] lyrics = r.getLyrics();
+					Timestamp[] timestamps = r.getTimestamps();
+					ArrayList<LyricItem> lyricData = populateDataSet(lyrics, timestamps, false);
+
+					songMetaData = r.getSongMetaData();
+					lrcFileName = FileUtil.getFileName(ctx, intent.getData());
+
+					adapter = new LyricListAdapter(ctx, lyricData, isDarkTheme);
+					adapter.setClickListener(clickListener);
+					recyclerView.setAdapter(adapter);
+
+					swipeRefreshLayout.setRefreshing(false);
+				});
 			}).start();
 		} else {
 			/* New LRC file or existing opened from the homepage */
@@ -695,35 +680,26 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
 	private void readyUpMediaPlayer(final Uri songUriArgument) {
 		titleText.setText(getString(R.string.setting_up_player_message));
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					player.setDataSource(getApplicationContext(), songUriArgument);
-				} catch (IOException | IllegalArgumentException | IllegalStateException | SecurityException e) {
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							Toast.makeText(getApplicationContext(), "Whoops " + e.getMessage(), Toast.LENGTH_LONG).show();
-							titleText.setText(getString(R.string.tap_to_select_song_prompt));
-							e.printStackTrace();
-						}
-					});
-					return;
-				}
-
-				runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						playerPrepared = false;
-						songUri = songUriArgument;
-
-						titleText.setText(getString(R.string.preparing_the_player_message));
-						player.prepareAsync();
-					}
+		new Thread(() -> {
+			try {
+				player.setDataSource(getApplicationContext(), songUriArgument);
+			} catch (IOException | IllegalArgumentException | IllegalStateException | SecurityException e) {
+				runOnUiThread(() -> {
+					Toast.makeText(getApplicationContext(), "Whoops " + e.getMessage(), Toast.LENGTH_LONG).show();
+					titleText.setText(getString(R.string.tap_to_select_song_prompt));
+					e.printStackTrace();
 				});
-
+				return;
 			}
+
+			runOnUiThread(() -> {
+				playerPrepared = false;
+				songUri = songUriArgument;
+
+				titleText.setText(getString(R.string.preparing_the_player_message));
+				player.prepareAsync();
+			});
+
 		}).start();
 	}
 
@@ -1015,65 +991,59 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
 		dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
-		dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-			@Override
-			public void onShow(DialogInterface d) {
-				Button b = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-				b.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						String minText = min.getText().toString().trim();
-						String secText = sec.getText().toString().trim();
-						String milText = mil.getText().toString().trim();
+		dialog.setOnShowListener(d -> {
+			Button b = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+			b.setOnClickListener(v -> {
+				String minText = min.getText().toString().trim();
+				String secText = sec.getText().toString().trim();
+				String milText = mil.getText().toString().trim();
 
-						if (!minText.matches("^[0-9]+$")) {
-							min.setError(getString(R.string.invalid_time));
-							return;
-						} else if (!secText.matches("^[0-9]+$")) {
-							sec.setError(getString(R.string.invalid_time));
-							return;
-						} else if (!milText.matches("^[0-9]+$")) {
-							mil.setError(getString(R.string.invalid_time));
-							return;
-						}
+				if (!minText.matches("^[0-9]+$")) {
+					min.setError(getString(R.string.invalid_time));
+					return;
+				} else if (!secText.matches("^[0-9]+$")) {
+					sec.setError(getString(R.string.invalid_time));
+					return;
+				} else if (!milText.matches("^[0-9]+$")) {
+					mil.setError(getString(R.string.invalid_time));
+					return;
+				}
 
-						if (Integer.parseInt(secText) >= 60) {
-							sec.setError(getString(R.string.seconds_less_than_60_message));
-							return;
-						}
+				if (Integer.parseInt(secText) >= 60) {
+					sec.setError(getString(R.string.seconds_less_than_60_message));
+					return;
+				}
 
-						changedData = true;
+				changedData = true;
 
-						if (minText.length() == 1) {
-							minText = "0" + minText;
-						}
-						if (secText.length() == 1) {
-							secText = "0" + secText;
-						}
-						if (milText.length() == 1) {
-							milText = "0" + milText;
-						}
+				if (minText.length() == 1) {
+					minText = "0" + minText;
+				}
+				if (secText.length() == 1) {
+					secText = "0" + secText;
+				}
+				if (milText.length() == 1) {
+					milText = "0" + milText;
+				}
 
-						milText = milText + "0";
+				milText = milText + "0";
 
-						Timestamp timestamp = adapter.lyricData.get(position).getTimestamp();
-						if (timestamp == null) {
-							timestamp = new Timestamp(Long.parseLong(minText),
-									Long.parseLong(secText),
-									Long.parseLong(milText));
-							adapter.lyricData.get(position).setTimestamp(timestamp);
-						} else {
-							timestamp.setTime(Long.parseLong(minText),
-									Long.parseLong(secText),
-									Long.parseLong(milText));
-						}
+				Timestamp timestamp = adapter.lyricData.get(position).getTimestamp();
+				if (timestamp == null) {
+					timestamp = new Timestamp(Long.parseLong(minText),
+							Long.parseLong(secText),
+							Long.parseLong(milText));
+					adapter.lyricData.get(position).setTimestamp(timestamp);
+				} else {
+					timestamp.setTime(Long.parseLong(minText),
+							Long.parseLong(secText),
+							Long.parseLong(milText));
+				}
 
-						adapter.notifyItemChanged(position);
+				adapter.notifyItemChanged(position);
 
-						dialog.dismiss();
-					}
-				});
-			}
+				dialog.dismiss();
+			});
 		});
 
 		dialog.show();
@@ -1085,39 +1055,36 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 		new AlertDialog.Builder(this)
 				.setTitle(R.string.delete_prompt)
 				.setSingleChoiceItems(options, 0, null)
-				.setPositiveButton(getString(R.string.delete), new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						int selectedOption = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+				.setPositiveButton(getString(R.string.delete), (dialog, which) -> {
+					int selectedOption = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
 
-						List<Integer> selectedItemPositions =
-								adapter.getSelectedItemIndices();
-						longPressedPos = -1;
-						longPressed = 0;
-						if (selectedOption == 0) { /* Delete timestamps only */
-							for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
-								adapter.lyricData.get(selectedItemPositions.get(i)).setTimestamp(null);
-								adapter.notifyItemChanged(selectedItemPositions.get(i));
-							}
-						} else if (selectedOption == 1) { /* Delete both */
-							for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
-								adapter.lyricData.remove((int) selectedItemPositions.get(i));
-								adapter.notifyItemRemoved(selectedItemPositions.get(i));
-							}
-
-							if (adapter.lyricData.size() == 0) {
-								Toolbar toolbar = findViewById(R.id.toolbar);
-								toolbar.getMenu().findItem(R.id.action_add).setVisible(true);
-							}
+					List<Integer> selectedItemPositions =
+							adapter.getSelectedItemIndices();
+					longPressedPos = -1;
+					longPressed = 0;
+					if (selectedOption == 0) { /* Delete timestamps only */
+						for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
+							adapter.lyricData.get(selectedItemPositions.get(i)).setTimestamp(null);
+							adapter.notifyItemChanged(selectedItemPositions.get(i));
+						}
+					} else if (selectedOption == 1) { /* Delete both */
+						for (int i = selectedItemPositions.size() - 1; i >= 0; i--) {
+							adapter.lyricData.remove((int) selectedItemPositions.get(i));
+							adapter.notifyItemRemoved(selectedItemPositions.get(i));
 						}
 
-						changedData = true;
-
-						if (actionMode != null) {
-							actionMode.finish();
+						if (adapter.lyricData.size() == 0) {
+							Toolbar toolbar = findViewById(R.id.toolbar);
+							toolbar.getMenu().findItem(R.id.action_add).setVisible(true);
 						}
-						actionMode = null;
 					}
+
+					changedData = true;
+
+					if (actionMode != null) {
+						actionMode.finish();
+					}
+					actionMode = null;
 				})
 				.setNegativeButton(getString(R.string.cancel), null)
 				.create()
@@ -1186,27 +1153,24 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
 		AlertDialog dialog = new AlertDialog.Builder(this)
 				.setView(view)
-				.setPositiveButton(positive_button_text, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
+				.setPositiveButton(positive_button_text, (dialog1, which) -> {
 
-						if (optionMode != 0) {
-							/* Insert lyrics */
+					if (optionMode != 0) {
+						/* Insert lyrics */
 
-							String data = editText.getText().toString().trim();
+						String data = editText.getText().toString().trim();
 
-							String[] lyrics = data.split("\\n");
-							insertLyrics(lyrics, optionMode);
+						String[] lyrics = data.split("\\n");
+						insertLyrics(lyrics, optionMode);
 
-						} else {
-							/* Edit selected lyric */
+					} else {
+						/* Edit selected lyric */
 
-							changedData = true;
+						changedData = true;
 
-							adapter.lyricData.get(position).setLyric(editText.getText().toString());
-							adapter.notifyItemChanged(position);
+						adapter.lyricData.get(position).setLyric(editText.getText().toString());
+						adapter.notifyItemChanged(position);
 
-						}
 					}
 				})
 				.setNegativeButton(getString(R.string.cancel), null)
@@ -1310,40 +1274,34 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 			increase.setImageDrawable(getDrawable(R.drawable.ic_add_light));
 		}
 
-		increase.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (batchTimeNegative[0])
-					timestamp.alterTimestamp(-100);
-				else
-					timestamp.alterTimestamp(100);
+		increase.setOnClickListener(v -> {
+			if (batchTimeNegative[0])
+				timestamp.alterTimestamp(-100);
+			else
+				timestamp.alterTimestamp(100);
 
-				if (batchTimeNegative[0] && timestamp.toMilliseconds() <= 0) {
-					batchTimeNegative[0] = false;
-				}
-
-				if (!batchTimeNegative[0]) {
-					batchTimestamp.setText(
-							String.format(Locale.getDefault(), "+%s", timestamp.toString()));
-				} else {
-					batchTimestamp.setText(
-							String.format(Locale.getDefault(), "-%s", timestamp.toString()));
-				}
-
-				longPressed[0] = 0;
+			if (batchTimeNegative[0] && timestamp.toMilliseconds() <= 0) {
+				batchTimeNegative[0] = false;
 			}
+
+			if (!batchTimeNegative[0]) {
+				batchTimestamp.setText(
+						String.format(Locale.getDefault(), "+%s", timestamp.toString()));
+			} else {
+				batchTimestamp.setText(
+						String.format(Locale.getDefault(), "-%s", timestamp.toString()));
+			}
+
+			longPressed[0] = 0;
 		});
 
-		increase.setOnLongClickListener(new View.OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {
-				if (longPressed[0] != 1) {
-					longPressed[0] = 1;
+		increase.setOnLongClickListener(v -> {
+			if (longPressed[0] != 1) {
+				longPressed[0] = 1;
 
-					batchTimestampUpdater.post(updateBatchTimestamp);
-				}
-				return false;
+				batchTimestampUpdater.post(updateBatchTimestamp);
 			}
+			return false;
 		});
 
 		ImageButton decrease = view.findViewById(R.id.batch_decrease_time_button);
@@ -1351,68 +1309,54 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 			decrease.setImageDrawable(getDrawable(R.drawable.ic_minus_light));
 		}
 
-		decrease.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (!batchTimeNegative[0] && timestamp.toMilliseconds() - 100 < 0)
-					batchTimeNegative[0] = true;
+		decrease.setOnClickListener(v -> {
+			if (!batchTimeNegative[0] && timestamp.toMilliseconds() - 100 < 0)
+				batchTimeNegative[0] = true;
 
-				if (batchTimeNegative[0])
-					timestamp.alterTimestamp(100);
-				else
-					timestamp.alterTimestamp(-100);
+			if (batchTimeNegative[0])
+				timestamp.alterTimestamp(100);
+			else
+				timestamp.alterTimestamp(-100);
 
-				if (!batchTimeNegative[0]) {
-					batchTimestamp.setText(
-							String.format(Locale.getDefault(), "+%s", timestamp.toString()));
-				} else {
-					batchTimestamp.setText(
-							String.format(Locale.getDefault(), "-%s", timestamp.toString()));
-				}
-
-				longPressed[0] = 0;
+			if (!batchTimeNegative[0]) {
+				batchTimestamp.setText(
+						String.format(Locale.getDefault(), "+%s", timestamp.toString()));
+			} else {
+				batchTimestamp.setText(
+						String.format(Locale.getDefault(), "-%s", timestamp.toString()));
 			}
+
+			longPressed[0] = 0;
 		});
 
-		decrease.setOnLongClickListener(new View.OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {
-				if (longPressed[0] != -1) {
-					longPressed[0] = -1;
+		decrease.setOnLongClickListener(v -> {
+			if (longPressed[0] != -1) {
+				longPressed[0] = -1;
 
-					batchTimestampUpdater.post(updateBatchTimestamp);
-				}
-				return false;
+				batchTimestampUpdater.post(updateBatchTimestamp);
 			}
+			return false;
 		});
 
 		AlertDialog dialog = new AlertDialog.Builder(this)
 				.setView(view)
 				.setTitle(R.string.batch_edit)
-				.setPositiveButton(getString(R.string.adjust), new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						changedData = true;
-						longPressed[0] = 0;
+				.setPositiveButton(getString(R.string.adjust), (dialog1, which) -> {
+					changedData = true;
+					longPressed[0] = 0;
 
-						if (batchTimeNegative[0]) {
-							offsetTimestamps(-timestamp.toMilliseconds());
-						} else {
-							offsetTimestamps(timestamp.toMilliseconds());
-						}
+					if (batchTimeNegative[0]) {
+						offsetTimestamps(-timestamp.toMilliseconds());
+					} else {
+						offsetTimestamps(timestamp.toMilliseconds());
+					}
 
-						if (actionMode != null) {
-							actionMode.finish();
-						}
-						actionMode = null;
+					if (actionMode != null) {
+						actionMode.finish();
 					}
+					actionMode = null;
 				})
-				.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						longPressed[0] = 0;
-					}
-				})
+				.setNegativeButton(getString(R.string.cancel), (dialog12, which) -> longPressed[0] = 0)
 				.setCancelable(false)
 				.create();
 
@@ -1584,12 +1528,9 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 			new AlertDialog.Builder(this)
 					.setTitle(getString(R.string.warning))
 					.setMessage(R.string.go_back_warning_message)
-					.setPositiveButton(getString(R.string.go_back), new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							reset();
-							EditorActivity.super.onBackPressed();
-						}
+					.setPositiveButton(getString(R.string.go_back), (dialog, which) -> {
+						reset();
+						EditorActivity.super.onBackPressed();
 					})
 					.setNegativeButton(getString(R.string.stay_here), null)
 					.show();
@@ -1634,12 +1575,9 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 			adapter.stopFlash(this.pos);
 
 			Handler waiter = new Handler();
-			waiter.postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					if (adapter.getFlashingItems().size() == 0) {
-						((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
-					}
+			waiter.postDelayed(() -> {
+				if (adapter.getFlashingItems().size() == 0) {
+					((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 				}
 			}, 250);
 

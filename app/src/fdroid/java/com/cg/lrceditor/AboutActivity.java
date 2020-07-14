@@ -66,7 +66,7 @@ public class AboutActivity extends AppCompatActivity {
 
 	public void viewApp(View view) {
 		try {
-			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://f-droid.org/en/packages/com.cg.lrceditor")));
+			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://f-droid.org/packages/com.cg.lrceditor")));
 		} catch (ActivityNotFoundException e) {
 			Toast.makeText(this, getString(R.string.whoops_error) + " " + e.getMessage(), Toast.LENGTH_LONG).show();
 		}

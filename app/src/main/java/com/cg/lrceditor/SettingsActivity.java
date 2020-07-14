@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
@@ -63,13 +62,10 @@ public class SettingsActivity extends AppCompatActivity {
 
 		threeDigitMillisecondsSwitch = findViewById(R.id.three_digit_milliseconds_switch);
 		threeDigitMillisecondsSwitch.setChecked(preferences.getBoolean("three_digit_milliseconds", false));
-		threeDigitMillisecondsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
-				SharedPreferences.Editor editor = preferences.edit();
-				editor.putBoolean("three_digit_milliseconds", checked);
-				editor.apply();
-			}
+		threeDigitMillisecondsSwitch.setOnCheckedChangeListener((compoundButton, checked) -> {
+			SharedPreferences.Editor editor = preferences.edit();
+			editor.putBoolean("three_digit_milliseconds", checked);
+			editor.apply();
 		});
 
 		RadioGroup themeGroup = findViewById(R.id.theme_group);
@@ -92,26 +88,23 @@ public class SettingsActivity extends AppCompatActivity {
 				break;
 		}
 
-		themeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				SharedPreferences.Editor editor = preferences.edit();
+		themeGroup.setOnCheckedChangeListener((group, checkedId) -> {
+			SharedPreferences.Editor editor = preferences.edit();
 
-				if (checkedId == light.getId()) {
-					editor.putString("current_theme", "light");
-				} else if (checkedId == dark.getId()) {
-					editor.putString("current_theme", "dark");
-				} else if (checkedId == darker.getId()) {
-					editor.putString("current_theme", "darker");
-				} else {
-					Toast.makeText(getApplicationContext(), getString(R.string.unexpected_error_message), Toast.LENGTH_SHORT).show();
-					return;
-				}
-
-				Toast.makeText(getApplicationContext(), getString(R.string.restart_for_theme_message), Toast.LENGTH_SHORT).show();
-				editor.apply();
-				recreate();
+			if (checkedId == light.getId()) {
+				editor.putString("current_theme", "light");
+			} else if (checkedId == dark.getId()) {
+				editor.putString("current_theme", "dark");
+			} else if (checkedId == darker.getId()) {
+				editor.putString("current_theme", "darker");
+			} else {
+				Toast.makeText(getApplicationContext(), getString(R.string.unexpected_error_message), Toast.LENGTH_SHORT).show();
+				return;
 			}
+
+			Toast.makeText(getApplicationContext(), getString(R.string.restart_for_theme_message), Toast.LENGTH_SHORT).show();
+			editor.apply();
+			recreate();
 		});
 
 		String location = preferences.getString("saveLocation", Constants.defaultLocation);

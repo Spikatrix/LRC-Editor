@@ -75,7 +75,7 @@ public class AboutActivity extends AppCompatActivity {
 			startActivity(goToMarket);
 		} catch (ActivityNotFoundException e) {
 			startActivity(new Intent(Intent.ACTION_VIEW,
-					Uri.parse("http://play.google.com/store/apps/details?id=" + this.getPackageName())));
+					Uri.parse("https://play.google.com/store/apps/details?id=" + this.getPackageName())));
 		}
 	}
 

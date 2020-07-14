@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -223,20 +222,12 @@ public class FinalizeActivity extends AppCompatActivity {
 
 		AlertDialog dialog = new AlertDialog.Builder(this)
 				.setView(dialogView)
-				.setPositiveButton(getString(R.string.save), new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
+				.setPositiveButton(getString(R.string.save), (dialog1, which) -> {
+					dialog1.dismiss();
 
-						saveLyricsFile(editText.getText().toString());
-					}
+					saveLyricsFile(editText.getText().toString());
 				})
-				.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						statusTextView.setVisibility(View.GONE);
-					}
-				})
+				.setNegativeButton(getString(R.string.cancel), (dialog12, which) -> statusTextView.setVisibility(View.GONE))
 				.setCancelable(false)
 				.create();
 		dialog.show();
@@ -262,66 +253,42 @@ public class FinalizeActivity extends AppCompatActivity {
 						.setTitle(getString(R.string.warning))
 						.setMessage(getString(R.string.overwrite_prompt, fileName, saveLocation))
 						.setCancelable(false)
-						.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								new Thread(new Runnable() {
-									@Override
-									public void run() {
-										threadIsExecuting = true;
+						.setPositiveButton(getString(R.string.yes), (dialog, which) -> new Thread(() -> {
+							threadIsExecuting = true;
 
-										setStatusOnUiThread(getString(R.string.attempting_to_overwrite_message));
-										if (!deletefile(finalFileName)) {
-											overwriteFailed = true;
-											runOnUiThread(new Runnable() {
-												@Override
-												public void run() {
-													Toast.makeText(getApplicationContext(), getString(R.string.failed_to_overwrite_message), Toast.LENGTH_LONG).show();
-												}
-											});
-										}
-
-										setStatusOnUiThread(getString(R.string.writing_lyrics_message));
-										writeLyrics(finalFileName);
-
-										threadIsExecuting = false;
-									}
-								}).start();
+							setStatusOnUiThread(getString(R.string.attempting_to_overwrite_message));
+							if (!deletefile(finalFileName)) {
+								overwriteFailed = true;
+								runOnUiThread(() -> Toast.makeText(getApplicationContext(), getString(R.string.failed_to_overwrite_message), Toast.LENGTH_LONG).show());
 							}
-						})
-						.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								statusTextView.setVisibility(View.GONE);
-							}
-						})
+
+							setStatusOnUiThread(getString(R.string.writing_lyrics_message));
+							writeLyrics(finalFileName);
+
+							threadIsExecuting = false;
+						}).start())
+						.setNegativeButton(getString(R.string.no), (dialog, which) -> statusTextView.setVisibility(View.GONE))
 						.show();
 			} else {
 				final String finalFileName = fileName;
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						threadIsExecuting = true;
-
-						setStatusOnUiThread(getString(R.string.writing_lyrics_message));
-						writeLyrics(finalFileName);
-
-						threadIsExecuting = false;
-					}
-				}).start();
-			}
-		} else {
-			final String finalFileName = fileName;
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
+				new Thread(() -> {
 					threadIsExecuting = true;
 
 					setStatusOnUiThread(getString(R.string.writing_lyrics_message));
 					writeLyrics(finalFileName);
 
 					threadIsExecuting = false;
-				}
+				}).start();
+			}
+		} else {
+			final String finalFileName = fileName;
+			new Thread(() -> {
+				threadIsExecuting = true;
+
+				setStatusOnUiThread(getString(R.string.writing_lyrics_message));
+				writeLyrics(finalFileName);
+
+				threadIsExecuting = false;
 			}).start();
 		}
 
@@ -329,12 +296,7 @@ public class FinalizeActivity extends AppCompatActivity {
 	}
 
 	private void setStatusOnUiThread(final String msg) {
-		runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				statusTextView.setText(msg);
-			}
-		});
+		runOnUiThread(() -> statusTextView.setText(msg));
 	}
 
 	private boolean deletefile(String fileName) {
@@ -362,24 +324,16 @@ public class FinalizeActivity extends AppCompatActivity {
 			out.flush();
 			out.close();
 
-			runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					saveSuccessful(fileName);
-				}
-			});
+			runOnUiThread(() -> saveSuccessful(fileName));
 
 		} catch (IOException | NullPointerException | IllegalArgumentException | SecurityException e) {
 			e.printStackTrace();
-			runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					statusTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.errorColor));
-					statusTextView.setText(String.format(Locale.getDefault(), getString(R.string.whoops_error) + "\n%s", e.getMessage()));
+			runOnUiThread(() -> {
+				statusTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.errorColor));
+				statusTextView.setText(String.format(Locale.getDefault(), getString(R.string.whoops_error) + "\n%s", e.getMessage()));
 
-					Button copy_error = findViewById(R.id.copy_error_button);
-					copy_error.setVisibility(View.VISIBLE);
-				}
+				Button copy_error = findViewById(R.id.copy_error_button);
+				copy_error.setVisibility(View.VISIBLE);
 			});
 		}
 	}
@@ -466,13 +420,8 @@ public class FinalizeActivity extends AppCompatActivity {
 		dialog.setMessage(getString(R.string.storage_permission_prompt));
 		dialog.setTitle(getString(R.string.need_permissions));
 		dialog.setCancelable(false);
-		dialog.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				ActivityCompat.requestPermissions(FinalizeActivity.this,
-						new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constants.WRITE_EXTERNAL_REQUEST);
-			}
-		});
+		dialog.setPositiveButton(getString(R.string.ok), (dialog1, which) -> ActivityCompat.requestPermissions(FinalizeActivity.this,
+				new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constants.WRITE_EXTERNAL_REQUEST));
 		dialog.show();
 	}
 
