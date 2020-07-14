@@ -4,7 +4,7 @@
 
 LRC Editor is an Android app that helps you to create and edit .lrc files easily
 
-It is currently available to download on the [Google Play Store][play_store_page] as well as on [GitHub][github_release_page]. It will be available on [F-Droid][fdroid_branch_page] [soon](https://github.com/Spikatrix/LRC-Editor/issues/15).
+It is currently available to download on the [Google Play Store][play_store_page] as well as on [GitHub][github_release_page]. It will be available on [F-Droid][fdroid] [soon](https://github.com/Spikatrix/LRC-Editor/issues/15).
 
 <p>
 	<a href="https://play.google.com/store/apps/details?id=com.cg.lrceditor">
@@ -21,7 +21,7 @@ LRC Editor is a small, minimal Android app that helps you to create and edit .lr
 
 You can then use the LRC files in Karaoke applications, Music players etc that support it. The stock music players of major phone manufacturers like Xiaomi, Huawei, OPPO, Samsung and more support LRC files. LRC files aren't supported on LG's stock media player, the Google Play Music app among others.
 
-**Note**: To get the best precision from this app, use a high quality constant bitrate MP3 file or another music container that is designed for precise seeking and isn't compressed. Compressed music files usually don't have accurate seek information in them which might lead to desync issues.
+**Note**: To get the best precision from this app, use a high quality constant bitrate MP3 file or another music container that isn't compressed and is designed for precise seeking. Compressed music files usually don't have accurate seek information in them which might lead to desync issues.
 
 <sup>1</sup> [Samsung's stock file manager has issues with this](https://github.com/Spikatrix/LRC-Editor/issues/16)
 
@@ -40,7 +40,7 @@ Note: Android 11 brings much more stricter storage access enforcements and LRC E
 
 ## Build from source
 
-If you wish to build from source, clone the repo and run gradle's assembleDebug task:
+If you wish to build from source, clone the repo and run gradle's `assembleDebug` task:
 
     $ git clone https://github.com/Spikatrix/LRC-Editor
 	$ cd LRC-Editor
@@ -49,6 +49,10 @@ If you wish to build from source, clone the repo and run gradle's assembleDebug 
 (Use `gradlew.bat` if you're on Windows)
 
 Alternatively, you can clone the repo and open the project in Android Studio and then build the app from there.
+
+There are two build flavors in this project:
+ - `fdroid`: The build for [F-Droid][fdroid] which has links to LRC Editor's F-Droid page and no IAP implementation.
+ - `playstore`: The build for [Google Play Store][play_store] which has links to LRC Editor's Play store page and has an IAP implementation. However, the IAPs will not work as the original keys are not exposed.
 
 ## Contributing
 
@@ -82,7 +86,9 @@ This project is licensed under the [GNU GPLv3 License][project_license]
 <!-- Link references -->
 [play_store_page]: https://play.google.com/store/apps/details?id=com.cg.lrceditor
 [github_release_page]: https://github.com/Spikatrix/LRC-Editor/releases
-[fdroid_branch_page]: https://github.com/Spikatrix/LRC-Editor/tree/fdroid
+
+[play_store]: https://play.google.com/store
+[fdroid]: https://www.f-droid.org/
 
 [issue_tracker]: https://github.com/Spikatrix/LRC-Editor/issues
 [translate_app]: https://github.com/Spikatrix/LRC-Editor/blob/master/app/src/main/res/values/strings.xml

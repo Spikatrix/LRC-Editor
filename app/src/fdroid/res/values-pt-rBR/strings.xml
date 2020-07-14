@@ -66,7 +66,7 @@
 	<string name="forward_description">Botão para avançar 5 segundos para frente</string>
 	<string name="generic_read_path_error">Falha ao analisar o local do caminho. A leitura pode ter problemas</string>
 	<string name="generic_save_path_error">Falha ao analisar o local do caminho. Salvar pode ter problemas</string>
-	<string name="github_contribution">Contribua com o aplicativo:\nhttps://github.com/Spikatrix/LRC-Editor/tree/fdroid</string>
+	<string name="github_contribution">Contribua com o aplicativo:\nhttps://github.com/Spikatrix/LRC-Editor</string>
 	<string name="go_back">Voltar</string>
 	<string name="go_back_warning_message">Você perderá seus dados modificados se voltar. Tem certeza de que quer voltar?</string>
 	<string name="increase_timestamp_description">Aumentaf o botão de tempo</string>

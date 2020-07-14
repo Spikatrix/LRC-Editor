@@ -168,7 +168,7 @@
 	<string name="three_digit_milliseconds_help">Das Speichern mit dreistelligen Millisekunden kann für Anwendungen nützlich sein, die LRC-Dateien mit dreistelligen Millisekunden-Zeitstempeln anstelle von zweistelligen Millisekunden-Zeitstempeln erwarten</string>
 	<string name="failed_to_open_directory_picker_message">Konnte die Verzeichnisauswahl nicht öffnen!</string>
 	<string name="documentsui_enable_message">Verwendest du Android 5.0+? Versuche \"DocumentsUI\" in den Systemeinstellungen zu aktivieren</string>
-	<string name="github_contribution">Zur App beitragen:\nhttps://github.com/Spikatrix/LRC-Editor/tree/fdroid</string>
+	<string name="github_contribution">Zur App beitragen:\nhttps://github.com/Spikatrix/LRC-Editor</string>
 	<string name="generic_read_path_error">Fehler beim Analysieren der Pfadposition. Das Lesen könnte Probleme haben</string>
 	<string name="generic_save_path_error">Fehler beim Analysieren der Pfadposition. Das Speichern kann Probleme haben</string>
 

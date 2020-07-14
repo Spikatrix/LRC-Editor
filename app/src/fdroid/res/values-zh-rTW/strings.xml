@@ -167,7 +167,7 @@
 	<string name="three_digit_milliseconds_help">以三位數毫秒儲存功能，對於需要三位數毫秒而並非二位數毫秒的LRC文件的應用程序或會有用</string>
 	<string name="failed_to_open_directory_picker_message">無法開啟系統資料夾對話方塊！</string>
 	<string name="documentsui_enable_message">您的Android系統當前是否運行5.0或以上版本？或許可以從您的手機設定啟用DocumentsUI</string>
-	<string name="github_contribution">對App作出貢獻：\nhttps://github.com/Spikatrix/LRC-Editor/tree/fdroid</string>
+	<string name="github_contribution">對App作出貢獻：\nhttps://github.com/Spikatrix/LRC-Editor</string>
 	<string name="generic_read_path_error">解析路徑位置失敗。 閱讀可能有問題</string>
 	<string name="generic_save_path_error">解析路徑位置失敗。 保存可能會有問題</string>
 

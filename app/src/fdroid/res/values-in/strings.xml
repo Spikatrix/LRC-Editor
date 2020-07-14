@@ -167,7 +167,7 @@
 	<string name="three_digit_milliseconds_help">Meyimpan dengan milidetik tiga angka mungkin akan berguna bagi aplikasi yang menganggap berkas LRC dengan cap waktu milidetik tiga angka daripada cap waktu dengan milidetik dua angka saja</string>
 	<string name="failed_to_open_directory_picker_message">Tak dapat membuka pemilih direktori!</string>
 	<string name="documentsui_enable_message">Apakah Anda sedang menjalankan Android 5.0+? Coba aktifkan DocumentsUI dari setelan ponsel Anda</string>
-	<string name="github_contribution">Beri kontribusi pada aplikasi:\nhttps://github.com/Spikatrix/LRC-Editor/tree/fdroid</string>
+	<string name="github_contribution">Beri kontribusi pada aplikasi:\nhttps://github.com/Spikatrix/LRC-Editor</string>
 	<string name="generic_read_path_error">Gagal menguraikan lokasi jalur. Membaca mungkin memiliki masalah</string>
 	<string name="generic_save_path_error">Gagal menguraikan lokasi jalur. Menyimpan mungkin memiliki masalah</string>
 
