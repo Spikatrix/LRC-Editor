@@ -1,0 +1,8 @@
+<resources>
+	<string name="app_name" translatable="false">LRC Editor</string>
+
+	<string name="previous_5" translatable="false"><![CDATA[5 <<]]></string>
+	<string name="forward_5" translatable="false"><![CDATA[>> 5]]></string>
+
+	<string name="dev_email" translatable="false">cg.devworks@gmail.com</string>
+</resources>
