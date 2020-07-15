@@ -99,7 +99,7 @@ public class LyricReader {
 							extras++;
 						}
 						timestamps.add(temp.substring(1, 9));
-					} else {
+					} else if (temp.length() >= 4) {
 						String str = temp.substring(4, temp.length() - 1).trim();
 						if (songMetaData.getSongName().isEmpty() && temp.matches("^\\[ti:.*]$")) {
 							songMetaData.setSongName(str);
@@ -116,6 +116,9 @@ public class LyricReader {
 								e.printStackTrace();
 							}
 						}
+						
+						break;
+					} else {
 						break;
 					}
 				}
