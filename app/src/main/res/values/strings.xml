@@ -118,7 +118,7 @@
 	<string name="failed_to_set_speed_message">Failed to set the speed of the player</string>
 	<string name="failed_to_set_pitch_message">Failed to set the pitch of the player</string>
 
-	<string name="finalization_header">Finalization</string>
+	<string name="finalization">Finalization</string>
 	<string name="song_name_prompt">Song name: </string>
 	<string name="song_name_hint">Song name here</string>
 	<string name="album_name_prompt">Album name: </string>

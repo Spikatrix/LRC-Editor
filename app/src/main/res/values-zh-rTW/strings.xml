@@ -116,7 +116,7 @@
 	<string name="failed_to_set_speed_message">無法設定播放器的播放速度</string>
 	<string name="failed_to_set_pitch_message">無法設定播放器的播放音調</string>
 
-	<string name="finalization_header">最後設定</string>
+	<string name="finalization">最後設定</string>
 	<string name="song_name_prompt">歌曲名稱： </string>
 	<string name="song_name_hint">在此輸入歌曲名稱</string>
 	<string name="album_name_prompt">專輯名稱： </string>

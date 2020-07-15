@@ -116,7 +116,7 @@
 	<string name="failed_to_set_speed_message">Gagal mengatur kecepatan pemutar</string>
 	<string name="failed_to_set_pitch_message">Gagal mengatur titinada pemutar</string>
 
-	<string name="finalization_header">Penyelesaian</string>
+	<string name="finalization">Penyelesaian</string>
 	<string name="song_name_prompt">Judul lagu: </string>
 	<string name="song_name_hint">Masukkan judul lagu di sini</string>
 	<string name="album_name_prompt">Judul album: </string>

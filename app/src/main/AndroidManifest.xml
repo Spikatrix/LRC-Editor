@@ -51,7 +51,7 @@
 			android:label="@string/about" />
 		<activity
 			android:name=".FinalizeActivity"
-			android:label="@string/finalization_header" />
+			android:label="@string/finalization" />
 		<activity
 			android:name=".SettingsActivity"
 			android:label="@string/settings" />

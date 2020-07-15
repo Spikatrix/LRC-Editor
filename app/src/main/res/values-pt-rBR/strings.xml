@@ -62,7 +62,7 @@
 	<string name="file_name_hint">Nome do arquivo aqui</string>
 	<string name="file_name_prompt">Nome para salvar o arquivo:</string>
 	<string name="file_not_found_message">Arquivo não encontrado!</string>
-	<string name="finalization_header">Finalizando</string>
+	<string name="finalization">Finalizando</string>
 	<string name="forward_description">Botão para avançar 5 segundos para frente</string>
 	<string name="generic_read_path_error">Falha ao analisar o local do caminho. A leitura pode ter problemas</string>
 	<string name="generic_save_path_error">Falha ao analisar o local do caminho. Salvar pode ter problemas</string>

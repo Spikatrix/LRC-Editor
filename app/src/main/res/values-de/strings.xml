@@ -117,7 +117,7 @@
 	<string name="failed_to_set_speed_message">Konnte Abspielgeschwindigkeit nicht anpassen</string>
 	<string name="failed_to_set_pitch_message">Konnte abgespielte Tonhöhe nicht anpassen</string>
 
-	<string name="finalization_header">Finalisierung</string>
+	<string name="finalization">Finalisierung</string>
 	<string name="song_name_prompt">Liedtitel: </string>
 	<string name="song_name_hint">Liedtitel</string>
 	<string name="album_name_prompt">Albumtitel: </string>
