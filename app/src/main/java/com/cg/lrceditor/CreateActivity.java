@@ -13,6 +13,8 @@ import androidx.appcompat.widget.Toolbar;
 
 public class CreateActivity extends AppCompatActivity {
 
+	private EditText lyricsTextBox;
+
 	private boolean isDarkTheme = false;
 
 	@Override
@@ -31,9 +33,13 @@ public class CreateActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_create);
 
 		Toolbar toolbar = findViewById(R.id.toolbar);
+		lyricsTextBox = findViewById(R.id.lyrics_textbox);
 		if (isDarkTheme) {
 			/* Dark toolbar popups for dark themes */
 			toolbar.setPopupTheme(R.style.AppThemeDark_PopupOverlay);
+
+			/* Dark border when using a dark theme */
+			lyricsTextBox.setBackground(getDrawable(R.drawable.rounded_border_light));
 		}
 		setSupportActionBar(toolbar);
 
@@ -41,11 +47,6 @@ public class CreateActivity extends AppCompatActivity {
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
-		}
-
-		if (isDarkTheme) {
-			/* Dark border when using a dark theme */
-			findViewById(R.id.lyrics_textbox).setBackground(getDrawable(R.drawable.rounded_border_light));
 		}
 	}
 
@@ -56,8 +57,7 @@ public class CreateActivity extends AppCompatActivity {
 	}
 
 	public void startEditor() {
-		EditText editText = findViewById(R.id.lyrics_textbox);
-		String data = editText.getText().toString().trim();
+		String data = lyricsTextBox.getText().toString().trim();
 
 		if (data.isEmpty()) {
 			Toast.makeText(this, getString(R.string.no_lyrics_found_message), Toast.LENGTH_SHORT).show();

@@ -46,6 +46,8 @@
 			android:layout_height="wrap_content"
 			android:background="@drawable/rounded_border"
 			android:gravity="center"
+			android:inputType="text|textMultiLine"
+			android:padding="@dimen/dp10"
 			android:scrollbars="vertical" />
 
 	</ScrollView>
