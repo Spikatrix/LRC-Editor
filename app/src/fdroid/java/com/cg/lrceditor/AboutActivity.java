@@ -24,7 +24,7 @@ public class AboutActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		SharedPreferences preferences = getSharedPreferences("LRC Editor Preferences", MODE_PRIVATE);
-		String theme = preferences.getString("current_theme", "light");
+		String theme = preferences.getString(Constants.THEME_PREFERENCE, "light");
 		if (theme.equals("dark")) {
 			isDarkTheme = true;
 			setTheme(R.style.AppThemeDark);

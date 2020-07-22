@@ -58,12 +58,12 @@ public class SupportActivity extends AppCompatActivity {
 
 				Purchase purchase = inventory.getPurchase(ITEM_SKUS[i]);
 				if (purchase != null && purchase.getPurchaseState() == 0) { // 0 means purchased
-					if (!preferences.getString("lrceditor_purchased", "").equals("Y")) {
+					if (!preferences.getString(Constants.PURCHASED_PREFERENCE, "").equals("Y")) {
 						Toast.makeText(ctx, getString(R.string.dark_themes_available_message), Toast.LENGTH_LONG).show();
 					}
 
 					SharedPreferences.Editor editor = preferences.edit();
-					editor.putString("lrceditor_purchased", "Y");
+					editor.putString(Constants.PURCHASED_PREFERENCE, "Y");
 					editor.apply();
 
 					purchaseButtons[i].setEnabled(false);
@@ -113,7 +113,7 @@ public class SupportActivity extends AppCompatActivity {
 		ctx = this;
 
 		preferences = getSharedPreferences("LRC Editor Preferences", MODE_PRIVATE);
-		String theme = preferences.getString("current_theme", "light");
+		String theme = preferences.getString(Constants.THEME_PREFERENCE, "light");
 		if (theme.equals("dark")) {
 			isDarkTheme = true;
 			setTheme(R.style.AppThemeDark);

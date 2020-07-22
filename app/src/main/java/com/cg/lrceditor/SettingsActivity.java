@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
@@ -18,10 +20,13 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.util.Locale;
+
 public class SettingsActivity extends AppCompatActivity {
 
 	private TextView saveLocation;
 	private TextView readLocation;
+	private TextView timestampStep;
 	private Switch threeDigitMillisecondsSwitch;
 
 	private RadioButton light, dark, darker;
@@ -33,7 +38,7 @@ public class SettingsActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		preferences = getSharedPreferences("LRC Editor Preferences", MODE_PRIVATE);
-		String theme = preferences.getString("current_theme", "light");
+		String theme = preferences.getString(Constants.THEME_PREFERENCE, "light");
 		if (theme.equals("dark")) {
 			isDarkTheme = true;
 			setTheme(R.style.AppThemeDark);
@@ -60,11 +65,15 @@ public class SettingsActivity extends AppCompatActivity {
 		saveLocation = findViewById(R.id.save_location);
 		readLocation = findViewById(R.id.read_location);
 
+		timestampStep = findViewById(R.id.timestamp_step);
+		timestampStep.setText(
+				String.format(Locale.getDefault(), "%d ms", preferences.getInt(Constants.TIMESTAMP_STEP_AMOUNT_PREFERENCE, 100)));
+
 		threeDigitMillisecondsSwitch = findViewById(R.id.three_digit_milliseconds_switch);
-		threeDigitMillisecondsSwitch.setChecked(preferences.getBoolean("three_digit_milliseconds", false));
+		threeDigitMillisecondsSwitch.setChecked(preferences.getBoolean(Constants.THREE_DIGIT_MILLISECONDS_PREFERENCE, false));
 		threeDigitMillisecondsSwitch.setOnCheckedChangeListener((compoundButton, checked) -> {
 			SharedPreferences.Editor editor = preferences.edit();
-			editor.putBoolean("three_digit_milliseconds", checked);
+			editor.putBoolean(Constants.THREE_DIGIT_MILLISECONDS_PREFERENCE, checked);
 			editor.apply();
 		});
 
@@ -92,11 +101,11 @@ public class SettingsActivity extends AppCompatActivity {
 			SharedPreferences.Editor editor = preferences.edit();
 
 			if (checkedId == light.getId()) {
-				editor.putString("current_theme", "light");
+				editor.putString(Constants.THEME_PREFERENCE, "light");
 			} else if (checkedId == dark.getId()) {
-				editor.putString("current_theme", "dark");
+				editor.putString(Constants.THEME_PREFERENCE, "dark");
 			} else if (checkedId == darker.getId()) {
-				editor.putString("current_theme", "darker");
+				editor.putString(Constants.THEME_PREFERENCE, "darker");
 			} else {
 				Toast.makeText(getApplicationContext(), getString(R.string.unexpected_error_message), Toast.LENGTH_SHORT).show();
 				return;
@@ -107,12 +116,12 @@ public class SettingsActivity extends AppCompatActivity {
 			recreate();
 		});
 
-		String location = preferences.getString("saveLocation", Constants.defaultLocation);
+		String location = preferences.getString(Constants.SAVE_LOCATION_PREFERENCE, Constants.defaultLocation);
 		saveLocation.setText(location);
-		location = preferences.getString("readLocation", Constants.defaultLocation);
+		location = preferences.getString(Constants.READ_LOCATION_PREFERENCE, Constants.defaultLocation);
 		readLocation.setText(location);
 
-		if (preferences.getString("lrceditor_purchased", "").equals("Y")) {
+		if (preferences.getString(Constants.PURCHASED_PREFERENCE, "").equals("Y")) {
 			TextView themeTitle = findViewById(R.id.theme_title);
 			themeGroup = findViewById(R.id.theme_group);
 
@@ -145,9 +154,59 @@ public class SettingsActivity extends AppCompatActivity {
 		}
 	}
 
-	public void showThreeDigitMillisecondsHelp(View view) {
+	public void adjustTimestampStep(View v) {
+		LayoutInflater inflater = this.getLayoutInflater();
+		final View view = inflater.inflate(R.layout.dialog_adjust, null);
+		final TextView title = view.findViewById(R.id.title);
+		title.setVisibility(View.GONE);
+		final TextView timestamp = view.findViewById(R.id.content);
+		timestamp.setText(
+				String.format(Locale.getDefault(), "%d ms", preferences.getInt(Constants.TIMESTAMP_STEP_AMOUNT_PREFERENCE, 100)));
+
+		ImageButton increase = view.findViewById(R.id.increase_button);
+		increase.setOnClickListener(view1 -> {
+			String timestampStepVal = timestamp.getText().toString();
+			int value = Integer.parseInt(timestampStepVal.substring(0, timestampStepVal.length() - 3));
+			value += 10;
+			value = Math.min(value, 200);
+
+			timestamp.setText(
+					String.format(Locale.getDefault(), "%d ms", value));
+		});
+
+		ImageButton decrease = view.findViewById(R.id.decrease_button);
+		decrease.setOnClickListener(view1 -> {
+			String timestampStepVal = timestamp.getText().toString();
+			int value = Integer.parseInt(timestampStepVal.substring(0, timestampStepVal.length() - 3));
+			value -= 10;
+			value = Math.max(value, 10);
+
+			timestamp.setText(
+					String.format(Locale.getDefault(), "%d ms", value));
+		});
+
 		new AlertDialog.Builder(this)
-				.setMessage(R.string.three_digit_milliseconds_help)
+				.setView(view)
+				.setTitle(R.string.timestamp_step_amount_prompt)
+				.setPositiveButton(getString(R.string.adjust), (dialog1, which) -> {
+					String timestampStepVal = timestamp.getText().toString();
+					int value = Integer.parseInt(timestampStepVal.substring(0, timestampStepVal.length() - 3));
+
+					SharedPreferences.Editor editor = preferences.edit();
+					editor.putInt(Constants.TIMESTAMP_STEP_AMOUNT_PREFERENCE, value);
+					editor.apply();
+
+					timestampStep.setText(timestampStepVal);
+				})
+				.setNegativeButton(getString(R.string.cancel), null)
+				.setCancelable(false)
+				.create()
+				.show();
+	}
+
+	public void showTimestampStepHelp(View view) {
+		new AlertDialog.Builder(this)
+				.setMessage(R.string.timestamp_step_help)
 				.setNeutralButton(getString(R.string.ok), null)
 				.create()
 				.show();
@@ -155,6 +214,14 @@ public class SettingsActivity extends AppCompatActivity {
 
 	public void toggleThreeDigitMillisecondSwitch(View view) {
 		threeDigitMillisecondsSwitch.toggle();
+	}
+
+	public void showThreeDigitMillisecondsHelp(View view) {
+		new AlertDialog.Builder(this)
+				.setMessage(R.string.three_digit_milliseconds_help)
+				.setNeutralButton(getString(R.string.ok), null)
+				.create()
+				.show();
 	}
 
 	@Override
@@ -169,7 +236,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 					String realPath = FileUtil.getFullPathFromTreeUri(uri, this);
 
-					editor.putString("saveLocation", realPath);
+					editor.putString(Constants.SAVE_LOCATION_PREFERENCE, realPath);
 					try {
 						editor.putString("saveUri", uri.toString());
 					} catch (ArrayIndexOutOfBoundsException ignored) {
@@ -198,7 +265,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 					String realPath = FileUtil.getFullPathFromTreeUri(uri, this);
 
-					editor.putString("readLocation", realPath);
+					editor.putString(Constants.READ_LOCATION_PREFERENCE, realPath);
 					try {
 						editor.putString("readUri", uri.toString());
 					} catch (ArrayIndexOutOfBoundsException ignored) {

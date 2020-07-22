@@ -5,13 +5,13 @@ import java.io.File;
 public class HomePageListItem {
 	public File file;
 	public String[] lyrics;
-	SongMetaData songMetaData;
+	Metadata metadata;
 	boolean isExpanded = false;
 	boolean isSelected = false;
 
-	HomePageListItem(File file, SongMetaData songMetaData, String[] lyrics) {
+	HomePageListItem(File file, Metadata metadata, String[] lyrics) {
 		this.file = file;
-		this.songMetaData = songMetaData;
+		this.metadata = metadata;
 		this.lyrics = lyrics;
 	}
 }

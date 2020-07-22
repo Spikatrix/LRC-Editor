@@ -57,8 +57,8 @@ public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapte
 			holder.subView.setVisibility(View.VISIBLE);
 			holder.expandableButton.setRotation(180);
 
-			if (listData.get(position).songMetaData != null) {
-				displaySongMetaData(holder, listData.get(position).songMetaData);
+			if (listData.get(position).metadata != null) {
+				displayMetaData(holder, listData.get(position).metadata);
 				displayLyricContents(holder, listData.get(position).lyrics);
 			}
 		} else {
@@ -77,7 +77,7 @@ public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapte
 				HomePageListItem item = listData.get(holder.getAdapterPosition());
 				if (item.isExpanded) {
 					item.isExpanded = false;
-					item.songMetaData = null;
+					item.metadata = null;
 					item.lyrics = null;
 					holder.expandableButton.animate().rotation(0).setDuration(300).start();
 				} else {
@@ -111,7 +111,7 @@ public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapte
 
 					String[] msg = new String[1];
 					msg[0] = errorMsg;
-					listData.get(holder.getAdapterPosition()).songMetaData = new SongMetaData();
+					listData.get(holder.getAdapterPosition()).metadata = new Metadata();
 					listData.get(holder.getAdapterPosition()).lyrics = msg;
 				});
 				return;
@@ -139,41 +139,46 @@ public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapte
 				}
 			}
 
-			final SongMetaData songMetaData = r.getSongMetaData();
+			final Metadata metadata = r.getMetadata();
 
-			listData.get(holder.getAdapterPosition()).songMetaData = songMetaData;
+			listData.get(holder.getAdapterPosition()).metadata = metadata;
 			listData.get(holder.getAdapterPosition()).lyrics = lyricsToDisplay;
 
 			view.post(() -> {
-				displaySongMetaData(holder, songMetaData);
+				displayMetaData(holder, metadata);
 				displayLyricContents(holder, lyricsToDisplay);
 			});
 		}).start();
 	}
 
-	private void displaySongMetaData(LyricFileListItem holder, SongMetaData songMetaData) {
+	private void displayMetaData(LyricFileListItem holder, Metadata metadata) {
 		Context ctx = holder.linearLayout.getContext();
 		String string;
 
-		string = songMetaData.getSongName();
+		string = metadata.getSongName();
 		if (string.trim().isEmpty())
 			string = "N/A";
 		holder.songName.setText(String.format(Locale.getDefault(), "%s %s", ctx.getString(R.string.song_name_prompt), string));
 
-		string = songMetaData.getArtistName();
+		string = metadata.getArtistName();
 		if (string.trim().isEmpty())
 			string = "N/A";
 		holder.artistName.setText(String.format(Locale.getDefault(), "%s %s", ctx.getString(R.string.artist_name_prompt), string));
 
-		string = songMetaData.getAlbumName();
+		string = metadata.getAlbumName();
 		if (string.trim().isEmpty())
 			string = "N/A";
 		holder.albumName.setText(String.format(Locale.getDefault(), "%s %s", ctx.getString(R.string.album_name_prompt), string));
 
-		string = songMetaData.getComposerName();
+		string = metadata.getComposerName();
 		if (string.trim().isEmpty())
 			string = "N/A";
 		holder.composerName.setText(String.format(Locale.getDefault(), "%s %s", ctx.getString(R.string.composer_prompt), string));
+
+		string = metadata.getCreatorName();
+		if (string.trim().isEmpty())
+			string = "N/A";
+		holder.creatorName.setText(String.format(Locale.getDefault(), "%s %s", ctx.getString(R.string.creator_name_prompt), string));
 	}
 
 	private void displayLyricContents(LyricFileListItem holder, String[] lyricsToDisplay) {
@@ -190,6 +195,7 @@ public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapte
 		holder.artistName.setText(ctx.getString(R.string.artist_name_prompt));
 		holder.albumName.setText(ctx.getString(R.string.album_name_prompt));
 		holder.composerName.setText(ctx.getString(R.string.composer_prompt));
+		holder.creatorName.setText(ctx.getString(R.string.creator_name_prompt));
 		holder.lyricsTextview.setText(ctx.getString(R.string.loading_lyrics));
 	}
 
@@ -218,7 +224,7 @@ public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapte
 			HomePageListItem item = listData.get(i);
 			if (item.isExpanded) {
 				item.isExpanded = false;
-				item.songMetaData = null;
+				item.metadata = null;
 				item.lyrics = null;
 				notifyItemChanged(i);
 			}
@@ -313,6 +319,7 @@ public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapte
 		private TextView albumName;
 		private TextView artistName;
 		private TextView composerName;
+		private TextView creatorName;
 
 		private TextView lyricsTextview;
 
@@ -337,6 +344,7 @@ public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapte
 			artistName = itemView.findViewById(R.id.artistname_textview);
 			albumName = itemView.findViewById(R.id.albumname_textview);
 			composerName = itemView.findViewById(R.id.composername_textview);
+			creatorName = itemView.findViewById(R.id.creatorname_textview);
 
 			lyricsTextview = itemView.findViewById(R.id.lyrics_textview);
 

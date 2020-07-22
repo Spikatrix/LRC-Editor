@@ -17,18 +17,14 @@ import java.util.Comparator;
 import java.util.List;
 
 public class LyricReader {
-
 	private LyricItem[] lyricData;
-
-	private SongMetaData songMetaData = new SongMetaData();
-
-	private String errorMsg;
+	private Metadata metadata = new Metadata();
 
 	private File file = null;
+	private InputStream in = null;
+	private String errorMsg;
 
 	private Context ctx;
-
-	private InputStream in = null;
 
 	LyricReader(String path, String fileName, Context c) {
 		this.file = new File(path, fileName);
@@ -99,26 +95,28 @@ public class LyricReader {
 							extras++;
 						}
 						timestamps.add(temp.substring(1, 9));
-					} else if (temp.length() >= 4) {
-						String str = temp.substring(4, temp.length() - 1).trim();
-						if (songMetaData.getSongName().isEmpty() && temp.matches("^\\[ti:.*]$")) {
-							songMetaData.setSongName(str);
-						} else if (songMetaData.getArtistName().isEmpty() && temp.matches("^\\[ar:.*]$")) {
-							songMetaData.setArtistName(str);
-						} else if (songMetaData.getAlbumName().isEmpty() && temp.matches("^\\[al:.*]$")) {
-							songMetaData.setAlbumName(str);
-						} else if (songMetaData.getComposerName().isEmpty() && temp.matches("^\\[au:.*]$")) {
-							songMetaData.setComposerName(str);
-						} else if (offset == 0 && temp.matches("^\\[offset:.*]$")) {
-							try {
-								offset = Integer.parseInt(temp.substring(8, temp.length() - 1).trim());
-							} catch (NumberFormatException e) { // Ignore the offset if we couldn't scan it
-								e.printStackTrace();
+					} else {
+						if (temp.length() > 4) {
+							String str = temp.substring(4, temp.length() - 1).trim();
+							if (metadata.getSongName().isEmpty() && temp.matches("^\\[ti:.*]$")) {
+								metadata.setSongName(str);
+							} else if (metadata.getArtistName().isEmpty() && temp.matches("^\\[ar:.*]$")) {
+								metadata.setArtistName(str);
+							} else if (metadata.getAlbumName().isEmpty() && temp.matches("^\\[al:.*]$")) {
+								metadata.setAlbumName(str);
+							} else if (metadata.getComposerName().isEmpty() && temp.matches("^\\[au:.*]$")) {
+								metadata.setComposerName(str);
+							} else if (metadata.getCreatorName().isEmpty() && temp.matches("^\\[by:.*]$")) {
+								metadata.setCreatorName(str);
+							} else if (offset == 0 && temp.matches("^\\[offset:.*]$")) {
+								try {
+									offset = Integer.parseInt(temp.substring(8, temp.length() - 1).trim());
+								} catch (NumberFormatException e) { // Ignore the offset if we couldn't scan it
+									e.printStackTrace();
+								}
 							}
 						}
-						
-						break;
-					} else {
+
 						break;
 					}
 				}
@@ -190,8 +188,8 @@ public class LyricReader {
 		return errorMsg;
 	}
 
-	SongMetaData getSongMetaData() {
-		return songMetaData;
+	Metadata getMetadata() {
+		return metadata;
 	}
 
 	static class LyricTimestampComparator implements Comparator<LyricItem> {

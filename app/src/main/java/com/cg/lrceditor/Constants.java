@@ -11,4 +11,11 @@ class Constants {
 	static final long MAX_TIMESTAMP_VALUE = Timestamp.MAX_TIMESTAMP_VALUE;
 
 	static final String defaultLocation = Environment.getExternalStorageDirectory().getPath() + "/Lyrics";
+
+	static final String READ_LOCATION_PREFERENCE = "readLocation";
+	static final String SAVE_LOCATION_PREFERENCE = "saveLocation";
+	static final String TIMESTAMP_STEP_AMOUNT_PREFERENCE = "timestamp_step_amount";
+	static final String THREE_DIGIT_MILLISECONDS_PREFERENCE = "three_digit_milliseconds";
+	static final String THEME_PREFERENCE = "current_theme";
+	static final String PURCHASED_PREFERENCE = "lrceditor_purchased";
 }

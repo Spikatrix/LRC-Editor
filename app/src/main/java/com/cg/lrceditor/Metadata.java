@@ -2,11 +2,12 @@ package com.cg.lrceditor;
 
 import java.io.Serializable;
 
-class SongMetaData implements Serializable {
+class Metadata implements Serializable {
 	private String artistName = "";
 	private String albumName = "";
 	private String songName = "";
 	private String composerName = "";
+	private String creatorName = "";
 
 	String getSongName() {
 		return this.songName;
@@ -38,5 +39,13 @@ class SongMetaData implements Serializable {
 
 	void setComposerName(String composerName) {
 		this.composerName = composerName;
+	}
+
+	String getCreatorName() {
+		return this.creatorName;
+	}
+
+	void setCreatorName(String creatorName) {
+		this.creatorName = creatorName;
 	}
 }

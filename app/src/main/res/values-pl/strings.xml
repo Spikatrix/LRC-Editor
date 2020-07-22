@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<!-- There might be lint suggestions to use ellipses rather than three dots that I've used in several of the strings here -->
 	<!-- But ellipses look weird for me (Bad kerning :p) which is why I keep using three dots -->
 
+	<string name="about">O programie</string>
 	<string name="add_timestamp_description">Dodaj przycisk znacznika czasu</string>
 	<string name="adjust">Dostosuj</string>
 	<string name="album_name_hint">tutaj Nazwa albumu</string>
@@ -27,6 +27,8 @@
 	<string name="copy_lrc_file_data_successful_message">Pomyślnie skopiowano dane pliku LRC do schowka systemowego!</string>
 	<string name="could_not_parse_any_lyrics_message">Nie można przeanalizować tekstu z pliku. Sprawdź, czy plik lrc jest poprawnie sformatowany</string>
 	<string name="create">Stwórz</string>
+	<string name="creator_name_hint">Nazwa LRC twórca tutaj</string>
+	<string name="creator_name_prompt">LRC twórca: </string>
 	<string name="dark">Ciemny</string>
 	<string name="darker">Ciemniejszy</string>
 	<string name="decrease_timestamp_description">Przycisk znacznika zmniejszania czasu</string>
@@ -77,7 +79,7 @@
 	<string name="light">Jasny</string>
 	<string name="loading_lyrics">Ładowanie tekstu...</string>
 	<string name="lrc_editor_may_not_work_as_expected_message">LRC Edytor może nie działać zgodnie z oczekiwaniami; Spróbuj zmienić lokalizację odczytu w ustawieniach</string>
-	<string name="made_with_love_and_code_text">\nWykonane z ♥\n(i dużo kodu :p)\n</string>
+	<string name="made_with_love_and_code_text">\nWykonane z ♥\n(i dużo kodu :p)\n</string> <!-- Newlines for better spacing on small screens -->
 	<string name="modified_lyric_hint">tutaj Zmodyfikowany tekst</string>
 	<string name="modified_lyric_prompt">Wprowadź zmodyfikowany tekst:</string>
 	<string name="modify">Zmień</string>
@@ -88,6 +90,7 @@
 	<string name="no_lrc_files_found_message">Nie znaleziono plików LRC</string>
 	<string name="no_lyrics_found_message">Nie wpisałeś/wkleiłeś żadnego tekstu</string>
 	<string name="no_permission_granted_message">LRC Editor nie może odczytać/zapisać plików tekstowych bez pozwolenia na przechowywanie</string>
+	<string name="no_permission_to_read_text">Nie można uzyskać uprawnień do odczytu</string>
 	<string name="no_permission_to_write_text">Nie można uzyskać uprawnień do zapisu</string>
 	<string name="no_timestamp_set_message">Nie ustawiono znacznika czasu dla elementu</string>
 	<string name="ok">OK</string>
@@ -128,6 +131,7 @@
 	<string name="set_as_lrc_file_name">Ustaw jako nazwę pliku LRC</string>
 	<string name="set_as_song_file_name">Ustaw jako nazwę pliku utworu</string>
 	<string name="setting_up_player_message">Konfigurowanie odtwarzacza...</string>
+	<string name="settings">Ustawienia</string>
 	<string name="song_name_hint">tutaj Nazwa utworu</string>
 	<string name="song_name_prompt">Nazwa piosenki:</string>
 	<string name="stay_here">Zostań tutaj</string>
@@ -135,8 +139,11 @@
 	<string name="storage_unavailable_message">Błąd: pamięć niedostępna/zajęta</string>
 	<string name="tap_to_select_song_prompt">Stuknij tutaj, aby wybrać utwór</string>
 	<string name="thats_a_miss">"Tego brakuje\nNie znaleziono plików Lyric"</string>
+	<string name="three_digit_milliseconds_help">Zapisywanie znaczników czasowych z trzycyfrowymi milisekundami może być przydatne w aplikacjach które oczekują pliku LRC z trzycyfrowymi znacznikami milisekund, a nie dwucyfrowymi znacznikami milisekund</string>
+	<string name="three_digit_milliseconds_prompt">Zapisz znaczniki z trzycyfrowymi milisekundami</string>
+	<string name="timestamp_step_amount_prompt">Kwota kroku znacznika czasu</string>
+	<string name="timestamp_step_help">Znaczniki czasu zostaną skorygowane o tę liczbę milisekund w edytorze. Zwróć uwagę, że w edytorze wyświetlane są tylko dwie najbardziej znaczące cyfry milisekund</string>
 	<string name="title_error_text">Wystąpił nieoczekiwany błąd podczas próby ustawienia tytułu</string>
-	<string name="about">O programie</string>
 	<string name="toolbar_add_a_lyric_title">Dodaj tekst</string>
 	<string name="toolbar_batch_edit_lyrics_title">Edycja wsadowa tekstów</string>
 	<string name="toolbar_collapse_or_expand_player_title">Rozwiń lub zwiń odtwarzacz</string>
@@ -156,14 +163,10 @@
 	<string name="toolbar_rename_lyric_file_title">Zmień nazwę pliku lyric</string>
 	<string name="toolbar_search_title">Wyszukaj na liście</string>
 	<string name="toolbar_select_all_title">Zaznacz Wszystko</string>
-	<string name="settings">Ustawienia</string>
 	<string name="ui_reference_failed_message">Nie można uzyskać odwołań do elementu interfejsu. Spróbuj odświeżyć listę</string>
 	<string name="unexpected_error_message">Wystąpił nieoczekiwany błąd</string>
 	<string name="warning">Ostrzeżenie</string>
 	<string name="whoops_error">Ups! Wystąpił błąd!</string>
 	<string name="writing_lyrics_message">Zapisywanie tekstów do pliku</string>
 	<string name="yes">Tak</string>
-	<string name="three_digit_milliseconds_prompt">Zapisz znaczniki z trzycyfrowymi milisekundami</string>
-	<string name="three_digit_milliseconds_help">Zapisywanie znaczników czasowych z trzycyfrowymi milisekundami może być przydatne w aplikacjach które oczekują pliku LRC z trzycyfrowymi znacznikami milisekund, a nie dwucyfrowymi znacznikami milisekund</string>
-	<string name="no_permission_to_read_text">Nie można uzyskać uprawnień do odczytu</string>
 </resources>

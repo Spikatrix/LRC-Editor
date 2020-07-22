@@ -1,19 +1,18 @@
 <resources>
-	<string name="rate_and_review_text">Beri Nilai dan Ulas Aplikasi</string>
-	<string name="support_me">Dukung Saya</string>
-
-	<string name="support_description">Bayar semampunya untuk mendukung saya. Dukungan Anda membantu saya agar berkembang lebih baik</string>
-	<string name="support_bonus_description">Sebagai bonus, setelah Anda melakukan pembelian, Anda akan dapat menggunakan dua tema gelap pada aplikasi ini!</string>
-	<string name="thanks_for_the_support">Terima kasih atas dukungannya!\n♥</string>
-	<string name="loading">Memuat</string>
-	<string name="error">Kesalahan</string>
-	<string name="failed_to_query_inventory_message">Gagal menguerikan inventori</string>
 	<string name="dark_themes_available_message">Dua tema gelap sudah tersedia di pengaturan</string>
+	<string name="error">Kesalahan</string>
 	<string name="failed_to_complete_purchase_message">Gagal menyelesaikan pembelian</string>
-	<string name="purchase_successful">Pembelian Sukses</string>
-	<string name="thank_you_for_the_purchase_message">Terima kasih banyak atas pembeliannya! Dua tema gelap kini sudah tersedia di pengaturan</string>
+	<string name="failed_to_query_inventory_message">Gagal menguerikan inventori</string>
 	<string name="failed_to_query_purchase_message">Gagal menguerikan pembelian</string>
 	<string name="iap_setup_failed_message">Penyetelan Pembelian Dalam Aplikasi gagal</string>
 	<string name="iaps_loading_message">IAP masih memuat</string>
+	<string name="loading">Memuat</string>
+	<string name="purchase_successful">Pembelian Sukses</string>
 	<string name="purchased">Sudah dibeli</string>
+	<string name="rate_and_review_text">Beri Nilai dan Ulas Aplikasi</string>
+	<string name="support_bonus_description">Sebagai bonus, setelah Anda melakukan pembelian, Anda akan dapat menggunakan dua tema gelap pada aplikasi ini!</string>
+	<string name="support_description">Bayar semampunya untuk mendukung saya. Dukungan Anda membantu saya agar berkembang lebih baik</string>
+	<string name="support_me">Dukung Saya</string>
+	<string name="thank_you_for_the_purchase_message">Terima kasih banyak atas pembeliannya! Dua tema gelap kini sudah tersedia di pengaturan</string>
+	<string name="thanks_for_the_support">Terima kasih atas dukungannya!\n♥</string>
 </resources>

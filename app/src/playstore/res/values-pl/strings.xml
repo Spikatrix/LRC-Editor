@@ -1,19 +1,18 @@
 <resources>
-	<string name="rate_and_review_text">Oceń i przejrzyj aplikację</string>
-	<string name="support_me">Wesprzyj mnie</string>
-
-	<string name="support_description">Możesz zapłacić tyle, ile chcesz, by mnie wspierać. Twoje wsparcie pomaga mi się rozwijać i być lepszym niż kiedykolwiek</string>
-	<string name="support_bonus_description">"Po dokonaniu zakupu, jako bonus otrzymasz dostęp do dwóch ciemnych motywów aplikacji!"</string>
-	<string name="thanks_for_the_support">"Dziękuję za wsparcie!\n♥"</string>
-	<string name="loading">Wczytywanie</string>
-	<string name="error">Błąd</string>
-	<string name="failed_to_query_inventory_message">Nie można wysłać zapytania o zasoby reklamowe</string>
 	<string name="dark_themes_available_message">Dwa ciemne motywy powinny być teraz dostępne w ustawieniach</string>
+	<string name="error">Błąd</string>
 	<string name="failed_to_complete_purchase_message">Nie udało się sfinalizować zakupu</string>
-	<string name="purchase_successful">Zakup pomyślnie zakończony</string>
-	<string name="thank_you_for_the_purchase_message">Dziękuję bardzo za zakup! Dwa ciemne motywy są teraz dostępne w ustawieniach</string>
+	<string name="failed_to_query_inventory_message">Nie można wysłać zapytania o zasoby reklamowe</string>
 	<string name="failed_to_query_purchase_message">Nie można wysłać zapytania o zakupy</string>
 	<string name="iap_setup_failed_message">Konfiguracja rozliczeń nie powiodła się</string>
 	<string name="iaps_loading_message">IAP wciąż się ładuje</string>
+	<string name="loading">Wczytywanie</string>
+	<string name="purchase_successful">Zakup pomyślnie zakończony</string>
 	<string name="purchased">Zakupione</string>
+	<string name="rate_and_review_text">Oceń i przejrzyj aplikację</string>
+	<string name="support_bonus_description">"Po dokonaniu zakupu, jako bonus otrzymasz dostęp do dwóch ciemnych motywów aplikacji!"</string>
+	<string name="support_description">Możesz zapłacić tyle, ile chcesz, by mnie wspierać. Twoje wsparcie pomaga mi się rozwijać i być lepszym niż kiedykolwiek</string>
+	<string name="support_me">Wesprzyj mnie</string>
+	<string name="thank_you_for_the_purchase_message">Dziękuję bardzo za zakup! Dwa ciemne motywy są teraz dostępne w ustawieniach</string>
+	<string name="thanks_for_the_support">"Dziękuję za wsparcie!\n♥"</string>
 </resources>

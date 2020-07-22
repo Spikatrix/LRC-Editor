@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<!-- There might be lint suggestions to use ellipses rather than three dots that I've used in several of the strings here -->
 	<!-- But ellipses look weird for me (Bad kerning :p) which is why I keep using three dots -->
 
+	<string name="about">Sobre</string>
 	<string name="add_timestamp_description">Adicionar um valor de tempo</string>
 	<string name="adjust">Ajustar</string>
 	<string name="album_name_hint">Nome do álbum aqui</string>
@@ -27,6 +27,8 @@
 	<string name="copy_lrc_file_data_successful_message">Copiado com sucesso os dados do arquivo LRC para a área de transferência do sistema!</string>
 	<string name="could_not_parse_any_lyrics_message">Não foi possível analisar as letras do arquivo.  Verifique se o arquivo lrc está formatado corretamente</string>
 	<string name="create">Crio</string>
+	<string name="creator_name_hint">Nome do criador aqui</string>
+	<string name="creator_name_prompt">LRC criador: </string>
 	<string name="dark">Escuro</string>
 	<string name="darker">Mais escuro</string>
 	<string name="decrease_timestamp_description">Diminuir o botão de tempo</string>
@@ -77,7 +79,7 @@
 	<string name="light">Claro</string>
 	<string name="loading_lyrics">Carregando letras...</string>
 	<string name="lrc_editor_may_not_work_as_expected_message">O LRC Editor pode não funcionar como esperado; Tente alterar o local de leitura nas configurações</string>
-	<string name="made_with_love_and_code_text">\nFeito com ♥\n(e muito código :p)</string>
+	<string name="made_with_love_and_code_text">\nFeito com ♥\n(e muito código :p)\n</string> <!-- Newlines for better spacing on small screens -->
 	<string name="modified_lyric_hint">Letra modificada aqui</string>
 	<string name="modified_lyric_prompt">Digite a letra modificada:</string>
 	<string name="modify">Modificar</string>
@@ -88,6 +90,7 @@
 	<string name="no_lrc_files_found_message">Nenhum arquivo LRC encontrado</string>
 	<string name="no_lyrics_found_message">Você não digitou/colou nenhuma letra</string>
 	<string name="no_permission_granted_message">O LRC Editor não pode ler/salvar arquivos de letra sem a permissão de armazenamento</string>
+	<string name="no_permission_to_read_text">Não foi possível obter permissões para ler arquivos</string>
 	<string name="no_permission_to_write_text">Não foi possível obter permissões para criar/modificar arquivos</string>
 	<string name="no_timestamp_set_message">Nenhum tempo definido para o item da letra</string>
 	<string name="ok">OK</string>
@@ -128,6 +131,7 @@
 	<string name="set_as_lrc_file_name">Definir como o nome do arquivo LRC</string>
 	<string name="set_as_song_file_name">Definir como o nome do arquivo da música</string>
 	<string name="setting_up_player_message">Configurando o player...</string>
+	<string name="settings">Configurações</string>
 	<string name="song_name_hint">Nome da música aqui</string>
 	<string name="song_name_prompt">Nome da música:</string>
 	<string name="stay_here">Fique aqui</string>
@@ -135,8 +139,11 @@
 	<string name="storage_unavailable_message">Erro: Armazenamento indisponível ou cheio</string>
 	<string name="tap_to_select_song_prompt">Toque aqui para selecionar uma música</string>
 	<string name="thats_a_miss">Falta algo aqui...\nNenhum arquivo de letra encontrado</string>
+	<string name="three_digit_milliseconds_help">Salvar com milissegundos de três dígitos pode ser útil para aplicativos que esperam arquivos LRC com timestamps de três dígitos em milissegundos em vez de timestamps de dois dígitos em milissegundos</string>
+	<string name="three_digit_milliseconds_prompt">Economize com três dígitos em milissegundos</string>
+	<string name="timestamp_step_amount_prompt">Valor da etapa do registro de data e hora</string>
+	<string name="timestamp_step_help">Os carimbos de data e hora serão ajustados por essa quantidade de milissegundos no editor. Observe que apenas os dois dígitos mais significativos dos milissegundos são mostrados no editor</string>
 	<string name="title_error_text">Ocorreu um erro inesperado ao tentar definir o título</string>
-	<string name="about">Sobre</string>
 	<string name="toolbar_add_a_lyric_title">Adicionar uma letra</string>
 	<string name="toolbar_batch_edit_lyrics_title">Editar letras em lote</string>
 	<string name="toolbar_collapse_or_expand_player_title">Expandir ou recolher o player</string>
@@ -156,14 +163,10 @@
 	<string name="toolbar_rename_lyric_file_title">Renomear arquivos de letras</string>
 	<string name="toolbar_search_title">Buscar lista</string>
 	<string name="toolbar_select_all_title">Selecionar tudo</string>
-	<string name="settings">Configurações</string>
 	<string name="ui_reference_failed_message">Falha ao obter referências de elementos da interface do usuário.  Tente atualizar a lista</string>
 	<string name="unexpected_error_message">Um erro inesperado ocorreu</string>
 	<string name="warning">Aviso</string>
 	<string name="whoops_error">oops! Um erro ocorreu!</string>
 	<string name="writing_lyrics_message">Escrevendo as letras do arquivo</string>
 	<string name="yes">Sim</string>
-	<string name="three_digit_milliseconds_prompt">Economize com três dígitos em milissegundos</string>
-	<string name="three_digit_milliseconds_help">Salvar com milissegundos de três dígitos pode ser útil para aplicativos que esperam arquivos LRC com timestamps de três dígitos em milissegundos em vez de timestamps de dois dígitos em milissegundos</string>
-	<string name="no_permission_to_read_text">Não foi possível obter permissões para ler arquivos</string>
 </resources>

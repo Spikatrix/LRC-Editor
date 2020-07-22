@@ -119,6 +119,16 @@
 			android:text="@string/composer_prompt" />
 
 		<TextView
+			android:id="@+id/creatorname_textview"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:ellipsize="none"
+			android:fadingEdgeLength="40dp"
+			android:requiresFadingEdge="horizontal"
+			android:singleLine="true"
+			android:text="@string/creator_name_prompt" />
+
+		<TextView
 			android:id="@+id/lyrics_textview"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"

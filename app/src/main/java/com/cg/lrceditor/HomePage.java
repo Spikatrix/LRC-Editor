@@ -67,7 +67,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		preferences = getSharedPreferences("LRC Editor Preferences", MODE_PRIVATE);
-		String theme = preferences.getString("current_theme", "light");
+		String theme = preferences.getString(Constants.THEME_PREFERENCE, "light");
 		currentTheme = theme;
 		if (theme.equals("dark")) {
 			isDarkTheme = true;
@@ -128,7 +128,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 			startActivity(intent);
 		});
 
-		readLocation = preferences.getString("readLocation", Constants.defaultLocation);
+		readLocation = preferences.getString(Constants.READ_LOCATION_PREFERENCE, Constants.defaultLocation);
 
 		actionModeCallback = new ActionModeCallback();
 
@@ -139,13 +139,13 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 	protected void onResume() {
 		super.onResume();
 
-		String theme = preferences.getString("current_theme", "light");
+		String theme = preferences.getString(Constants.THEME_PREFERENCE, "light");
 		if (!theme.equals(currentTheme)) {
 			recreate();
 		}
 
 		String oldReadLocation = readLocation;
-		readLocation = preferences.getString("readLocation", Constants.defaultLocation);
+		readLocation = preferences.getString(Constants.READ_LOCATION_PREFERENCE, Constants.defaultLocation);
 		String uriString = preferences.getString("readUri", null);
 		if (uriString != null) {
 			readUri = Uri.parse(uriString);
@@ -312,7 +312,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 					.setPositiveButton(getString(R.string.yes), (dialog, which) -> {
 						SharedPreferences.Editor editor = preferences.edit();
 
-						editor.putString("readLocation", Constants.defaultLocation);
+						editor.putString(Constants.READ_LOCATION_PREFERENCE, Constants.defaultLocation);
 						editor.apply();
 
 						readLocation = Constants.defaultLocation;
@@ -550,7 +550,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 					Intent intent = new Intent(getApplicationContext(), EditorActivity.class);
 					intent.putExtra("LYRICS", r.getLyrics());
 					intent.putExtra("TIMESTAMPS", r.getTimestamps());
-					intent.putExtra("SONG METADATA", r.getSongMetaData());
+					intent.putExtra("METADATA", r.getMetadata());
 					intent.putExtra("LRC FILE NAME", fileName);
 
 					startActivity(intent);

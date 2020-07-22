@@ -50,6 +50,7 @@ public class FinalizeActivity extends AppCompatActivity {
 	private EditText artistName;
 	private EditText albumName;
 	private EditText composerName;
+	private EditText creatorName;
 
 	private TextView statusTextView;
 
@@ -84,7 +85,7 @@ public class FinalizeActivity extends AppCompatActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		saveLocation = preferences.getString("saveLocation", Constants.defaultLocation);
+		saveLocation = preferences.getString(Constants.SAVE_LOCATION_PREFERENCE, Constants.defaultLocation);
 		String uriString = preferences.getString("saveUri", null);
 		if (uriString != null)
 			saveUri = Uri.parse(uriString);
@@ -93,13 +94,13 @@ public class FinalizeActivity extends AppCompatActivity {
 			((TextView) dialogView.findViewById(R.id.save_location_display)).setText(getString(R.string.save_location_displayer, saveLocation));
 		}
 
-		useThreeDigitMilliseconds = preferences.getBoolean("three_digit_milliseconds", false);
+		useThreeDigitMilliseconds = preferences.getBoolean(Constants.THREE_DIGIT_MILLISECONDS_PREFERENCE, false);
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		preferences = getSharedPreferences("LRC Editor Preferences", MODE_PRIVATE);
-		String theme = preferences.getString("current_theme", "light");
+		String theme = preferences.getString(Constants.THEME_PREFERENCE, "light");
 		if (theme.equals("dark")) {
 			isDarkTheme = true;
 			setTheme(R.style.AppThemeDark);
@@ -113,7 +114,7 @@ public class FinalizeActivity extends AppCompatActivity {
 
 		Intent intent = getIntent();
 		lyricData = (ArrayList<LyricItem>) intent.getSerializableExtra("LYRIC DATA");
-		SongMetaData songMetaData = (SongMetaData) intent.getSerializableExtra("SONG METADATA");
+		Metadata metadata = (Metadata) intent.getSerializableExtra("METADATA");
 		Uri songUri = intent.getParcelableExtra("SONG URI");
 		lrcFileName = intent.getStringExtra("LRC FILE NAME");
 		songFileName = intent.getStringExtra("SONG FILE NAME");
@@ -122,6 +123,7 @@ public class FinalizeActivity extends AppCompatActivity {
 		artistName = findViewById(R.id.artistName_edittext);
 		albumName = findViewById(R.id.albumName_edittext);
 		composerName = findViewById(R.id.composer_edittext);
+		creatorName = findViewById(R.id.creatorName_edittext);
 
 		statusTextView = findViewById(R.id.status_textview);
 		statusTextView.setMovementMethod(new ScrollingMovementMethod());
@@ -141,15 +143,18 @@ public class FinalizeActivity extends AppCompatActivity {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) /* Marshmallow onwards require runtime permissions */
 			grantPermission();
 
-		if (songMetaData != null) {
-			if (!songMetaData.getSongName().isEmpty())
-				songName.setText(songMetaData.getSongName());
-			if (!songMetaData.getArtistName().isEmpty())
-				artistName.setText(songMetaData.getArtistName());
-			if (!songMetaData.getAlbumName().isEmpty())
-				albumName.setText(songMetaData.getAlbumName());
-			if (!songMetaData.getComposerName().isEmpty())
-				composerName.setText(songMetaData.getComposerName());
+		if (metadata != null) {
+			if (!metadata.getSongName().isEmpty())
+				songName.setText(metadata.getSongName());
+			if (!metadata.getArtistName().isEmpty())
+				artistName.setText(metadata.getArtistName());
+			if (!metadata.getAlbumName().isEmpty())
+				albumName.setText(metadata.getAlbumName());
+			if (!metadata.getComposerName().isEmpty())
+				composerName.setText(metadata.getComposerName());
+			if (!metadata.getCreatorName().isEmpty()) {
+				creatorName.setText(metadata.getCreatorName());
+			}
 		}
 
 		if (songUri != null) {
@@ -354,6 +359,9 @@ public class FinalizeActivity extends AppCompatActivity {
 		str = composerName.getText().toString().trim();
 		if (!str.isEmpty())
 			sb.append("[au: ").append(str).append("]\n");
+		str = creatorName.getText().toString().trim();
+		if (!str.isEmpty())
+			sb.append("[by: ").append(str).append("]\n");
 
 		sb.append("\n")
 				.append("[re: ").append(getString(R.string.app_name)).append(" - Android app").append("]\n")

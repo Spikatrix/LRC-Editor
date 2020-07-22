@@ -108,6 +108,55 @@
 				android:clickable="true"
 				android:focusable="true"
 				android:gravity="center_vertical"
+				android:onClick="adjustTimestampStep"
+				android:orientation="horizontal"
+				android:padding="@dimen/dp16">
+
+				<LinearLayout
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight=".8"
+					android:orientation="vertical">
+
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="@string/timestamp_step_amount_prompt"
+						android:textSize="@dimen/sp18"
+						android:textStyle="bold" />
+
+					<TextView
+						android:id="@+id/timestamp_step"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="@dimen/dp10"
+						android:layout_marginBottom="@dimen/dp8"
+						android:text="100 ms" />
+
+				</LinearLayout>
+
+				<Button
+					style="@style/Widget.AppCompat.Button.Borderless.Colored"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight=".1"
+					android:onClick="showTimestampStepHelp"
+					android:text="\?" />
+
+			</LinearLayout>
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:background="@android:color/darker_gray" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="?attr/selectableItemBackground"
+				android:clickable="true"
+				android:focusable="true"
+				android:gravity="center_vertical"
 				android:onClick="toggleThreeDigitMillisecondSwitch"
 				android:orientation="horizontal"
 				android:padding="@dimen/dp16">

@@ -73,7 +73,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 	private Uri songUri = null;
 	private String songFileName = null;
 
-	private SongMetaData songMetaData = null;
+	private Metadata metadata = null;
 
 	private LyricItem[] clipboard = null;
 
@@ -86,6 +86,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 	private MediaSession mediaSession;
 	private float currentPlayerSpeed;
 	private float currentPlayerPitch;
+	private int timestampAdjustStep;
 
 	private Handler songTimeUpdater = new Handler();
 	private SeekBar seekbar;
@@ -105,7 +106,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 		@Override
 		public void run() {
 			if (!isPlaying) {
-				flasher.postDelayed(this, 30);
+				flasher.postDelayed(this, 35);
 				return;
 			}
 
@@ -113,7 +114,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 			int last = linearLayoutManager.findLastVisibleItemPosition();
 
 			if (first == -1 || last == -1) {
-				flasher.postDelayed(this, 30);
+				flasher.postDelayed(this, 35);
 				return;
 			}
 
@@ -139,7 +140,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 				}
 			}
 
-			flasher.postDelayed(this, 30);
+			flasher.postDelayed(this, 35);
 		}
 	};
 
@@ -156,9 +157,9 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 			Timestamp timestamp = adapter.lyricData.get(longPressedPos).getTimestamp();
 
 			if (longPressed == 1) {
-				timestamp.alterTimestamp(100);
+				timestamp.alterTimestamp(timestampAdjustStep);
 			} else if (longPressed == -1) {
-				timestamp.alterTimestamp(-100);
+				timestamp.alterTimestamp(-timestampAdjustStep);
 			}
 
 			long time = timestamp.toMilliseconds();
@@ -191,7 +192,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		SharedPreferences preferences = getSharedPreferences("LRC Editor Preferences", MODE_PRIVATE);
-		String theme = preferences.getString("current_theme", "light");
+		String theme = preferences.getString(Constants.THEME_PREFERENCE, "light");
 		if (theme.equals("dark")) {
 			isDarkTheme = true;
 			setTheme(R.style.AppThemeDark);
@@ -215,6 +216,8 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
+
+		timestampAdjustStep = preferences.getInt(Constants.TIMESTAMP_STEP_AMOUNT_PREFERENCE, 100);
 
 		swipeRefreshLayout = findViewById(R.id.swiperefresh);
 		swipeRefreshLayout.setEnabled(false);
@@ -254,7 +257,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 					Timestamp[] timestamps = r.getTimestamps();
 					ArrayList<LyricItem> lyricData = populateDataSet(lyrics, timestamps, false);
 
-					songMetaData = r.getSongMetaData();
+					metadata = r.getMetadata();
 					lrcFileName = FileUtil.getFileName(ctx, intent.getData());
 
 					adapter = new LyricListAdapter(ctx, lyricData, isDarkTheme);
@@ -277,7 +280,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 				lyricData = populateDataSet(lyrics, timestamps, false);
 			}
 
-			songMetaData = (SongMetaData) intent.getSerializableExtra("SONG METADATA");
+			metadata = (Metadata) intent.getSerializableExtra("METADATA");
 			lrcFileName = intent.getStringExtra("LRC FILE NAME");
 
 			adapter = new LyricListAdapter(this, lyricData, isDarkTheme);
@@ -491,7 +494,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 		longPressedPos = -1;
 
 		Timestamp timestamp = adapter.lyricData.get(position).getTimestamp();
-		timestamp.alterTimestamp(100);
+		timestamp.alterTimestamp(timestampAdjustStep);
 		adapter.notifyItemChanged(position);
 
 		changedData = true;
@@ -522,7 +525,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 		longPressedPos = -1;
 
 		Timestamp timestamp = adapter.lyricData.get(position).getTimestamp();
-		timestamp.alterTimestamp(-100);
+		timestamp.alterTimestamp(-timestampAdjustStep);
 		adapter.notifyItemChanged(position);
 
 		changedData = true;
@@ -1216,10 +1219,12 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 	}
 
 	private void batchEditLyrics() {
-
 		LayoutInflater inflater = this.getLayoutInflater();
-		final View view = inflater.inflate(R.layout.dialog_batch_edit, null);
-		final TextView batchTimestamp = view.findViewById(R.id.batch_item_time);
+		final View view = inflater.inflate(R.layout.dialog_adjust, null);
+		final TextView batchTitle = view.findViewById(R.id.title);
+		batchTitle.setText(R.string.batch_edit_prompt);
+		final TextView batchTimestamp = view.findViewById(R.id.content);
+		batchTimestamp.setText("+00:00.00");
 
 		final Timestamp timestamp = new Timestamp("00:00.00");
 
@@ -1237,22 +1242,25 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
 				if (longPressed[0] != 0) {
 					if (longPressed[0] == 1) {
-						if (batchTimeNegative[0])
-							timestamp.alterTimestamp(-100);
-						else
-							timestamp.alterTimestamp(100);
+						if (batchTimeNegative[0]) {
+							timestamp.alterTimestamp(-timestampAdjustStep);
+						} else {
+							timestamp.alterTimestamp(timestampAdjustStep);
+						}
 
 						if (batchTimeNegative[0] && timestamp.toMilliseconds() <= 0) {
 							batchTimeNegative[0] = false;
 						}
 					} else {
-						if (!batchTimeNegative[0] && timestamp.toMilliseconds() - 100 < 0)
+						if (!batchTimeNegative[0] && timestamp.toMilliseconds() - timestampAdjustStep < 0) {
 							batchTimeNegative[0] = true;
+						}
 
-						if (batchTimeNegative[0])
-							timestamp.alterTimestamp(100);
-						else
-							timestamp.alterTimestamp(-100);
+						if (batchTimeNegative[0]) {
+							timestamp.alterTimestamp(timestampAdjustStep);
+						} else {
+							timestamp.alterTimestamp(-timestampAdjustStep);
+						}
 					}
 
 					if (!batchTimeNegative[0]) {
@@ -1269,16 +1277,17 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 		};
 
 
-		ImageButton increase = view.findViewById(R.id.batch_increase_time_button);
+		ImageButton increase = view.findViewById(R.id.increase_button);
 		if (isDarkTheme) {
 			increase.setImageDrawable(getDrawable(R.drawable.ic_add_light));
 		}
 
 		increase.setOnClickListener(v -> {
-			if (batchTimeNegative[0])
-				timestamp.alterTimestamp(-100);
-			else
-				timestamp.alterTimestamp(100);
+			if (batchTimeNegative[0]) {
+				timestamp.alterTimestamp(-timestampAdjustStep);
+			} else {
+				timestamp.alterTimestamp(timestampAdjustStep);
+			}
 
 			if (batchTimeNegative[0] && timestamp.toMilliseconds() <= 0) {
 				batchTimeNegative[0] = false;
@@ -1304,19 +1313,21 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 			return false;
 		});
 
-		ImageButton decrease = view.findViewById(R.id.batch_decrease_time_button);
+		ImageButton decrease = view.findViewById(R.id.decrease_button);
 		if (isDarkTheme) {
 			decrease.setImageDrawable(getDrawable(R.drawable.ic_minus_light));
 		}
 
 		decrease.setOnClickListener(v -> {
-			if (!batchTimeNegative[0] && timestamp.toMilliseconds() - 100 < 0)
+			if (!batchTimeNegative[0] && timestamp.toMilliseconds() - timestampAdjustStep < 0) {
 				batchTimeNegative[0] = true;
+			}
 
-			if (batchTimeNegative[0])
-				timestamp.alterTimestamp(100);
-			else
-				timestamp.alterTimestamp(-100);
+			if (batchTimeNegative[0]) {
+				timestamp.alterTimestamp(timestampAdjustStep);
+			} else {
+				timestamp.alterTimestamp(-timestampAdjustStep);
+			}
 
 			if (!batchTimeNegative[0]) {
 				batchTimestamp.setText(
@@ -1338,7 +1349,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 			return false;
 		});
 
-		AlertDialog dialog = new AlertDialog.Builder(this)
+		new AlertDialog.Builder(this)
 				.setView(view)
 				.setTitle(R.string.batch_edit)
 				.setPositiveButton(getString(R.string.adjust), (dialog1, which) -> {
@@ -1358,9 +1369,8 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 				})
 				.setNegativeButton(getString(R.string.cancel), (dialog12, which) -> longPressed[0] = 0)
 				.setCancelable(false)
-				.create();
-
-		dialog.show();
+				.create()
+				.show();
 	}
 
 	private void displayPlaybackOptions() {
@@ -1480,7 +1490,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 					Intent intent = new Intent(this, FinalizeActivity.class);
 					intent.putExtra("LYRIC DATA", (ArrayList<LyricItem>) adapter.lyricData);
 					intent.putExtra("SONG URI", songUri);
-					intent.putExtra("SONG METADATA", songMetaData);
+					intent.putExtra("METADATA", metadata);
 					intent.putExtra("SONG FILE NAME", songFileName);
 					intent.putExtra("LRC FILE NAME", lrcFileName);
 
