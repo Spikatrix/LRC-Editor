@@ -164,6 +164,9 @@ public class SettingsActivity extends AppCompatActivity {
 				String.format(Locale.getDefault(), "%d ms", preferences.getInt(Constants.TIMESTAMP_STEP_AMOUNT_PREFERENCE, 100)));
 
 		ImageButton increase = view.findViewById(R.id.increase_button);
+		if (isDarkTheme) {
+			increase.setImageDrawable(getDrawable(R.drawable.ic_add_light));
+		}
 		increase.setOnClickListener(view1 -> {
 			String timestampStepVal = timestamp.getText().toString();
 			int value = Integer.parseInt(timestampStepVal.substring(0, timestampStepVal.length() - 3));
@@ -175,6 +178,9 @@ public class SettingsActivity extends AppCompatActivity {
 		});
 
 		ImageButton decrease = view.findViewById(R.id.decrease_button);
+		if (isDarkTheme) {
+			decrease.setImageDrawable(getDrawable(R.drawable.ic_minus_light));
+		}
 		decrease.setOnClickListener(view1 -> {
 			String timestampStepVal = timestamp.getText().toString();
 			int value = Integer.parseInt(timestampStepVal.substring(0, timestampStepVal.length() - 3));

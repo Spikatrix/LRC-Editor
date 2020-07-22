@@ -1,4 +1,4 @@
-# LRC Editor &nbsp; [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![Version: 3.2.3](https://d25lcipzij17d.cloudfront.net/badge.svg?id=gh&type=6&v=3.2.3)
+# LRC Editor &nbsp; [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![Version: 3.2.4](https://d25lcipzij17d.cloudfront.net/badge.svg?id=gh&type=6&v=3.2.3)
 
 <img src="https://i.stack.imgur.com/KSovE.png" alt="LRC Editor App Icon" align="left" style="margin: 10px 20px 10px 10px; border-radius: 15%; box-shadow: 0 6px 20px 2px black">
 
@@ -27,8 +27,7 @@ You can then use the LRC files in Karaoke applications, Music players etc that s
 
 ## Screenshots
 
-![](https://lh3.googleusercontent.com/R-6CVuGEe2q8FD60-aVjd87ZNIiHL0Kzl9AWqNN8k-uHoJFlAmHZHgW0EDiga3cwzZ3-=w720-h310-rw) &nbsp; &nbsp;
-![](https://lh3.googleusercontent.com/_gCKRLjlcvNC-DzbcE43aAYMSnWxFbIfQctuhm14RUcVnHlgfeko71QjaSp-UsY2sQ=w720-h310-rw)
+<img src="https://raw.githubusercontent.com/Spikatrix/LRC-Editor/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" height="300px" /> &nbsp; &nbsp; <img src="https://raw.githubusercontent.com/Spikatrix/LRC-Editor/master/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" height="300px" />
 
 More screenshots are available in the [Google Play Store page][play_store_page]
 
