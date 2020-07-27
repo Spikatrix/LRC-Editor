@@ -1,54 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:scrollbars="vertical">
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:scrollbars="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical">
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/speed_textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp24"
-            android:layout_marginTop="@dimen/dp24"
-            android:layout_marginRight="@dimen/dp24"
-            android:layout_marginBottom="@dimen/dp8"
-            android:gravity="center"
-            android:textSize="@dimen/sp18" />
+		<TextView
+			android:id="@+id/speed_textview"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="@dimen/dp24"
+			android:layout_marginTop="@dimen/dp24"
+			android:layout_marginRight="@dimen/dp24"
+			android:layout_marginBottom="@dimen/dp8"
+			android:gravity="center"
+			android:textSize="@dimen/sp18" />
 
-        <SeekBar
-            android:id="@+id/speed_seekbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp24"
-            android:layout_marginRight="@dimen/dp24"
-            android:layout_marginBottom="@dimen/dp14" />
+		<SeekBar
+			android:id="@+id/speed_seekbar"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="@dimen/dp24"
+			android:layout_marginRight="@dimen/dp24"
+			android:layout_marginBottom="@dimen/dp14" />
 
-        <TextView
-            android:id="@+id/pitch_textview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp24"
-            android:layout_marginTop="@dimen/dp14"
-            android:layout_marginRight="@dimen/dp24"
-            android:layout_marginBottom="@dimen/dp8"
-            android:gravity="center"
-            android:textSize="@dimen/sp18" />
+		<TextView
+			android:id="@+id/pitch_textview"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="@dimen/dp24"
+			android:layout_marginTop="@dimen/dp14"
+			android:layout_marginRight="@dimen/dp24"
+			android:layout_marginBottom="@dimen/dp8"
+			android:gravity="center"
+			android:textSize="@dimen/sp18" />
 
-        <SeekBar
-            android:id="@+id/pitch_seekbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp24"
-            android:layout_marginRight="@dimen/dp24"
-            android:layout_marginBottom="@dimen/dp14" />
+		<SeekBar
+			android:id="@+id/pitch_seekbar"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="@dimen/dp24"
+			android:layout_marginRight="@dimen/dp24"
+			android:layout_marginBottom="@dimen/dp14" />
 
 
-    </LinearLayout>
+	</LinearLayout>
 
 </ScrollView>

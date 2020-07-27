@@ -1,0 +1,18 @@
+<resources>
+	<string name="dark_themes_available_message">Die beiden dunklen Themen sollten nun in den Einstellungen verfügbar sein!</string>
+	<string name="error">Fehler</string>
+	<string name="failed_to_complete_purchase_message">Der Kauf konnte nicht abgeschlossen werden</string>
+	<string name="failed_to_query_inventory_message">Inventar konnte nicht abgefragt werden</string>
+	<string name="failed_to_query_purchase_message">Der Kauf konnte nicht abgefragt werden</string>
+	<string name="iap_setup_failed_message">Konnte die In-App-Abrechnung nicht einrichten</string>
+	<string name="iaps_loading_message">IAPs laden noch</string>
+	<string name="loading">Lädt</string>
+	<string name="purchase_successful">Kauf erfolgreich</string>
+	<string name="purchased">Bezahlt</string>
+	<string name="rate_and_review_text">App bewerten</string>
+	<string name="support_bonus_description">Als kleinen Bonus kriegst du, wenn du mich unterstützt, die beiden dunklen Themen der App!</string>
+	<string name="support_description">Du kannst bezahlen soviel du willst, um mich zu unterstützen. Deine Unterstützung hilft mir größer und besser zu werden als je zuvor!</string>
+	<string name="support_me">Unterstütze mich</string>
+	<string name="thank_you_for_the_purchase_message">Ich danke dir so sehr für deinen Kauf! Die beiden dunklen Themen sind jetzt in den Einstellungen verfügbar!</string>
+	<string name="thanks_for_the_support">Danke für deine Unterstützung!\n♥</string>
+</resources>

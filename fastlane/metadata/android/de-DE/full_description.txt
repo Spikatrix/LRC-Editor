@@ -1,0 +1,23 @@
+Mithilfe des LRC Editors kannst du ganz einfach Lyrics (.lrc Dateien) für deine Musik erstellen!
+
+Mit dieser App bekommst du
+- einen integrierten Musikplayer, um deine Lyrics perfekt auf deine Musik abzustimmen!
+- eine grobe und feine Möglichkeit, Zeitstempel in deine Lyrics einzufügen!
+- ein mächtiges Verschiebungswerkzeug für deine Zeitstempel, um diese schneller zu verschieben!
+- eine einfache Möglichkeit .lrc Dateien direkt aus dem Dateimanager zu öffnen!
+- eine einfach zu bedienende und werbefreie App!
+
+Mithilfe von .lrc Dateien kannst du ganz simpel Lyrics in deinem Musikplayer verwenden, so z.B. in Musikplayer von Xiaomi, Huawei, OPPO, Samsung und vielen mehr!
+
+Probier's jetzt aus!
+
+Bei Synchronisationsproblemen, stelle sicher, dass du eine qualitativ hochwertige MP3-Datei mit konstanter Bitrate oder einen für die präzise Suche geeigneten Musikcontainer verwendest.
+
+Der LRC Editor ist Open Source. Wenn du helfen willst, geh auf https://github.com/Spikatrix/LRC-Editor ♥
+
+Ein großes Dankeschön an alle Übersetzer:
+ - Chinese (zh-rTW) von Martin C
+ - Deutsch (de) von Leon Thelen
+ - Indonesian (in) von Fajar Maulana
+ - Polnisch (pl) von Zbigniew Zienko
+ - Portugiesisch (pt-rBR) von Ayrtown Karlos

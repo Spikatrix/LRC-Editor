@@ -1,0 +1,23 @@
+LRC Editor helps you to create and edit lyric files ( .lrc files ) easily.
+
+Features:
+ - Comes with a small built-in media player to help you synchronise your lyrics with your song
+ - Supports both fine and coarse tuning of timestamps for synchronising your lyrics perfectly
+ - Supports powerful batch editing features to adjust timestamps quickly
+ - .lrc lyric files can be directly opened from your file manager with this app
+ - Lightweight and Ad free
+
+You can use .lrc lyric files to add lyrics into music players that support them for example the stock music players of Xiaomi, Huawei, OPPO, Samsung etc
+
+Try it out now!
+
+If you face desync issues, make sure you're using a high quality constant bitrate MP3 file or a music container suited for precise seeking.
+
+LRC Editor is Open Source. If you would like to contribute, head over to https://github.com/Spikatrix/LRC-Editor ♥
+
+A big thank you to all the translators:
+ - Chinese (zh-rTW) by Martin C
+ - German (de) by Leon Thelen
+ - Indonesian (in) by Fajar Maulana
+ - Polish (pl) by Zbigniew Zienko
+ - Portuguese (pt-rBR) by Ayrtown Karlos

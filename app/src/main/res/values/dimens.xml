@@ -1,21 +1,17 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
+	<dimen name="dp2">2dp</dimen>
+	<dimen name="dp5">5dp</dimen>
+	<dimen name="dp8">8dp</dimen>
+	<dimen name="dp10">10dp</dimen>
+	<dimen name="dp14">14dp</dimen>
+	<dimen name="dp16">16dp</dimen>
+	<dimen name="dp18">18dp</dimen>
+	<dimen name="dp24">24dp</dimen>
+	<dimen name="dp48">48dp</dimen>
+	<dimen name="dp60">60dp</dimen>
+	<dimen name="dp84">84dp</dimen>
+	<dimen name="dp110">110dp</dimen>
 
-    <dimen name="dp2">2dp</dimen>
-    <dimen name="dp4">4dp</dimen>
-    <dimen name="dp5">5dp</dimen>
-    <dimen name="dp8">8dp</dimen>
-    <dimen name="dp10">10dp</dimen>
-    <dimen name="dp14">14dp</dimen>
-    <dimen name="dp15">15dp</dimen>
-    <dimen name="dp16">16dp</dimen>
-    <dimen name="dp18">18dp</dimen>
-    <dimen name="dp24">24dp</dimen>
-    <dimen name="dp48">48dp</dimen>
-    <dimen name="dp60">60dp</dimen>
-    <dimen name="dp110">110dp</dimen>
-
-    <dimen name="sp10">10sp</dimen>
-    <dimen name="sp16">16sp</dimen>
-    <dimen name="sp18">18sp</dimen>
+	<dimen name="sp10">10sp</dimen>
+	<dimen name="sp18">18sp</dimen>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@android:color/darker_gray" android:state_activated="true" /> <!-- Color when items in a list are selected (long press) -->
-    <item android:drawable="@android:color/holo_green_light" android:state_hovered="true" /> <!-- Color when items in a list are hovered (lyric items flash when it reaches the timestamp) -->
-    <item android:drawable="@android:color/transparent" />
+	<item android:drawable="@android:color/darker_gray" android:state_activated="true" /> <!-- Color when items in a list are selected (long press) -->
+	<item android:drawable="@android:color/holo_green_light" android:state_hovered="true" /> <!-- Color when items in a list are hovered (lyric items flash when it reaches the timestamp) -->
+	<item android:drawable="@android:color/transparent" />
 </selector>

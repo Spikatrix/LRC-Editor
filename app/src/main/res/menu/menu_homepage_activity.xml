@@ -1,32 +1,32 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.cg.lrceditor.HomePage">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	tools:context="com.cg.lrceditor.HomePage">
 
-    <item
-        android:id="@+id/action_search"
-        android:icon="@drawable/ic_search_toolbar"
-        android:orderInCategory="1"
-        android:title="@string/toolbar_search_title"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="always|collapseActionView" />
+	<item
+		android:id="@+id/action_search"
+		android:icon="@drawable/ic_search_toolbar"
+		android:orderInCategory="1"
+		android:title="@string/toolbar_search_title"
+		app:actionViewClass="androidx.appcompat.widget.SearchView"
+		app:showAsAction="always|collapseActionView" />
 
-    <item
-        android:id="@+id/action_refresh"
-        android:icon="@drawable/ic_refresh_toolbar"
-        android:orderInCategory="2"
-        android:title="@string/toolbar_refresh_title"
-        app:showAsAction="always" />
+	<item
+		android:id="@+id/action_refresh"
+		android:icon="@drawable/ic_refresh_toolbar"
+		android:orderInCategory="2"
+		android:title="@string/toolbar_refresh_title"
+		app:showAsAction="always" />
 
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="50"
-        android:title="@string/toolbar_settings_title"
-        app:showAsAction="never" />
+	<item
+		android:id="@+id/action_settings"
+		android:orderInCategory="50"
+		android:title="@string/settings"
+		app:showAsAction="never" />
 
-    <item
-        android:id="@+id/action_about"
-        android:orderInCategory="100"
-        android:title="@string/toolbar_about_title"
-        app:showAsAction="never" />
+	<item
+		android:id="@+id/action_about"
+		android:orderInCategory="100"
+		android:title="@string/about"
+		app:showAsAction="never" />
 </menu>

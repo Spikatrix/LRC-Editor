@@ -1,0 +1,25 @@
+Criar e editar arquivos de letras com facilidade
+
+O LRC Editor ajuda você a criar e editar arquivos de letras (arquivos .lrc) facilmente.
+
+Características:
+ - Vem com um pequeno player de mídia embutido para ajudá-lo a sincronizar suas letras com sua música.
+ - Suporta edição de timestamps precisa para sincronizar suas letras perfeitamente.
+ - Suporta poderosos recursos de edição em lote para ajustar o timestamps rapidamente.
+ - Arquivos de letras .lrc podem ser abertos diretamente de seu gerenciador de arquivos com este aplicativo.
+ - Leve e sem anúncios.
+
+Você pode usar arquivos de letras .lrc para adicionar letras aos reprodutores de música com suporte, por exemplo, reprodutor de músicas da Xiaomi, Huawei, OPPO, Samsung etc.
+
+Experimente agora!
+
+Se você enfrentar problemas de dessincronização, verifique se está usando um arquivo MP3 de taxa de bits constante de alta qualidade ou um contêiner de música adequado para uma busca precisa.
+
+LRC Editor é Open Source. Se você quiser contribuir, acesse: https://github.com/Spikatrix/LRC-Editor ♥
+
+Um grande obrigado a todos os tradutores:
+ - Chinese (zh-rTW) por Martin C
+ - German (de) por Leon Thelen
+ - Indonesian (in) por Fajar Maulana
+ - Polish (pl) por Zbigniew Zienko
+ - Portuguese (pt-rBR) por Ayrtown Karlos

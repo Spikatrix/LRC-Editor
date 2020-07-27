@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.cg.lrceditor.HomePage">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	tools:context="com.cg.lrceditor.HomePage">
 
-    <item
-        android:id="@+id/action_add"
-        android:icon="@drawable/ic_add_light"
-        android:orderInCategory="1"
-        android:title="@string/toolbar_add_a_lyric_title"
-        android:visible="false"
-        app:showAsAction="always" />
+	<item
+		android:id="@+id/action_add"
+		android:icon="@drawable/ic_add_light"
+		android:orderInCategory="1"
+		android:title="@string/toolbar_add_a_lyric_title"
+		android:visible="false"
+		app:showAsAction="always" />
 
-    <item
-        android:id="@+id/action_playback_options"
-        android:icon="@drawable/ic_playback_options_toolbar"
-        android:orderInCategory="2"
-        android:title="@string/toolbar_playback_options_title"
-        android:visible="false"
-        app:showAsAction="ifRoom" />
+	<item
+		android:id="@+id/action_playback_options"
+		android:icon="@drawable/ic_playback_options_toolbar"
+		android:orderInCategory="2"
+		android:title="@string/toolbar_playback_options_title"
+		android:visible="false"
+		app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/action_collapse_or_expand"
-        android:icon="@drawable/ic_collapse_toolbar"
-        android:orderInCategory="3"
-        android:title="@string/toolbar_collapse_or_expand_player_title"
-        app:showAsAction="ifRoom" />
+	<item
+		android:id="@+id/action_collapse_or_expand"
+		android:icon="@drawable/ic_collapse_toolbar"
+		android:orderInCategory="3"
+		android:title="@string/toolbar_collapse_or_expand_player_title"
+		app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/action_done"
-        android:icon="@drawable/ic_done_toolbar"
-        android:orderInCategory="100"
-        android:title="@string/done"
-        app:showAsAction="always" />
+	<item
+		android:id="@+id/action_done"
+		android:icon="@drawable/ic_done_toolbar"
+		android:orderInCategory="100"
+		android:title="@string/done"
+		app:showAsAction="always" />
 </menu>

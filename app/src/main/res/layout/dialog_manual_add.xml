@@ -1,68 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:orientation="vertical">
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:gravity="center"
+	android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dp18"
-        android:layout_marginTop="@dimen/dp18"
-        android:layout_marginRight="@dimen/dp18"
-        android:text="@string/enter_timestamp_prompt"
-        android:textSize="@dimen/sp18" />
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="@dimen/dp18"
+		android:layout_marginTop="@dimen/dp18"
+		android:layout_marginRight="@dimen/dp18"
+		android:text="@string/enter_timestamp_prompt"
+		android:textSize="@dimen/sp18" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/manual_minutes_edittext"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:inputType="number"
-            android:maxLength="2"
-            android:text="00" />
+		<EditText
+			android:id="@+id/manual_minutes_edittext"
+			android:layout_width="50dp"
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			android:inputType="number"
+			android:maxLength="2"
+			android:text="00" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/dp10"
-            android:paddingRight="@dimen/dp10"
-            android:text=":"
-            android:textStyle="bold" />
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:paddingLeft="@dimen/dp10"
+			android:paddingRight="@dimen/dp10"
+			android:text=":"
+			android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/manual_seconds_edittext"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:inputType="number"
-            android:maxLength="2"
-            android:text="00" />
+		<EditText
+			android:id="@+id/manual_seconds_edittext"
+			android:layout_width="50dp"
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			android:inputType="number"
+			android:maxLength="2"
+			android:text="00" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/dp10"
-            android:paddingRight="@dimen/dp10"
-            android:text=":"
-            android:textStyle="bold" />
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:paddingLeft="@dimen/dp10"
+			android:paddingRight="@dimen/dp10"
+			android:text=":"
+			android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/manual_milliseconds_edittext"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:inputType="number"
-            android:maxLength="2"
-            android:text="00" />
+		<EditText
+			android:id="@+id/manual_milliseconds_edittext"
+			android:layout_width="50dp"
+			android:layout_height="wrap_content"
+			android:gravity="center"
+			android:inputType="number"
+			android:maxLength="2"
+			android:text="00" />
 
-    </LinearLayout>
+	</LinearLayout>
 
 </LinearLayout>

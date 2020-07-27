@@ -1,158 +1,232 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+	<com.google.android.material.appbar.AppBarLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:theme="@style/AppTheme.AppBarOverlay">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            android:background="?android:attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+		<androidx.appcompat.widget.Toolbar
+			android:id="@+id/toolbar"
+			android:layout_width="match_parent"
+			android:layout_height="?android:attr/actionBarSize"
+			android:background="?android:attr/colorPrimary"
+			app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-    </com.google.android.material.appbar.AppBarLayout>
+	</com.google.android.material.appbar.AppBarLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical">
+	<ScrollView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:scrollbars="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp15"
-            android:orientation="vertical"
-            tools:context=".SettingsActivity">
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			tools:context=".SettingsActivity">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dp15"
-                android:text="@string/read_location_description"
-                android:textSize="@dimen/sp16"
-                android:textStyle="bold" />
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="?attr/selectableItemBackground"
+				android:clickable="true"
+				android:focusable="true"
+				android:onClick="changeReadLocation"
+				android:orientation="vertical"
+				android:padding="@dimen/dp16">
 
-            <TextView
-                android:id="@+id/read_location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dp15" />
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/read_location_description"
+					android:textSize="@dimen/sp18"
+					android:textStyle="bold" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="changeReadLocation"
-                android:text="@string/change_location_text" />
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="@dimen/dp10"
+					android:text="@string/read_location_extra_description"
+					android:textSize="@dimen/sp10" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/dp15"
-                android:layout_marginBottom="@dimen/dp15"
-                android:background="@android:color/darker_gray" />
+				<TextView
+					android:id="@+id/read_location"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="@dimen/dp10"
+					android:layout_marginBottom="@dimen/dp10" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dp15"
-                android:text="@string/save_location_description"
-                android:textSize="@dimen/sp16"
-                android:textStyle="bold" />
+			</LinearLayout>
 
-            <TextView
-                android:id="@+id/save_location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dp15" />
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:background="@android:color/darker_gray" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="changeSaveLocation"
-                android:text="@string/change_location_text" />
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="?attr/selectableItemBackground"
+				android:clickable="true"
+				android:focusable="true"
+				android:onClick="changeSaveLocation"
+				android:orientation="vertical"
+				android:padding="@dimen/dp16">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp15"
-                android:layout_marginBottom="@dimen/dp4"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="@dimen/dp10"
+					android:text="@string/save_location_description"
+					android:textSize="@dimen/sp18"
+					android:textStyle="bold" />
 
-                <Switch
-                    android:id="@+id/three_digit_milliseconds_switch"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".8"
-                    android:text="@string/three_digit_milliseconds_prompt" />
+				<TextView
+					android:id="@+id/save_location"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="@dimen/dp10"
+					android:layout_marginBottom="@dimen/dp10" />
 
-                <Button
-                    android:id="@+id/three_digit_milliseconds_help"
-                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".1"
-                    android:onClick="showThreeDigitMillisecondsHelp"
-                    android:text="\?" />
+			</LinearLayout>
 
-            </LinearLayout>
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:background="@android:color/darker_gray" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/dp15"
-                android:layout_marginBottom="@dimen/dp15"
-                android:background="@android:color/darker_gray" />
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="?attr/selectableItemBackground"
+				android:clickable="true"
+				android:focusable="true"
+				android:gravity="center_vertical"
+				android:onClick="adjustTimestampStep"
+				android:orientation="horizontal"
+				android:padding="@dimen/dp16">
 
-            <TextView
-                android:id="@+id/theme_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dp15"
-                android:text="@string/select_a_theme_prompt"
-                android:textStyle="bold"
-                android:visibility="gone" />
+				<LinearLayout
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight=".8"
+					android:orientation="vertical">
 
-            <RadioGroup
-                android:id="@+id/theme_group"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/dp15"
-                android:visibility="gone">
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="@string/timestamp_step_amount_prompt"
+						android:textSize="@dimen/sp18"
+						android:textStyle="bold" />
 
-                <RadioButton
-                    android:id="@+id/radioButtonLight"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:checked="true"
-                    android:text="@string/light" />
+					<TextView
+						android:id="@+id/timestamp_step"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="@dimen/dp10"
+						android:layout_marginBottom="@dimen/dp8"
+						android:text="100 ms" />
 
-                <RadioButton
-                    android:id="@+id/radioButtonDark"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/dark" />
+				</LinearLayout>
 
-                <RadioButton
-                    android:id="@+id/radioButtonDarker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/darker" />
-            </RadioGroup>
+				<Button
+					style="@style/Widget.AppCompat.Button.Borderless.Colored"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight=".1"
+					android:onClick="showTimestampStepHelp"
+					android:text="\?" />
 
-        </LinearLayout>
+			</LinearLayout>
 
-    </ScrollView>
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:background="@android:color/darker_gray" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="?attr/selectableItemBackground"
+				android:clickable="true"
+				android:focusable="true"
+				android:gravity="center_vertical"
+				android:onClick="toggleThreeDigitMillisecondSwitch"
+				android:orientation="horizontal"
+				android:padding="@dimen/dp16">
+
+				<Switch
+					android:id="@+id/three_digit_milliseconds_switch"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight=".8"
+					android:text="@string/three_digit_milliseconds_prompt" />
+
+				<Button
+					style="@style/Widget.AppCompat.Button.Borderless.Colored"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight=".1"
+					android:onClick="showThreeDigitMillisecondsHelp"
+					android:text="\?" />
+
+			</LinearLayout>
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:background="@android:color/darker_gray" />
+
+			<TextView
+				android:id="@+id/theme_title"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="@dimen/dp16"
+				android:text="@string/select_a_theme_prompt"
+				android:textStyle="bold"
+				android:visibility="gone" />
+
+			<RadioGroup
+				android:id="@+id/theme_group"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="@dimen/dp16"
+				android:layout_marginEnd="@dimen/dp16"
+				android:layout_marginBottom="@dimen/dp16"
+				android:visibility="gone">
+
+				<RadioButton
+					android:id="@+id/radioButtonLight"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="@dimen/dp14"
+					android:checked="true"
+					android:text="@string/light" />
+
+				<RadioButton
+					android:id="@+id/radioButtonDark"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="@dimen/dp14"
+					android:text="@string/dark" />
+
+				<RadioButton
+					android:id="@+id/radioButtonDarker"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="@dimen/dp14"
+					android:text="@string/darker" />
+
+			</RadioGroup>
+
+		</LinearLayout>
+
+	</ScrollView>
 
 </LinearLayout>
