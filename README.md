@@ -4,12 +4,15 @@
 
 LRC Editor is an Android app that helps you to create and edit .lrc files easily
 
-It is currently available to download on the [Google Play Store][play_store_page] as well as on [GitHub][github_release_page]. It will be available on [F-Droid][fdroid] [soon](https://github.com/Spikatrix/LRC-Editor/issues/15).
+It is available to download on the [Google Play Store][play_store_page], [F-Droid][fdroid_page] as well as [GitHub][github_release_page].
 
 <p>
 	<a href="https://play.google.com/store/apps/details?id=com.cg.lrceditor">
 		<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Download from Google Play" height="80px">
 	</a>
+	<a href="https://f-droid.org/packages/com.cg.lrceditor/">
+		<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80px">
+	 </a>
 	<a href="https://github.com/Spikatrix/LRC-Editor/releases">
 		<img src="https://i.stack.imgur.com/S4MQt.png" alt="Download from GitHub" height="80px">
 	</a>
@@ -41,7 +44,7 @@ Note: Android 11 brings much more stricter storage access enforcements and LRC E
 
 If you wish to build from source, clone the repo and run gradle's `assembleDebug` task:
 
-    $ git clone https://github.com/Spikatrix/LRC-Editor
+	$ git clone https://github.com/Spikatrix/LRC-Editor
 	$ cd LRC-Editor
 	$ ./gradlew assembleDebug
 
@@ -84,6 +87,7 @@ This project is licensed under the [GNU GPLv3 License][project_license]
 
 <!-- Link references -->
 [play_store_page]: https://play.google.com/store/apps/details?id=com.cg.lrceditor
+[fdroid_page]: https://f-droid.org/packages/com.cg.lrceditor
 [github_release_page]: https://github.com/Spikatrix/LRC-Editor/releases
 
 [play_store]: https://play.google.com/store
