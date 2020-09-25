@@ -4,15 +4,15 @@
 	<string name="failed_to_complete_purchase_message">無法完成購買</string>
 	<string name="failed_to_query_inventory_message">無法查詢庫存</string>
 	<string name="failed_to_query_purchase_message">無法查詢購買狀態</string>
-	<string name="iap_setup_failed_message">應用程式內購買(In-app Billing)設定失敗</string>
-	<string name="iaps_loading_message">應用程式內購服務(IAPs)仍在載入</string>
+	<string name="iap_setup_failed_message">應用程式內購買 (In-app Billing) 設定失敗</string>
+	<string name="iaps_loading_message">應用程式內購服務 (IAPs) 仍在載入</string>
 	<string name="loading">請稍候</string>
 	<string name="purchase_successful">購買成功</string>
 	<string name="purchased">已購買</string>
-	<string name="rate_and_review_text">為App評分及評論</string>
+	<string name="rate_and_review_text">為 App 評分及評論</string>
 	<string name="support_bonus_description">當您購買之後，便會得到兩個暗黑主題作為獎勵。</string>
-	<string name="support_description">您可以支付所需的費用來支持我。您的支持可以協助我比以前更強大，更好地成長</string>
+	<string name="support_description">您可以支付所需的費用來支持我。您的支持可以協助我比以前更強大，更好地成長。</string>
 	<string name="support_me">支持我</string>
-	<string name="thank_you_for_the_purchase_message">非常感謝您購買！設定內的兩個暗黑主題現在可以使用了</string>
+	<string name="thank_you_for_the_purchase_message">非常感謝您購買！設定內的兩個暗黑主題現在可以使用了。</string>
 	<string name="thanks_for_the_support">感謝您的支持！\n♥</string>
 </resources>
