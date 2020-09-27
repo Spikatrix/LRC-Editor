@@ -16,7 +16,8 @@ If you face desync issues, make sure you're using a high quality constant bitrat
 LRC Editor is Open Source. If you would like to contribute, head over to https://github.com/Spikatrix/LRC-Editor ♥
 
 A big thank you to all the translators:
- - Chinese (zh-rTW) by Martin C
+ - Chinese Traditional (zh-rTW) by Martin C
+ - Chinese Simplified (zh-rCW) by Krasnaya Ploshchad
  - German (de) by Leon Thelen
  - Indonesian (in) by Fajar Maulana
  - Polish (pl) by Zbigniew Zienko
