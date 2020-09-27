@@ -376,9 +376,9 @@ public class FinalizeActivity extends AppCompatActivity {
 					lyric = " ";
 				}
 				if (useThreeDigitMilliseconds) {
-					sb.append("[").append(timestamp.toStringWithThreeDigitMilliseconds()).append("]").append(lyric).append("\n");
+					sb.append("[").append(timestamp.toStringWithThreeDigitMilliseconds(Locale.ENGLISH)).append("]").append(lyric).append("\n");
 				} else {
-					sb.append("[").append(timestamp.toString()).append("]").append(lyric).append("\n");
+					sb.append("[").append(timestamp.toString(Locale.ENGLISH)).append("]").append(lyric).append("\n");
 				}
 			}
 		}
