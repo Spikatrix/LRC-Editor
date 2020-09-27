@@ -1,0 +1,18 @@
+<resources>
+	<string name="dark_themes_available_message">设置内的两个暗黑主题现在应该可以用了</string>
+	<string name="error">错误</string>
+	<string name="failed_to_complete_purchase_message">无法完成购买</string>
+	<string name="failed_to_query_inventory_message">无法查询库存</string>
+	<string name="failed_to_query_purchase_message">无法查询购买状态</string>
+	<string name="iap_setup_failed_message">App 内购 (In-app Billing) 设置失败</string>
+	<string name="iaps_loading_message">App 内购服务 (IAPs) 仍在载入</string>
+	<string name="loading">请稍候</string>
+	<string name="purchase_successful">购买成功</string>
+	<string name="purchased">已购买</string>
+	<string name="rate_and_review_text">为 App 评分及评论</string>
+	<string name="support_bonus_description">当您购买之后，便会得到两个暗黑主题作为奖励。</string>
+	<string name="support_description">您可以支付所需的费用来支持我。您的支持可以协助我比以前更强大，更好地成长</string>
+	<string name="support_me">支持我</string>
+	<string name="thank_you_for_the_purchase_message">非常感谢您购买！设置内的两个暗黑主题现在可以使用了</string>
+	<string name="thanks_for_the_support">感谢您的支持！\n♥</string>
+</resources>

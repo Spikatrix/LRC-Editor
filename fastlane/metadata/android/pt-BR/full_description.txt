@@ -18,7 +18,8 @@ Se você enfrentar problemas de dessincronização, verifique se está usando um
 LRC Editor é Open Source. Se você quiser contribuir, acesse: https://github.com/Spikatrix/LRC-Editor ♥
 
 Um grande obrigado a todos os tradutores:
- - Chinese (zh-rTW) por Martin C
+ - Chinese Traditional (zh-rTW) por Martin C
+ - Chinese Simplified (zh-rCW) por Krasnaya Ploshchad
  - German (de) por Leon Thelen
  - Indonesian (in) por Fajar Maulana
  - Polish (pl) por Zbigniew Zienko
