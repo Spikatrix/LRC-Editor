@@ -94,7 +94,7 @@
 	<string name="no_permission_to_write_text">無法取得寫入權限</string>
 	<string name="no_timestamp_set_message">沒有為歌詞物件設定時間標記組</string>
 	<string name="ok">確定</string>
-	<string name="overwrite_prompt">資料夾 %2$s 中具有相同名稱的檔案 '%1$s.lrc' 已經存在。您想要取代此檔案嗎？</string>
+	<string name="overwrite_prompt">資料夾 %2$s 中具有相同名稱的檔案 \'%1$s.lrc\' 已經存在。您想要取代此檔案嗎？</string>
 	<string name="paste_lyrics_prompt">在下面貼上歌詞</string>
 	<string name="permission_check_message">請確定您已授予權限</string>
 	<string name="play_button_description">播放/暫停</string>
