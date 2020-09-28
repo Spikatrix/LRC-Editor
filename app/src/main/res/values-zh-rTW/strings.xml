@@ -39,7 +39,7 @@
 	<string name="delete_successful_message">成功刪除已選歌詞檔</string>
 	<string name="delete_timestamps_and_lyrics_message">刪除時間標記及歌詞</string>
 	<string name="delete_timestamps_only_message">只刪除時間標記</string>
-	<string name="deleting_message">正在刪除... \n這可能需要一些時間，取決於檔案與讀取位置的距離</string>
+	<string name="deleting_message">正在刪除... 這可能需要一些時間，取決於檔案與讀取位置的距離</string>
 	<string name="documentsui_enable_message">您的 Android 系統當前是否運行 5.0 或以上版本？建議您可以從您的手機設定啟用 DocumentsUI</string>
 	<string name="done">完成</string>
 	<string name="edit">編輯</string>
@@ -94,7 +94,7 @@
 	<string name="no_permission_to_write_text">無法取得寫入權限</string>
 	<string name="no_timestamp_set_message">沒有為歌詞物件設定時間標記組</string>
 	<string name="ok">確定</string>
-	<string name="overwrite_prompt">資料夾 %2$s 中具有相同名稱的檔案「%1$s.lrc」已經存在。您想要取代此檔案嗎？</string>
+	<string name="overwrite_prompt">資料夾 %2$s 中具有相同名稱的檔案 '%1$s.lrc' 已經存在。您想要取代此檔案嗎？</string>
 	<string name="paste_lyrics_prompt">在下面貼上歌詞</string>
 	<string name="permission_check_message">請確定您已授予權限</string>
 	<string name="play_button_description">播放/暫停</string>
@@ -115,7 +115,7 @@
 	<string name="rename">重新命名</string>
 	<string name="rename_failed_message">無法重新命名！</string>
 	<string name="rename_successful_message">成功重新命名</string>
-	<string name="renaming_message">正在重新命名... \n這可能需要一些時間，取決於檔案與讀取位置的距離</string>
+	<string name="renaming_message">正在重新命名... 這可能需要一些時間，取決於檔案與讀取位置的距離</string>
 	<string name="restart_for_theme_message">如果主題未被應用請重新啟動 App</string>
 	<string name="save">儲存</string>
 	<string name="save_location_description">儲存歌詞檔的位置</string>
