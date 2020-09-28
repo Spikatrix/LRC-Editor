@@ -39,7 +39,7 @@
 	<string name="delete_successful_message">成功删除已选定歌词文件</string>
 	<string name="delete_timestamps_and_lyrics_message">删除时间标记及歌词</string>
 	<string name="delete_timestamps_only_message">只删除时间标记</string>
-	<string name="deleting_message">正在删除... \n这可能需要一些时间，取决于文件与读取位置的距离</string>
+	<string name="deleting_message">正在删除... 这可能需要一些时间，取决于文件与读取位置的距离</string>
 	<string name="documentsui_enable_message">您的 Android 系统当前是否运行 5.0 或以上版本？建议您可以从您的手机设置启用 DocumentsUI</string>
 	<string name="done">完成</string>
 	<string name="edit">编辑</string>
@@ -115,7 +115,7 @@
 	<string name="rename">重命名</string>
 	<string name="rename_failed_message">无法重命名！</string>
 	<string name="rename_successful_message">成功重命名</string>
-	<string name="renaming_message">正在重命名... \n这可能需要一些时间，取决于文件与读取位置的距离</string>
+	<string name="renaming_message">正在重命名... 这可能需要一些时间，取决于文件与读取位置的距离</string>
 	<string name="restart_for_theme_message">如果主题未被应用请重新启动 App</string>
 	<string name="save">保存</string>
 	<string name="save_location_description">保存歌词文件的位置</string>
