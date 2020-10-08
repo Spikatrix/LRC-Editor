@@ -12,12 +12,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 public class LyricReader {
-	private LyricItem[] lyricData;
+	private ArrayList<LyricItem> lyricData = new ArrayList<>();
 	private Metadata metadata = new Metadata();
 
 	private File file = null;
@@ -57,6 +56,8 @@ public class LyricReader {
 				return false;
 			}
 
+			this.lyricData.clear();
+
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 
 			StringBuilder contents = new StringBuilder();
@@ -69,8 +70,6 @@ public class LyricReader {
 
 			in.close();
 
-			List<String> lyrics = new ArrayList<>();
-			List<String> timestamps = new ArrayList<>();
 			int count, extras;
 			int offset = 0;
 			int invalidTimestamps;
@@ -92,9 +91,13 @@ public class LyricReader {
 							continue;
 						}
 						if (temp.charAt(9) != ']') {
+							// 3 digit millisecond
 							extras++;
+							lyricData.add(new LyricItem(null, new Timestamp(temp.substring(1, 10))));
+						} else {
+							// 2 digit millisecond
+							lyricData.add(new LyricItem(null, new Timestamp(temp.substring(1, 9))));
 						}
-						timestamps.add(temp.substring(1, 9));
 					} else {
 						if (temp.length() > 4) {
 							String str = temp.substring(4, temp.length() - 1).trim();
@@ -126,28 +129,24 @@ public class LyricReader {
 
 				count -= invalidTimestamps;
 
-				for (int i = 0; i < count; i++) {
-					lyrics.add(temp);
+				for (int i = 0, size = lyricData.size(); i < count; i++) {
+					lyricData.get(size - i - 1).setLyric(temp.trim());
 				}
 			}
 
-			if (lyrics.size() == 0) {
+			if (lyricData.size() == 0) {
 				errorMsg = ctx.getString(R.string.could_not_parse_any_lyrics_message);
 				return false;
 			}
 
-			int size = lyrics.size();
-			this.lyricData = new LyricItem[size];
-
-			for (int i = 0; i < size; i++) {
-				this.lyricData[i] = new LyricItem(lyrics.get(i).trim(), new Timestamp(timestamps.get(i).trim()));
-
-				if (offset != 0) {
-					this.lyricData[i].getTimestamp().alterTimestamp(offset);
+			if (offset != 0) {
+				int size = lyricData.size();
+				for (int i = 0; i < size; i++) {
+					lyricData.get(i).getTimestamp().alterTimestamp(offset);
 				}
 			}
 
-			Arrays.sort(this.lyricData, new LyricTimestampComparator());
+			Collections.sort(this.lyricData, new LyricTimestampComparator());
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -162,26 +161,12 @@ public class LyricReader {
 		return true;
 	}
 
-	String[] getLyrics() {
-		if (this.lyricData == null) {
+	ArrayList<LyricItem> getLyricData() {
+		if (this.lyricData.size() == 0) {
 			return null;
 		}
-		String[] lyrics = new String[this.lyricData.length];
-		for (int i = 0; i < this.lyricData.length; i++) {
-			lyrics[i] = this.lyricData[i].getLyric();
-		}
-		return lyrics;
-	}
 
-	Timestamp[] getTimestamps() {
-		if (this.lyricData == null) {
-			return null;
-		}
-		Timestamp[] timestamps = new Timestamp[this.lyricData.length];
-		for (int i = 0; i < this.lyricData.length; i++) {
-			timestamps[i] = this.lyricData[i].getTimestamp();
-		}
-		return timestamps;
+		return lyricData;
 	}
 
 	String getErrorMsg() {
@@ -195,7 +180,18 @@ public class LyricReader {
 	static class LyricTimestampComparator implements Comparator<LyricItem> {
 		@Override
 		public int compare(LyricItem l1, LyricItem l2) {
-			return Long.compare(l1.getTimestamp().toMilliseconds(), l2.getTimestamp().toMilliseconds());
+			Timestamp t1 = l1.getTimestamp();
+			Timestamp t2 = l2.getTimestamp();
+
+			if (t1 == null && t2 == null) {
+				return 0;
+			} else if (t1 == null) {
+				return -1;
+			} else if (t2 == null) {
+				return 1;
+			}
+
+			return Long.compare(t1.toMilliseconds(), t2.toMilliseconds());
 		}
 	}
 }

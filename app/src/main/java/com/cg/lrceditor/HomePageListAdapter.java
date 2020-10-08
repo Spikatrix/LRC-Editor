@@ -117,25 +117,25 @@ public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapte
 				return;
 			}
 
-			String[] lyrics = r.getLyrics();
-			Timestamp[] timestamp = r.getTimestamps();
+			ArrayList<LyricItem> lyricData = r.getLyricData();
 
 			final String[] lyricsToDisplay;
 			final Context ctx = view.getContext();
 			int homePageTimestampColor = ContextCompat.getColor(ctx, R.color.homepageTimestampColor);
 			int homePageLyricColor = ContextCompat.getColor(ctx, R.color.homepageLyricColor);
-			if (lyrics.length > 8) {
+
+			if (lyricData.size() > 8) {
 				lyricsToDisplay = new String[9];
 				for (int i = 0; i < 4; i++)
-					lyricsToDisplay[i] = "<font color=\"" + homePageTimestampColor + "\">[" + timestamp[i] + "]</font> <font color=\"" + homePageLyricColor + "\">" + lyrics[i] + "</font>";
+					lyricsToDisplay[i] = getPreviewString(lyricData.get(i), homePageTimestampColor, homePageLyricColor);
 				lyricsToDisplay[4] = "......\n";
-				for (int i = lyrics.length - 4, j = 5; i < lyrics.length; i++, j++) {
-					lyricsToDisplay[j] = "<font color=\"" + homePageTimestampColor + "\">[" + timestamp[i] + "]</font> <font color=\"" + homePageLyricColor + "\">" + lyrics[i] + "</font>";
+				for (int i = lyricData.size() - 4, j = 5; i < lyricData.size(); i++, j++) {
+					lyricsToDisplay[j] = getPreviewString(lyricData.get(i), homePageTimestampColor, homePageLyricColor);
 				}
 			} else {
-				lyricsToDisplay = new String[lyrics.length];
-				for (int i = 0; i < lyrics.length; i++) {
-					lyricsToDisplay[i] = "<font color=\"" + homePageTimestampColor + "\">[" + timestamp[i] + "]</font> <font color=\"" + homePageLyricColor + "\">" + lyrics[i] + "</font>";
+				lyricsToDisplay = new String[lyricData.size()];
+				for (int i = 0; i < lyricData.size(); i++) {
+					lyricsToDisplay[i] = getPreviewString(lyricData.get(i), homePageTimestampColor, homePageLyricColor);
 				}
 			}
 
@@ -149,6 +149,11 @@ public class HomePageListAdapter extends RecyclerView.Adapter<HomePageListAdapte
 				displayLyricContents(holder, lyricsToDisplay);
 			});
 		}).start();
+	}
+
+	private String getPreviewString(LyricItem lyricItem, int homePageTimestampColor, int homePageLyricColor) {
+		return "<font color=\"" + homePageTimestampColor + "\">[" + lyricItem.getTimestamp() + "]</font> " +
+				"<font color=\"" + homePageLyricColor + "\">" + lyricItem.getLyric() + "</font>";
 	}
 
 	private void displayMetaData(LyricFileListItem holder, Metadata metadata) {

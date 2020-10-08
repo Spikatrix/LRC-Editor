@@ -94,7 +94,7 @@
 	<string name="no_permission_to_write_text">无法取得写入权限</string>
 	<string name="no_timestamp_set_message">没有为歌词物件设置时间标记组</string>
 	<string name="ok">确定</string>
-	<string name="overwrite_prompt">%2$s 文件夹中具有相同名称的文件 \''%1$s.lrc\'' 已经存在。您想要取代此文件吗？</string>
+	<string name="overwrite_prompt">%2$s 文件夹中具有相同名称的文件 \'%1$s.lrc\' 已经存在。您想要取代此文件吗？</string>
 	<string name="paste_lyrics_prompt">在下面粘贴歌词</string>
 	<string name="permission_check_message">请确定您已授予权限</string>
 	<string name="play_button_description">播放/暂停</string>

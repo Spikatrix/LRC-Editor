@@ -65,7 +65,7 @@ public class CreateActivity extends AppCompatActivity {
 		}
 
 		Intent intent = new Intent(this, EditorActivity.class);
-		intent.putExtra("LYRICS", data.split("\\n"));
+		intent.putExtra(IntentSharedStrings.LYRICS, data.split("\\n"));
 		startActivity(intent);
 	}
 

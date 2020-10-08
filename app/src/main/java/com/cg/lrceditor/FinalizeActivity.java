@@ -1,6 +1,7 @@
 package com.cg.lrceditor;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ClipData;
@@ -40,6 +41,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Locale;
 
 public class FinalizeActivity extends AppCompatActivity {
@@ -113,11 +115,11 @@ public class FinalizeActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_finalize);
 
 		Intent intent = getIntent();
-		lyricData = (ArrayList<LyricItem>) intent.getSerializableExtra("LYRIC DATA");
-		Metadata metadata = (Metadata) intent.getSerializableExtra("METADATA");
-		Uri songUri = intent.getParcelableExtra("SONG URI");
-		lrcFileName = intent.getStringExtra("LRC FILE NAME");
-		songFileName = intent.getStringExtra("SONG FILE NAME");
+		lyricData = (ArrayList<LyricItem>) intent.getSerializableExtra(IntentSharedStrings.LYRIC_DATA);
+		Metadata metadata = (Metadata) intent.getSerializableExtra(IntentSharedStrings.METADATA);
+		Uri songUri = intent.getParcelableExtra(IntentSharedStrings.SONG_URI);
+		lrcFileName = intent.getStringExtra(IntentSharedStrings.LRC_FILE_NAME);
+		songFileName = intent.getStringExtra(IntentSharedStrings.SONG_FILE_NAME);
 
 		songName = findViewById(R.id.songName_edittext);
 		artistName = findViewById(R.id.artistName_edittext);
@@ -174,6 +176,8 @@ public class FinalizeActivity extends AppCompatActivity {
 				Toast.makeText(this, getString(R.string.failed_to_extract_metadata_message), Toast.LENGTH_LONG).show();
 			}
 		}
+
+		Collections.sort(this.lyricData, new LyricReader.LyricTimestampComparator());
 	}
 
 	public void displaySaveDialog(View view) {
@@ -390,6 +394,7 @@ public class FinalizeActivity extends AppCompatActivity {
 		((EditText) dialogView.findViewById(R.id.dialog_edittext)).setText(lrcFileName);
 	}
 
+	@SuppressLint("SetTextI18n")
 	public void setAsSongFileName(View view) {
 		EditText editText = dialogView.findViewById(R.id.dialog_edittext);
 		try {

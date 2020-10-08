@@ -37,7 +37,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class HomePage extends AppCompatActivity implements HomePageListAdapter.LyricFileSelectListener {
 
@@ -548,10 +547,9 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 			} else {
 				runOnUiThread(() -> {
 					Intent intent = new Intent(getApplicationContext(), EditorActivity.class);
-					intent.putExtra("LYRICS", r.getLyrics());
-					intent.putExtra("TIMESTAMPS", r.getTimestamps());
-					intent.putExtra("METADATA", r.getMetadata());
-					intent.putExtra("LRC FILE NAME", fileName);
+					intent.putExtra(IntentSharedStrings.LYRIC_DATA, r.getLyricData());
+					intent.putExtra(IntentSharedStrings.METADATA, r.getMetadata());
+					intent.putExtra(IntentSharedStrings.LRC_FILE_NAME, fileName);
 
 					startActivity(intent);
 				});
@@ -617,7 +615,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 				.setTitle(getString(R.string.confirmation))
 				.setMessage(getString(R.string.delete_confirmation))
 				.setPositiveButton(getString(R.string.yes), (dialog, which) -> {
-					final List<HomePageListItem> itemsToDelete = new ArrayList<>();
+					final ArrayList<HomePageListItem> itemsToDelete = new ArrayList<>();
 					for (int i : adapter.getSelectedItemIndices()) {
 						itemsToDelete.add(adapter.listData.get(i));
 					}

@@ -253,9 +253,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 				}
 
 				runOnUiThread(() -> {
-					String[] lyrics = r.getLyrics();
-					Timestamp[] timestamps = r.getTimestamps();
-					ArrayList<LyricItem> lyricData = populateDataSet(lyrics, timestamps, false);
+					ArrayList<LyricItem> lyricData = r.getLyricData();
 
 					metadata = r.getMetadata();
 					lrcFileName = FileUtil.getFileName(ctx, intent.getData());
@@ -270,18 +268,16 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 		} else {
 			/* New LRC file or existing opened from the homepage */
 
-			String[] lyrics = intent.getStringArrayExtra("LYRICS");
-			Timestamp[] timestamps = (Timestamp[]) intent.getSerializableExtra("TIMESTAMPS");
+			String[] lyrics = intent.getStringArrayExtra(IntentSharedStrings.LYRICS);
+			ArrayList<LyricItem> lyricData = (ArrayList<LyricItem>) intent.getSerializableExtra(IntentSharedStrings.LYRIC_DATA);
 
-			ArrayList<LyricItem> lyricData;
-			if (timestamps == null) { // Will be null when CreateActivity starts EditorActivity
-				lyricData = populateDataSet(lyrics, null, true);
-			} else {
-				lyricData = populateDataSet(lyrics, timestamps, false);
+			if (lyrics != null) {
+				// CreateActivity started EditorActivity
+				lyricData = createLyricData(lyrics);
 			}
 
-			metadata = (Metadata) intent.getSerializableExtra("METADATA");
-			lrcFileName = intent.getStringExtra("LRC FILE NAME");
+			metadata = (Metadata) intent.getSerializableExtra(IntentSharedStrings.METADATA);
+			lrcFileName = intent.getStringExtra(IntentSharedStrings.LRC_FILE_NAME);
 
 			adapter = new LyricListAdapter(this, lyricData, isDarkTheme);
 			adapter.setClickListener(this);
@@ -314,22 +310,20 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 		flasher.post(flash);
 	}
 
-	private ArrayList<LyricItem> populateDataSet(String[] lyrics, Timestamp[] timestamps, boolean insertStartAndEndTimes) {
+	private ArrayList<LyricItem> createLyricData(String[] lyrics) {
 		ArrayList<LyricItem> lyricData = new ArrayList<>();
 
-		if (insertStartAndEndTimes && !lyrics[0].trim().isEmpty())
+		if (!lyrics[0].trim().isEmpty()) {
 			lyricData.add(new LyricItem("", new Timestamp("00:00.00")));
-
-		for (int i = 0, len = lyrics.length; i < len; i++) {
-			try {
-				lyricData.add(new LyricItem(lyrics[i].trim(), timestamps[i]));
-			} catch (ArrayIndexOutOfBoundsException | NullPointerException | IllegalArgumentException e) {
-				lyricData.add(new LyricItem(lyrics[i].trim(), null));
-			}
 		}
 
-		if (insertStartAndEndTimes && !lyrics[lyrics.length - 1].trim().isEmpty())
+		for (String lyric : lyrics) {
+			lyricData.add(new LyricItem(lyric, null));
+		}
+
+		if (!lyrics[lyrics.length - 1].trim().isEmpty()) {
 			lyricData.add(new LyricItem("", null));
+		}
 
 		return lyricData;
 	}
@@ -1488,11 +1482,11 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
 				if (adapter != null) {
 					Intent intent = new Intent(this, FinalizeActivity.class);
-					intent.putExtra("LYRIC DATA", (ArrayList<LyricItem>) adapter.lyricData);
-					intent.putExtra("SONG URI", songUri);
-					intent.putExtra("METADATA", metadata);
-					intent.putExtra("SONG FILE NAME", songFileName);
-					intent.putExtra("LRC FILE NAME", lrcFileName);
+					intent.putExtra(IntentSharedStrings.LYRIC_DATA, (ArrayList<LyricItem>) adapter.lyricData);
+					intent.putExtra(IntentSharedStrings.SONG_URI, songUri);
+					intent.putExtra(IntentSharedStrings.METADATA, metadata);
+					intent.putExtra(IntentSharedStrings.SONG_FILE_NAME, songFileName);
+					intent.putExtra(IntentSharedStrings.LRC_FILE_NAME, lrcFileName);
 
 					startActivity(intent);
 				}

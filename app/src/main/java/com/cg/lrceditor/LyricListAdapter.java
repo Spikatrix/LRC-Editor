@@ -14,10 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.LyricListItem> {
-	final List<LyricItem> lyricData;
+	final ArrayList<LyricItem> lyricData;
 
 	private boolean isDarkTheme;
 
@@ -25,7 +24,7 @@ public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.Lyri
 	private SparseBooleanArray flashItems;
 	private ItemClickListener clickListener;
 
-	LyricListAdapter(Context context, List<LyricItem> lyricData, boolean isDarkTheme) {
+	LyricListAdapter(Context context, ArrayList<LyricItem> lyricData, boolean isDarkTheme) {
 		inflater = LayoutInflater.from(context);
 		this.lyricData = lyricData;
 		this.isDarkTheme = isDarkTheme;
@@ -109,11 +108,12 @@ public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.Lyri
 		}
 	}
 
-	List<Integer> getSelectedItemIndices() {
-		List<Integer> items = new ArrayList<>();
+	ArrayList<Integer> getSelectedItemIndices() {
+		ArrayList<Integer> items = new ArrayList<>();
 		for (int i = 0; i < getItemCount(); i++) {
-			if (lyricData.get(i).isSelected)
+			if (lyricData.get(i).isSelected) {
 				items.add(i);
+			}
 		}
 		return items;
 	}
