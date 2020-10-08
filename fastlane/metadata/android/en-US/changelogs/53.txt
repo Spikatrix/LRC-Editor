@@ -1,0 +1,5 @@
+ - New French translations
+ - New Chinese Simplified translations
+ - Improved Chinese Traditional translations
+ - Bug fix for invalid LRC files being generated in certain locales
+ - Lyrics are now sorted in order before saving

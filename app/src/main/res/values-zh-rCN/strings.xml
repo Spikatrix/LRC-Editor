@@ -167,8 +167,6 @@
 	<string name="toolbar_rename_lyric_file_title">重命名歌词文件</string>
 	<string name="toolbar_search_title">搜索清单</string>
 	<string name="toolbar_select_all_title">选取全部</string>
-	<string name="ui_reference_failed_message">无法取得 UI 元素指引档。正在重新整理清单</string>
-	<string name="unexpected_error_message">发生不可预料的错误</string>
 	<string name="warning">警告</string>
 	<string name="whoops_error">哦！发生了不可预料的错误！</string>
 	<string name="writing_lyrics_message">正在将歌词写入文件</string>

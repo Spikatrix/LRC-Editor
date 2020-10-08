@@ -2,8 +2,6 @@
 	<string name="dark_themes_available_message">设置内的两个暗黑主题现在应该可以用了</string>
 	<string name="error">错误</string>
 	<string name="failed_to_complete_purchase_message">无法完成购买</string>
-	<string name="failed_to_query_inventory_message">无法查询库存</string>
-	<string name="failed_to_query_purchase_message">无法查询购买状态</string>
 	<string name="iap_setup_failed_message">App 内购 (In-app Billing) 设置失败</string>
 	<string name="iaps_loading_message">App 内购服务 (IAPs) 仍在载入</string>
 	<string name="loading">请稍候</string>
