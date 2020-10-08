@@ -2,10 +2,8 @@
 	<string name="dark_themes_available_message">設定內的兩個暗黑主題現在應該可用了</string>
 	<string name="error">錯誤</string>
 	<string name="failed_to_complete_purchase_message">無法完成購買</string>
-	<string name="failed_to_query_inventory_message">無法查詢庫存</string>
-	<string name="failed_to_query_purchase_message">無法查詢購買狀態</string>
-	<string name="iap_setup_failed_message">應用程式內購買 (In-app Billing) 設定失敗</string>
-	<string name="iaps_loading_message">應用程式內購服務 (IAPs) 仍在載入</string>
+	<string name="iap_setup_failed_message">應用程式內購買(In-app Billing)設定失敗</string>
+	<string name="iaps_loading_message">應用程式內購服務(IAPs)仍在載入</string>
 	<string name="loading">請稍候</string>
 	<string name="purchase_successful">購買成功</string>
 	<string name="purchased">已購買</string>

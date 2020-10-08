@@ -2,8 +2,6 @@
 	<string name="dark_themes_available_message">Die beiden dunklen Themen sollten nun in den Einstellungen verfügbar sein!</string>
 	<string name="error">Fehler</string>
 	<string name="failed_to_complete_purchase_message">Der Kauf konnte nicht abgeschlossen werden</string>
-	<string name="failed_to_query_inventory_message">Inventar konnte nicht abgefragt werden</string>
-	<string name="failed_to_query_purchase_message">Der Kauf konnte nicht abgefragt werden</string>
 	<string name="iap_setup_failed_message">Konnte die In-App-Abrechnung nicht einrichten</string>
 	<string name="iaps_loading_message">IAPs laden noch</string>
 	<string name="loading">Lädt</string>

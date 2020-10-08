@@ -2,8 +2,6 @@
 	<string name="dark_themes_available_message">Dua tema gelap sudah tersedia di pengaturan</string>
 	<string name="error">Kesalahan</string>
 	<string name="failed_to_complete_purchase_message">Gagal menyelesaikan pembelian</string>
-	<string name="failed_to_query_inventory_message">Gagal menguerikan inventori</string>
-	<string name="failed_to_query_purchase_message">Gagal menguerikan pembelian</string>
 	<string name="iap_setup_failed_message">Penyetelan Pembelian Dalam Aplikasi gagal</string>
 	<string name="iaps_loading_message">IAP masih memuat</string>
 	<string name="loading">Memuat</string>

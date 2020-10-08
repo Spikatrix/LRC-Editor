@@ -2,8 +2,6 @@
 	<string name="dark_themes_available_message">The two dark themes should now be available in the settings</string>
 	<string name="error">Error</string>
 	<string name="failed_to_complete_purchase_message">Failed to complete the purchase</string>
-	<string name="failed_to_query_inventory_message">Failed to query inventory</string>
-	<string name="failed_to_query_purchase_message">Failed to query purchases</string>
 	<string name="iap_setup_failed_message">In-app Billing setup failed</string>
 	<string name="iaps_loading_message">IAPs still loading</string>
 	<string name="loading">Loading</string>

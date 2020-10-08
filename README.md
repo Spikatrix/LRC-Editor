@@ -72,6 +72,7 @@ Here are a few ways you can help:
 A big thank you to all the app translators:
  - Chinese Traditional (zh-rTW) by Martin C
  - Chinese Simplified (zh-rCW) by Krasnaya Ploshchad
+ - French (fr) by tintinmar1995
  - German (de) by Leon Thelen
  - Indonesian (in) by Fajar Maulana
  - Polish (pl) by Zbigniew Zienko

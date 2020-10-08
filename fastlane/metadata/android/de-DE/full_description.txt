@@ -19,6 +19,7 @@ Ein großes Dankeschön an alle Übersetzer:
  - Chinese Traditional (zh-rTW) von Martin C
  - Chinese Simplified (zh-rCW) von Krasnaya Ploshchad
  - Deutsch (de) von Leon Thelen
+ - French (fr) von tintinmar1995
  - Indonesian (in) von Fajar Maulana
  - Polnisch (pl) von Zbigniew Zienko
  - Portugiesisch (pt-rBR) von Ayrtown Karlos
