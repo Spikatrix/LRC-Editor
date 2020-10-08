@@ -19,6 +19,7 @@ LRC Editor é Open Source. Se você quiser contribuir, acesse: https://github.co
 
 Um grande obrigado a todos os tradutores:
  - Chinese (zh-rTW) por Martin C
+ - French (fr) por tintinmar1995
  - German (de) por Leon Thelen
  - Indonesian (in) por Fajar Maulana
  - Polish (pl) por Zbigniew Zienko

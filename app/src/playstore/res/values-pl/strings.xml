@@ -2,8 +2,6 @@
 	<string name="dark_themes_available_message">Dwa ciemne motywy powinny być teraz dostępne w ustawieniach</string>
 	<string name="error">Błąd</string>
 	<string name="failed_to_complete_purchase_message">Nie udało się sfinalizować zakupu</string>
-	<string name="failed_to_query_inventory_message">Nie można wysłać zapytania o zasoby reklamowe</string>
-	<string name="failed_to_query_purchase_message">Nie można wysłać zapytania o zakupy</string>
 	<string name="iap_setup_failed_message">Konfiguracja rozliczeń nie powiodła się</string>
 	<string name="iaps_loading_message">IAP wciąż się ładuje</string>
 	<string name="loading">Wczytywanie</string>

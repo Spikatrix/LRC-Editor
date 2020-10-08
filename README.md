@@ -70,7 +70,8 @@ Here are a few ways you can help:
 ## Translators
 
 A big thank you to all the app translators:
- - Chinese (zh-rTW) by Martin C
+ - Chinese Traditional (zh-rTW) by Martin C
+ - French (fr) by tintinmar1995
  - German (de) by Leon Thelen
  - Indonesian (in) by Fajar Maulana
  - Polish (pl) by Zbigniew Zienko

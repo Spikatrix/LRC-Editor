@@ -43,7 +43,7 @@ public class SupportActivity extends AppCompatActivity {
 				return;
 
 			if (result.isFailure()) {
-				complain(getString(R.string.failed_to_query_inventory_message) + ": " + result);
+				complain(getString(R.string.error) + " (Inventory): " + result);
 				setPurchaseButtonTexts(ctx.getString(R.string.error));
 				return;
 			}
@@ -95,7 +95,7 @@ public class SupportActivity extends AppCompatActivity {
 						try {
 							mHelper.queryInventoryAsync(true, Arrays.asList(ITEM_SKUS), null, mGotInventoryListener);
 						} catch (IabHelper.IabAsyncInProgressException e) {
-							complain(getString(R.string.failed_to_query_purchase_message) + ":Finish:IabAsyncInProgress");
+							complain(getString(R.string.error) + " (Finish:IabAsyncInProgress)");
 							setPurchaseButtonTexts(ctx.getString(R.string.error));
 							e.printStackTrace();
 						}
@@ -164,7 +164,7 @@ public class SupportActivity extends AppCompatActivity {
 				try {
 					mHelper.queryInventoryAsync(true, Arrays.asList(ITEM_SKUS), null, mGotInventoryListener);
 				} catch (IabHelper.IabAsyncInProgressException e) {
-					complain(getString(R.string.failed_to_query_purchase_message) + ":Setup:IabAsyncInProgress");
+					complain(getString(R.string.error) + " (Setup:IabAsyncInProgress)");
 					setPurchaseButtonTexts(ctx.getString(R.string.error));
 					e.printStackTrace();
 				}

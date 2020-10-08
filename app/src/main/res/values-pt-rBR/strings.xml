@@ -1,6 +1,5 @@
-<resources>
-	<!-- There might be lint suggestions to use ellipses rather than three dots that I've used in several of the strings here -->
-	<!-- But ellipses look weird for me (Bad kerning :p) which is why I keep using three dots -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="TypographyEllipsis">
+	<!-- Ellipses look weird for me (Bad kerning :p) which is why I keep using three dots in some of the strings below -->
 
 	<string name="about">Sobre</string>
 	<string name="add_timestamp_description">Adicionar um valor de tempo</string>
@@ -163,8 +162,6 @@
 	<string name="toolbar_rename_lyric_file_title">Renomear arquivos de letras</string>
 	<string name="toolbar_search_title">Buscar lista</string>
 	<string name="toolbar_select_all_title">Selecionar tudo</string>
-	<string name="ui_reference_failed_message">Falha ao obter referências de elementos da interface do usuário.  Tente atualizar a lista</string>
-	<string name="unexpected_error_message">Um erro inesperado ocorreu</string>
 	<string name="warning">Aviso</string>
 	<string name="whoops_error">oops! Um erro ocorreu!</string>
 	<string name="writing_lyrics_message">Escrevendo as letras do arquivo</string>

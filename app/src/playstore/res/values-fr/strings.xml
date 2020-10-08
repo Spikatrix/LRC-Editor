@@ -2,8 +2,6 @@
 	<string name="dark_themes_available_message">Les deux thèmes sombres devraient être à présent disponibles dans les paramètres</string>
 	<string name="error">Erreur</string>
 	<string name="failed_to_complete_purchase_message">Impossible de réaliser l\'achat</string>
-	<string name="failed_to_query_inventory_message">Impossible de retrouver les achats</string>
-	<string name="failed_to_query_purchase_message">Achat impossible</string>
 	<string name="iap_setup_failed_message">Impossible d\'initialiser le module de paiement</string>
 	<string name="iaps_loading_message">Module de paiement toujours en cours de chargement</string>
 	<string name="loading">Chargment</string>

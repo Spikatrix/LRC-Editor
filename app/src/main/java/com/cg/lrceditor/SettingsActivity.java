@@ -92,9 +92,6 @@ public class SettingsActivity extends AppCompatActivity {
 			case "darker":
 				darker.setChecked(true);
 				break;
-			default:
-				Toast.makeText(this, getString(R.string.unexpected_error_message), Toast.LENGTH_SHORT).show();
-				break;
 		}
 
 		themeGroup.setOnCheckedChangeListener((group, checkedId) -> {
@@ -106,9 +103,6 @@ public class SettingsActivity extends AppCompatActivity {
 				editor.putString(Constants.THEME_PREFERENCE, "dark");
 			} else if (checkedId == darker.getId()) {
 				editor.putString(Constants.THEME_PREFERENCE, "darker");
-			} else {
-				Toast.makeText(getApplicationContext(), getString(R.string.unexpected_error_message), Toast.LENGTH_SHORT).show();
-				return;
 			}
 
 			Toast.makeText(getApplicationContext(), getString(R.string.restart_for_theme_message), Toast.LENGTH_SHORT).show();

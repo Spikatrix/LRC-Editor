@@ -2,8 +2,6 @@
 	<string name="dark_themes_available_message">Os dois temas escuros agora devem estar disponíveis nas configurações</string>
 	<string name="error">Erro</string>
 	<string name="failed_to_complete_purchase_message">Falha ao concluir a compra</string>
-	<string name="failed_to_query_inventory_message">Falha ao consultar o inventário</string>
-	<string name="failed_to_query_purchase_message">Falha ao consultar compras</string>
 	<string name="iap_setup_failed_message">Falha na configuração de faturamento no aplicativo</string>
 	<string name="iaps_loading_message">IAPs ainda carregando</string>
 	<string name="loading">Carregando</string>

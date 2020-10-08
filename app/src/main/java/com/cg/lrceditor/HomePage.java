@@ -181,15 +181,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 
 		final File scanLocation = new File(readLocation);
 
-		TextView textView;
-		try {
-			textView = findViewById(R.id.empty_message_textview);
-		} catch (NullPointerException e) {
-			showToastOnUiThread(getString(R.string.ui_reference_failed_message));
-			return;
-		}
-
-		final TextView emptyTextview = textView;
+		final TextView emptyTextview = findViewById(R.id.empty_message_textview);
 
 		runOnUiThread(this::updateRecyclerviewAdapter);
 
