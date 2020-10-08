@@ -1,0 +1,18 @@
+<resources>
+	<string name="dark_themes_available_message">Les deux thèmes sombres devraient être à présent disponibles dans les paramètres</string>
+	<string name="error">Erreur</string>
+	<string name="failed_to_complete_purchase_message">Impossible de réaliser l\'achat</string>
+	<string name="failed_to_query_inventory_message">Impossible de retrouver les achats</string>
+	<string name="failed_to_query_purchase_message">Achat impossible</string>
+	<string name="iap_setup_failed_message">Impossible d\'initialiser le module de paiement</string>
+	<string name="iaps_loading_message">Module de paiement toujours en cours de chargement</string>
+	<string name="loading">Chargment</string>
+	<string name="purchase_successful">Achat réalisé avec succès</string>
+	<string name="purchased">Commandé</string>
+	<string name="rate_and_review_text">Noter et commenter l\'application</string>
+	<string name="support_bonus_description">Pour vous remercier, l\'achat vous permettra d\'obtenir deux thèmes sombres de l\'app !</string>
+	<string name="support_description">Montant libre. Votre soutien m\'aidera à viser toujours plus fort, toujours loin</string>
+	<string name="support_me">Me soutenir</string>
+	<string name="thank_you_for_the_purchase_message">Merci du fond du coeur pour votre achat ! Les deux thèmes sombres sont à présent disponibles dans les paramètres</string>
+	<string name="thanks_for_the_support">Merci du soutien !\n♥</string>
+</resources>
