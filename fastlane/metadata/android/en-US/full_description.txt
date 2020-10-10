@@ -13,8 +13,6 @@ Try it out now!
 
 If you face desync issues, make sure you're using a high quality constant bitrate MP3 file or a music container suited for precise seeking.
 
-LRC Editor is Open Source. If you would like to contribute, head over to https://github.com/Spikatrix/LRC-Editor ♥
-
 A big thank you to all the translators:
  - Chinese Traditional (zh-rTW) by Martin C
  - Chinese Simplified (zh-rCW) by Krasnaya Ploshchad

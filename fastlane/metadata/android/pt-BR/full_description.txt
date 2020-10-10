@@ -15,8 +15,6 @@ Experimente agora!
 
 Se você enfrentar problemas de dessincronização, verifique se está usando um arquivo MP3 de taxa de bits constante de alta qualidade ou um contêiner de música adequado para uma busca precisa.
 
-LRC Editor é Open Source. Se você quiser contribuir, acesse: https://github.com/Spikatrix/LRC-Editor ♥
-
 Um grande obrigado a todos os tradutores:
  - Chinese Traditional (zh-rTW) por Martin C
  - Chinese Simplified (zh-rCW) por Krasnaya Ploshchad
