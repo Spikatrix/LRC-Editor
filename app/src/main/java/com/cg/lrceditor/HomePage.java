@@ -43,6 +43,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 	private String readLocation;
 	private Uri readUri;
 
+	private TextView emptyTextview;
 	private RecyclerView recyclerView;
 	private HomePageListAdapter adapter;
 
@@ -86,9 +87,10 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 		}
 		setSupportActionBar(toolbar);
 
+		TextView emptyTextview = findViewById(R.id.empty_message_textview);
+
 		if (isDarkTheme) {
 			/* Switch to a light icon when using a dark theme */
-			TextView emptyTextview = findViewById(R.id.empty_message_textview);
 			emptyTextview.setCompoundDrawablesRelativeWithIntrinsicBounds(null, getDrawable(R.drawable.ic_thats_a_miss_light), null, null);
 		}
 
@@ -179,8 +181,6 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 		});
 
 		final File scanLocation = new File(readLocation);
-
-		final TextView emptyTextview = findViewById(R.id.empty_message_textview);
 
 		runOnUiThread(this::updateRecyclerviewAdapter);
 
