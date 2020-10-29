@@ -87,7 +87,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 		}
 		setSupportActionBar(toolbar);
 
-		TextView emptyTextview = findViewById(R.id.empty_message_textview);
+		emptyTextview = findViewById(R.id.empty_message_textview);
 
 		if (isDarkTheme) {
 			/* Switch to a light icon when using a dark theme */
@@ -586,11 +586,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 		} else {
 			Menu menu = actionMode.getMenu();
 			MenuItem itemRename = menu.findItem(R.id.action_rename_homepage);
-			if (count >= 2) {
-				itemRename.setVisible(false);
-			} else {
-				itemRename.setVisible(true);
-			}
+			itemRename.setVisible(count < 2);
 
 			actionMode.setTitle(String.valueOf(count));
 			actionMode.invalidate();
