@@ -106,7 +106,7 @@
 	<string name="preparing_the_player_message">Preparando o player...</string>
 	<string name="previous_description">Botão para voltar 5 segundos atrás</string>
 	<string name="processing">Procesando</string>
-	<string name="rate_and_feedback_text">Este aplicativo é feito e mantido apenas por mim\nPor favor, classifique o aplicativo e forneça um feedback construtivo\n\n\n Obrigado!\n ♥</string>
+	<string name="rate_and_feedback_text">Este aplicativo é feito e mantido por <a href="https://github.com/Spikatrix">Spikatrix</a>\nPor favor, classifique o aplicativo e forneça um feedback construtivo\n\n\n Obrigado!\n ♥</string>
 	<string name="read_location_description">Localização para ler arquivos de letras</string>
 	<string name="read_location_extra_description">As subpastas também serão verificadas</string>
 	<string name="read_location_invalid_message">A localização de leitura não existe.  Tentei criar uma pasta em %1$s, mas falhou. Você deseja redefinir o local de leitura para o local padrão?</string>

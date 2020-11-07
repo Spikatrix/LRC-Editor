@@ -107,7 +107,7 @@
 	<string name="preparing_the_player_message">正在准备播放器...</string>
 	<string name="previous_description">向后搜索 5 秒</string>
 	<string name="processing">处理中</string>
-	<string name="rate_and_feedback_text">这个 App 由我自已开发及维护的\n请为这个 App 评分及留下有用的评论\n\n\n非常感谢！\n♥</string>
+	<string name="rate_and_feedback_text">这个程序是由 <a href="https://github.com/Spikatrix">Spikatrix</a> 开发和维护的\n请为这个 App 评分及留下有用的评论\n\n\n非常感谢！\n♥</string>
 	<string name="read_location_description">读取歌词文件的位置</string>
 	<string name="read_location_extra_description">子目录也会被扫描</string>
 	<string name="read_location_invalid_message">读取位置不存在。已经尝试于 %1$s 建立文件夹但不成功。您想要将读取位置重置为默认位置吗？</string>

@@ -106,7 +106,7 @@
 	<string name="preparing_the_player_message">Mempersiapkan pemutar...</string>
 	<string name="previous_description">Tombol untuk memundurkan 5 detik ke belakang</string>
 	<string name="processing">Memproses</string>
-	<string name="rate_and_feedback_text">Aplikasi ini dibuat dan dipelihara hanya oleh saya sendiri\nMohon beri nilai dan sediakan umpan balik yang membangun\n\n\nTerima Kasih!\n♥</string>
+	<string name="rate_and_feedback_text">Aplikasi ini dibuat dan dipelihara hanya oleh <a href="https://github.com/Spikatrix">Spikatrix</a>\nMohon beri nilai dan sediakan umpan balik yang membangun\n\n\nTerima Kasih!\n♥</string>
 	<string name="read_location_description">Lokasi untuk memindai/membaca berkas lirik</string>
 	<string name="read_location_extra_description">Termasuk sub-direktori</string>
 	<string name="read_location_invalid_message">Lokasi tidak ada. Mencoba membuat folder di %1$s namun gagal. Apakah Anda ingin mengembalikan lokasi bawaan folder ke semula?</string>

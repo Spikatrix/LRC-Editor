@@ -106,7 +106,7 @@
 	<string name="preparing_the_player_message">Preparing the player...</string>
 	<string name="previous_description">Button to seek 5 seconds behind</string>
 	<string name="processing">Processing</string>
-	<string name="rate_and_feedback_text">This app is made and maintained by just me\nPlease rate the app and provide constructive feedback\n\n\nThank You!\n♥</string>
+	<string name="rate_and_feedback_text">This app is made and maintained by <a href="https://github.com/Spikatrix">Spikatrix</a>\nPlease rate the app and provide constructive feedback\n\n\nThank You!\n♥</string>
 	<string name="read_location_description">Location for reading lyric files</string>
 	<string name="read_location_extra_description">Sub directories will also be scanned</string>
 	<string name="read_location_invalid_message">Read location doesn\'t exist. Tried to create a folder at %1$s but failed. Do you want to reset the read location to the default location?</string>

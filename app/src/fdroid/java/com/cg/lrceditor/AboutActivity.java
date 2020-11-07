@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -55,6 +56,9 @@ public class AboutActivity extends AppCompatActivity {
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
+
+		TextView maintainerInfo = findViewById(R.id.maintainer_info);
+		maintainerInfo.setMovementMethod(LinkMovementMethod.getInstance());
 
 		TextView version = findViewById(R.id.app_version);
 		if (BuildConfig.DEBUG) {

@@ -106,7 +106,7 @@
 	<string name="preparing_the_player_message">Préparation du lecteur...</string>
 	<string name="previous_description">Bouton pour retourner 5 secondes en arrière</string>
 	<string name="processing">En cours</string>
-	<string name="rate_and_feedback_text">J\'ai créé et je maintiens seul cette app.\nSi vous pouviez m\'aider en la notant ou en fournissant des retours constructifs!\n\n\nMerci !\n♥</string>
+	<string name="rate_and_feedback_text"><a href="https://github.com/Spikatrix">Spikatrix</a> a créé et maintient cette app.\nSi vous pouviez m\'aider en la notant ou en fournissant des retours constructifs!\n\n\nMerci !\n♥</string>
 	<string name="read_location_description">Localisation des paroles sur le téléphone</string>
 	<string name="read_location_extra_description">Les sous-dossiers seront aussi scannés</string>
 	<string name="read_location_invalid_message">Le dossier de lecture défini dans les paramètres n\'existe pas. La tentative de création d\'un dossier à %1$s a échoué. Vous voulez revenir au dossier de lecture par défaut ?</string>

@@ -70,6 +70,7 @@
 				android:text="@string/made_with_love_and_code_text" />
 
 			<TextView
+				android:id="@+id/maintainer_info"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:gravity="center"

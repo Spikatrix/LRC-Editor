@@ -106,7 +106,7 @@
 	<string name="preparing_the_player_message">Bereite den Player vor...</string>
 	<string name="previous_description">Knopf, um 5 Sekunden zurück zu springen</string>
 	<string name="processing">In Bearbeitung</string>
-	<string name="rate_and_feedback_text">Ich alleine habe diese App gemacht und pflege sie.\nBewerte doch die App und lass hilfreiches Feedback da!\n\n\nDanke!\n♥</string>
+	<string name="rate_and_feedback_text"><a href="https://github.com/Spikatrix">Spikatrix</a> alleine habe diese App gemacht und pflege sie.\nBewerte doch die App und lass hilfreiches Feedback da!\n\n\nDanke!\n♥</string>
 	<string name="read_location_description">Verzeichnis zum Suchen nach Dateien</string>
 	<string name="read_location_extra_description">Unterverzeichnisse werden ebenfalls durchsucht</string>
 	<string name="read_location_invalid_message">Das Suchverzeichnis existiert nicht. Konnte keinen Ordner unter %1$s anlegen. Möchtest du das Standard-Suchverzeichnis wieder als Suchverzeichnis einstellen?</string>

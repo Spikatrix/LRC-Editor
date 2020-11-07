@@ -106,7 +106,7 @@
 	<string name="preparing_the_player_message">Przygotowanie odtwarzacza...</string>
 	<string name="previous_description">Przycisk skok 5 sekund do tyłu</string>
 	<string name="processing">Przetwarzanie</string>
-	<string name="rate_and_feedback_text">Ta aplikacja jest tworzona i obsługiwana przeze mnie\nOceń aplikację i przekaż konstruktywną opinię\n\n\nDziękuję Ci!\n♥</string>
+	<string name="rate_and_feedback_text">Ta aplikacja jest tworzona i obsługiwana przez <a href="https://github.com/Spikatrix">Spikatrix</a>\nOceń aplikację i przekaż konstruktywną opinię\n\n\nDziękuję Ci!\n♥</string>
 	<string name="read_location_description">Miejsce odczytu plików tekstowych</string>
 	<string name="read_location_extra_description">Skanowane będą również podkatalogi</string>
 	<string name="read_location_invalid_message">Lokalizacja odczytu nie istnieje. Próbowałem utworzyć folder na %1$s, ale nie powiodło się. Czy chcesz zresetować lokalizację odczytu do domyślnej?</string>
