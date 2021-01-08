@@ -21,3 +21,4 @@ Ein großes Dankeschön an alle Übersetzer:
  - Indonesian (in) von Fajar Maulana
  - Polnisch (pl) von Zbigniew Zienko
  - Portugiesisch (pt-rBR) von Ayrtown Karlos
+ - Spanish (es) von Jonathan Martinez
