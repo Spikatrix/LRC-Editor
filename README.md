@@ -77,6 +77,7 @@ A big thank you to all the app translators:
  - Indonesian (in) by Fajar Maulana
  - Polish (pl) by Zbigniew Zienko
  - Portuguese (pt-rBR) by Ayrtown Karlos
+ - Spanish (es) by Jonathan Martinez
 
 And a big thank you to all the Google Play Store description translators:
  - German (de) by Leon Thelen

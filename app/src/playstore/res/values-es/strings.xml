@@ -1,0 +1,16 @@
+<resources>
+	<string name="dark_themes_available_message">Los dos temas oscuros deberían estar disponibles en los ajustes</string>
+	<string name="error">Eror</string>
+	<string name="failed_to_complete_purchase_message">Falló completar la compra</string>
+	<string name="iap_setup_failed_message">El modulo des facturación falló</string>
+	<string name="iaps_loading_message">Modulo de facturación cargando</string>
+	<string name="loading">Cargando</string>
+	<string name="purchase_successful">Compra completada</string>
+	<string name="purchased">Comprado</string>
+	<string name="rate_and_review_text">Califica y comenta la aplicación</string>
+	<string name="support_bonus_description">¡Como bonificacíon, si compras, tendra acceso a do temas oscuros para la aplicación!</string>
+	<string name="support_description">Puede pagarme lo que quiera para animarme. ¡Su ayuda me permite ser mas grande y mejor que nunca!</string>
+	<string name="support_me">Ayúdame</string>
+	<string name="thank_you_for_the_purchase_message">¡Tantas gracias por su compra! Los dos temas oscuros deberían estar disponibles en los ajustes</string>
+	<string name="thanks_for_the_support">¡Gracias por su ayuda!\n♥</string>
+</resources>
