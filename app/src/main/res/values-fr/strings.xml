@@ -93,7 +93,7 @@
 	<string name="no_permission_to_write_text">Impossible de sauvegarder sans la permission sous-jacente</string>
 	<string name="no_timestamp_set_message">Aucun marqueur temporel pour ce vers</string>
 	<string name="ok">OK</string>
-	<string name="overwrite_prompt">Le fichier \"%1$s.lrc\" existe déjà dans le répertoire %2$s. Êtes-vous sûr de vouloir l\'écraser ?</string>
+	<string name="overwrite_prompt">Le fichier \"%1$s\" existe déjà dans le répertoire %2$s. Êtes-vous sûr de vouloir l\'écraser ?</string>
 	<string name="paste_lyrics_prompt">Coller les paroles en dessous :</string>
 	<string name="permission_check_message">Merci de vérifier que vous avez bien accordé les permissions nécessaires au bon fonctionnement de l\'appli.</string>
 	<string name="play_button_description">Bouton pour lancer ou mettre en pause la lecture</string>

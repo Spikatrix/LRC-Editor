@@ -93,7 +93,7 @@
 	<string name="no_permission_to_write_text">Could not obtain permissions to write</string>
 	<string name="no_timestamp_set_message">No timestamp set for the lyric item</string>
 	<string name="ok">OK</string>
-	<string name="overwrite_prompt">File \'%1$s.lrc\' already exists in %2$s. Are you sure you want to overwrite it?</string>
+	<string name="overwrite_prompt">File \'%1$s\' already exists in %2$s. Are you sure you want to overwrite it?</string>
 	<string name="paste_lyrics_prompt">Paste the lyrics below</string>
 	<string name="permission_check_message">Make sure you have granted permissions</string>
 	<string name="play_button_description">Button to play/pause media</string>

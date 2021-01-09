@@ -93,7 +93,7 @@
 	<string name="no_permission_to_write_text">Konnte die Berechtigung zum Beschreiben nicht erhalten</string>
 	<string name="no_timestamp_set_message">Für diese Zeile existiert kein Zeitstempel</string>
 	<string name="ok">OK</string>
-	<string name="overwrite_prompt">Die Datei \"%1$s.lrc\" existiert bereits unter %2$s. Möchtest du sie überschreiben?</string>
+	<string name="overwrite_prompt">Die Datei \"%1$s\" existiert bereits unter %2$s. Möchtest du sie überschreiben?</string>
 	<string name="paste_lyrics_prompt">Gib/Füge die Lyrics hier ein:</string>
 	<string name="permission_check_message">Bitte stelle sicher, dass du der App alle nötigen Berechtigungen erteilt hast</string>
 	<string name="play_button_description">Knopf, um die Musik zu pausieren/fortsetzen</string>
