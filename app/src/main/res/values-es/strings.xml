@@ -93,7 +93,7 @@
 	<string name="no_permission_to_write_text">No se ha podido conseguir permiso de escritura</string>
 	<string name="no_timestamp_set_message">Ningún indicador de tiempo para este verso</string>
 	<string name="ok">OK</string>
-	<string name="overwrite_prompt">El archivo \"%1$s.lrc\" ya existe. ¿Quiere sobrescribirlo?</string>
+	<string name="overwrite_prompt">El archivo \"%1$s\" ya existe. ¿Quiere sobrescribirlo?</string>
 	<string name="paste_lyrics_prompt">Pegar la letra debajo :</string>
 	<string name="permission_check_message">Por favor verificar que se le han dado los permisos necesarios al buen funcionamiento de la aplicación.</string>
 	<string name="play_button_description">Botón de reproducción\/pausa</string>
