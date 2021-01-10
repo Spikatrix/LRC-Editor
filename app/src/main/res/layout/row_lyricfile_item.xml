@@ -60,7 +60,7 @@
 
 		<Button
 			android:id="@+id/edit_button"
-			android:layout_width="@dimen/dp84"
+			android:layout_width="@dimen/dp72"
 			android:layout_height="wrap_content"
 			android:layout_alignParentEnd="true"
 			android:layout_centerVertical="true"
