@@ -228,4 +228,14 @@ public final class FileUtil {
 
 		return f.findFile(name);
 	}
+
+	@Nullable
+	static Uri getFileTreeUriFromPath(@Nullable final Uri treeUri, String path, Context ctx) {
+		if (treeUri == null || !treeUri.toString().contains("content://com.android.externalstorage.documents/tree/")) return null;
+		String treePath = getFullPathFromTreeUri(treeUri, ctx);
+		if(!path.contains(treePath)) return  null;
+
+		String encodedRelativePath = Uri.encode(path.substring(treePath.length()));
+		return Uri.parse(treeUri.toString()+encodedRelativePath);
+	}
 }
