@@ -93,7 +93,7 @@ public class FinalizeActivity extends AppCompatActivity {
 			saveLocation = preferences.getString(Constants.SAVE_LOCATION_PREFERENCE, Constants.defaultLocation); //[JM] Only changes the saves the location to default if none is set
 		}
 		String uriString = preferences.getString("saveUri", null);
-		if (uriString != null)
+		if (uriString != null & saveUri == null)
 			saveUri = Uri.parse(uriString);
 
 		if (dialogView != null) {
@@ -232,8 +232,14 @@ public class FinalizeActivity extends AppCompatActivity {
 		//[JM] Sets the save location to lrcFilePath if files being edited or to default if new file.
 		if (lrcFilePath != null){
 			saveLocation = lrcFilePath;
+			String uriString = preferences.getString("saveUri", null);
+			if (uriString != null)
+				saveUri = Uri.parse(uriString);
 		} else {
 			saveLocation = preferences.getString(Constants.SAVE_LOCATION_PREFERENCE, Constants.defaultLocation);
+			String uriString = preferences.getString("saveUri", null);
+			if (uriString != null)
+				saveUri = Uri.parse(uriString);
 		}
 
 		saveLocationDisplayer.setText(getString(R.string.save_location_displayer, saveLocation));
@@ -322,10 +328,13 @@ public class FinalizeActivity extends AppCompatActivity {
 	//[JM] Modified function to receive filePath as well
 	private boolean deletefile(String filePath, String fileName) {
 		//[JM] Changes use of global "saveLocation" for the actual filePath
-		Uri filePathUri = Uri.fromFile(new File(filePath));
-		DocumentFile pickedDir = FileUtil.getPersistableDocumentFile(filePathUri, filePath, getApplicationContext());
+		Uri fileUri = FileUtil.getFileTreeUriFromPath(saveUri, filePath + "/" + fileName, getApplicationContext());
+		DocumentFile file = DocumentFile.fromSingleUri(getApplicationContext(), saveUri);
+		if(fileUri != null) {
+			file = FileUtil.getDocumentFileFromPath(saveUri, filePath + "/" + fileName, getApplicationContext());
+		}
+		boolean exists = file.exists();
 
-		DocumentFile file = pickedDir.findFile(fileName); //[JM] Removes the ".lrc" append as extension is already in fileName
 		return file != null && file.delete();
 	}
 
@@ -333,7 +342,14 @@ public class FinalizeActivity extends AppCompatActivity {
 	private void writeLyrics(final String filePath, final String fileName) {
 		//[JM] Modified DocumentFile call
 		File f = new File(filePath + "/" + fileName);
-		DocumentFile file = DocumentFile.fromFile(f);
+		//DocumentFile file = DocumentFile.fromFile(f);
+		Uri dirUri = FileUtil.getFileTreeUriFromPath(saveUri, filePath, getApplicationContext());
+		DocumentFile file = DocumentFile.fromSingleUri(getApplicationContext(), saveUri);
+		if(dirUri != null) {
+			file = FileUtil.getDocumentFileFromPath(saveUri, filePath, getApplicationContext());
+		}
+
+		file = file.createFile("application/*", fileName);
 
 		try {
 			OutputStream out = getContentResolver().openOutputStream(file.getUri());
@@ -556,6 +572,7 @@ public class FinalizeActivity extends AppCompatActivity {
 				uri = resultData.getData();
 				if (uri != null) {
 					//SharedPreferences.Editor editor = preferences.edit();
+					saveUri = uri;
 					saveLocation = FileUtil.getFullPathFromTreeUri(uri, this);
 					TextView saveLocationDisplayer = dialogView.findViewById(R.id.save_location_display);
 					saveLocationDisplayer.setText(saveLocation);
