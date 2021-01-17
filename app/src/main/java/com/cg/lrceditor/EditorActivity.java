@@ -70,6 +70,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 	private boolean isDarkTheme = false;
 
 	private String lrcFileName = null;
+	private String lrcFilePath = null; //[JM] Adds lrcFilePath variable to store it from intent entering the activity
 	private Uri songUri = null;
 	private String songFileName = null;
 
@@ -278,6 +279,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
 			metadata = (Metadata) intent.getSerializableExtra(IntentSharedStrings.METADATA);
 			lrcFileName = intent.getStringExtra(IntentSharedStrings.LRC_FILE_NAME);
+			lrcFilePath = intent.getStringExtra(IntentSharedStrings.LRC_FILE_PATH); //[JM] Gets path from IntentExtra
 
 			adapter = new LyricListAdapter(this, lyricData, isDarkTheme);
 			adapter.setClickListener(this);
@@ -1487,6 +1489,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 					intent.putExtra(IntentSharedStrings.METADATA, metadata);
 					intent.putExtra(IntentSharedStrings.SONG_FILE_NAME, songFileName);
 					intent.putExtra(IntentSharedStrings.LRC_FILE_NAME, lrcFileName);
+					intent.putExtra(IntentSharedStrings.LRC_FILE_PATH, lrcFilePath); //[JM] Passes the lrcFilePath variable to next Activity through intent
 
 					startActivity(intent);
 				}

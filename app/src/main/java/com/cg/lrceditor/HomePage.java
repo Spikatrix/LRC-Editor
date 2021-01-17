@@ -542,6 +542,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 					intent.putExtra(IntentSharedStrings.LYRIC_DATA, r.getLyricData());
 					intent.putExtra(IntentSharedStrings.METADATA, r.getMetadata());
 					intent.putExtra(IntentSharedStrings.LRC_FILE_NAME, fileName);
+					intent.putExtra(IntentSharedStrings.LRC_FILE_PATH, fileLocation); //[JM] Adds the file path to intent to pass it to the next Activity
 
 					startActivity(intent);
 				});

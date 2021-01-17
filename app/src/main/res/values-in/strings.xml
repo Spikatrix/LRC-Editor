@@ -93,7 +93,7 @@
 	<string name="no_permission_to_write_text">Tidak dapat izin untuk menulis</string>
 	<string name="no_timestamp_set_message">Item lirik tersebut tak mempunyai cap waktu</string>
 	<string name="ok">OK</string>
-	<string name="overwrite_prompt">Berkas \'%1$s.lrc\' sudah ada di %2$s. Timpa?</string>
+	<string name="overwrite_prompt">Berkas \'%1$s\' sudah ada di %2$s. Timpa?</string>
 	<string name="paste_lyrics_prompt">Tempelkan lirik tersebut ke bawah</string>
 	<string name="permission_check_message">Pastikan izin sudah diberikan</string>
 	<string name="play_button_description">Tombol untuk memutar/menjeda media</string>

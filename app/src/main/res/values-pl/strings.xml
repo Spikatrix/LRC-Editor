@@ -93,7 +93,7 @@
 	<string name="no_permission_to_write_text">Nie można uzyskać uprawnień do zapisu</string>
 	<string name="no_timestamp_set_message">Nie ustawiono znacznika czasu dla elementu</string>
 	<string name="ok">OK</string>
-	<string name="overwrite_prompt">"Plik '%1$s.lrc' już istnieje w %2$s. Czy na pewno chcesz go zastąpić?"</string>
+	<string name="overwrite_prompt">"Plik '%1$s' już istnieje w %2$s. Czy na pewno chcesz go zastąpić?"</string>
 	<string name="paste_lyrics_prompt">Wklej tekst poniżej</string>
 	<string name="permission_check_message">Upewnij się, że udzieliłeś uprawnień</string>
 	<string name="play_button_description">Przycisk odtwórz/zatrzymaj</string>

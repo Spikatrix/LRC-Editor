@@ -127,6 +127,8 @@ public class SettingsActivity extends AppCompatActivity {
 	public void changeReadLocation(View view) {
 		Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
 		intent.addCategory(Intent.CATEGORY_DEFAULT);
+		intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+		intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
 		try {
 			startActivityForResult(intent, Constants.READ_LOCATION_REQUEST);
 		} catch (ActivityNotFoundException e) {
@@ -139,6 +141,8 @@ public class SettingsActivity extends AppCompatActivity {
 	public void changeSaveLocation(View view) {
 		Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
 		intent.addCategory(Intent.CATEGORY_DEFAULT);
+		intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+		intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
 		try {
 			startActivityForResult(intent, Constants.SAVE_LOCATION_REQUEST);
 		} catch (ActivityNotFoundException e) {

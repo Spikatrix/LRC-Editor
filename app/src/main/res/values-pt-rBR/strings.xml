@@ -93,7 +93,7 @@
 	<string name="no_permission_to_write_text">Não foi possível obter permissões para criar/modificar arquivos</string>
 	<string name="no_timestamp_set_message">Nenhum tempo definido para o item da letra</string>
 	<string name="ok">OK</string>
-	<string name="overwrite_prompt">O arquivo \'%1$s.lrc\' já existe em %2$s. Tem certeza de que deseja sobrescrevê-lo??</string>
+	<string name="overwrite_prompt">O arquivo \'%1$s\' já existe em %2$s. Tem certeza de que deseja sobrescrevê-lo??</string>
 	<string name="paste_lyrics_prompt">Cole as letras abaixo</string>
 	<string name="permission_check_message">Certifique-se de ter concedido permissões</string>
 	<string name="play_button_description">Botão para reproduzir/pausar mídia</string>

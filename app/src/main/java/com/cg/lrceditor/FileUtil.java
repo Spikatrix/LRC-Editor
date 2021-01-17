@@ -18,6 +18,7 @@ import java.io.File;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 
 public final class FileUtil {
 	private static final String PRIMARY_VOLUME_NAME = "primary";
@@ -227,5 +228,35 @@ public final class FileUtil {
 		}
 
 		return f.findFile(name);
+	}
+
+	@Nullable
+	static Uri getFileTreeUriFromPath(@Nullable final Uri treeUri, String path, Context ctx) {
+		if (treeUri == null || !treeUri.getScheme().contains("content") || treeUri.getAuthority() == null) return null; //[JM] Check if it's a treeUri. Changed the hardcoded "content://com.android.externalstorage.documents/tree/", in case user has a different content provider
+		String treePath = getFullPathFromTreeUri(treeUri, ctx);
+		if(!path.contains(treePath)) return  null;
+
+		String encodedRelativePath = Uri.encode(path.substring(treePath.length()));
+		return Uri.withAppendedPath(treeUri, encodedRelativePath);
+	}
+
+	@Nullable
+	static  DocumentFile getDocumentFileFromPath(@Nullable final Uri treeUri, String path, Context ctx){
+		if (treeUri == null || !treeUri.getScheme().contains("content") || treeUri.getAuthority() == null) return null; //[JM] Check if it's a treeUri. Changed the hardcoded "content://com.android.externalstorage.documents/tree/", in case user has a different content provider
+		String treePath = getFullPathFromTreeUri(treeUri, ctx);
+		if(!path.contains(treePath)) return  null;
+
+		String relativePath = Uri.encode(path.substring(treePath.length()));
+
+		Uri fileUri = Uri.parse(Uri.decode(relativePath));
+		DocumentFile file = DocumentFile.fromTreeUri(ctx, treeUri);
+
+		List<String> pathSegments = fileUri.getPathSegments();
+
+		for (String pathSegment:pathSegments) {
+			file = file.findFile(pathSegment);
+		}
+
+		return file;
 	}
 }
