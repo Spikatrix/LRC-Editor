@@ -1,5 +1,4 @@
-<resources>
-	<!-- There might be lint suggestions to use ellipses rather than three dots that I''ve used in several of the strings here -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="TypographyEllipsis">
 	<!-- But ellipses look weird for me (Bad kerning :p) which is why I keep using three dots -->
 
 	<string name="about">关于</string>
@@ -60,7 +59,6 @@
 	<string name="failed_to_set_pitch_message">无法设置播放器的播放音调</string>
 	<string name="failed_to_set_speed_message">无法设置播放器的播放速度</string>
 	<string name="feedback_body_prompt">在此输入您的意见/错误报告</string>
-	<string name="file_name_already_exists_message">文件名称已存在。文件名称可能会添加前缀</string>
 	<string name="file_name_hint">在此输入文件名称</string>
 	<string name="file_name_prompt">保存文件名称：</string>
 	<string name="file_not_found_message">找不到文件！</string>
@@ -115,7 +113,7 @@
 	<string name="rename">重命名</string>
 	<string name="rename_failed_message">无法重命名！</string>
 	<string name="rename_successful_message">成功重命名</string>
-	<string name="renaming_message">正在重命名... 这可能需要一些时间，取决于文件与读取位置的距离</string>
+	<string name="renaming_message">正在重命名文件...</string>
 	<string name="restart_for_theme_message">如果主题未被应用请重新启动 App</string>
 	<string name="save">保存</string>
 	<string name="save_location_description">保存歌词文件的位置</string>

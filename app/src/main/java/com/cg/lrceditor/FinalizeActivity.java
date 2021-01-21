@@ -89,11 +89,13 @@ public class FinalizeActivity extends AppCompatActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if (saveLocation == null){
+
+		if (saveLocation == null) {
 			saveLocation = preferences.getString(Constants.SAVE_LOCATION_PREFERENCE, Constants.defaultLocation); //[JM] Only changes the saves the location to default if none is set
 		}
+
 		String uriString = preferences.getString("saveUri", null);
-		if (uriString != null & saveUri == null)
+		if (uriString != null && saveUri == null)
 			saveUri = Uri.parse(uriString);
 
 		if (dialogView != null) {
@@ -222,7 +224,7 @@ public class FinalizeActivity extends AppCompatActivity {
 		final TextView saveLocationDisplayer = dialogView.findViewById(R.id.save_location_display);
 		TextView textView = dialogView.findViewById(R.id.dialog_prompt);
 		editText.setHint(getString(R.string.file_name_hint));
-		if (lrcFileName != null){
+		if (lrcFileName != null) {
 			editText.setText(lrcFileName); //[JM] If file is being edited, its takes the passed lrcFileName
 		} else {
 			editText.setText(songName.getText().toString() + ".lrc"); //[JM] If new file, composes new file name from SongName
@@ -230,7 +232,7 @@ public class FinalizeActivity extends AppCompatActivity {
 		textView.setText(getString(R.string.file_name_prompt));
 
 		//[JM] Sets the save location to lrcFilePath if files being edited or to default if new file.
-		if (lrcFilePath != null){
+		if (lrcFilePath != null) {
 			saveLocation = lrcFilePath;
 			String uriString = preferences.getString("readUri", null);
 			if (uriString != null)
@@ -294,7 +296,7 @@ public class FinalizeActivity extends AppCompatActivity {
 						threadIsExecuting = true;
 
 						setStatusOnUiThread(getString(R.string.attempting_to_overwrite_message));
-						if (!deletefile(finalFilePath, finalFileName)) { //[JM] Updated to correct variables and new parameter
+						if (!deleteFile(finalFilePath, finalFileName)) { //[JM] Updated to correct variables and new parameter
 							overwriteFailed = true;
 							runOnUiThread(() -> Toast.makeText(getApplicationContext(), getString(R.string.failed_to_overwrite_message), Toast.LENGTH_LONG).show());
 						}
@@ -326,11 +328,11 @@ public class FinalizeActivity extends AppCompatActivity {
 	}
 
 	//[JM] Modified function to receive filePath as well
-	private boolean deletefile(String filePath, String fileName) {
+	private boolean deleteFile(String filePath, String fileName) {
 		//[JM] Changes use of global "saveLocation" for the actual filePath
 		Uri fileUri = FileUtil.getFileTreeUriFromPath(saveUri, filePath + "/" + fileName, getApplicationContext());
 		DocumentFile file = DocumentFile.fromSingleUri(getApplicationContext(), saveUri);
-		if(fileUri != null) {
+		if (fileUri != null) {
 			file = FileUtil.getDocumentFileFromPath(saveUri, filePath + "/" + fileName, getApplicationContext());
 		}
 
@@ -342,7 +344,7 @@ public class FinalizeActivity extends AppCompatActivity {
 		//[JM] Modified DocumentFile call
 		Uri dirUri = FileUtil.getFileTreeUriFromPath(saveUri, filePath, getApplicationContext());
 		DocumentFile file = DocumentFile.fromSingleUri(getApplicationContext(), saveUri);
-		if(dirUri != null) {
+		if (dirUri != null) {
 			file = FileUtil.getDocumentFileFromPath(saveUri, filePath, getApplicationContext());
 		}
 
@@ -561,6 +563,7 @@ public class FinalizeActivity extends AppCompatActivity {
 			e.printStackTrace();
 		}
 	}
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
 		super.onActivityResult(requestCode, resultCode, resultData);

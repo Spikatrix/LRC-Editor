@@ -59,8 +59,7 @@
 	<string name="failed_to_set_pitch_message">Konnte abgespielte Tonhöhe nicht anpassen</string>
 	<string name="failed_to_set_speed_message">Konnte Abspielgeschwindigkeit nicht anpassen</string>
 	<string name="feedback_body_prompt">Gib dein Feedback/deinen Fehlerbericht hier ein</string>
-	<string name="file_name_already_exists_message">Dateiname existiert bereits. Es wird möglicherweise ein Präfix angehangen</string>
-	<string name="file_name_hint">Dateiname</string>
+    <string name="file_name_hint">Dateiname</string>
 	<string name="file_name_prompt">Abzuspeichernder Dateiname:</string>
 	<string name="file_not_found_message">Datei nicht gefunden!</string>
 	<string name="finalization">Finalisierung</string>
@@ -114,7 +113,7 @@
 	<string name="rename">Umbenennen</string>
 	<string name="rename_failed_message">Umbenennen fehlgeschlagen!</string>
 	<string name="rename_successful_message">Umbenennen erfolgreich!</string>
-	<string name="renaming_message">Datei wird umbenannt... Je nachdem, wie weit die Datei vom Suchverzeichnis entfernt gespeichert ist, kann dies länger dauern</string>
+	<string name="renaming_message">Datei wird umbenannt...</string>
 	<string name="restart_for_theme_message">Starte die App neu, wenn das Thema nicht übernommen wird</string>
 	<string name="save">Speichern</string>
 	<string name="save_location_description">Verzeichnis zum Speichern von Dateien</string>

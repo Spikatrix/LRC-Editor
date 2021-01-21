@@ -2,7 +2,6 @@ package com.cg.lrceditor;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -127,15 +126,10 @@ public final class FileUtil {
 		}
 	}
 
-	static DocumentFile getPersistableDocumentFile(Uri uri, String location, Context ctx) {
+	static DocumentFile getDocumentFile(Uri uri, String location, Context ctx) {
 		DocumentFile pickedDir;
 		try {
 			pickedDir = DocumentFile.fromTreeUri(ctx, uri);
-			try {
-				ctx.getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-			} catch (SecurityException e) {
-				e.printStackTrace();
-			}
 		} catch (IllegalArgumentException | NullPointerException e) {
 			pickedDir = DocumentFile.fromFile(new File(location));
 		}
@@ -232,28 +226,30 @@ public final class FileUtil {
 
 	@Nullable
 	static Uri getFileTreeUriFromPath(@Nullable final Uri treeUri, String path, Context ctx) {
-		if (treeUri == null || !treeUri.getScheme().contains("content") || treeUri.getAuthority() == null) return null; //[JM] Check if it's a treeUri. Changed the hardcoded "content://com.android.externalstorage.documents/tree/", in case user has a different content provider
+		// Works when the treeUri is something like "content://com.android.externalstorage.documents/tree/" (SD Card)
+		if (treeUri == null || !treeUri.getScheme().contains("content") || treeUri.getAuthority() == null)
+			return null;
 		String treePath = getFullPathFromTreeUri(treeUri, ctx);
-		if(!path.contains(treePath)) return  null;
+		if (!path.contains(treePath)) return null;
 
 		String encodedRelativePath = Uri.encode(path.substring(treePath.length()));
 		return Uri.withAppendedPath(treeUri, encodedRelativePath);
 	}
 
 	@Nullable
-	static  DocumentFile getDocumentFileFromPath(@Nullable final Uri treeUri, String path, Context ctx){
-		if (treeUri == null || !treeUri.getScheme().contains("content") || treeUri.getAuthority() == null) return null; //[JM] Check if it's a treeUri. Changed the hardcoded "content://com.android.externalstorage.documents/tree/", in case user has a different content provider
+	static DocumentFile getDocumentFileFromPath(@Nullable final Uri treeUri, String path, Context ctx) {
+		// Works when the treeUri is something like "content://com.android.externalstorage.documents/tree/" (SD Card)
+		if (treeUri == null || !treeUri.getScheme().contains("content") || treeUri.getAuthority() == null)
+			return null;
 		String treePath = getFullPathFromTreeUri(treeUri, ctx);
-		if(!path.contains(treePath)) return  null;
+		if (!path.contains(treePath)) return null;
 
-		String relativePath = Uri.encode(path.substring(treePath.length()));
-
-		Uri fileUri = Uri.parse(Uri.decode(relativePath));
+		Uri fileUri = Uri.parse(path.substring(treePath.length()));
 		DocumentFile file = DocumentFile.fromTreeUri(ctx, treeUri);
 
 		List<String> pathSegments = fileUri.getPathSegments();
 
-		for (String pathSegment:pathSegments) {
+		for (String pathSegment : pathSegments) {
 			file = file.findFile(pathSegment);
 		}
 

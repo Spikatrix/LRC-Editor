@@ -59,8 +59,7 @@
 	<string name="failed_to_set_pitch_message">Falló ajustar el tono</string>
 	<string name="failed_to_set_speed_message">Falló ajustar la velocidad</string>
 	<string name="feedback_body_prompt">Envía comentarios o señala un eror.</string>
-	<string name="file_name_already_exists_message">Este archivo ya exsiste. Se puede agregar un prefijo al nombre del archivo.</string>
-	<string name="file_name_hint">Nombre del archivo</string>
+    <string name="file_name_hint">Nombre del archivo</string>
 	<string name="file_name_prompt">Nombre del archivo:</string>
 	<string name="file_not_found_message">No se encontró el archivo</string>
 	<string name="finalization">Finalización</string>
@@ -114,7 +113,7 @@
 	<string name="rename">Cambiar el nombre</string>
 	<string name="rename_failed_message">¡Falló cambiar el nombre!</string>
 	<string name="rename_successful_message">¡Logró cambiar el nombre!</string>
-	<string name="renaming_message">Cambiando el nombre... Puede tardar según la ubicación del archivo con respecto a la carpeta de lectura</string>
+	<string name="renaming_message">Cambiando el nombre del achivo...</string>
 	<string name="restart_for_theme_message">Inicie de nuevo la aplicación si el tema no cambió correctamente.</string>
 	<string name="save">Guardar</string>
 	<string name="save_location_description">Ubicación de guarda de las letras</string>

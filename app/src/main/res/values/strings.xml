@@ -59,7 +59,6 @@
 	<string name="failed_to_set_pitch_message">Failed to set the pitch of the player</string>
 	<string name="failed_to_set_speed_message">Failed to set the speed of the player</string>
 	<string name="feedback_body_prompt">Enter your feedback/bug report here</string>
-	<string name="file_name_already_exists_message">File name already exists. Prefix might be added</string>
 	<string name="file_name_hint">File name here</string>
 	<string name="file_name_prompt">File name to save:</string>
 	<string name="file_not_found_message">File not found!</string>
@@ -114,7 +113,7 @@
 	<string name="rename">Rename</string>
 	<string name="rename_failed_message">Rename failed!</string>
 	<string name="rename_successful_message">Renamed file successfully</string>
-	<string name="renaming_message">Renaming... This may take a while depending on how far the file is from the set read location</string>
+	<string name="renaming_message">Renaming file...</string>
 	<string name="restart_for_theme_message">Restart the app if the theme does not apply</string>
 	<string name="save">Save</string>
 	<string name="save_location_description">Location for saving lyric files</string>

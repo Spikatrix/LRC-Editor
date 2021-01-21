@@ -59,7 +59,6 @@
 	<string name="failed_to_set_pitch_message">Nie udało się ustawić wysokości dźwięku odtwarzacza</string>
 	<string name="failed_to_set_speed_message">Nie udało się ustawić prędkości odtwarzacza</string>
 	<string name="feedback_body_prompt">Wprowadź swoją opinię/raport o błędzie tutaj</string>
-	<string name="file_name_already_exists_message">Nazwa pliku już istnieje. Może zostać dodany prefiks</string>
 	<string name="file_name_hint">Nazwa pliku tutaj</string>
 	<string name="file_name_prompt">Nazwa pliku do zapisania:</string>
 	<string name="file_not_found_message">Brak pliku!</string>
@@ -114,7 +113,7 @@
 	<string name="rename">Zmień nazwę</string>
 	<string name="rename_failed_message">Zmiana nazwy nie powiodła się!</string>
 	<string name="rename_successful_message">Pomyślnie zmieniono nazwę pliku</string>
-	<string name="renaming_message">Zmiana nazwy ... Może to chwilę potrwać w zależności od odległości pliku od ustawionej lokalizacji odczytu</string>
+	<string name="renaming_message">Zmiana nazwy pliku...</string>
 	<string name="restart_for_theme_message">Uruchom ponownie aplikację, jeśli motyw nie ma zastosowania</string>
 	<string name="save">Zapisz</string>
 	<string name="save_location_description">Miejsce zapisywania plików tekstowych:</string>

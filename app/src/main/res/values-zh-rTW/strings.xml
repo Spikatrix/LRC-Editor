@@ -59,7 +59,6 @@
 	<string name="failed_to_set_pitch_message">無法設定播放器的播放音調</string>
 	<string name="failed_to_set_speed_message">無法設定播放器的播放速度</string>
 	<string name="feedback_body_prompt">在此輸入您的意見/錯誤報告</string>
-	<string name="file_name_already_exists_message">檔案名稱已存在。檔案名稱可能會添加前綴</string>
 	<string name="file_name_hint">在此輸入檔案名稱</string>
 	<string name="file_name_prompt">儲存檔案名稱：</string>
 	<string name="file_not_found_message">找不到檔案！</string>
@@ -114,7 +113,7 @@
 	<string name="rename">重新命名</string>
 	<string name="rename_failed_message">無法重新命名！</string>
 	<string name="rename_successful_message">成功重新命名</string>
-	<string name="renaming_message">正在重新命名... 這可能需要一些時間，取決於檔案與讀取位置的距離</string>
+	<string name="renaming_message">正在重新命名檔案...</string>
 	<string name="restart_for_theme_message">如果主題未被應用請重新啟動 App</string>
 	<string name="save">儲存</string>
 	<string name="save_location_description">儲存歌詞檔的位置</string>

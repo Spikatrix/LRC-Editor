@@ -20,6 +20,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.io.File;
 import java.util.Locale;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -255,7 +256,7 @@ public class SettingsActivity extends AppCompatActivity {
 						e.printStackTrace();
 					}
 
-					if (realPath == null || realPath.equals("/")) {
+					if (realPath == null || realPath.equals(File.separator)) {
 						Toast.makeText(getApplicationContext(), R.string.generic_save_path_error, Toast.LENGTH_LONG).show();
 					}
 				}
@@ -285,7 +286,7 @@ public class SettingsActivity extends AppCompatActivity {
 						e.printStackTrace();
 					}
 
-					if (realPath == null || realPath.equals("/")) {
+					if (realPath == null || realPath.equals(File.separator)) {
 						Toast.makeText(getApplicationContext(), R.string.generic_read_path_error, Toast.LENGTH_LONG).show();
 					}
 				}

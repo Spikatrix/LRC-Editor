@@ -59,7 +59,6 @@
 	<string name="failed_to_set_pitch_message">Gagal mengatur titinada pemutar</string>
 	<string name="failed_to_set_speed_message">Gagal mengatur kecepatan pemutar</string>
 	<string name="feedback_body_prompt">Masukkan umpan balik/laporan kesalahan Anda di sini</string>
-	<string name="file_name_already_exists_message">Nama berkas sudah ada. Akan ditambahkan awalan</string>
 	<string name="file_name_hint">Masukkan nama berkas di sini</string>
 	<string name="file_name_prompt">Nama berkas yang akan disimpan:</string>
 	<string name="file_not_found_message">Berkas tidak ditemukan!</string>
@@ -114,7 +113,7 @@
 	<string name="rename">Ubah Nama</string>
 	<string name="rename_failed_message">Gagal mengubah nama!</string>
 	<string name="rename_successful_message">Berkas berhasil diubah nama</string>
-	<string name="renaming_message">Mengubah nama... Ini mungkin akan memakan waktu tergantung dari jauhnya lokasi berkas tersebut</string>
+	<string name="renaming_message">Mengubah nama berkas...</string>
 	<string name="restart_for_theme_message">Mulai ulang aplikasi jika temanya tidak menerap</string>
 	<string name="save">Simpan</string>
 	<string name="save_location_description">Lokasi untuk menyimpan berkas lirik</string>

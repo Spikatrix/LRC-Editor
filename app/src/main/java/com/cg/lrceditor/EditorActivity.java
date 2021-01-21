@@ -873,12 +873,6 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 					player.reset();
 					seekbar.setProgress(player.getCurrentPosition());
 
-					try {
-						getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-					} catch (SecurityException e) {
-						e.printStackTrace();
-					}
-
 					readyUpMediaPlayer(uri);
 				}
 			}
@@ -1475,57 +1469,51 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
-		switch (item.getItemId()) {
-			case R.id.action_done:
-				if (longPressedPos != -1) {
-					longPressed = 0;
-					longPressedPos = -1;
-				}
+		int itemID = item.getItemId();
+		if (itemID == R.id.action_done) {
+			if (longPressedPos != -1) {
+				longPressed = 0;
+				longPressedPos = -1;
+			}
 
-				if (adapter != null) {
-					Intent intent = new Intent(this, FinalizeActivity.class);
-					intent.putExtra(IntentSharedStrings.LYRIC_DATA, (ArrayList<LyricItem>) adapter.lyricData);
-					intent.putExtra(IntentSharedStrings.SONG_URI, songUri);
-					intent.putExtra(IntentSharedStrings.METADATA, metadata);
-					intent.putExtra(IntentSharedStrings.SONG_FILE_NAME, songFileName);
-					intent.putExtra(IntentSharedStrings.LRC_FILE_NAME, lrcFileName);
-					intent.putExtra(IntentSharedStrings.LRC_FILE_PATH, lrcFilePath); //[JM] Passes the lrcFilePath variable to next Activity through intent
+			if (adapter != null) {
+				Intent intent = new Intent(this, FinalizeActivity.class);
+				intent.putExtra(IntentSharedStrings.LYRIC_DATA, (ArrayList<LyricItem>) adapter.lyricData);
+				intent.putExtra(IntentSharedStrings.SONG_URI, songUri);
+				intent.putExtra(IntentSharedStrings.METADATA, metadata);
+				intent.putExtra(IntentSharedStrings.SONG_FILE_NAME, songFileName);
+				intent.putExtra(IntentSharedStrings.LRC_FILE_NAME, lrcFileName);
+				intent.putExtra(IntentSharedStrings.LRC_FILE_PATH, lrcFilePath); //[JM] Passes the lrcFilePath variable to next Activity through intent
 
-					startActivity(intent);
-				}
+				startActivity(intent);
+			}
 
-				return true;
+			return true;
+		} else if (itemID == R.id.action_add) {
+			adapter.lyricData.add(new LyricItem("", null));
+			adapter.notifyItemInserted(0);
 
-			case R.id.action_add:
-				adapter.lyricData.add(new LyricItem("", null));
-				adapter.notifyItemInserted(0);
+			Toolbar toolbar = findViewById(R.id.toolbar);
+			toolbar.getMenu().findItem(R.id.action_add).setVisible(false);
 
-				Toolbar toolbar = findViewById(R.id.toolbar);
-				toolbar.getMenu().findItem(R.id.action_add).setVisible(false);
+			return true;
+		} else if (itemID == R.id.action_playback_options) {
+			displayPlaybackOptions();
+			return true;
+		} else if (itemID == R.id.action_collapse_or_expand) {
+			collapseOrExpandMediaplayer();
+			if (mediaplayerIsCollapsed) {
+				item.setIcon(getDrawable(R.drawable.ic_expand_toolbar));
+			} else {
+				item.setIcon(getDrawable(R.drawable.ic_collapse_toolbar));
+			}
 
-				return true;
-
-			case R.id.action_playback_options:
-				displayPlaybackOptions();
-				return true;
-
-			case R.id.action_collapse_or_expand:
-				collapseOrExpandMediaplayer();
-				if (mediaplayerIsCollapsed) {
-					item.setIcon(getDrawable(R.drawable.ic_expand_toolbar));
-				} else {
-					item.setIcon(getDrawable(R.drawable.ic_collapse_toolbar));
-				}
-
-				return true;
-
-			case android.R.id.home:
-				onBackPressed();
-				return true;
-
-			default:
-				return super.onOptionsItemSelected(item);
+			return true;
+		} else if (itemID == android.R.id.home) {
+			onBackPressed();
+			return true;
 		}
+		return super.onOptionsItemSelected(item);
 
 	}
 
@@ -1609,56 +1597,45 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 		@Override
 		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			int optionMode;
-			switch (item.getItemId()) {
-				case R.id.action_delete:
-					delete();
-					return true;
-
-				case R.id.action_edit:
-					optionMode = 0;
-					editLyricData(optionMode);
-					mode.finish();
-					return true;
-
-				case R.id.action_select_all:
-					selectAll();
-					return true;
-
-				case R.id.action_manually_set:
-					manuallySetTimestamp();
-					return true;
-
-				case R.id.action_copy:
-					copy();
-					return true;
-
-				case R.id.action_paste_before:
-					optionMode = -1;
-					paste(optionMode);
-					return true;
-
-				case R.id.action_paste_after:
-					optionMode = +1;
-					paste(optionMode);
-					return true;
-
-				case R.id.action_insert_before:
-					optionMode = -1;
-					editLyricData(optionMode);
-					return true;
-
-				case R.id.action_insert_after:
-					optionMode = +1;
-					editLyricData(optionMode);
-					return true;
-
-				case R.id.action_batch_edit:
-					batchEditLyrics();
-					return true;
-
-				default:
-					return false;
+			int itemID = item.getItemId();
+			if (itemID == R.id.action_delete) {
+				delete();
+				return true;
+			} else if (itemID == R.id.action_edit) {
+				optionMode = 0;
+				editLyricData(optionMode);
+				mode.finish();
+				return true;
+			} else if (itemID == R.id.action_select_all) {
+				selectAll();
+				return true;
+			} else if (itemID == R.id.action_manually_set) {
+				manuallySetTimestamp();
+				return true;
+			} else if (itemID == R.id.action_copy) {
+				copy();
+				return true;
+			} else if (itemID == R.id.action_paste_before) {
+				optionMode = -1;
+				paste(optionMode);
+				return true;
+			} else if (itemID == R.id.action_paste_after) {
+				optionMode = +1;
+				paste(optionMode);
+				return true;
+			} else if (itemID == R.id.action_insert_before) {
+				optionMode = -1;
+				editLyricData(optionMode);
+				return true;
+			} else if (itemID == R.id.action_insert_after) {
+				optionMode = +1;
+				editLyricData(optionMode);
+				return true;
+			} else if (itemID == R.id.action_batch_edit) {
+				batchEditLyrics();
+				return true;
 			}
+			return false;
 		}
 
 		@Override

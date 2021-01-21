@@ -59,7 +59,6 @@
 	<string name="failed_to_set_pitch_message">Impossible de fixer la hauteur</string>
 	<string name="failed_to_set_speed_message">Impossible de fixer la vitesse</string>
 	<string name="feedback_body_prompt">Aidez-nous ! Envoyez un retour, signalez un beug.</string>
-	<string name="file_name_already_exists_message">Ce nom de fichier existe déjà, un préfixe a été ajouté.</string>
 	<string name="file_name_hint">Nom de fichier</string>
 	<string name="file_name_prompt">Nom de fichier :</string>
 	<string name="file_not_found_message">Fichier non trouvé !</string>
@@ -114,7 +113,7 @@
 	<string name="rename">Renommer</string>
 	<string name="rename_failed_message">Impossible de renommer !</string>
 	<string name="rename_successful_message">Renommage correctement effectué !</string>
-	<string name="renaming_message">Renommage en cours... Cette tâche peut prendre du temps en fonction de la localisation du fichier par rapport au dossier défini dans les paramètres</string>
+	<string name="renaming_message">Renommage en cours fichier...</string>
 	<string name="restart_for_theme_message">Redémarrer l\'application si le thème n\'a pas été correctement mis en place.</string>
 	<string name="save">Enregistrer</string>
 	<string name="save_location_description">Emplacement de sauvegarde des paroles</string>

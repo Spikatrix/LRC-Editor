@@ -484,39 +484,36 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		Intent intent;
-		switch (item.getItemId()) {
-			case R.id.action_refresh:
-				if (stopScanning) { // If this is true, scanning is not taking place; clicked on the refresh button
-					new Thread(() -> {
-						if (threadIsExecuting) {
-							showToastOnUiThread(getString(R.string.another_operation_wait_message));
-							return;
-						}
-						threadIsExecuting = true;
-						runOnUiThread(() -> swipeRefreshLayout.setRefreshing(true));
+		int itemID = item.getItemId();
+		if (itemID == R.id.action_refresh) {
+			if (stopScanning) { // If this is true, scanning is not taking place; clicked on the refresh button
+				new Thread(() -> {
+					if (threadIsExecuting) {
+						showToastOnUiThread(getString(R.string.another_operation_wait_message));
+						return;
+					}
+					threadIsExecuting = true;
+					runOnUiThread(() -> swipeRefreshLayout.setRefreshing(true));
 
-						scanLyrics();
+					scanLyrics();
 
-						runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
-						threadIsExecuting = false;
-					}).start();
-				} else { // Scan is taking place; clicked on the cancel scan button
-					stopScanning = true;
-				}
-				return true;
-
-			case R.id.action_settings:
-				intent = new Intent(this, SettingsActivity.class);
-				startActivity(intent);
-				return true;
-
-			case R.id.action_about:
-				intent = new Intent(this, AboutActivity.class);
-				startActivity(intent);
-				return true;
-			default:
-				return super.onOptionsItemSelected(item);
+					runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
+					threadIsExecuting = false;
+				}).start();
+			} else { // Scan is taking place; clicked on the cancel scan button
+				stopScanning = true;
+			}
+			return true;
+		} else if (itemID == R.id.action_settings) {
+			intent = new Intent(this, SettingsActivity.class);
+			startActivity(intent);
+			return true;
+		} else if (itemID == R.id.action_about) {
+			intent = new Intent(this, AboutActivity.class);
+			startActivity(intent);
+			return true;
 		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	private void showToastOnUiThread(final String str) {
@@ -619,7 +616,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 
 						showToastOnUiThread(getString(R.string.deleting_message));
 
-						DocumentFile pickedDir = FileUtil.getPersistableDocumentFile(readUri, readLocation, getApplicationContext());
+						DocumentFile pickedDir = FileUtil.getDocumentFile(readUri, readLocation, getApplicationContext());
 
 						boolean deleteFailure = false;
 
@@ -666,7 +663,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 
 	}
 
-	private void renameLyricFile() {
+	private void promptRenameFile() {
 		if (threadIsExecuting) {
 			Toast.makeText(this, getString(R.string.another_operation_wait_message), Toast.LENGTH_SHORT).show();
 			return;
@@ -677,9 +674,9 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 		final EditText editText = view.findViewById(R.id.dialog_edittext);
 		TextView textView = view.findViewById(R.id.dialog_prompt);
 
-		final File f = adapter.listData.get(adapter.getSelectedItemIndices().get(0)).file;
+		final File fileToRename = adapter.listData.get(adapter.getSelectedItemIndices().get(0)).file;
 
-		String fileName = f.getName();
+		String fileName = fileToRename.getName();
 		textView.setText(getString(R.string.new_file_name_prompt));
 		editText.setText(fileName);
 
@@ -689,63 +686,114 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 				.setView(view)
 				.setPositiveButton(getString(R.string.rename), (dialog, which) -> {
 					final HomePageListItem itemToRename = adapter.listData.get(adapter.getSelectedItemIndices().get(0));
+					final String newName = editText.getText().toString();
 
-					new Thread(() -> {
-						if (threadIsExecuting) {
-							showToastOnUiThread(getString(R.string.another_operation_wait_message));
-							return;
-						}
-						threadIsExecuting = true;
-						runOnUiThread(() -> swipeRefreshLayout.setRefreshing(true));
+					if (itemToRename.file.getName().equals(newName)) {
+						// User wants the new name to be the same as the old name for whatever reason
+						showToastOnUiThread(getString(R.string.rename_successful_message));
+						return;
+					}
 
-						showToastOnUiThread(getString(R.string.renaming_message));
-
-						final String newName = editText.getText().toString();
-
-						runOnUiThread(() -> {
-							if (actionMode != null) {
-								actionMode.finish();
-							}
-							actionMode = null;
-						});
-
-						DocumentFile pickedDir = FileUtil.getPersistableDocumentFile(readUri, readLocation, getApplicationContext());
-						final String location = FileUtil.stripFileNameFromPath(f.getAbsolutePath());
-
-						if (new File(location, newName).exists()) {
-							showToastOnUiThread(getString(R.string.file_name_already_exists_message));
-						}
-
-						DocumentFile file = FileUtil.searchForFileOptimized(pickedDir, location, f.getName(), getApplicationContext().getExternalFilesDirs(null));
-
-						if (file != null && file.renameTo(newName)) {
-							showToastOnUiThread(getString(R.string.rename_successful_message));
-							runOnUiThread(() -> {
-								int index = adapter.listData.indexOf(itemToRename);
-								if (index != -1) {
-									adapter.listData.get(index).file = new File(location, newName);
-									adapter.notifyItemChanged(index);
-								}
-
-								if (toolbar.hasExpandedActionView()) {
-									int index2 = adapter.backupListData.indexOf(itemToRename);
-									if (index != -1) {
-										adapter.backupListData.get(index2).file = adapter.listData.get(index).file;
-									} else {
-										adapter.backupListData.get(index2).file = new File(location, newName);
-									}
-								}
-							});
-						} else {
-							showToastOnUiThread(getString(R.string.rename_failed_message));
-						}
-
-						runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
-						threadIsExecuting = false;
-					}).start();
+					new Thread(() -> renameAsync(fileToRename, itemToRename, newName)).start();
 				}).setNegativeButton(getString(R.string.cancel), null)
 				.create()
 				.show();
+	}
+
+	private void renameAsync(File fileToRename, HomePageListItem itemToRename, String newName) {
+		if (threadIsExecuting) {
+			showToastOnUiThread(getString(R.string.another_operation_wait_message));
+			return;
+		}
+		threadIsExecuting = true;
+		runOnUiThread(() -> swipeRefreshLayout.setRefreshing(true));
+
+		runOnUiThread(() -> {
+			if (actionMode != null) {
+				actionMode.finish();
+			}
+			actionMode = null;
+		});
+
+		final String location = FileUtil.stripFileNameFromPath(fileToRename.getAbsolutePath());
+
+		DocumentFile documentFile = FileUtil.getDocumentFileFromPath(readUri, fileToRename.getAbsolutePath(), this);
+		if (documentFile == null) {
+			documentFile = DocumentFile.fromFile(fileToRename);
+		}
+
+		if (new File(location, newName).exists()) { // documentFile.exists() always returns true for some reason
+			DocumentFile finalDocumentFile = documentFile;
+			runOnUiThread(() -> new AlertDialog.Builder(this)
+					.setTitle(getString(R.string.warning))
+					.setMessage(getString(R.string.overwrite_prompt, newName, location))
+					.setCancelable(false)
+					.setPositiveButton(getString(R.string.yes), (dialog, which) -> new Thread(() -> {
+						if (readUri != null) {
+							// Have to manually delete the previous file in this case to prevent an number-suffixed file being created
+							try {
+								DocumentFile existingFile = finalDocumentFile.getParentFile().findFile(newName);
+								if (existingFile != null) {
+									if (!existingFile.delete()) {
+										throw new NullPointerException();
+									}
+								}
+							} catch (NullPointerException e) {
+								showToastOnUiThread(getString(R.string.failed_to_overwrite_message));
+							}
+						}
+
+						renameFile(finalDocumentFile, location, itemToRename, newName, true);
+
+						swipeRefreshLayout.setRefreshing(false);
+						threadIsExecuting = false;
+					}).start())
+					.setNegativeButton(getString(R.string.no), (dialog, which) -> {
+						swipeRefreshLayout.setRefreshing(false);
+						threadIsExecuting = false;
+					})
+					.show());
+			return;
+		}
+
+		renameFile(documentFile, location, itemToRename, newName, false);
+		runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
+		threadIsExecuting = false;
+	}
+
+	private void renameFile(DocumentFile documentFile, String location, HomePageListItem itemToRename, String newName, boolean overwrote) {
+		showToastOnUiThread(getString(R.string.renaming_message));
+
+		if (documentFile != null && documentFile.renameTo(newName)) {
+			showToastOnUiThread(getString(R.string.rename_successful_message));
+			runOnUiThread(() -> {
+				int index = adapter.listData.indexOf(itemToRename);
+				if (index != -1) {
+					if (!overwrote) {
+						adapter.listData.get(index).file = new File(location, newName);
+						adapter.notifyItemChanged(index);
+					} else {
+						adapter.listData.remove(index);
+						adapter.notifyItemRemoved(index);
+					}
+				}
+
+				if (toolbar.hasExpandedActionView()) {
+					int index2 = adapter.backupListData.indexOf(itemToRename);
+					if (index != -1) {
+						if (!overwrote) {
+							adapter.backupListData.get(index2).file = adapter.listData.get(index).file;
+						} else {
+							adapter.backupListData.remove(index2);
+						}
+					} else if (!overwrote) {
+						adapter.backupListData.get(index2).file = new File(location, newName);
+					}
+				}
+			});
+		} else {
+			showToastOnUiThread(getString(R.string.rename_failed_message));
+		}
 	}
 
 	private void selectAll() {
@@ -773,22 +821,18 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 
 		@Override
 		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			switch (item.getItemId()) {
-				case R.id.action_delete_homepage:
-					deleteLyricFiles();
-					return true;
-
-				case R.id.action_rename_homepage:
-					renameLyricFile();
-					return true;
-
-				case R.id.action_select_all_homepage:
-					selectAll();
-					return true;
-
-				default:
-					return false;
+			int itemID = item.getItemId();
+			if (itemID == R.id.action_delete_homepage) {
+				deleteLyricFiles();
+				return true;
+			} else if (itemID == R.id.action_rename_homepage) {
+				promptRenameFile();
+				return true;
+			} else if (itemID == R.id.action_select_all_homepage) {
+				selectAll();
+				return true;
 			}
+			return false;
 		}
 
 		@Override

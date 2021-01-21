@@ -59,7 +59,6 @@
 	<string name="failed_to_set_pitch_message">Falha ao definir o tom do player</string>
 	<string name="failed_to_set_speed_message">Falha ao definir a velocidade do jogador</string>
 	<string name="feedback_body_prompt">Digite seu feedback/bug report aqui</string>
-	<string name="file_name_already_exists_message">O nome do arquivo já existe. Prefixo pode ser adicionado</string>
 	<string name="file_name_hint">Nome do arquivo aqui</string>
 	<string name="file_name_prompt">Nome para salvar o arquivo:</string>
 	<string name="file_not_found_message">Arquivo não encontrado!</string>
@@ -114,7 +113,7 @@
 	<string name="rename">Renomear</string>
 	<string name="rename_failed_message">Falha ao renomear!</string>
 	<string name="rename_successful_message">Renomeado com sucesso</string>
-	<string name="renaming_message">Renomeando... Isso pode demorar um pouco dependendo de quão longe o arquivo está do local de leitura definido</string>
+	<string name="renaming_message">Renomeando arquivo...</string>
 	<string name="restart_for_theme_message">Reinicie o aplicativo se o tema não se aplicar</string>
 	<string name="save">Salvar</string>
 	<string name="save_location_description">Localização dos arquivos salvos:</string>
