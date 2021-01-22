@@ -16,7 +16,6 @@ import androidx.documentfile.provider.DocumentFile;
 import java.io.File;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 
 public final class FileUtil {
@@ -137,96 +136,9 @@ public final class FileUtil {
 		return pickedDir;
 	}
 
-	public static DocumentFile searchForFile(DocumentFile documentFile, String name) {
-		/* This is noticably VERY slow. But since we already know the absolute path of the file, we can optimize it (see the optimized method below) */
-
-		DocumentFile f;
-		if ((f = documentFile.findFile(name)) != null)
-			return f;
-
-		ArrayList<DocumentFile> list = new ArrayList<>();
-		do {
-			DocumentFile[] allFiles = documentFile.listFiles();
-			for (DocumentFile file : allFiles) {
-				if (file.isDirectory()) {
-					list.add(file);
-				}
-			}
-
-			documentFile = list.remove(list.size() - 1);
-			if ((f = documentFile.findFile(name)) != null) {
-				return f;
-			}
-		} while (!list.isEmpty());
-
-		return null;
-	}
-
-	static DocumentFile searchForFileOptimized(DocumentFile pickedDir, String location, String name, File[] storageMedias) {
-		/* Speeds up the search using the fact that we already have the absolute path of the file */
-
-		/* First, we need to get the absolute path of mounted storages (Internal storage, SD Card etc) */
-		/* So we get the app's public directory and split on "/Android" because it will always(?) contain it */
-		/* The first argument of the split is the absolute path of the mounted storage */
-		/* Then, we split it on the set read location and the second argument is the location from the mounted storage */
-		/* Next, split it on "/" to get a list of folders to search to */
-		/* Finally, navigate through them to find the required file */
-
-		String[] folders = null;
-		for (File file : storageMedias) {
-			String storageMediaPath;
-			try {
-				storageMediaPath = file.getAbsolutePath().split("/Android")[0];
-			} catch (NullPointerException e) { // Got a crash report
-				continue;
-			}
-
-			if (location.startsWith(storageMediaPath)) {
-				String path;
-				try {
-					path = location.split(storageMediaPath)[1];
-				} catch (ArrayIndexOutOfBoundsException e) {
-					/* File is in the same directory as the mount point/picked directory */
-					return pickedDir.findFile(name);
-				}
-
-				folders = path.split("/");
-				/* `folders[0]` will be empty as the first character in `path` is a '/' */
-			}
-		}
-
-		DocumentFile f = null;
-		int index = 1;
-
-		try {
-			if (index < folders.length) {
-				DocumentFile[] allFiles = pickedDir.listFiles();
-				do {
-					for (DocumentFile file : allFiles) {
-						if (file.getName().equals(folders[index])) {
-							f = file;
-							allFiles = file.listFiles();
-							break;
-						}
-					}
-
-					index++;
-				} while (index < folders.length);
-			}
-		} catch (NullPointerException e) {
-			return pickedDir.findFile(name);
-		}
-
-		if (f == null) {
-			return pickedDir.findFile(name);
-		}
-
-		return f.findFile(name);
-	}
-
+	// Thanks @Jonathan Martinez
 	@Nullable
 	static Uri getFileTreeUriFromPath(@Nullable final Uri treeUri, String path, Context ctx) {
-		// Works when the treeUri is something like "content://com.android.externalstorage.documents/tree/" (SD Card)
 		if (treeUri == null || !treeUri.getScheme().contains("content") || treeUri.getAuthority() == null)
 			return null;
 		String treePath = getFullPathFromTreeUri(treeUri, ctx);
@@ -236,9 +148,9 @@ public final class FileUtil {
 		return Uri.withAppendedPath(treeUri, encodedRelativePath);
 	}
 
+	// Thanks @Jonathan Martinez
 	@Nullable
 	static DocumentFile getDocumentFileFromPath(@Nullable final Uri treeUri, String path, Context ctx) {
-		// Works when the treeUri is something like "content://com.android.externalstorage.documents/tree/" (SD Card)
 		if (treeUri == null || !treeUri.getScheme().contains("content") || treeUri.getAuthority() == null)
 			return null;
 		String treePath = getFullPathFromTreeUri(treeUri, ctx);

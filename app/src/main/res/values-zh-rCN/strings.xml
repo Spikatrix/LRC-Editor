@@ -38,7 +38,7 @@
 	<string name="delete_successful_message">成功删除已选定歌词文件</string>
 	<string name="delete_timestamps_and_lyrics_message">删除时间标记及歌词</string>
 	<string name="delete_timestamps_only_message">只删除时间标记</string>
-	<string name="deleting_message">正在删除... 这可能需要一些时间，取决于文件与读取位置的距离</string>
+	<string name="deleting_message">正在删除...</string>
 	<string name="documentsui_enable_message">您的 Android 系统当前是否运行 5.0 或以上版本？建议您可以从您的手机设置启用 DocumentsUI</string>
 	<string name="done">完成</string>
 	<string name="edit">编辑</string>
@@ -47,7 +47,7 @@
 	<string name="error_occurred_when_reading_message">读取时发生错误！</string>
 	<string name="expandable_button_description">折叠式按钮图片</string>
 	<string name="failed_to_extract_metadata_message">无法取得媒体数据</string>
-	<string name="failed_to_fetch_adapter_message">无法提取 recyclerview 配置器</string>
+	<string name="failed_to_setup_list_message">无法设置列表</string>
 	<string name="failed_to_fetch_clipboard_message">无法提取系统剪贴簿服务！</string>
 	<string name="failed_to_get_duration_message">不可预料的错误：无法取得媒体文件的持续时间</string>
 	<string name="failed_to_initialize_search_message">无法初始化搜索菜单项目</string>

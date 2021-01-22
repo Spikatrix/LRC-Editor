@@ -38,7 +38,7 @@
 	<string name="delete_successful_message">Deleted the selected LRC files successfully</string>
 	<string name="delete_timestamps_and_lyrics_message">Delete both timestamps and the lyrics</string>
 	<string name="delete_timestamps_only_message">Delete timestamps only</string>
-	<string name="deleting_message">Deleting... This may take a while depending on how far the file(s) are from the set read location</string>
+	<string name="deleting_message">Deleting selected files...</string>
 	<string name="documentsui_enable_message">Are you running Android 5.0+? Maybe enable DocumentsUI from your phone settings</string>
 	<string name="done">Done</string>
 	<string name="edit">Edit</string>
@@ -47,7 +47,7 @@
 	<string name="error_occurred_when_reading_message">An error occurred while reading!</string>
 	<string name="expandable_button_description">Expandable button image</string>
 	<string name="failed_to_extract_metadata_message">Failed to extract media metadata</string>
-	<string name="failed_to_fetch_adapter_message">Failed to fetch the adapter of the recyclerview</string>
+	<string name="failed_to_setup_list_message">Failed to setup the list</string>
 	<string name="failed_to_fetch_clipboard_message">Failed to fetch the System Clipboard Service!</string>
 	<string name="failed_to_get_duration_message">Unexpected error: Failed to get the duration of the media file</string>
 	<string name="failed_to_initialize_search_message">Failed to initialize the search menu item</string>

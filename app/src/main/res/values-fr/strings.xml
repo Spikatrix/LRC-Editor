@@ -38,7 +38,7 @@
 	<string name="delete_successful_message">Les fichiers LRC ont été supprimés avec succès</string>
 	<string name="delete_timestamps_and_lyrics_message">Supprimer le marqueur temporel et les paroles</string>
 	<string name="delete_timestamps_only_message">Supprimer uniquement le marqueur temporel</string>
-	<string name="deleting_message">Suppression en cours... Cela peut prendre du temps si les fichiers sélectionnés sont loin du point de lecture actuel</string>
+	<string name="deleting_message">Suppression en cours...</string>
 	<string name="documentsui_enable_message">Votre version d\'Android est-elle plus récente que la version 5.0 ? Essayez d\'activer DocumentsUI depuis les paramètres du téléphone</string>
 	<string name="done">Effectué</string>
 	<string name="edit">Editer</string>
@@ -47,7 +47,7 @@
 	<string name="error_occurred_when_reading_message">Une erreur s\'est produite pendant la lecture !</string>
 	<string name="expandable_button_description">Bouton extensible</string>
 	<string name="failed_to_extract_metadata_message">Impossible d\'extraire les métadonnées</string>
-	<string name="failed_to_fetch_adapter_message">Impossible de récupérer l\'Adapter du RecyclerView</string>
+	<string name="failed_to_setup_list_message">Impossible de configurer la liste</string>
 	<string name="failed_to_fetch_clipboard_message">Impossible de joindre le presse-papier !</string>
 	<string name="failed_to_get_duration_message">Impossible d\'obtenir la durée de la musique.</string>
 	<string name="failed_to_initialize_search_message">Impossible d\'initialiser le menu de recherche</string>

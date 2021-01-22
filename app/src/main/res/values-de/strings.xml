@@ -38,7 +38,7 @@
 	<string name="delete_successful_message">Ausgewählte LRC-Dateien erfolgreich gelöscht</string>
 	<string name="delete_timestamps_and_lyrics_message">Gesamte Zeile inklusive Zeitstempel entfernen</string>
 	<string name="delete_timestamps_only_message">Nur Zeitstempel entfernen</string>
-	<string name="deleting_message">Löschvorgang... Je nachdem, wie weit die Dateien vom Suchverzeichnis entfernt gespeichert sind, kann dies länger dauern</string>
+	<string name="deleting_message">Löschvorgang...</string>
 	<string name="documentsui_enable_message">Verwendest du Android 5.0+? Versuche \"DocumentsUI\" in den Systemeinstellungen zu aktivieren</string>
 	<string name="done">Fertig</string>
 	<string name="edit">Bearbeiten</string>
@@ -47,7 +47,7 @@
 	<string name="error_occurred_when_reading_message">Ein fehler trat beim Lesen der Datei auf!</string>
 	<string name="expandable_button_description">Erweiterbarer Knopf-Bild</string>
 	<string name="failed_to_extract_metadata_message">Konnte Tags der Datei nicht lesen</string>
-	<string name="failed_to_fetch_adapter_message">Konnte den Adapter vom Recyclerview nicht erreichen</string>
+	<string name="failed_to_setup_list_message">Fehler beim Einrichten der Liste</string>
 	<string name="failed_to_fetch_clipboard_message">Abrufen des Zwischenablagedienstes fehlgeschlagen!</string>
 	<string name="failed_to_get_duration_message">Unerwarteter Fehler: Dauer der Datei konnte nicht festgestellt werden.</string>
 	<string name="failed_to_initialize_search_message">Konnte das Suchobjekt nicht initialisieren</string>

@@ -38,7 +38,7 @@
 	<string name="delete_successful_message">Pomyślnie usunięto wybrane pliki LRC</string>
 	<string name="delete_timestamps_and_lyrics_message">Usuń zarówno znaczniki czasu, jak i teksty</string>
 	<string name="delete_timestamps_only_message">Usuń tylko znaczniki czasu</string>
-	<string name="deleting_message">Usuwanie... Może to chwilę potrwać w zależności od odległości plików od ustawionej lokalizacji odczytu</string>
+	<string name="deleting_message">Usuwanie...</string>
 	<string name="documentsui_enable_message">Czy używasz Androida 5.0+? Może włączyć DocumentsUI w ustawieniach telefonu</string>
 	<string name="done">Gotowe</string>
 	<string name="edit">Edycja</string>
@@ -47,7 +47,7 @@
 	<string name="error_occurred_when_reading_message">Wystąpił błąd podczas czytania!</string>
 	<string name="expandable_button_description">Rozwijany obraz przycisku</string>
 	<string name="failed_to_extract_metadata_message">Nie udało się wyodrębnić metadanych mediów</string>
-	<string name="failed_to_fetch_adapter_message">Nie udało się pobrać adaptera podglądu kosza</string>
+	<string name="failed_to_setup_list_message">Nie udało się skonfigurować listy</string>
 	<string name="failed_to_fetch_clipboard_message">Nie udało się pobrać usługi Schowka systemowego!</string>
 	<string name="failed_to_get_duration_message">Nieoczekiwany błąd: nie można uzyskać czasu trwania pliku multimedialnego</string>
 	<string name="failed_to_initialize_search_message">Nie udało się zainicjować pozycji menu wyszukiwania</string>

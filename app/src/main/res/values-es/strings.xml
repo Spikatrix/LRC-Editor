@@ -38,7 +38,7 @@
 	<string name="delete_successful_message">Los archivos LRC fueron eliminados</string>
 	<string name="delete_timestamps_and_lyrics_message">Eliminar los indicadores de tiempo y la letra</string>
 	<string name="delete_timestamps_only_message">Eliminar únicamente los indicadores de tiempo </string>
-	<string name="deleting_message">Eliminando... Puede tardar según la ubicación del archivo con respecto a la carpeta de lectura</string>
+	<string name="deleting_message">Eliminando...</string>
 	<string name="documentsui_enable_message">¿Tiene Android 5.0 o más reciente? Compruebe activar DocumentsUI en los ajustes</string>
 	<string name="done">Terminado</string>
 	<string name="edit">Editar</string>
@@ -47,7 +47,7 @@
 	<string name="error_occurred_when_reading_message">¡Un eror ocurió durante la reproducción!</string>
 	<string name="expandable_button_description">Botón extensible</string>
 	<string name="failed_to_extract_metadata_message">Imposible extraer los metadatos</string>
-	<string name="failed_to_fetch_adapter_message">Falló conseguir el adaptador del RecyclerView</string>
+	<string name="failed_to_setup_list_message">No se pudo configurar la lista</string>
 	<string name="failed_to_fetch_clipboard_message">Falló conseguir el portapapeles</string>
 	<string name="failed_to_get_duration_message">Falló conseguir la duración de la canción.</string>
 	<string name="failed_to_initialize_search_message">Falló inicializar el menu de búsqueda</string>

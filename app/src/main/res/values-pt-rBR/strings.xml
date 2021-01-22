@@ -38,7 +38,7 @@
 	<string name="delete_successful_message">Arquivos LRC selecionados deletados com sucesso</string>
 	<string name="delete_timestamps_and_lyrics_message">Apagar os timestamps e as letras</string>
 	<string name="delete_timestamps_only_message">Excluir somente carimbos de tempo</string>
-	<string name="deleting_message">Excluindo... Isso pode demorar um pouco dependendo da distância entre o(s) arquivo(s) do local de leitura definido</string>
+	<string name="deleting_message">Excluindo...</string>
 	<string name="documentsui_enable_message">Você está executando o Android 5.0 ou superior? Ative o DocumentsUI das configurações do seu telefone</string>
 	<string name="done">Feito</string>
 	<string name="edit">Editar</string>
@@ -47,7 +47,7 @@
 	<string name="error_occurred_when_reading_message">Ocorreu um erro durante a leitura!</string>
 	<string name="expandable_button_description">Imagem do botão expansível</string>
 	<string name="failed_to_extract_metadata_message">Falha ao extrair metadados de mídia</string>
-	<string name="failed_to_fetch_adapter_message">Falha ao buscar o adaptador da exibição de reciclagem</string>
+	<string name="failed_to_setup_list_message">Falha ao configurar a lista</string>
 	<string name="failed_to_fetch_clipboard_message">Falha ao buscar o serviço de área de transferência do sistema!</string>
 	<string name="failed_to_get_duration_message">Erro inesperado: falha ao obter a duração do arquivo de mídia</string>
 	<string name="failed_to_initialize_search_message">Falha ao inicializar o item de menu de pesquisa</string>

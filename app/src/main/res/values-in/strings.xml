@@ -38,7 +38,7 @@
 	<string name="delete_successful_message">Berkas LRC terpilih sudah terhapus</string>
 	<string name="delete_timestamps_and_lyrics_message">Hapus cap waktu serta liriknya</string>
 	<string name="delete_timestamps_only_message">Hapus cap waktu saja</string>
-	<string name="deleting_message">Menghapus... Ini mungkin akan memakan waktu tergantung dari jauhnya lokasi berkas tersebut</string>
+	<string name="deleting_message">Menghapus...</string>
 	<string name="documentsui_enable_message">Apakah Anda sedang menjalankan Android 5.0+? Coba aktifkan DocumentsUI dari setelan ponsel Anda</string>
 	<string name="done">Selesai</string>
 	<string name="edit">Edit</string>
@@ -47,7 +47,7 @@
 	<string name="error_occurred_when_reading_message">Terjadi kesalahan ketika membaca!</string>
 	<string name="expandable_button_description">Gambar tombol yang dapat diperbesar</string>
 	<string name="failed_to_extract_metadata_message">Gagal mengekstrak metadata media</string>
-	<string name="failed_to_fetch_adapter_message">Gagal mengambil adapter peninjau-daur ulang</string>
+	<string name="failed_to_setup_list_message">Gagal menyiapkan daftar</string>
 	<string name="failed_to_fetch_clipboard_message">Gagal mengambil Layanan Papan Klip Sistem!</string>
 	<string name="failed_to_get_duration_message">Kesalahan: Gagal mendapatkan durasi berkas media</string>
 	<string name="failed_to_initialize_search_message">Gagal merintis item menu penelusuran</string>

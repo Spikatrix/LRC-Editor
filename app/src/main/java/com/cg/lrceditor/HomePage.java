@@ -133,7 +133,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 
 		actionModeCallback = new ActionModeCallback();
 
-		readyFileIO();
+		prepareFileIO();
 	}
 
 	@Override
@@ -245,7 +245,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 	/* Scans all directories and sub directories for LRC files and updates the recyclerview adapter */
 	private void scanDirectory(File dir) {
 		if (adapter == null) {
-			showToastOnUiThread(getString(R.string.failed_to_fetch_adapter_message));
+			showToastOnUiThread(getString(R.string.failed_to_setup_list_message));
 			return;
 		}
 
@@ -335,7 +335,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 		}
 	}
 
-	private void readyFileIO() {
+	private void prepareFileIO() {
 		if (!isExternalStorageWritable()) {
 			Toast.makeText(this, getString(R.string.storage_unavailable_message), Toast.LENGTH_LONG).show();
 			finish();
@@ -606,61 +606,63 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 						itemsToDelete.add(adapter.listData.get(i));
 					}
 
-					new Thread(() -> {
-						if (threadIsExecuting) {
-							showToastOnUiThread(getString(R.string.another_operation_wait_message));
-							return;
-						}
-						threadIsExecuting = true;
-						runOnUiThread(() -> swipeRefreshLayout.setRefreshing(true));
-
-						showToastOnUiThread(getString(R.string.deleting_message));
-
-						DocumentFile pickedDir = FileUtil.getDocumentFile(readUri, readLocation, getApplicationContext());
-
-						boolean deleteFailure = false;
-
-						while (!itemsToDelete.isEmpty()) {
-							final HomePageListItem currentItem = itemsToDelete.remove(itemsToDelete.size() - 1);
-							File f = currentItem.file;
-							final String location = FileUtil.stripFileNameFromPath(f.getAbsolutePath());
-
-							DocumentFile file = FileUtil.searchForFileOptimized(pickedDir, location, f.getName(), getApplicationContext().getExternalFilesDirs(null));
-							if (file == null || !file.delete()) {
-								deleteFailure = true;
-							} else {
-								runOnUiThread(() -> {
-									if (toolbar.hasExpandedActionView()) {
-										adapter.backupListData.remove(currentItem);
-									}
-
-									int index = adapter.listData.indexOf(currentItem);
-									if (index != -1) {
-										adapter.listData.remove(currentItem);
-										adapter.notifyItemRemoved(index);
-									}
-
-									checkActionModeItems();
-								});
-							}
-						}
-
-						final boolean finalDeleteFailure = deleteFailure;
-						if (finalDeleteFailure) {
-							showToastOnUiThread(getString(R.string.delete_failed_message));
-						} else {
-							showToastOnUiThread(getString(R.string.delete_successful_message));
-						}
-
-						runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
-
-						threadIsExecuting = false;
-					}).start();
+					new Thread(() -> deleteAsync(itemsToDelete)).start();
 				})
 				.setNegativeButton(getString(R.string.no), null)
 				.create()
 				.show();
 
+	}
+
+	private void deleteAsync(ArrayList<HomePageListItem> itemsToDelete) {
+		if (threadIsExecuting) {
+			showToastOnUiThread(getString(R.string.another_operation_wait_message));
+			return;
+		}
+		threadIsExecuting = true;
+		runOnUiThread(() -> swipeRefreshLayout.setRefreshing(true));
+
+		showToastOnUiThread(getString(R.string.deleting_message));
+
+		boolean deleteFailure = false;
+
+		while (!itemsToDelete.isEmpty()) {
+			HomePageListItem currentItem = itemsToDelete.remove(itemsToDelete.size() - 1);
+			File fileToDelete = currentItem.file;
+
+			DocumentFile file = FileUtil.getDocumentFileFromPath(readUri, fileToDelete.getAbsolutePath(), this);
+			if (file == null) {
+				file = DocumentFile.fromFile(fileToDelete);
+			}
+
+			if (file == null || !file.delete()) {
+				deleteFailure = true;
+			} else {
+				runOnUiThread(() -> {
+					if (toolbar.hasExpandedActionView()) {
+						adapter.backupListData.remove(currentItem);
+					}
+
+					int index = adapter.listData.indexOf(currentItem);
+					if (index != -1) {
+						adapter.listData.remove(currentItem);
+						adapter.notifyItemRemoved(index);
+					}
+
+					checkActionModeItems();
+				});
+			}
+		}
+
+		if (deleteFailure) {
+			showToastOnUiThread(getString(R.string.delete_failed_message));
+		} else {
+			showToastOnUiThread(getString(R.string.delete_successful_message));
+		}
+
+		runOnUiThread(() -> swipeRefreshLayout.setRefreshing(false));
+
+		threadIsExecuting = false;
 	}
 
 	private void promptRenameFile() {
@@ -671,10 +673,10 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 
 		LayoutInflater inflater = this.getLayoutInflater();
 		View view = inflater.inflate(R.layout.dialog_edit, null);
-		final EditText editText = view.findViewById(R.id.dialog_edittext);
+		EditText editText = view.findViewById(R.id.dialog_edittext);
 		TextView textView = view.findViewById(R.id.dialog_prompt);
 
-		final File fileToRename = adapter.listData.get(adapter.getSelectedItemIndices().get(0)).file;
+		File fileToRename = adapter.listData.get(adapter.getSelectedItemIndices().get(0)).file;
 
 		String fileName = fileToRename.getName();
 		textView.setText(getString(R.string.new_file_name_prompt));
@@ -685,8 +687,8 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 		new AlertDialog.Builder(this)
 				.setView(view)
 				.setPositiveButton(getString(R.string.rename), (dialog, which) -> {
-					final HomePageListItem itemToRename = adapter.listData.get(adapter.getSelectedItemIndices().get(0));
-					final String newName = editText.getText().toString();
+					HomePageListItem itemToRename = adapter.listData.get(adapter.getSelectedItemIndices().get(0));
+					String newName = editText.getText().toString();
 
 					if (itemToRename.file.getName().equals(newName)) {
 						// User wants the new name to be the same as the old name for whatever reason
@@ -715,7 +717,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 			actionMode = null;
 		});
 
-		final String location = FileUtil.stripFileNameFromPath(fileToRename.getAbsolutePath());
+		String location = FileUtil.stripFileNameFromPath(fileToRename.getAbsolutePath());
 
 		DocumentFile documentFile = FileUtil.getDocumentFileFromPath(readUri, fileToRename.getAbsolutePath(), this);
 		if (documentFile == null) {
