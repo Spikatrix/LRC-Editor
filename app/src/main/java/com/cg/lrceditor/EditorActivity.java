@@ -70,7 +70,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 	private boolean isDarkTheme = false;
 
 	private String lrcFileName = null;
-	private String lrcFilePath = null; //[JM] Adds lrcFilePath variable to store it from intent entering the activity
+	private String lrcFilePath = null;
 	private Uri songUri = null;
 	private String songFileName = null;
 
@@ -233,14 +233,15 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 		recyclerView.addItemDecoration(dividerItemDecoration);
 
 		final Intent intent = getIntent();
+		Uri intentData = intent.getData();
 
-		if (intent.getData() != null) {
+		if (intentData != null) {
 			/* LRC File opened externally */
 
 			final LyricListAdapter.ItemClickListener clickListener = this;
 			final Context ctx = this;
 
-			final LyricReader r = new LyricReader(intent.getData(), this);
+			final LyricReader r = new LyricReader(intentData, this);
 			new Thread(() -> {
 				runOnUiThread(() -> swipeRefreshLayout.setRefreshing(true));
 
@@ -279,7 +280,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
 			metadata = (Metadata) intent.getSerializableExtra(IntentSharedStrings.METADATA);
 			lrcFileName = intent.getStringExtra(IntentSharedStrings.LRC_FILE_NAME);
-			lrcFilePath = intent.getStringExtra(IntentSharedStrings.LRC_FILE_PATH); //[JM] Gets path from IntentExtra
+			lrcFilePath = intent.getStringExtra(IntentSharedStrings.LRC_FILE_PATH);
 
 			adapter = new LyricListAdapter(this, lyricData, isDarkTheme);
 			adapter.setClickListener(this);
@@ -859,7 +860,6 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 		if (requestCode == Constants.FILE_REQUEST && resultCode == Activity.RESULT_OK) {
 			if (resultData != null) {
 				Uri uri = resultData.getData();
-
 				if (uri != null) {
 					playerPrepared = false;
 
@@ -1483,8 +1483,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 				intent.putExtra(IntentSharedStrings.METADATA, metadata);
 				intent.putExtra(IntentSharedStrings.SONG_FILE_NAME, songFileName);
 				intent.putExtra(IntentSharedStrings.LRC_FILE_NAME, lrcFileName);
-				intent.putExtra(IntentSharedStrings.LRC_FILE_PATH, lrcFilePath); //[JM] Passes the lrcFilePath variable to next Activity through intent
-
+				intent.putExtra(IntentSharedStrings.LRC_FILE_PATH, lrcFilePath);
 				startActivity(intent);
 			}
 

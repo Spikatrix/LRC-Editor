@@ -6,6 +6,6 @@ class IntentSharedStrings {
 	static final String SONG_URI = "SONG URI";
 	static final String METADATA = "METADATA";
 	static final String LRC_FILE_NAME = "LRC_FILE_NAME";
-	static final String LRC_FILE_PATH = "LRC_FILE_PATH"; //[JM] To pass the path in the intent extras
+	static final String LRC_FILE_PATH = "LRC_FILE_PATH";
 	static final String SONG_FILE_NAME = "SONG_FILE_NAME";
 }

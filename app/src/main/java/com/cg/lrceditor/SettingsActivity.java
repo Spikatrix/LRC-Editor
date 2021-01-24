@@ -233,9 +233,8 @@ public class SettingsActivity extends AppCompatActivity {
 	public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
 		super.onActivityResult(requestCode, resultCode, resultData);
 		if (requestCode == Constants.SAVE_LOCATION_REQUEST && resultCode == Activity.RESULT_OK) {
-			Uri uri;
 			if (resultData != null) {
-				uri = resultData.getData();
+				Uri uri = resultData.getData();
 				if (uri != null) {
 					SharedPreferences.Editor editor = preferences.edit();
 
@@ -262,9 +261,8 @@ public class SettingsActivity extends AppCompatActivity {
 				}
 			}
 		} else if (requestCode == Constants.READ_LOCATION_REQUEST && resultCode == Activity.RESULT_OK) {
-			Uri uri;
 			if (resultData != null) {
-				uri = resultData.getData();
+				Uri uri = resultData.getData();
 				if (uri != null) {
 					SharedPreferences.Editor editor = preferences.edit();
 

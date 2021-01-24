@@ -1,7 +1,6 @@
 package com.cg.lrceditor;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -18,7 +17,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.method.ScrollingMovementMethod;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -44,6 +42,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
+import java.util.Objects;
 
 public class FinalizeActivity extends AppCompatActivity {
 
@@ -58,10 +57,10 @@ public class FinalizeActivity extends AppCompatActivity {
 	private TextView statusTextView;
 
 	private Uri saveUri;
-	private static String saveLocation = null; //[JM] Adds static variable to keep track of the current file path (from current edited file, setting or new user chosen path)
+	private static String saveLocation = null;
 
 	private String lrcFileName = null;
-	private String lrcFilePath = null; //[JM] Adds lrcFilePath variable to store it from intent entering the activity
+	private String lrcFilePath = null;
 	private String songFileName = null;
 
 	private View dialogView;
@@ -75,9 +74,9 @@ public class FinalizeActivity extends AppCompatActivity {
 
 	public static void hideKeyboard(Activity activity) {
 		InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-		//Find the currently focused view, so we can grab the correct window token from it.
+		// Find the currently focused view, so we can grab the correct window token from it.
 		View view = activity.getCurrentFocus();
-		//If no view currently has focus, create a new one, just so we can grab a window token from it
+		// If no view currently has focus, create a new one, just so we can grab a window token from it
 		if (view == null) {
 			view = new View(activity);
 		}
@@ -91,12 +90,15 @@ public class FinalizeActivity extends AppCompatActivity {
 		super.onResume();
 
 		if (saveLocation == null) {
-			saveLocation = preferences.getString(Constants.SAVE_LOCATION_PREFERENCE, Constants.defaultLocation); //[JM] Only changes the saves the location to default if none is set
+			// Set the save location if it is not set
+			saveLocation = preferences.getString(Constants.SAVE_LOCATION_PREFERENCE, Constants.defaultLocation);
 		}
 
 		String uriString = preferences.getString("saveUri", null);
-		if (uriString != null && saveUri == null)
+		if (uriString != null && saveUri == null) {
+			// Set the save uri if it is not set and is available
 			saveUri = Uri.parse(uriString);
+		}
 
 		if (dialogView != null) {
 			((TextView) dialogView.findViewById(R.id.save_location_display)).setText(getString(R.string.save_location_displayer, saveLocation));
@@ -125,7 +127,7 @@ public class FinalizeActivity extends AppCompatActivity {
 		Metadata metadata = (Metadata) intent.getSerializableExtra(IntentSharedStrings.METADATA);
 		Uri songUri = intent.getParcelableExtra(IntentSharedStrings.SONG_URI);
 		lrcFileName = intent.getStringExtra(IntentSharedStrings.LRC_FILE_NAME);
-		lrcFilePath = intent.getStringExtra(IntentSharedStrings.LRC_FILE_PATH); //[JM] Gets the lrcFilePath from passed intent from previous Activity
+		lrcFilePath = intent.getStringExtra(IntentSharedStrings.LRC_FILE_PATH);
 		songFileName = intent.getStringExtra(IntentSharedStrings.SONG_FILE_NAME);
 
 		songName = findViewById(R.id.songName_edittext);
@@ -205,10 +207,7 @@ public class FinalizeActivity extends AppCompatActivity {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !grantPermission()) { /* Marshmallow onwards require runtime permissions */
 			statusTextView.setTextColor(ContextCompat.getColor(this, R.color.errorColor));
 			statusTextView.setText(getString(R.string.no_permission_to_write_text));
-
-			copyError = findViewById(R.id.copy_error_button);
 			copyError.setVisibility(View.VISIBLE);
-
 			return;
 		} else if (!isDarkTheme) {
 			statusTextView.setTextColor(Color.BLACK);
@@ -218,30 +217,32 @@ public class FinalizeActivity extends AppCompatActivity {
 
 		overwriteFailed = false;
 
-		LayoutInflater inflater = this.getLayoutInflater();
-		dialogView = inflater.inflate(R.layout.dialog_save_lrc, null);
+		dialogView = this.getLayoutInflater().inflate(R.layout.dialog_save_lrc, null);
 		final EditText editText = dialogView.findViewById(R.id.dialog_edittext);
 		final TextView saveLocationDisplayer = dialogView.findViewById(R.id.save_location_display);
 		TextView textView = dialogView.findViewById(R.id.dialog_prompt);
+
 		editText.setHint(getString(R.string.file_name_hint));
 		if (lrcFileName != null) {
-			editText.setText(lrcFileName); //[JM] If file is being edited, its takes the passed lrcFileName
+			editText.setText(lrcFileName);
 		} else {
-			editText.setText(songName.getText().toString() + ".lrc"); //[JM] If new file, composes new file name from SongName
+			editText.setText(String.format("%s.lrc", songName.getText().toString()));
 		}
 		textView.setText(getString(R.string.file_name_prompt));
 
-		//[JM] Sets the save location to lrcFilePath if files being edited or to default if new file.
-		if (lrcFilePath != null) {
-			saveLocation = lrcFilePath;
-			String uriString = preferences.getString("readUri", null);
-			if (uriString != null)
+		if (saveLocation == null) {
+			String uriString;
+			if (lrcFilePath != null) {
+				saveLocation = lrcFilePath;
+				uriString = preferences.getString("readUri", null);
+			} else {
+				saveLocation = preferences.getString(Constants.SAVE_LOCATION_PREFERENCE, Constants.defaultLocation);
+				uriString = preferences.getString("saveUri", null);
+			}
+
+			if (uriString != null) {
 				saveUri = Uri.parse(uriString);
-		} else {
-			saveLocation = preferences.getString(Constants.SAVE_LOCATION_PREFERENCE, Constants.defaultLocation);
-			String uriString = preferences.getString("saveUri", null);
-			if (uriString != null)
-				saveUri = Uri.parse(uriString);
+			}
 		}
 
 		saveLocationDisplayer.setText(getString(R.string.save_location_displayer, saveLocation));
@@ -253,56 +254,45 @@ public class FinalizeActivity extends AppCompatActivity {
 			dialogView.findViewById(R.id.same_name_as_lrc).setEnabled(false);
 		}
 
-		AlertDialog dialog = new AlertDialog.Builder(this)
+		new AlertDialog.Builder(this)
 				.setView(dialogView)
-				.setPositiveButton(getString(R.string.save), (dialog1, which) -> {
-					dialog1.dismiss();
-
-					saveLyricsFile(saveLocation, editText.getText().toString()); //[JM] Passes new path parameter to saveLyricsFile method
+				.setPositiveButton(getString(R.string.save), (dialog, which) -> {
+					dialog.dismiss();
+					saveLyricsFile(saveLocation, editText.getText().toString());
 				})
-				.setNegativeButton(getString(R.string.cancel), (dialog12, which) -> statusTextView.setVisibility(View.GONE))
+				.setNegativeButton(getString(R.string.cancel), (dialog, which) -> statusTextView.setVisibility(View.GONE))
 				.setCancelable(false)
-				.create();
-		dialog.show();
+				.create()
+				.show();
 	}
 
-	//[JM] Modified method to receive path
-	private void saveLyricsFile(String path, String name) {
+	private void setStatusOnUiThread(final String msg) {
+		runOnUiThread(() -> statusTextView.setText(msg));
+	}
 
-		//[JM] Modified, but should not be required as passed name should already include filetype from prevous step.
-		String fileName = null;
-		if (name.endsWith(".lrc"))
-			fileName = name;
-		else
-			fileName = name + ".lrc";
+	private void saveLyricsFile(String filePath, String fileName) {
+		final String finalFileName = fileName;
+		final String finalFilePath = filePath;
 
-		//[JM] Modified the way the path is checked, but should not be required (previous outer if statement just below).
-		String filePath = null;
-		if (path == null)
-			filePath = preferences.getString(Constants.SAVE_LOCATION_PREFERENCE, Constants.defaultLocation);
-		else
-			filePath = path;
-
-		final String finalFileName = fileName; //moved the finalFinal variable up to avoid repeating code
-		final String finalFilePath = filePath; //added final String for path as well
-
-		final File f = new File(finalFilePath + "/" + finalFileName); //[JM] Modified statement for new variable names
-		if (f.exists()) {
+		// See comments in renameAsync in HomePage.java
+		if (Objects.requireNonNull(new File(finalFilePath, finalFileName).getParentFile().list(
+				(file, name) -> name.equals(finalFileName))).length > 0) {
 			new AlertDialog.Builder(this)
 					.setTitle(getString(R.string.warning))
-					.setMessage(getString(R.string.overwrite_prompt, finalFileName, finalFilePath)) //[JM] Updated to correct variables. Removed the ".lrc" extension after first argument in overwrite_prompt (strings.xml)
+					.setMessage(getString(R.string.overwrite_prompt, finalFileName, finalFilePath))
 					.setCancelable(false)
 					.setPositiveButton(getString(R.string.yes), (dialog, which) -> new Thread(() -> {
 						threadIsExecuting = true;
 
 						setStatusOnUiThread(getString(R.string.attempting_to_overwrite_message));
-						if (!deleteFile(finalFilePath, finalFileName)) { //[JM] Updated to correct variables and new parameter
+						if (!deleteFile(finalFilePath, finalFileName)) {
 							overwriteFailed = true;
-							runOnUiThread(() -> Toast.makeText(getApplicationContext(), getString(R.string.failed_to_overwrite_message), Toast.LENGTH_LONG).show());
+							runOnUiThread(() -> Toast.makeText(getApplicationContext(),
+									getString(R.string.failed_to_overwrite_message), Toast.LENGTH_LONG).show());
 						}
 
 						setStatusOnUiThread(getString(R.string.writing_lyrics_message));
-						writeLyrics(finalFilePath, finalFileName); //[JM] Updated to correct variables and new parameter
+						writeLyrics(finalFilePath, finalFileName);
 
 						threadIsExecuting = false;
 					}).start())
@@ -313,8 +303,7 @@ public class FinalizeActivity extends AppCompatActivity {
 				threadIsExecuting = true;
 
 				setStatusOnUiThread(getString(R.string.writing_lyrics_message));
-				//[JM] Changed call to writeLyrics to add path
-				writeLyrics(finalFilePath, finalFileName); //[JM] Updated to correct variables and new parameter
+				writeLyrics(finalFilePath, finalFileName);
 
 				threadIsExecuting = false;
 			}).start();
@@ -323,31 +312,13 @@ public class FinalizeActivity extends AppCompatActivity {
 		hideKeyboard(this);
 	}
 
-	private void setStatusOnUiThread(final String msg) {
-		runOnUiThread(() -> statusTextView.setText(msg));
-	}
-
-	//[JM] Modified function to receive filePath as well
 	private boolean deleteFile(String filePath, String fileName) {
-		//[JM] Changes use of global "saveLocation" for the actual filePath
-		Uri fileUri = FileUtil.getFileTreeUriFromPath(saveUri, filePath + "/" + fileName, getApplicationContext());
-		DocumentFile file = DocumentFile.fromSingleUri(getApplicationContext(), saveUri);
-		if (fileUri != null) {
-			file = FileUtil.getDocumentFileFromPath(saveUri, filePath + "/" + fileName, getApplicationContext());
-		}
-
+		DocumentFile file = FileUtil.getDocumentFileFromPath(saveUri, filePath + "/" + fileName, getApplicationContext());
 		return file != null && file.delete();
 	}
 
-	//[JM] Modified function to receive filePath as well
 	private void writeLyrics(final String filePath, final String fileName) {
-		//[JM] Modified DocumentFile call
-		Uri dirUri = FileUtil.getFileTreeUriFromPath(saveUri, filePath, getApplicationContext());
-		DocumentFile file = DocumentFile.fromSingleUri(getApplicationContext(), saveUri);
-		if (dirUri != null) {
-			file = FileUtil.getDocumentFileFromPath(saveUri, filePath, getApplicationContext());
-		}
-
+		DocumentFile file = FileUtil.getDocumentFileFromPath(saveUri, filePath, getApplicationContext());
 		file = file.createFile("application/*", fileName);
 
 		try {
@@ -364,10 +335,9 @@ public class FinalizeActivity extends AppCompatActivity {
 			out.flush();
 			out.close();
 
-			//[JM] Added filepath
 			runOnUiThread(() -> saveSuccessful(filePath + "/" + fileName));
 
-		} catch (IOException | NullPointerException | IllegalArgumentException | SecurityException e) {
+		} catch (IOException | NullPointerException | IllegalArgumentException | SecurityException | UnsupportedOperationException e) {
 			e.printStackTrace();
 			runOnUiThread(() -> {
 				statusTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.errorColor));
@@ -377,6 +347,10 @@ public class FinalizeActivity extends AppCompatActivity {
 				copy_error.setVisibility(View.VISIBLE);
 			});
 		}
+	}
+
+	public void setAsLRCFileName(View view) {
+		((EditText) dialogView.findViewById(R.id.dialog_edittext)).setText(lrcFileName);
 	}
 
 	private String lyricsToString(boolean useThreeDigitMilliseconds) {
@@ -408,7 +382,9 @@ public class FinalizeActivity extends AppCompatActivity {
 			Timestamp timestamp = lyricData.get(i).getTimestamp();
 			if (timestamp != null) {
 				String lyric = lyricData.get(i).getLyric();
-				if (lyric == null || lyric.equals("")) { // Some players might skip empty lyric lines
+				if (lyric == null || lyric.equals("")) {
+					// Some players might skip empty lyric lines (I'm looking at you Huawei music player)
+					// Hence we replace empty lyric lines with a space
 					lyric = " ";
 				}
 				if (useThreeDigitMilliseconds) {
@@ -422,29 +398,24 @@ public class FinalizeActivity extends AppCompatActivity {
 		return sb.toString();
 	}
 
-	public void setAsLRCFileName(View view) {
-		((EditText) dialogView.findViewById(R.id.dialog_edittext)).setText(lrcFileName);
-	}
-
-	@SuppressLint("SetTextI18n")
 	public void setAsSongFileName(View view) {
 		EditText editText = dialogView.findViewById(R.id.dialog_edittext);
 		try {
-			if (songFileName.contains(".") &&
-					(songFileName.lastIndexOf('.') == songFileName.length() - 4 ||
-							songFileName.lastIndexOf('.') == songFileName.length() - 5)) {
-				editText.setText(songFileName.substring(0, songFileName.lastIndexOf('.')) + ".lrc");
-			} else {
-				editText.setText(songFileName + ".lrc");
+			int dotPosition = songFileName.lastIndexOf('.');
+			int songNameLength = songFileName.length();
+
+			if (dotPosition != -1 && (dotPosition == songNameLength - 4 || dotPosition == songNameLength - 5)) {
+				editText.setText(String.format("%s.lrc", songFileName.substring(0, dotPosition)));
+				return;
 			}
-		} catch (IndexOutOfBoundsException e) {
-			editText.setText(songFileName + ".lrc");
+		} catch (IndexOutOfBoundsException ignored) {
 		}
+
+		editText.setText(String.format("%s.lrc", songFileName));
 	}
 
 	private boolean grantPermission() {
-		if (ContextCompat.checkSelfPermission(this,
-				Manifest.permission.WRITE_EXTERNAL_STORAGE)
+		if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
 				!= PackageManager.PERMISSION_GRANTED) {
 			displayDialog();
 			return false;
@@ -452,30 +423,30 @@ public class FinalizeActivity extends AppCompatActivity {
 		return true;
 	}
 
-	//[JM] Behavior to be tested
 	private void saveSuccessful(String fileName) {
 		statusTextView.setTextColor(ContextCompat.getColor(this, R.color.successColor));
-		//[JM] Strips extensions from fully qualified name to be used properly with string argument
-		String strippedExtensionFileName = null;
-		if (fileName.endsWith(".lrc"))
+		String strippedExtensionFileName;
+		if (fileName.endsWith(".lrc")) {
 			strippedExtensionFileName = fileName.substring(0, fileName.lastIndexOf('.'));
-		else
+		} else {
 			strippedExtensionFileName = fileName;
+		}
 
-		if (overwriteFailed)
+		if (overwriteFailed) {
 			statusTextView.setText(getString(R.string.save_successful, strippedExtensionFileName + "<suffix> .lrc"));
-		else
+		} else {
 			statusTextView.setText(getString(R.string.save_successful, strippedExtensionFileName + ".lrc"));
+		}
 	}
 
 	private void displayDialog() {
-		AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-		dialog.setMessage(getString(R.string.storage_permission_prompt));
-		dialog.setTitle(getString(R.string.need_permissions));
-		dialog.setCancelable(false);
-		dialog.setPositiveButton(getString(R.string.ok), (dialog1, which) -> ActivityCompat.requestPermissions(FinalizeActivity.this,
-				new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constants.WRITE_EXTERNAL_REQUEST));
-		dialog.show();
+		new AlertDialog.Builder(this)
+				.setMessage(getString(R.string.storage_permission_prompt))
+				.setTitle(getString(R.string.need_permissions))
+				.setCancelable(false)
+				.setPositiveButton(getString(R.string.ok), (dialog, which) -> ActivityCompat.requestPermissions(FinalizeActivity.this,
+						new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constants.WRITE_EXTERNAL_REQUEST))
+				.show();
 	}
 
 	@TargetApi(Build.VERSION_CODES.M)
@@ -533,12 +504,6 @@ public class FinalizeActivity extends AppCompatActivity {
 		Toast.makeText(this, getString(R.string.copy_error_successful_message), Toast.LENGTH_LONG).show();
 	}
 
-	//[JM] NOT REQUIRED ANYMORE. The "Change" button has been mapped to "changeSaveLocation" instead
-	public void editSaveLocation(View view) {
-		Intent intent = new Intent(this, SettingsActivity.class);
-		startActivity(intent);
-	}
-
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == android.R.id.home) {
@@ -549,8 +514,7 @@ public class FinalizeActivity extends AppCompatActivity {
 		return (super.onOptionsItemSelected(item));
 	}
 
-	//[JM] Copied and edited from the "SettingActivity" methods with the same name (changeSaveLocation and onActivityResult).
-	//[JM] Enables the user to select a save path for the file without changing the global settings.
+	// Enables the user to select a save path for the file without changing the global settings.
 	public void changeSaveLocation(View view) {
 		Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
 		intent.addCategory(Intent.CATEGORY_DEFAULT);
@@ -568,11 +532,9 @@ public class FinalizeActivity extends AppCompatActivity {
 	public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
 		super.onActivityResult(requestCode, resultCode, resultData);
 		if (requestCode == Constants.SAVE_LOCATION_REQUEST && resultCode == Activity.RESULT_OK) {
-			Uri uri;
 			if (resultData != null) {
-				uri = resultData.getData();
+				Uri uri = resultData.getData();
 				if (uri != null) {
-					//SharedPreferences.Editor editor = preferences.edit();
 					saveUri = uri;
 					saveLocation = FileUtil.getFullPathFromTreeUri(uri, this);
 					TextView saveLocationDisplayer = dialogView.findViewById(R.id.save_location_display);

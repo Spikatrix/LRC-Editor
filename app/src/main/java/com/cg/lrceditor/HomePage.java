@@ -37,6 +37,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class HomePage extends AppCompatActivity implements HomePageListAdapter.LyricFileSelectListener {
 
@@ -539,7 +540,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 					intent.putExtra(IntentSharedStrings.LYRIC_DATA, r.getLyricData());
 					intent.putExtra(IntentSharedStrings.METADATA, r.getMetadata());
 					intent.putExtra(IntentSharedStrings.LRC_FILE_NAME, fileName);
-					intent.putExtra(IntentSharedStrings.LRC_FILE_PATH, fileLocation); //[JM] Adds the file path to intent to pass it to the next Activity
+					intent.putExtra(IntentSharedStrings.LRC_FILE_PATH, fileLocation);
 
 					startActivity(intent);
 				});
@@ -631,9 +632,6 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 			File fileToDelete = currentItem.file;
 
 			DocumentFile file = FileUtil.getDocumentFileFromPath(readUri, fileToDelete.getAbsolutePath(), this);
-			if (file == null) {
-				file = DocumentFile.fromFile(fileToDelete);
-			}
 
 			if (file == null || !file.delete()) {
 				deleteFailure = true;
@@ -718,44 +716,45 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 		});
 
 		String location = FileUtil.stripFileNameFromPath(fileToRename.getAbsolutePath());
-
 		DocumentFile documentFile = FileUtil.getDocumentFileFromPath(readUri, fileToRename.getAbsolutePath(), this);
-		if (documentFile == null) {
-			documentFile = DocumentFile.fromFile(fileToRename);
-		}
 
-		if (new File(location, newName).exists()) { // documentFile.exists() always returns true for some reason
-			DocumentFile finalDocumentFile = documentFile;
-			runOnUiThread(() -> new AlertDialog.Builder(this)
-					.setTitle(getString(R.string.warning))
-					.setMessage(getString(R.string.overwrite_prompt, newName, location))
-					.setCancelable(false)
-					.setPositiveButton(getString(R.string.yes), (dialog, which) -> new Thread(() -> {
-						if (readUri != null) {
-							// Have to manually delete the previous file in this case to prevent an number-suffixed file being created
-							try {
-								DocumentFile existingFile = finalDocumentFile.getParentFile().findFile(newName);
-								if (existingFile != null) {
-									if (!existingFile.delete()) {
+		try {
+			// Apparently, file names are case-insensitively handled internally in Android
+			// So gotta do this abomination for checking the file name case sensitively
+			// A bit buggy as files with a same name but with a different case will have a suffix appended by
+			// the system if on the internal storage and downright fails if on an external storage (SD Card)
+			if (Objects.requireNonNull(new File(location, newName).getParentFile().list(
+					(file, fileName) -> fileName.equals(newName))).length > 0) {
+				runOnUiThread(() -> new AlertDialog.Builder(this)
+						.setTitle(getString(R.string.warning))
+						.setMessage(getString(R.string.overwrite_prompt, newName, location))
+						.setCancelable(false)
+						.setPositiveButton(getString(R.string.yes), (dialog, which) -> new Thread(() -> {
+							if (readUri != null) {
+								// Have to manually delete the previous file in this case to prevent an number-suffixed file being created
+								try {
+									DocumentFile existingFile = documentFile.getParentFile().findFile(newName);
+									if (existingFile != null || !existingFile.delete()) {
 										throw new NullPointerException();
 									}
+								} catch (NullPointerException e) {
+									showToastOnUiThread(getString(R.string.failed_to_overwrite_message));
 								}
-							} catch (NullPointerException e) {
-								showToastOnUiThread(getString(R.string.failed_to_overwrite_message));
 							}
-						}
 
-						renameFile(finalDocumentFile, location, itemToRename, newName, true);
+							renameFile(documentFile, location, itemToRename, newName, true);
 
-						swipeRefreshLayout.setRefreshing(false);
-						threadIsExecuting = false;
-					}).start())
-					.setNegativeButton(getString(R.string.no), (dialog, which) -> {
-						swipeRefreshLayout.setRefreshing(false);
-						threadIsExecuting = false;
-					})
-					.show());
-			return;
+							swipeRefreshLayout.setRefreshing(false);
+							threadIsExecuting = false;
+						}).start())
+						.setNegativeButton(getString(R.string.no), (dialog, which) -> {
+							swipeRefreshLayout.setRefreshing(false);
+							threadIsExecuting = false;
+						})
+						.show());
+				return;
+			}
+		} catch (NullPointerException ignored) {
 		}
 
 		renameFile(documentFile, location, itemToRename, newName, false);

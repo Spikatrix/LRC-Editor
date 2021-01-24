@@ -125,42 +125,24 @@ public final class FileUtil {
 		}
 	}
 
-	static DocumentFile getDocumentFile(Uri uri, String location, Context ctx) {
-		DocumentFile pickedDir;
-		try {
-			pickedDir = DocumentFile.fromTreeUri(ctx, uri);
-		} catch (IllegalArgumentException | NullPointerException e) {
-			pickedDir = DocumentFile.fromFile(new File(location));
-		}
-
-		return pickedDir;
-	}
-
-	// Thanks @Jonathan Martinez
-	@Nullable
-	static Uri getFileTreeUriFromPath(@Nullable final Uri treeUri, String path, Context ctx) {
-		if (treeUri == null || !treeUri.getScheme().contains("content") || treeUri.getAuthority() == null)
-			return null;
-		String treePath = getFullPathFromTreeUri(treeUri, ctx);
-		if (!path.contains(treePath)) return null;
-
-		String encodedRelativePath = Uri.encode(path.substring(treePath.length()));
-		return Uri.withAppendedPath(treeUri, encodedRelativePath);
-	}
-
 	// Thanks @Jonathan Martinez
 	@Nullable
 	static DocumentFile getDocumentFileFromPath(@Nullable final Uri treeUri, String path, Context ctx) {
-		if (treeUri == null || !treeUri.getScheme().contains("content") || treeUri.getAuthority() == null)
-			return null;
+		if (treeUri == null || !treeUri.getScheme().contains("content") || treeUri.getAuthority() == null) {
+			// Invalid treeUri, attempt to create a DocumentFile from the provided path via a File
+			return DocumentFile.fromFile(new File(path));
+		}
+
 		String treePath = getFullPathFromTreeUri(treeUri, ctx);
-		if (!path.contains(treePath)) return null;
+		if (treePath == null || !path.contains(treePath)) {
+			// Invalid path for the provided treeUri, attempt to create a DocumentFile from the provided path via a File
+			return DocumentFile.fromFile(new File(path));
+		}
 
 		Uri fileUri = Uri.parse(path.substring(treePath.length()));
 		DocumentFile file = DocumentFile.fromTreeUri(ctx, treeUri);
 
 		List<String> pathSegments = fileUri.getPathSegments();
-
 		for (String pathSegment : pathSegments) {
 			file = file.findFile(pathSegment);
 		}
