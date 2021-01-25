@@ -66,7 +66,7 @@
 	<string name="forward_description">Button to seek 5 seconds forward</string>
 	<string name="generic_read_path_error">Failed to parse the path location. Reading might have issues</string>
 	<string name="generic_save_path_error">Failed to parse the path location. Saving might have issues</string>
-	<string name="github_contribution">Contribute to the app:\nhttps://github.com/Spikatrix/LRC-Editor</string>
+	<string name="github_contribution">Contribute to the app\nhttps://github.com/Spikatrix/LRC-Editor</string>
 	<string name="go_back">Go Back</string>
 	<string name="go_back_warning_message">You\'ll lose your modified data if you go back. Are you sure you want to go back?</string>
 	<string name="increase_timestamp_description">Increase timestamp button</string>

@@ -59,14 +59,14 @@
 	<string name="failed_to_set_pitch_message">Konnte abgespielte Tonhöhe nicht anpassen</string>
 	<string name="failed_to_set_speed_message">Konnte Abspielgeschwindigkeit nicht anpassen</string>
 	<string name="feedback_body_prompt">Gib dein Feedback/deinen Fehlerbericht hier ein</string>
-    <string name="file_name_hint">Dateiname</string>
+	<string name="file_name_hint">Dateiname</string>
 	<string name="file_name_prompt">Abzuspeichernder Dateiname:</string>
 	<string name="file_not_found_message">Datei nicht gefunden!</string>
 	<string name="finalization">Finalisierung</string>
 	<string name="forward_description">Knopf, um 5 Sekunden vor zu springen</string>
 	<string name="generic_read_path_error">Fehler beim Analysieren der Pfadposition. Das Lesen könnte Probleme haben</string>
 	<string name="generic_save_path_error">Fehler beim Analysieren der Pfadposition. Das Speichern kann Probleme haben</string>
-	<string name="github_contribution">Zur App beitragen:\nhttps://github.com/Spikatrix/LRC-Editor</string>
+	<string name="github_contribution">Zur App beitragen\nhttps://github.com/Spikatrix/LRC-Editor</string>
 	<string name="go_back">Verlassen</string>
 	<string name="go_back_warning_message">Alle ungespeicherten Daten gehen verloren. Möchtest du wirklich zurück gehen?</string>
 	<string name="increase_timestamp_description">Knopf, um den Zeitstempel zu vergrößern</string>

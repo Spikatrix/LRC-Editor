@@ -59,14 +59,14 @@
 	<string name="failed_to_set_pitch_message">Falló ajustar el tono</string>
 	<string name="failed_to_set_speed_message">Falló ajustar la velocidad</string>
 	<string name="feedback_body_prompt">Envía comentarios o señala un eror.</string>
-    <string name="file_name_hint">Nombre del archivo</string>
+	<string name="file_name_hint">Nombre del archivo</string>
 	<string name="file_name_prompt">Nombre del archivo:</string>
 	<string name="file_not_found_message">No se encontró el archivo</string>
 	<string name="finalization">Finalización</string>
 	<string name="forward_description">Botón de avance de 5 segundos</string>
 	<string name="generic_read_path_error">Ruta incorrecta: no se puede abrir.</string>
 	<string name="generic_save_path_error">Ruta incorrecta: no se puede guardar.</string>
-	<string name="github_contribution">Contribuye al desarrollo de esta aplicación:\nhttps://github.com/Spikatrix/LRC-Editor</string>
+	<string name="github_contribution">Contribuye al desarrollo de esta aplicación\nhttps://github.com/Spikatrix/LRC-Editor</string>
 	<string name="go_back">Regreso</string>
 	<string name="go_back_warning_message">¿Quiere veramente regresar? ¡Arriesga perder sus cambios!</string>
 	<string name="increase_timestamp_description">Botón para aumentar el indicador de tiempo</string>

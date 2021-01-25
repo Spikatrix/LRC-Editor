@@ -66,7 +66,7 @@
 	<string name="forward_description">Bouton pour avancer de 5 secondes</string>
 	<string name="generic_read_path_error">Chemin incorrect : lecture impossible.</string>
 	<string name="generic_save_path_error">Chemin incorrect : enregistrement impossible.</string>
-	<string name="github_contribution">Contribuez au développement de l\'app :\nhttps://github.com/Spikatrix/LRC-Editor</string>
+	<string name="github_contribution">Contribuez au développement de l\'app\nhttps://github.com/Spikatrix/LRC-Editor</string>
 	<string name="go_back">Retour</string>
 	<string name="go_back_warning_message">Êtes-vous sûr de vouloir revenir en arrière ? Vous risquez de perdre votre avancé !</string>
 	<string name="increase_timestamp_description">Bouton pour augmenter le marqueur temporel</string>

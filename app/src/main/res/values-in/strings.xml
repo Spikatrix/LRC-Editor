@@ -66,7 +66,7 @@
 	<string name="forward_description">Tombol unutuk memajukan 5 detik ke depan</string>
 	<string name="generic_read_path_error">Gagal menguraikan lokasi jalur. Membaca mungkin memiliki masalah</string>
 	<string name="generic_save_path_error">Gagal menguraikan lokasi jalur. Menyimpan mungkin memiliki masalah</string>
-	<string name="github_contribution">Beri kontribusi pada aplikasi:\nhttps://github.com/Spikatrix/LRC-Editor</string>
+	<string name="github_contribution">Beri kontribusi pada aplikasi\nhttps://github.com/Spikatrix/LRC-Editor</string>
 	<string name="go_back">Kembali</string>
 	<string name="go_back_warning_message">Anda akan kehilangan apa yang Anda ubah jika kembali. Apakah Anda yakin ingin kembali?</string>
 	<string name="increase_timestamp_description">Tombol tambahkan cap waktu</string>

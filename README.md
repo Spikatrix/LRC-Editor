@@ -38,7 +38,7 @@ More screenshots are available in the [Google Play Store page][play_store_page]
 
 LRC Editor requires the storage permission so that it can read and save LRC files.
 
-Note: Android 11 brings much more stricter storage access enforcements and LRC Editor might not be able to access storage even after granting the storage permission.
+Note: Android 11 brings much more stricter storage access enforcements and LRC Editor might not be able to access storage once the [`targetSdkVersion`](https://github.com/Spikatrix/LRC-Editor/blob/master/app/build.gradle#L10) is increased to 30 or above, even after granting the storage permission.
 
 ## Build from source
 

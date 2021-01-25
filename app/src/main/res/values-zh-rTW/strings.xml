@@ -66,7 +66,7 @@
 	<string name="forward_description">向前搜索 5 秒</string>
 	<string name="generic_read_path_error">無法剖析路徑位置。可能會無法讀取</string>
 	<string name="generic_save_path_error">無法剖析路徑位置。可能會無法儲存</string>
-	<string name="github_contribution">對 App 作出貢獻：\nhttps://github.com/Spikatrix/LRC-Editor</string>
+	<string name="github_contribution">對 App 作出貢獻\nhttps://github.com/Spikatrix/LRC-Editor</string>
 	<string name="go_back">返回</string>
 	<string name="go_back_warning_message">若現在返回，您將會失去所有已修改的變更。您確定要返回嗎？</string>
 	<string name="increase_timestamp_description">減少時間標記</string>
