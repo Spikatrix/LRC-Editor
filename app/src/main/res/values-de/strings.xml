@@ -119,6 +119,7 @@
 	<string name="save_location_description">Verzeichnis zum Speichern von Dateien</string>
 	<string name="save_location_displayer">Speicherverzeichnis: %1$s</string>
 	<string name="save_successful">Die Datei wurde erfolgreich unter %1$s gespeichert!</string>
+	<string name="save_suggestion">Versuchen Sie, den Speicherort und/oder den Dateinamen zu ändern</string>
 	<string name="scan_cancelled_message">Durchsuchung abgebrochen</string>
 	<plurals name="scanned_x_lrc_files_message">
 		<item quantity="one">%1$s LRC-Datei gefunden</item>

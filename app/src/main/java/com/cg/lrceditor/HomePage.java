@@ -719,7 +719,7 @@ public class HomePage extends AppCompatActivity implements HomePageListAdapter.L
 		DocumentFile documentFile = FileUtil.getDocumentFileFromPath(readUri, fileToRename.getAbsolutePath(), this);
 
 		try {
-			// Apparently, file names are case-insensitively handled internally in Android
+			// Apparently, file names are case-insensitively handled internally in Android (vfat)
 			// So gotta do this abomination for checking the file name case sensitively
 			// A bit buggy as files with a same name but with a different case will have a suffix appended by
 			// the system if on the internal storage and downright fails if on an external storage (SD Card)

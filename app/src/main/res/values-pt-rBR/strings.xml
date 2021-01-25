@@ -119,7 +119,12 @@
 	<string name="save_location_description">Localização dos arquivos salvos:</string>
 	<string name="save_location_displayer">Salvar em: %1$s</string>
 	<string name="save_successful">Arquivo de letras salvo com sucesso em %1$s</string>
+	<string name="save_suggestion">Tente alterar o local de salvamento e/ou o nome do arquivo</string>
 	<string name="scan_cancelled_message">Escaneamento cancelado</string>
+	<plurals name="scanned_x_lrc_files_message">
+		<item quantity="one">Encontrado %1$s arquivo LRC</item>
+		<item quantity="other">%1$s arquivos LRC encontrados</item>
+	</plurals>
 	<string name="scanning_directories_message">Verificando arquivos LRC no local de leitura (e subpastas)</string>
 	<string name="seconds_less_than_60_message">Segundos devem ser menores que 60</string>
 	<string name="select_a_theme_prompt">Selecione um tema:</string>

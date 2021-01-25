@@ -119,6 +119,7 @@
 	<string name="save_location_description">Location for saving lyric files</string>
 	<string name="save_location_displayer">Save location: %1$s</string>
 	<string name="save_successful">Successfully saved the lyrics file in %1$s</string>
+	<string name="save_suggestion">Try changing the save location and/or the file name</string>
 	<string name="scan_cancelled_message">Scan cancelled</string>
 	<plurals name="scanned_x_lrc_files_message">
 		<item quantity="one">Scanned %1$s LRC file</item>

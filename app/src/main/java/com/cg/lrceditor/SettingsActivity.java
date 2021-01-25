@@ -229,6 +229,19 @@ public class SettingsActivity extends AppCompatActivity {
 				.show();
 	}
 
+	private void releasePersistence(String uriLookupString) {
+		String previousUriString = preferences.getString(uriLookupString, null);
+		if (previousUriString != null) {
+			// Release previously acquired persistence
+			try {
+				getContentResolver().releasePersistableUriPermission(Uri.parse(previousUriString),
+						Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+			} catch (SecurityException | NullPointerException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
 		super.onActivityResult(requestCode, resultCode, resultData);
@@ -236,17 +249,15 @@ public class SettingsActivity extends AppCompatActivity {
 			if (resultData != null) {
 				Uri uri = resultData.getData();
 				if (uri != null) {
-					SharedPreferences.Editor editor = preferences.edit();
+					releasePersistence("saveUri");
 
 					String realPath = FileUtil.getFullPathFromTreeUri(uri, this);
 
+					SharedPreferences.Editor editor = preferences.edit();
 					editor.putString(Constants.SAVE_LOCATION_PREFERENCE, realPath);
-					try {
-						editor.putString("saveUri", uri.toString());
-					} catch (ArrayIndexOutOfBoundsException ignored) {
-						editor.putString("saveUri", null);
-					}
+					editor.putString("saveUri", uri.toString());
 					editor.apply();
+
 					saveLocation.setText(realPath);
 
 					try {
@@ -264,22 +275,20 @@ public class SettingsActivity extends AppCompatActivity {
 			if (resultData != null) {
 				Uri uri = resultData.getData();
 				if (uri != null) {
-					SharedPreferences.Editor editor = preferences.edit();
+					releasePersistence("readUri");
 
 					String realPath = FileUtil.getFullPathFromTreeUri(uri, this);
 
+					SharedPreferences.Editor editor = preferences.edit();
 					editor.putString(Constants.READ_LOCATION_PREFERENCE, realPath);
-					try {
-						editor.putString("readUri", uri.toString());
-					} catch (ArrayIndexOutOfBoundsException ignored) {
-						editor.putString("readUri", null);
-					}
+					editor.putString("readUri", uri.toString());
 					editor.apply();
 
 					readLocation.setText(realPath);
 
 					try {
-						getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+						getContentResolver().takePersistableUriPermission(uri,
+								Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 					} catch (SecurityException e) {
 						e.printStackTrace();
 					}

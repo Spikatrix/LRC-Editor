@@ -1,6 +1,7 @@
 package com.cg.lrceditor;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -42,7 +43,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
-import java.util.Objects;
 
 public class FinalizeActivity extends AppCompatActivity {
 
@@ -57,7 +57,7 @@ public class FinalizeActivity extends AppCompatActivity {
 	private TextView statusTextView;
 
 	private Uri saveUri;
-	private static String saveLocation = null;
+	private String saveLocation = null;
 
 	private String lrcFileName = null;
 	private String lrcFilePath = null;
@@ -72,41 +72,7 @@ public class FinalizeActivity extends AppCompatActivity {
 	private boolean threadIsExecuting = false;
 	private boolean useThreeDigitMilliseconds = false;
 
-	public static void hideKeyboard(Activity activity) {
-		InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-		// Find the currently focused view, so we can grab the correct window token from it.
-		View view = activity.getCurrentFocus();
-		// If no view currently has focus, create a new one, just so we can grab a window token from it
-		if (view == null) {
-			view = new View(activity);
-		}
-		if (imm != null) {
-			imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-		}
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-
-		if (saveLocation == null) {
-			// Set the save location if it is not set
-			saveLocation = preferences.getString(Constants.SAVE_LOCATION_PREFERENCE, Constants.defaultLocation);
-		}
-
-		String uriString = preferences.getString("saveUri", null);
-		if (uriString != null && saveUri == null) {
-			// Set the save uri if it is not set and is available
-			saveUri = Uri.parse(uriString);
-		}
-
-		if (dialogView != null) {
-			((TextView) dialogView.findViewById(R.id.save_location_display)).setText(getString(R.string.save_location_displayer, saveLocation));
-		}
-
-		useThreeDigitMilliseconds = preferences.getBoolean(Constants.THREE_DIGIT_MILLISECONDS_PREFERENCE, false);
-	}
-
+	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		preferences = getSharedPreferences("LRC Editor Preferences", MODE_PRIVATE);
@@ -138,6 +104,13 @@ public class FinalizeActivity extends AppCompatActivity {
 
 		statusTextView = findViewById(R.id.status_textview);
 		statusTextView.setMovementMethod(new ScrollingMovementMethod());
+		statusTextView.setOnTouchListener((textView, event) -> {
+			// Prevents the parent scrollview from scrolling around when the user touches and scrolls the statusTextView
+			textView.getParent().requestDisallowInterceptTouchEvent(true);
+			return false;
+		});
+
+		useThreeDigitMilliseconds = preferences.getBoolean(Constants.THREE_DIGIT_MILLISECONDS_PREFERENCE, false);
 
 		Toolbar toolbar = findViewById(R.id.toolbar);
 		if (isDarkTheme) {
@@ -199,6 +172,7 @@ public class FinalizeActivity extends AppCompatActivity {
 		}
 
 		statusTextView.setText(getString(R.string.processing));
+		statusTextView.scrollTo(0, 0);
 		statusTextView.setVisibility(View.VISIBLE);
 
 		Button copyError = findViewById(R.id.copy_error_button);
@@ -258,6 +232,7 @@ public class FinalizeActivity extends AppCompatActivity {
 				.setView(dialogView)
 				.setPositiveButton(getString(R.string.save), (dialog, which) -> {
 					dialog.dismiss();
+					hideKeyboard();
 					saveLyricsFile(saveLocation, editText.getText().toString());
 				})
 				.setNegativeButton(getString(R.string.cancel), (dialog, which) -> statusTextView.setVisibility(View.GONE))
@@ -274,9 +249,8 @@ public class FinalizeActivity extends AppCompatActivity {
 		final String finalFileName = fileName;
 		final String finalFilePath = filePath;
 
-		// See comments in renameAsync in HomePage.java
-		if (Objects.requireNonNull(new File(finalFilePath, finalFileName).getParentFile().list(
-				(file, name) -> name.equals(finalFileName))).length > 0) {
+		// A bit buggy: See comments in renameAsync() in HomePage.java
+		if (new File(finalFilePath, finalFileName).exists()) {
 			new AlertDialog.Builder(this)
 					.setTitle(getString(R.string.warning))
 					.setMessage(getString(R.string.overwrite_prompt, finalFileName, finalFilePath))
@@ -308,8 +282,6 @@ public class FinalizeActivity extends AppCompatActivity {
 				threadIsExecuting = false;
 			}).start();
 		}
-
-		hideKeyboard(this);
 	}
 
 	private boolean deleteFile(String filePath, String fileName) {
@@ -319,9 +291,10 @@ public class FinalizeActivity extends AppCompatActivity {
 
 	private void writeLyrics(final String filePath, final String fileName) {
 		DocumentFile file = FileUtil.getDocumentFileFromPath(saveUri, filePath, getApplicationContext());
-		file = file.createFile("application/*", fileName);
 
 		try {
+			file = file.createFile("application/*", fileName);
+
 			OutputStream out = getContentResolver().openOutputStream(file.getUri());
 			InputStream in = new ByteArrayInputStream(lyricsToString(useThreeDigitMilliseconds).getBytes(StandardCharsets.UTF_8));
 
@@ -341,7 +314,8 @@ public class FinalizeActivity extends AppCompatActivity {
 			e.printStackTrace();
 			runOnUiThread(() -> {
 				statusTextView.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.errorColor));
-				statusTextView.setText(String.format(Locale.getDefault(), getString(R.string.whoops_error) + "\n%s", e.getMessage()));
+				statusTextView.setText(String.format(Locale.getDefault(),
+						getString(R.string.whoops_error) + "\n%s\n%s", e.getMessage(), getString(R.string.save_suggestion)));
 
 				Button copy_error = findViewById(R.id.copy_error_button);
 				copy_error.setVisibility(View.VISIBLE);
@@ -432,6 +406,7 @@ public class FinalizeActivity extends AppCompatActivity {
 			strippedExtensionFileName = fileName;
 		}
 
+		// These filenames may not be accurate in certain cases mainly because Android (vfat) handles files case insensitively
 		if (overwriteFailed) {
 			statusTextView.setText(getString(R.string.save_successful, strippedExtensionFileName + "<suffix> .lrc"));
 		} else {
@@ -447,6 +422,19 @@ public class FinalizeActivity extends AppCompatActivity {
 				.setPositiveButton(getString(R.string.ok), (dialog, which) -> ActivityCompat.requestPermissions(FinalizeActivity.this,
 						new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, Constants.WRITE_EXTERNAL_REQUEST))
 				.show();
+	}
+
+	public void hideKeyboard() {
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		// Find the currently focused view, so we can grab the correct window token from it.
+		View view = this.getCurrentFocus();
+		// If no view currently has focus, create a new one, just so we can grab a window token from it
+		if (view == null) {
+			view = new View(this);
+		}
+		if (imm != null) {
+			imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+		}
 	}
 
 	@TargetApi(Build.VERSION_CODES.M)
@@ -538,7 +526,7 @@ public class FinalizeActivity extends AppCompatActivity {
 					saveUri = uri;
 					saveLocation = FileUtil.getFullPathFromTreeUri(uri, this);
 					TextView saveLocationDisplayer = dialogView.findViewById(R.id.save_location_display);
-					saveLocationDisplayer.setText(saveLocation);
+					saveLocationDisplayer.setText(getString(R.string.save_location_displayer, saveLocation));
 				}
 			}
 		}

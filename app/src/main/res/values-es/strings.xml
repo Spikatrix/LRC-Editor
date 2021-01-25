@@ -119,6 +119,7 @@
 	<string name="save_location_description">Ubicación de guarda de las letras</string>
 	<string name="save_location_displayer">Guardar dentro de: %1$s</string>
 	<string name="save_successful">La letra se guardó correctamente en la carpeta %1$s</string>
+	<string name="save_suggestion">Intente cambiar la ubicación para guardar y/o el nombre del archivo</string>
 	<string name="scan_cancelled_message">Escan de los archivos anulado</string>
 	<plurals name="scanned_x_lrc_files_message">
 		<item quantity="one">%1$s archivo LRC escaneado</item>

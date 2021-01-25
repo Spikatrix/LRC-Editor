@@ -119,6 +119,7 @@
 	<string name="save_location_description">Lokasi untuk menyimpan berkas lirik</string>
 	<string name="save_location_displayer">Lokasi penyimpanan: %1$s</string>
 	<string name="save_successful">Lirik tersimpan dengan sukses di %1$s</string>
+	<string name="save_suggestion">Coba ubah lokasi penyimpanan dan/atau nama file</string>
 	<string name="scan_cancelled_message">Pemindaian dibatalkan</string>
 	<plurals name="scanned_x_lrc_files_message">
 		<item quantity="one">Telah memindai %1$s berkas LRC</item>

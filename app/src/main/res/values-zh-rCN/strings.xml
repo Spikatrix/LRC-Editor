@@ -119,6 +119,7 @@
 	<string name="save_location_description">保存歌词文件的位置</string>
 	<string name="save_location_displayer">保存位置：%1$s</string>
 	<string name="save_successful">成功将歌词文件保存于 %1$s </string>
+	<string name="save_suggestion">尝试更改保存位置和/或文件名</string>
 	<string name="scan_cancelled_message">已取消扫描</string>
 	<plurals name="scanned_x_lrc_files_message">
 		<item quantity="one">已扫描 %1$s 个歌词文件</item>

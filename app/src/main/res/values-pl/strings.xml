@@ -119,7 +119,13 @@
 	<string name="save_location_description">Miejsce zapisywania plików tekstowych:</string>
 	<string name="save_location_displayer">Zapisz lokalizację: %1$s</string>
 	<string name="save_successful">Pomyślnie zapisano plik z tekstem w %1$s</string>
+	<string name="save_suggestion">Spróbuj zmienić miejsce zapisu i/lub nazwy pliku</string>
 	<string name="scan_cancelled_message">Skanowanie anulowane</string>
+	<plurals name="scanned_x_lrc_files_message">
+		<item quantity="one">Znaleziono %1$s pliki LRC</item>
+		<item quantity="few">Znaleziono %1$s plików LRC</item>
+		<item quantity="many">Znaleziono %1$s plików LRC</item>
+	</plurals>
 	<string name="scanning_directories_message">Skanowanie w poszukiwaniu plików LRC w lokalizacji odczytu (i podkatalogach)</string>
 	<string name="seconds_less_than_60_message">Sekundy muszą być krótsze niż 60</string>
 	<string name="select_a_theme_prompt">Wybierz motyw:</string>

@@ -119,6 +119,7 @@
 	<string name="save_location_description">Emplacement de sauvegarde des paroles</string>
 	<string name="save_location_displayer">Enregistrement dans : %1$s</string>
 	<string name="save_successful">Les paroles ont bien été enregistrées dans le dossier %1$s</string>
+	<string name="save_suggestion">Try changing the save location and/or the file name</string>
 	<string name="scan_cancelled_message">Scan des fichiers annulé</string>
 	<plurals name="scanned_x_lrc_files_message">
 		<item quantity="one">%1$s fichier LRC scanné</item>
