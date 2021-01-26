@@ -66,7 +66,8 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_weight=".6"
-					android:onClick="onePurchase"
+					android:onClick="makePurchase"
+					android:tag="1"
 					android:text="@string/loading" />
 
 			</LinearLayout>
@@ -89,7 +90,8 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_weight=".6"
-					android:onClick="twoPurchase"
+					android:onClick="makePurchase"
+					android:tag="2"
 					android:text="@string/loading" />
 
 			</LinearLayout>
@@ -112,7 +114,8 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_weight=".6"
-					android:onClick="threePurchase"
+					android:onClick="makePurchase"
+					android:tag="3"
 					android:text="@string/loading" />
 
 			</LinearLayout>
@@ -135,7 +138,8 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_weight=".6"
-					android:onClick="fourPurchase"
+					android:onClick="makePurchase"
+					android:tag="4"
 					android:text="@string/loading" />
 
 			</LinearLayout>
@@ -159,7 +163,8 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_weight=".6"
-					android:onClick="fivePurchase"
+					android:onClick="makePurchase"
+					android:tag="5"
 					android:text="@string/loading" />
 
 			</LinearLayout>

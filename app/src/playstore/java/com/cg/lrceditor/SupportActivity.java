@@ -19,22 +19,22 @@ import com.cg.lrceditor.IAP.Inventory;
 import com.cg.lrceditor.IAP.Purchase;
 import com.cg.lrceditor.IAP.SkuDetails;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 public class SupportActivity extends AppCompatActivity {
 
-	private static final String[] ITEM_SKUS = {
-			"SKU1",
-			"SKU2",
-			"SKU3",
-			"SKU4",
-			"SKU5",
+	private final SKUItem[] skuItems = {
+			new SKUItem("SKU1",   "S_PURCHASE"),
+			new SKUItem("SKU2",   "M_PURCHASE"),
+			new SKUItem("SKU3",   "L_PURCHASE"),
+			new SKUItem("SKU4",  "XL_PURCHASE"),
+			new SKUItem("SKU5", "XXL_PURCHASE"),
 	};
 
 	IabHelper mHelper;
 
 	private SharedPreferences preferences;
-	private Button[] purchaseButtons = new Button[5];
+	private Button[] purchaseButtons = new Button[skuItems.length];
 	private Context ctx;
 	IabHelper.QueryInventoryFinishedListener mGotInventoryListener = new IabHelper.QueryInventoryFinishedListener() {
 		@Override
@@ -48,15 +48,15 @@ public class SupportActivity extends AppCompatActivity {
 				return;
 			}
 
-			for (int i = 0; i < ITEM_SKUS.length; i++) {
-				SkuDetails item = inventory.getSkuDetails(ITEM_SKUS[i]);
+			for (int i = 0; i < skuItems.length; i++) {
+				SkuDetails item = inventory.getSkuDetails(skuItems[i].getSku());
 				if (item != null) {
 					purchaseButtons[i].setText(item.getPrice());
 				} else {
 					purchaseButtons[i].setText(R.string.error);
 				}
 
-				Purchase purchase = inventory.getPurchase(ITEM_SKUS[i]);
+				Purchase purchase = inventory.getPurchase(skuItems[i].getSku());
 				if (purchase != null && purchase.getPurchaseState() == 0) { // 0 means purchased
 					if (!preferences.getString(Constants.PURCHASED_PREFERENCE, "").equals("Y")) {
 						Toast.makeText(ctx, getString(R.string.dark_themes_available_message), Toast.LENGTH_LONG).show();
@@ -84,8 +84,8 @@ public class SupportActivity extends AppCompatActivity {
 			if (result.isFailure()) {
 				complain(getString(R.string.failed_to_complete_purchase_message) + ": " + result);
 			} else {
-				for (String SKU : ITEM_SKUS) {
-					if (purchase.getSku().equals(SKU)) {
+				for (SKUItem skuItem : skuItems) {
+					if (purchase.getSku().equals(skuItem.getSku())) {
 						new AlertDialog.Builder(ctx)
 								.setTitle(getString(R.string.purchase_successful))
 								.setMessage(getString(R.string.thank_you_for_the_purchase_message))
@@ -93,7 +93,7 @@ public class SupportActivity extends AppCompatActivity {
 								.create()
 								.show();
 						try {
-							mHelper.queryInventoryAsync(true, Arrays.asList(ITEM_SKUS), null, mGotInventoryListener);
+							mHelper.queryInventoryAsync(true, getSkuList(), null, mGotInventoryListener);
 						} catch (IabHelper.IabAsyncInProgressException e) {
 							complain(getString(R.string.error) + " (Finish:IabAsyncInProgress)");
 							setPurchaseButtonTexts(ctx.getString(R.string.error));
@@ -148,7 +148,7 @@ public class SupportActivity extends AppCompatActivity {
 
 		if (base64EncodedPublicKey.equals("Base64" + "EncodedString")) {
 			complain("IAPs won't work as the original encoded key is not used (for security purposes). " +
-					"Download and install the APK release from the GitHub page or from the Play Store if you want to use IAPs");
+					"Download and install the APK release from the Play Store if you want to use IAPs");
 			setPurchaseButtonTexts(getString(R.string.error));
 		} else {
 			mHelper.startSetup(result -> {
@@ -162,7 +162,7 @@ public class SupportActivity extends AppCompatActivity {
 					return;
 
 				try {
-					mHelper.queryInventoryAsync(true, Arrays.asList(ITEM_SKUS), null, mGotInventoryListener);
+					mHelper.queryInventoryAsync(true, getSkuList(), null, mGotInventoryListener);
 				} catch (IabHelper.IabAsyncInProgressException e) {
 					complain(getString(R.string.error) + " (Setup:IabAsyncInProgress)");
 					setPurchaseButtonTexts(ctx.getString(R.string.error));
@@ -170,6 +170,14 @@ public class SupportActivity extends AppCompatActivity {
 				}
 			});
 		}
+	}
+
+	public ArrayList<String> getSkuList() {
+		ArrayList<String> list = new ArrayList<>();
+		for (SKUItem skuItem : skuItems) {
+			list.add(skuItem.getSku());
+		}
+		return list;
 	}
 
 	@Override
@@ -208,58 +216,16 @@ public class SupportActivity extends AppCompatActivity {
 		}
 	}
 
-	public void onePurchase(View view) {
+	public void makePurchase(View view) {
+		int purchaseIndex = Integer.parseInt(view.getTag().toString());
+
 		try {
-			mHelper.launchPurchaseFlow(this, ITEM_SKUS[0], 1,
-					mPurchaseFinishedListener, "S_PURCHASE");
+			mHelper.launchPurchaseFlow(this, skuItems[purchaseIndex - 1].getSku(), purchaseIndex,
+					mPurchaseFinishedListener, skuItems[purchaseIndex - 1].getExtraString());
 		} catch (IabHelper.IabAsyncInProgressException e) {
 			e.printStackTrace();
 		} catch (IllegalStateException e) {
 			complain("IAPs still loading");
-		}
-	}
-
-	public void twoPurchase(View view) {
-		try {
-			mHelper.launchPurchaseFlow(this, ITEM_SKUS[1], 2,
-					mPurchaseFinishedListener, "M_PURCHASE");
-		} catch (IabHelper.IabAsyncInProgressException e) {
-			e.printStackTrace();
-		} catch (IllegalStateException e) {
-			complain(getString(R.string.iaps_loading_message));
-		}
-	}
-
-	public void threePurchase(View view) {
-		try {
-			mHelper.launchPurchaseFlow(this, ITEM_SKUS[2], 3,
-					mPurchaseFinishedListener, "L_PURCHASE");
-		} catch (IabHelper.IabAsyncInProgressException e) {
-			e.printStackTrace();
-		} catch (IllegalStateException e) {
-			complain(getString(R.string.iaps_loading_message));
-		}
-	}
-
-	public void fourPurchase(View view) {
-		try {
-			mHelper.launchPurchaseFlow(this, ITEM_SKUS[3], 4,
-					mPurchaseFinishedListener, "XL_PURCHASE");
-		} catch (IabHelper.IabAsyncInProgressException e) {
-			e.printStackTrace();
-		} catch (IllegalStateException e) {
-			complain(getString(R.string.iaps_loading_message));
-		}
-	}
-
-	public void fivePurchase(View view) {
-		try {
-			mHelper.launchPurchaseFlow(this, ITEM_SKUS[4], 5,
-					mPurchaseFinishedListener, "XXL_PURCHASE");
-		} catch (IabHelper.IabAsyncInProgressException e) {
-			e.printStackTrace();
-		} catch (IllegalStateException e) {
-			complain(getString(R.string.iaps_loading_message));
 		}
 	}
 
@@ -273,5 +239,23 @@ public class SupportActivity extends AppCompatActivity {
 				.setNeutralButton(getString(R.string.ok), null)
 				.create()
 				.show();
+	}
+
+	private class SKUItem {
+		private final String sku;
+		private final String extraString;
+
+		SKUItem(String sku, String extraString) {
+			this.sku = sku;
+			this.extraString = extraString;
+		}
+
+		public String getSku() {
+			return sku;
+		}
+
+		public String getExtraString() {
+			return extraString;
+		}
 	}
 }
