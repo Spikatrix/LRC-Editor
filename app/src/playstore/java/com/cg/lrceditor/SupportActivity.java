@@ -144,6 +144,7 @@ public class SupportActivity extends AppCompatActivity {
 			@Override
 			public void onBillingServiceDisconnected() {
 				alert(getString(R.string.error), getString(R.string.failed_to_connect_to_gplay));
+				updatePurchaseButtonTexts();
 			}
 		});
 	}
@@ -188,6 +189,7 @@ public class SupportActivity extends AppCompatActivity {
 						queryPurchaseHistoryAsync();
 					} else {
 						alert(getString(R.string.error), getErrorCodeString(getString(R.string.failed_to_load_products), billingResult.getResponseCode()));
+						updatePurchaseButtonTexts();
 					}
 				});
 	}
@@ -217,6 +219,7 @@ public class SupportActivity extends AppCompatActivity {
 				}
 			} else {
 				alert(getString(R.string.error), getErrorCodeString(getString(R.string.failed_to_check_purchase_history), billingResult.getResponseCode()));
+				updatePurchaseButtonTexts();
 			}
 		});
 	}
@@ -266,9 +269,7 @@ public class SupportActivity extends AppCompatActivity {
 			alert(getString(R.string.error), getErrorCodeString(getString(R.string.failed_to_check_local_purchase), purchasesResult.getResponseCode()));
 		}
 
-		for (PurchaseItem purchaseItem : purchaseItems) {
-			purchaseItem.updateButtonText(this);
-		}
+		updatePurchaseButtonTexts();
 	}
 
 	public void makePurchase(View view) {
@@ -315,6 +316,12 @@ public class SupportActivity extends AppCompatActivity {
 		}
 
 		return -1;
+	}
+
+	private void updatePurchaseButtonTexts() {
+		for (PurchaseItem purchaseItem : purchaseItems) {
+			purchaseItem.updateButtonText(this);
+		}
 	}
 
 	private void alert(String title, String message) {
