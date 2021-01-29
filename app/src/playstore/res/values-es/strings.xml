@@ -1,10 +1,18 @@
 <resources>
-	<string name="dark_themes_available_message">Los dos temas oscuros deberían estar disponibles en los ajustes</string>
+	<string name="could_not_validate_skus">No se pudieron validar las compras porque los SKU originales no están expuestos en esta compilación</string>
 	<string name="error">Eror</string>
+	<string name="error_code">Código de error: %1$d</string>
+	<string name="failed_to_acknowledge_purchase">No se pudo reconocer la compra</string>
+	<string name="failed_to_check_local_purchase">No se pudo verificar el historial de compras local</string>
+	<string name="failed_to_check_purchase_history">No se pudo verificar el historial de compras</string>
 	<string name="failed_to_complete_purchase_message">Falló completar la compra</string>
-	<string name="iap_setup_failed_message">El modulo des facturación falló</string>
+	<string name="failed_to_connect_to_gplay">No se pudo conectar a Google Play para configurar compras en la aplicación</string>
+	<string name="failed_to_load_products">No se pudo cargar la lista de productos</string>
+	<string name="failed_to_open_purchase_dialog">No se pudo abrir el cuadro de diálogo de compra.</string>
+	<string name="failed_to_validate_purchase">No se puede validar su compra en este momento. Intenta esperar unos minutos</string>
 	<string name="iaps_loading_message">Modulo de facturación cargando</string>
 	<string name="loading">Cargando</string>
+	<string name="please_wait">Por favor espera</string>
 	<string name="purchase_successful">Compra completada</string>
 	<string name="purchased">Comprado</string>
 	<string name="rate_and_review_text">Califica y comenta la aplicación</string>

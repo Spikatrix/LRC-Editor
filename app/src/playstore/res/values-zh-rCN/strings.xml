@@ -1,10 +1,18 @@
 <resources>
-	<string name="dark_themes_available_message">设置内的两个暗黑主题现在应该可以用了</string>
+	<string name="could_not_validate_skus">由于原始SKU未在此版本中公开，因此无法验证购买</string>
 	<string name="error">错误</string>
+	<string name="error_code">错误代码： %1$d</string>
+	<string name="failed_to_acknowledge_purchase">无法确认购买</string>
+	<string name="failed_to_check_local_purchase">无法检查本地购买记录</string>
+	<string name="failed_to_check_purchase_history">无法检查购买历史记录</string>
 	<string name="failed_to_complete_purchase_message">无法完成购买</string>
-	<string name="iap_setup_failed_message">App 内购 (In-app Billing) 设置失败</string>
+	<string name="failed_to_connect_to_gplay">无法连接到 Google Play 设置应用内购买</string>
+	<string name="failed_to_load_products">无法加载产品列表</string>
+	<string name="failed_to_open_purchase_dialog">无法打开购买对话框</string>
+	<string name="failed_to_validate_purchase">目前无法验证您的购买。 尝试等待几分钟</string>
 	<string name="iaps_loading_message">App 内购服务 (IAPs) 仍在载入</string>
 	<string name="loading">请稍候</string>
+	<string name="please_wait">请稍候</string>
 	<string name="purchase_successful">购买成功</string>
 	<string name="purchased">已购买</string>
 	<string name="rate_and_review_text">为 App 评分及评论</string>

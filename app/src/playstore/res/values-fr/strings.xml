@@ -1,10 +1,18 @@
 <resources>
-	<string name="dark_themes_available_message">Les deux thèmes sombres devraient être à présent disponibles dans les paramètres</string>
+	<string name="could_not_validate_skus">Impossible de valider les achats car les SKU d\'origine ne sont pas exposés dans cette version</string>
 	<string name="error">Erreur</string>
+	<string name="error_code">Code d\'erreur: %1$d</string>
+	<string name="failed_to_acknowledge_purchase">Échec de la confirmation de l\'achat</string>
+	<string name="failed_to_check_local_purchase">Échec de la vérification de l\'historique des achats locaux</string>
+	<string name="failed_to_check_purchase_history">Échec de la vérification de l\'historique des achats</string>
 	<string name="failed_to_complete_purchase_message">Impossible de réaliser l\'achat</string>
-	<string name="iap_setup_failed_message">Impossible d\'initialiser le module de paiement</string>
+	<string name="failed_to_connect_to_gplay">Échec de la connexion à Google Play pour la configuration des achats via l\'application</string>
+	<string name="failed_to_load_products">Échec du chargement de la liste de produits</string>
+	<string name="failed_to_open_purchase_dialog">Échec de l\'ouverture de la boîte de dialogue d\'achat</string>
+	<string name="failed_to_validate_purchase">Impossible de valider votre achat pour le moment. Essayez d\'attendre quelques minutes</string>
 	<string name="iaps_loading_message">Module de paiement toujours en cours de chargement</string>
 	<string name="loading">Chargment</string>
+	<string name="please_wait">S\'il vous plaît, attendez</string>
 	<string name="purchase_successful">Achat réalisé avec succès</string>
 	<string name="purchased">Commandé</string>
 	<string name="rate_and_review_text">Noter et commenter l\'application</string>

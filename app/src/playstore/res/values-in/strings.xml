@@ -1,10 +1,18 @@
 <resources>
-	<string name="dark_themes_available_message">Dua tema gelap sudah tersedia di pengaturan</string>
+	<string name="could_not_validate_skus">Tidak dapat memvalidasi pembelian karena SKU asli tidak terekspos dalam build ini</string>
 	<string name="error">Kesalahan</string>
+	<string name="error_code">Kode kesalahan: %1$d</string>
+	<string name="failed_to_acknowledge_purchase">Gagal mengakui pembelian</string>
+	<string name="failed_to_check_local_purchase">Gagal memeriksa riwayat pembelian lokal</string>
+	<string name="failed_to_check_purchase_history">Gagal memeriksa riwayat pembelian</string>
 	<string name="failed_to_complete_purchase_message">Gagal menyelesaikan pembelian</string>
-	<string name="iap_setup_failed_message">Penyetelan Pembelian Dalam Aplikasi gagal</string>
+	<string name="failed_to_connect_to_gplay">Gagal terhubung ke Google Play untuk menyiapkan pembelian dalam aplikasi</string>
+	<string name="failed_to_load_products">Gagal memuat daftar produk</string>
+	<string name="failed_to_open_purchase_dialog">Gagal membuka dialog pembelian</string>
+	<string name="failed_to_validate_purchase">Tidak dapat memvalidasi pembelian Anda saat ini. Coba tunggu beberapa menit</string>
 	<string name="iaps_loading_message">IAP masih memuat</string>
 	<string name="loading">Memuat</string>
+	<string name="please_wait">Mohon tunggu</string>
 	<string name="purchase_successful">Pembelian Sukses</string>
 	<string name="purchased">Sudah dibeli</string>
 	<string name="rate_and_review_text">Beri Nilai dan Ulas Aplikasi</string>

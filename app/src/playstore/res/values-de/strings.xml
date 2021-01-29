@@ -1,10 +1,18 @@
 <resources>
-	<string name="dark_themes_available_message">Die beiden dunklen Themen sollten nun in den Einstellungen verfügbar sein!</string>
+	<string name="could_not_validate_skus">Käufe konnten nicht validiert werden, da die ursprünglichen SKUs in diesem Build nicht verfügbar sind</string>
 	<string name="error">Fehler</string>
+	<string name="error_code">Fehlercode: %1$d</string>
+	<string name="failed_to_acknowledge_purchase">Kauf konnte nicht bestätigt werden</string>
+	<string name="failed_to_check_local_purchase">Fehler beim Überprüfen der lokalen Kaufhistorie</string>
+	<string name="failed_to_check_purchase_history">Kaufhistorie konnte nicht überprüft werden</string>
 	<string name="failed_to_complete_purchase_message">Der Kauf konnte nicht abgeschlossen werden</string>
-	<string name="iap_setup_failed_message">Konnte die In-App-Abrechnung nicht einrichten</string>
+	<string name="failed_to_connect_to_gplay">Verbindung zu Google Play zum Einrichten von In-App-Käufen fehlgeschlagen</string>
+	<string name="failed_to_load_products">Produktliste konnte nicht geladen werden</string>
+	<string name="failed_to_open_purchase_dialog">Fehler beim Öffnen des Kaufdialogs</string>
+	<string name="failed_to_validate_purchase">Ihr Kauf kann derzeit nicht validiert werden. Warten Sie einige Minuten</string>
 	<string name="iaps_loading_message">IAPs laden noch</string>
 	<string name="loading">Lädt</string>
+	<string name="please_wait">Warten Sie mal</string>
 	<string name="purchase_successful">Kauf erfolgreich</string>
 	<string name="purchased">Bezahlt</string>
 	<string name="rate_and_review_text">App bewerten</string>
