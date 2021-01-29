@@ -84,6 +84,7 @@
 	<string name="need_permissions">Permissions requises</string>
 	<string name="new_file_name_hint">Nom du nouveau fichier</string>
 	<string name="new_file_name_prompt">Nom du nouveau fichier :</string>
+	<string name="new_lrc">Nouveau fichier LRC</string>
 	<string name="no">Non</string>
 	<string name="no_lrc_files_found_message">Aucun fichier LRC trouvé</string>
 	<string name="no_lyrics_found_message">Vous n\'avez pas entré, ni collé de paroles</string>

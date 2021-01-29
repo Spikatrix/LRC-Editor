@@ -84,6 +84,7 @@
 	<string name="need_permissions">Membutuhkan perizinan</string>
 	<string name="new_file_name_hint">Namai berkas yang baru di sini</string>
 	<string name="new_file_name_prompt">Masukkan nama berkas yang baru:</string>
+	<string name="new_lrc">File LRC baru</string>
 	<string name="no">Tidak</string>
 	<string name="no_lrc_files_found_message">Tak ditemukan berkas LRC</string>
 	<string name="no_lyrics_found_message">Anda belum mengetik/menempelkan lirik apapun!</string>

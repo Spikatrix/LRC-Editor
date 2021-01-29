@@ -84,6 +84,7 @@
 	<string name="need_permissions">需要权限</string>
 	<string name="new_file_name_hint">在此输入新文件名称</string>
 	<string name="new_file_name_prompt">请输入新文件名称：</string>
+	<string name="new_lrc">新的 LRC 文件</string>
 	<string name="no">否</string>
 	<string name="no_lrc_files_found_message">找不到歌词文件</string>
 	<string name="no_lyrics_found_message">您没有输入/粘贴任何歌词</string>

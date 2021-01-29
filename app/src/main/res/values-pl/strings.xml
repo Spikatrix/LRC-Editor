@@ -84,6 +84,7 @@
 	<string name="need_permissions">Potrzebujesz uprawnień</string>
 	<string name="new_file_name_hint">tutaj Nowa nazwa pliku</string>
 	<string name="new_file_name_prompt">Wpisz nową nazwę pliku:</string>
+	<string name="new_lrc">Nowy plik LRC</string>
 	<string name="no">Nie</string>
 	<string name="no_lrc_files_found_message">Nie znaleziono plików LRC</string>
 	<string name="no_lyrics_found_message">Nie wpisałeś/wkleiłeś żadnego tekstu</string>

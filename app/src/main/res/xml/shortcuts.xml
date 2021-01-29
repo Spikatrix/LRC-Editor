@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+	<shortcut
+		android:enabled="true"
+		android:icon="@drawable/ic_add"
+		android:shortcutId="create"
+		android:shortcutShortLabel="@string/new_lrc">
+		<intent
+			android:action="android.intent.action.VIEW"
+			android:targetClass="com.cg.lrceditor.CreateActivity"
+			android:targetPackage="com.cg.lrceditor" />
+	</shortcut>
+</shortcuts>
