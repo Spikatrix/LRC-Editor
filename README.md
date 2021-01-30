@@ -1,4 +1,4 @@
-# LRC Editor &nbsp; [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![Version: 3.2.5](https://d25lcipzij17d.cloudfront.net/badge.svg?id=gh&type=6&v=3.2.5)
+# LRC Editor &nbsp; [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![Version: 3.2.6](https://d25lcipzij17d.cloudfront.net/badge.svg?id=gh&type=6&v=3.2.6)
 
 <img src="https://i.stack.imgur.com/KSovE.png" alt="LRC Editor App Icon" align="left" style="margin: 10px 20px 10px 10px; border-radius: 15%; box-shadow: 0 6px 20px 2px black">
 
@@ -104,6 +104,6 @@ This project is licensed under the [GNU GPLv3 License][project_license]
 
 [email_feedback]: mailto:cg.devworks@gmail.com?subject=LRC+Editor+Feedback&body=Your+feedback+here
 [email_app_translation]: mailto:cg.devworks@gmail.com?subject=LRC+Editor+Translation
-[email_play_store_translation]: mailto:cg.devworks@gmail.com?subject=LRC+Editor+Play+Store+Translation
+[email_play_store_translation]: mailto:cg.devworks@gmail.com?subject=LRC+Editor+Play+Store+Description+Translation
 
 [project_license]: https://github.com/Spikatrix/LRC-Editor/blob/master/LICENSE
