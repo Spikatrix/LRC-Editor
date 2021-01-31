@@ -525,8 +525,11 @@ public class FinalizeActivity extends AppCompatActivity {
 				if (uri != null) {
 					saveUri = uri;
 					saveLocation = FileUtil.getFullPathFromTreeUri(uri, this);
-					TextView saveLocationDisplayer = dialogView.findViewById(R.id.save_location_display);
-					saveLocationDisplayer.setText(getString(R.string.save_location_displayer, saveLocation));
+					if (dialogView != null) {
+						// Shouldn't really happen, but got a crash report for this
+						TextView saveLocationDisplayer = dialogView.findViewById(R.id.save_location_display);
+						saveLocationDisplayer.setText(getString(R.string.save_location_displayer, saveLocation));
+					}
 				}
 			}
 		}
