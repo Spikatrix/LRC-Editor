@@ -1,0 +1,8 @@
+ - New Spanish translations
+ - Launcher accessible shortcut for creating a new LRC file
+ - Save location for files opened from the home page is set to its location by default
+ - Changing the save location from the finalize page no longer changes the global settings
+ - Improved file handling mechanism
+ - New reset playback speed/pitch button
+ - Fixed a rare crash on refreshing the LRC file list
+ - Other improvements and crash fixes
