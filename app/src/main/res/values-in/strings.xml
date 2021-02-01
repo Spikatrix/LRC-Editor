@@ -115,6 +115,7 @@
 	<string name="rename_failed_message">Gagal mengubah nama!</string>
 	<string name="rename_successful_message">Berkas berhasil diubah nama</string>
 	<string name="renaming_message">Mengubah nama berkas...</string>
+	<string name="reset">Setel ulang</string>
 	<string name="restart_for_theme_message">Mulai ulang aplikasi jika temanya tidak menerap</string>
 	<string name="save">Simpan</string>
 	<string name="save_location_description">Lokasi untuk menyimpan berkas lirik</string>

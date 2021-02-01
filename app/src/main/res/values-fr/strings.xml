@@ -115,6 +115,7 @@
 	<string name="rename_failed_message">Impossible de renommer !</string>
 	<string name="rename_successful_message">Renommage correctement effectué !</string>
 	<string name="renaming_message">Renommage en cours fichier...</string>
+	<string name="reset">Réinitialiser</string>
 	<string name="restart_for_theme_message">Redémarrer l\'application si le thème n\'a pas été correctement mis en place.</string>
 	<string name="save">Enregistrer</string>
 	<string name="save_location_description">Emplacement de sauvegarde des paroles</string>

@@ -115,6 +115,7 @@
 	<string name="rename_failed_message">Falha ao renomear!</string>
 	<string name="rename_successful_message">Renomeado com sucesso</string>
 	<string name="renaming_message">Renomeando arquivo...</string>
+	<string name="reset">Redefinir</string>
 	<string name="restart_for_theme_message">Reinicie o aplicativo se o tema não se aplicar</string>
 	<string name="save">Salvar</string>
 	<string name="save_location_description">Localização dos arquivos salvos:</string>

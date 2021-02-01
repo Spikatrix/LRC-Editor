@@ -1382,37 +1382,28 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 		pitchSeekbar.setMax(200);
 		pitchSeekbar.setProgress((int) (currentPlayerPitch * 100));
 
-		speedDisplayer.setText(getString(R.string.playback_speed_displayer, speedSeekbar.getProgress()));
-		pitchDisplayer.setText(getString(R.string.playback_pitch_displayer, pitchSeekbar.getProgress()));
+		final int[] speedValue = {speedSeekbar.getProgress()};
+		final int[] pitchValue = {pitchSeekbar.getProgress()};
+
+		speedDisplayer.setText(getString(R.string.playback_speed_displayer, speedValue[0]));
+		pitchDisplayer.setText(getString(R.string.playback_pitch_displayer, pitchValue[0]));
 
 		speedSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean user) {
 				progress = Math.max(progress, 10);
 				progress = Math.min(progress, speedSeekbar.getMax());
-				speedDisplayer.setText(getString(R.string.playback_speed_displayer, ((progress / 10) * 10)));
+				speedValue[0] = ((progress / 10) * 10);
+				speedDisplayer.setText(getString(R.string.playback_speed_displayer, speedValue[0]));
 			}
 
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {
-
 			}
 
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
-				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { // Always true, I know, but it won't compile without it
-					String speedText = speedDisplayer.getText().toString();
-					int speed = Integer.parseInt(speedText.substring(speedText.indexOf(':') + 1, speedText.length() - 1).trim());
-					try {
-						player.setPlaybackParams(player.getPlaybackParams().setSpeed(speed / 100.0f));
-						if (!isPlaying) {
-							player.pause();
-						}
-						currentPlayerSpeed = speed / 100.0f;
-					} catch (SecurityException | IllegalStateException | IllegalArgumentException e) {
-						Toast.makeText(getApplicationContext(), getString(R.string.failed_to_set_speed_message), Toast.LENGTH_SHORT).show();
-					}
-				}
+				setSpeed(speedValue[0]);
 			}
 		});
 
@@ -1421,7 +1412,8 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean user) {
 				progress = Math.max(progress, 10);
 				progress = Math.min(progress, pitchSeekbar.getMax());
-				pitchDisplayer.setText(getString(R.string.playback_pitch_displayer, ((progress / 10) * 10)));
+				pitchValue[0] = ((progress / 10) * 10);
+				pitchDisplayer.setText(getString(R.string.playback_pitch_displayer, pitchValue[0]));
 			}
 
 			@Override
@@ -1431,28 +1423,56 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
-				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { // Always true, I know, but it won't compile without it
-					String pitchText = pitchDisplayer.getText().toString();
-					int pitch = Integer.parseInt(pitchText.substring(pitchText.indexOf(':') + 1, pitchText.length() - 1).trim());
-					try {
-						player.setPlaybackParams(player.getPlaybackParams().setPitch(pitch / 100.0f));
-						if (!isPlaying) {
-							player.pause();
-						}
-						currentPlayerPitch = pitch / 100.0f;
-					} catch (SecurityException | IllegalStateException | IllegalArgumentException e) {
-						Toast.makeText(getApplicationContext(), getString(R.string.failed_to_set_pitch_message), Toast.LENGTH_SHORT).show();
-					}
-				}
+				setPitch(pitchValue[0]);
 			}
 		});
 
-		new AlertDialog.Builder(this)
+		AlertDialog dialog = new AlertDialog.Builder(this)
 				.setView(view)
 				.setTitle(R.string.player_playback_options_title)
-				.setNegativeButton(getString(R.string.ok), null)
-				.create()
-				.show();
+				.setPositiveButton(getString(R.string.ok), null)
+				.setNegativeButton(getString(R.string.reset), null)
+				.create();
+
+		dialog.setOnShowListener(d -> {
+			Button b = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+			b.setOnClickListener(v -> {
+				speedSeekbar.setProgress(100);
+				pitchSeekbar.setProgress(100);
+				setSpeed(100);
+				setPitch(100);
+			});
+		});
+
+		dialog.show();
+	}
+
+	private void setSpeed(int speed) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { // Always true, I know, but it won't compile without it
+			try {
+				player.setPlaybackParams(player.getPlaybackParams().setSpeed(speed / 100.0f));
+				if (!isPlaying) {
+					player.pause();
+				}
+				currentPlayerSpeed = speed / 100.0f;
+			} catch (SecurityException | IllegalStateException | IllegalArgumentException e) {
+				Toast.makeText(getApplicationContext(), getString(R.string.failed_to_set_speed_message), Toast.LENGTH_SHORT).show();
+			}
+		}
+	}
+
+	private void setPitch(int pitch) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { // Always true, I know, but it won't compile without it
+			try {
+				player.setPlaybackParams(player.getPlaybackParams().setPitch(pitch / 100.0f));
+				if (!isPlaying) {
+					player.pause();
+				}
+				currentPlayerPitch = pitch / 100.0f;
+			} catch (SecurityException | IllegalStateException | IllegalArgumentException e) {
+				Toast.makeText(getApplicationContext(), getString(R.string.failed_to_set_pitch_message), Toast.LENGTH_SHORT).show();
+			}
+		}
 	}
 
 	@Override

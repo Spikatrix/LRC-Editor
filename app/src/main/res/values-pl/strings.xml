@@ -115,6 +115,7 @@
 	<string name="rename_failed_message">Zmiana nazwy nie powiodła się!</string>
 	<string name="rename_successful_message">Pomyślnie zmieniono nazwę pliku</string>
 	<string name="renaming_message">Zmiana nazwy pliku...</string>
+	<string name="reset">Resetowanie</string>
 	<string name="restart_for_theme_message">Uruchom ponownie aplikację, jeśli motyw nie ma zastosowania</string>
 	<string name="save">Zapisz</string>
 	<string name="save_location_description">Miejsce zapisywania plików tekstowych:</string>

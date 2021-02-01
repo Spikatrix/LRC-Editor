@@ -115,6 +115,7 @@
 	<string name="rename_failed_message">Rename failed!</string>
 	<string name="rename_successful_message">Renamed file successfully</string>
 	<string name="renaming_message">Renaming file...</string>
+	<string name="reset">Reset</string>
 	<string name="restart_for_theme_message">Restart the app if the theme does not apply</string>
 	<string name="save">Save</string>
 	<string name="save_location_description">Location for saving lyric files</string>

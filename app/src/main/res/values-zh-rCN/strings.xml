@@ -115,6 +115,7 @@
 	<string name="rename_failed_message">无法重命名！</string>
 	<string name="rename_successful_message">成功重命名</string>
 	<string name="renaming_message">正在重命名文件...</string>
+	<string name="reset">重启</string>
 	<string name="restart_for_theme_message">如果主题未被应用请重新启动 App</string>
 	<string name="save">保存</string>
 	<string name="save_location_description">保存歌词文件的位置</string>

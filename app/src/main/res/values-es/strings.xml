@@ -115,6 +115,7 @@
 	<string name="rename_failed_message">¡Falló cambiar el nombre!</string>
 	<string name="rename_successful_message">¡Logró cambiar el nombre!</string>
 	<string name="renaming_message">Cambiando el nombre del achivo...</string>
+	<string name="reset">Reiniciar</string>
 	<string name="restart_for_theme_message">Inicie de nuevo la aplicación si el tema no cambió correctamente.</string>
 	<string name="save">Guardar</string>
 	<string name="save_location_description">Ubicación de guarda de las letras</string>

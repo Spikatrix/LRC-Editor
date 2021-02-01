@@ -115,6 +115,7 @@
 	<string name="rename_failed_message">Umbenennen fehlgeschlagen!</string>
 	<string name="rename_successful_message">Umbenennen erfolgreich!</string>
 	<string name="renaming_message">Datei wird umbenannt...</string>
+	<string name="reset">Zurücksetzen</string>
 	<string name="restart_for_theme_message">Starte die App neu, wenn das Thema nicht übernommen wird</string>
 	<string name="save">Speichern</string>
 	<string name="save_location_description">Verzeichnis zum Speichern von Dateien</string>
