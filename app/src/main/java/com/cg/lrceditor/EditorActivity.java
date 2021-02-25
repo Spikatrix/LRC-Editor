@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -684,11 +685,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 			try {
 				player.setDataSource(getApplicationContext(), songUriArgument);
 			} catch (IOException | IllegalArgumentException | IllegalStateException | SecurityException e) {
-				runOnUiThread(() -> {
-					Toast.makeText(getApplicationContext(), "Whoops " + e.getMessage(), Toast.LENGTH_LONG).show();
-					titleText.setText(getString(R.string.tap_to_select_song_prompt));
-					e.printStackTrace();
-				});
+				runOnUiThread(() -> mediaPlayerSetUpFailed(e));
 				return;
 			}
 
@@ -697,10 +694,21 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 				songUri = songUriArgument;
 
 				titleText.setText(getString(R.string.preparing_the_player_message));
-				player.prepareAsync();
+				try {
+					player.prepareAsync();
+				} catch (IllegalStateException e) {
+					// Got a crash report
+					mediaPlayerSetUpFailed(e);
+				}
 			});
 
 		}).start();
+	}
+
+	private void mediaPlayerSetUpFailed(Exception e) {
+		Toast.makeText(getApplicationContext(), "Whoops " + e.getMessage(), Toast.LENGTH_LONG).show();
+		titleText.setText(getString(R.string.tap_to_select_song_prompt));
+		e.printStackTrace();
 	}
 
 	public void playPause(View view) {
@@ -757,8 +765,23 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 		seekbar.setProgress(player.getCurrentPosition());
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) { // Because PlaybackParams is only supported on Android 6.0 and above
 			currentPlayerPitch = currentPlayerSpeed = 1.0f;
-			playbackOptions.setVisible(true);
+
+			if (playbackOptions != null) {
+				playbackOptions.setVisible(true);
+			} else {
+				// Can't repro myself, but got a couple of crash reports on this
+				// Possible race condition? Attempt it again after waiting for 1 second
+				new Handler().postDelayed(() -> {
+					if (playbackOptions != null) {
+						playbackOptions.setVisible(true);
+					} else {
+						Log.w("LRC Editor - Editor", "Failed to initialize playback options");
+					}
+				}, 1000);
+			}
 		}
+
+		// TODO: Incorrect file name returned in some cases
 		songFileName = FileUtil.getFileName(this, songUri);
 		playerPrepared = true;
 	}
@@ -1261,7 +1284,7 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 								String.format(Locale.getDefault(), "-%s", timestamp.toString()));
 					}
 
-					timestampUpdater.postDelayed(this, 50);
+					batchTimestampUpdater.postDelayed(this, 50);
 				}
 			}
 		};
@@ -1480,7 +1503,6 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.menu_editor_activity, menu);
 		playbackOptions = menu.findItem(R.id.action_playback_options);
-
 		return super.onCreateOptionsMenu(menu);
 	}
 

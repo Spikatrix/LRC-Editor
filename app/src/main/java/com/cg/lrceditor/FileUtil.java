@@ -125,26 +125,36 @@ public final class FileUtil {
 		}
 	}
 
+	// Used as a fallback when `getDocumentFileFromPath()` fails
+	static DocumentFile getDocumentFileFromFile(String path) {
+		return DocumentFile.fromFile(new File(path));
+	}
+
 	// Thanks @Jonathan Martinez
 	@Nullable
 	static DocumentFile getDocumentFileFromPath(@Nullable final Uri treeUri, String path, Context ctx) {
 		if (treeUri == null || !treeUri.getScheme().contains("content") || treeUri.getAuthority() == null) {
 			// Invalid treeUri, attempt to create a DocumentFile from the provided path via a File
-			return DocumentFile.fromFile(new File(path));
+			return getDocumentFileFromFile(path);
 		}
 
 		String treePath = getFullPathFromTreeUri(treeUri, ctx);
 		if (treePath == null || !path.contains(treePath)) {
 			// Invalid path for the provided treeUri, attempt to create a DocumentFile from the provided path via a File
-			return DocumentFile.fromFile(new File(path));
+			return getDocumentFileFromFile(path);
 		}
 
 		Uri fileUri = Uri.parse(path.substring(treePath.length()));
 		DocumentFile file = DocumentFile.fromTreeUri(ctx, treeUri);
 
-		List<String> pathSegments = fileUri.getPathSegments();
-		for (String pathSegment : pathSegments) {
-			file = file.findFile(pathSegment);
+		try {
+			List<String> pathSegments = fileUri.getPathSegments();
+			for (String pathSegment : pathSegments) {
+				file = file.findFile(pathSegment);
+			}
+		} catch (NullPointerException e) {
+			// I couldn't reproduce this NPE but I got a number of crash reports on this
+			return getDocumentFileFromFile(path);
 		}
 
 		return file;
