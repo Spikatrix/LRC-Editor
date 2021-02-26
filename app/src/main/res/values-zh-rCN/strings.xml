@@ -78,6 +78,7 @@
 	<string name="loading_lyrics">正在载入歌词文件...</string>
 	<string name="lrc_editor_may_not_work_as_expected_message">LRC Editor 可能无法正常运作。请尝试于设置更改读取位置</string>
 	<string name="made_with_love_and_code_text">\n用 ♥ 创造\n(还有大量的程序代码 :p)\n</string> <!-- Newlines for better spacing on small screens -->
+	<string name="media_playback_options_init_failed">无法初始化媒体播放选项</string>
 	<string name="modified_lyric_hint">在此输入修改后的歌词</string>
 	<string name="modified_lyric_prompt">输入修改后的歌词</string>
 	<string name="modify">修改</string>

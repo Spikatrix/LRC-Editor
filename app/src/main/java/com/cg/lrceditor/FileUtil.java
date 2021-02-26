@@ -106,7 +106,10 @@ public final class FileUtil {
 					result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
 				}
 			}
+		} else if (uri.getScheme().equals("file")) {
+			result = uri.getLastPathSegment();
 		}
+
 		if (result == null) {
 			result = uri.getPath();
 			int cut = result.lastIndexOf('/');

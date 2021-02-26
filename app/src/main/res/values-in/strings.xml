@@ -78,6 +78,7 @@
 	<string name="loading_lyrics">Memuat lirik...</string>
 	<string name="lrc_editor_may_not_work_as_expected_message">LRC Editor mungkin tidak akan berjalan seperti yang diharapkan; Coba ubah lokasi pemindaian dari Pengaturan</string>
 	<string name="made_with_love_and_code_text">\nDibuat dengan ♥\n(dan juga kode yang sungguh banyak :p)\n</string> <!-- Newlines for better spacing on small screens -->
+	<string name="media_playback_options_init_failed">Gagal memulai opsi pemutaran media</string>
 	<string name="modified_lyric_hint">Gubahan lirik di sini</string>
 	<string name="modified_lyric_prompt">Masukkan gubahan lirik:</string>
 	<string name="modify">Ubah</string>

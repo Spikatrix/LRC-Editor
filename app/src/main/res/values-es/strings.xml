@@ -78,6 +78,7 @@
 	<string name="loading_lyrics">Cargamiento de la letra...</string>
 	<string name="lrc_editor_may_not_work_as_expected_message">LRC Editor podría no funcionar como intentado; Pruebe cambiar la carpeta de lectura en los ajustes</string>
 	<string name="made_with_love_and_code_text">\nDesarrollado con ♥\n(y mucho código :p)\n</string> <!-- Newlines for better spacing on small screens -->
+	<string name="media_playback_options_init_failed">No se pudieron inicializar las opciones de reproducción de medios</string>
 	<string name="modified_lyric_hint">Modificar la letra</string>
 	<string name="modified_lyric_prompt">Modificar la letra:</string>
 	<string name="modify">Modificar</string>

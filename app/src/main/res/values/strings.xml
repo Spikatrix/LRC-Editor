@@ -78,6 +78,7 @@
 	<string name="loading_lyrics">Loading lyrics...</string>
 	<string name="lrc_editor_may_not_work_as_expected_message">LRC Editor may not work as expected; Try changing the read location from the settings</string>
 	<string name="made_with_love_and_code_text">\nMade with ♥\n(and a lot of code :p)\n</string> <!-- Newlines for better spacing on small screens -->
+	<string name="media_playback_options_init_failed">Failed to initialize media playback options</string>
 	<string name="modified_lyric_hint">Modified lyric here</string>
 	<string name="modified_lyric_prompt">Enter the modified lyric:</string>
 	<string name="modify">Modify</string>

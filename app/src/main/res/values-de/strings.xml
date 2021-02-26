@@ -78,6 +78,7 @@
 	<string name="loading_lyrics">Lade Lyrics...</string>
 	<string name="lrc_editor_may_not_work_as_expected_message">Der LRC Editor könnte vielleicht nicht wie erwartet funktionieren; Versuche, das Suchverzeichnis in den Einstellungen zu ändern</string>
 	<string name="made_with_love_and_code_text">\nGemacht mit ♥\n(und ganz viel Code :p)\n</string> <!-- Newlines for better spacing on small screens -->
+	<string name="media_playback_options_init_failed">Fehler beim Initialisieren der Medienwiedergabeoptionen</string>
 	<string name="modified_lyric_hint">Bearbeitete Zeile</string>
 	<string name="modified_lyric_prompt">Bearbeitete/Neue Zeile eingeben:</string>
 	<string name="modify">Anwenden</string>

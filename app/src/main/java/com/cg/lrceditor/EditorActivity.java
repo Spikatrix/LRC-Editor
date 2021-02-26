@@ -14,7 +14,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -44,7 +43,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -756,7 +754,8 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 			Toast.makeText(this, getString(R.string.failed_to_get_duration_message), Toast.LENGTH_LONG).show();
 			return;
 		}
-		setPlayerTitle();
+		songFileName = FileUtil.getFileName(this, songUri);
+		setPlayerTitle(songFileName);
 		startText.setText("00:00");
 		seekTimestamp = new Timestamp(0, 0, 0);
 		endTime.setMilliseconds(0);
@@ -775,39 +774,31 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 					if (playbackOptions != null) {
 						playbackOptions.setVisible(true);
 					} else {
-						Log.w("LRC Editor - Editor", "Failed to initialize playback options");
+						Toast.makeText(EditorActivity.this, getString(R.string.media_playback_options_init_failed), Toast.LENGTH_SHORT).show();
 					}
 				}, 1000);
 			}
 		}
 
-		// TODO: Incorrect file name returned in some cases
-		songFileName = FileUtil.getFileName(this, songUri);
 		playerPrepared = true;
 	}
 
-	private void setPlayerTitle() {
+	private void setPlayerTitle(String fallBackSongTitle) {
 		MediaMetadataRetriever mmr = new MediaMetadataRetriever();
 		try {
-			mmr.setDataSource(this, this.songUri);
+			mmr.setDataSource(this, songUri);
 			String title = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
-			if (title.trim().isEmpty()) {
-				throw new RuntimeException();
+			if (title != null && !title.trim().isEmpty()) {
+				titleText.setText(title);
+				return;
 			}
-			titleText.setText(title);
-		} catch (RuntimeException e) {
-			e.printStackTrace();
-			File f = null;
-			try {
-				f = new File(this.songUri.getPath());
-				titleText.setText(f.getName().substring(0, f.getName().lastIndexOf('.')));
-			} catch (IndexOutOfBoundsException e2) {
-				e2.printStackTrace();
-				titleText.setText(f.getName());
-			} catch (Exception e3) {
-				e3.printStackTrace();
-				titleText.setText(R.string.title_error_text);
-			}
+		} catch (RuntimeException ignored) {
+		}
+
+		if (fallBackSongTitle != null && !fallBackSongTitle.isEmpty()) {
+			titleText.setText(fallBackSongTitle);
+		} else {
+			titleText.setText(getString(R.string.title_error_text));
 		}
 	}
 
@@ -1232,6 +1223,8 @@ public class EditorActivity extends AppCompatActivity implements LyricListAdapte
 	}
 
 	private void batchEditLyrics() {
+		// TODO: Refactor the mess in here
+
 		LayoutInflater inflater = this.getLayoutInflater();
 		final View view = inflater.inflate(R.layout.dialog_adjust, null);
 		final TextView batchTitle = view.findViewById(R.id.title);
