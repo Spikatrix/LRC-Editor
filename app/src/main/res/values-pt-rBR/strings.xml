@@ -146,7 +146,7 @@
 	<string name="tap_to_select_song_prompt">Toque aqui para selecionar uma música</string>
 	<string name="thats_a_miss">Falta algo aqui...\nNenhum arquivo de letra encontrado</string>
 	<string name="three_digit_milliseconds_help">Salvar com milissegundos de três dígitos pode ser útil para aplicativos que esperam arquivos LRC com timestamps de três dígitos em milissegundos em vez de timestamps de dois dígitos em milissegundos</string>
-	<string name="three_digit_milliseconds_prompt">Economize com três dígitos em milissegundos</string>
+	<string name="three_digit_milliseconds_prompt">Salvar com três dígitos em milissegundos</string>
 	<string name="timestamp_step_amount_prompt">Valor da etapa do registro de data e hora</string>
 	<string name="timestamp_step_help">Os carimbos de data e hora serão ajustados por essa quantidade de milissegundos no editor. Observe que apenas os dois dígitos mais significativos dos milissegundos são mostrados no editor</string>
 	<string name="title_error_text">Ocorreu um erro inesperado ao tentar definir o título</string>
