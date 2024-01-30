@@ -34,7 +34,8 @@ public class Timestamp implements Serializable {
 			throw new IllegalArgumentException("Seconds must be less than 60");
 		}
 
-		if (this.milliseconds < 100) {
+		/* Multiply milliseconds by 10 if it's a two digit millisecond timestamp */
+		if (str[2].length() == 2) {
 			milliseconds *= 10;
 		}
 
