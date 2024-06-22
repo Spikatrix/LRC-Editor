@@ -1,6 +1,6 @@
 # LRC Editor &nbsp; [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![Version: 3.2.6](https://d25lcipzij17d.cloudfront.net/badge.svg?id=gh&type=6&v=3.2.6)
 
-<img src="https://i.stack.imgur.com/KSovE.png" alt="LRC Editor App Icon" align="left" style="margin: 10px 20px 10px 10px; border-radius: 15%; box-shadow: 0 6px 20px 2px black">
+<img src="https://github.com/Spikatrix/LRC-Editor/assets/12792882/c2ec19e1-bd2f-4c82-b060-4e49b02acebb" alt="LRC Editor App Icon" align="left" style="margin: 10px 20px 10px 10px; border-radius: 15%; box-shadow: 0 6px 20px 2px black">
 
 LRC Editor is an Android app that helps you to create and edit .lrc files easily
 
@@ -14,17 +14,18 @@ It is available to download on the [Google Play Store][play_store_page], [F-Droi
 		<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80px">
 	</a>
 	<a href="https://github.com/Spikatrix/LRC-Editor/releases">
-		<img src="https://i.stack.imgur.com/S4MQt.png" alt="Download from GitHub" height="80px">
+		<img src="https://github.com/Spikatrix/LRC-Editor/assets/12792882/cf29751a-93bf-4f47-96b2-99716653e3ba" alt="Download from GitHub" height="80px">
 	</a>
+
 </p>
 
 ## About
 
-LRC Editor is a small, minimal Android app that helps you to create and edit .lrc (lyric) files. It's got all the necessary features required to edit LRC files easily. Timestamps can be both fine and coarse tuned. You can edit lyrics, insert more lyrics, batch edit timestamps and much more. Also, you can open LRC files directly from your file manager<sup>1</sup>. The best part is that LRC Editor is completely free of ads!
+LRC Editor is a small, minimal Android app that helps you to create and edit .lrc (lyric) files. You can edit lyrics, tune timestamps, batch edit timestamps and much more. You can also open LRC files directly from your file manager<sup>1</sup>. The best part is that LRC Editor is completely free of ads!
 
-You can then use the LRC files in Karaoke applications, Music players etc that support it. The stock music players of major phone manufacturers like Xiaomi, Huawei, OPPO, Samsung and more support LRC files. LRC files aren't supported on LG's stock media player, the Google Play Music app among others.
+You can then use LRC files in Music players, Karoke applications and more. The stock music players of major phone manufacturers like Xiaomi, Huawei, OPPO, Samsung and more support LRC files. However, not all music players supports it, for instance LG's stock media player does not support it. Check your music player's documentation to know if it supports LRC files.
 
-**Note**: To get the best precision from this app, use a high quality constant bitrate MP3 file or another music container that isn't compressed and is designed for precise seeking. Compressed music files usually don't have accurate seek information in them which might lead to desync issues.
+**Note**: To get the best precision when syncing lyrics, use a high quality constant bitrate MP3 file or something similar. Compressed music files usually don't have accurate seek information in them which might lead to desync issues.
 
 <sup>1</sup> [Samsung's stock file manager has issues with this](https://github.com/Spikatrix/LRC-Editor/issues/16)
 
@@ -38,15 +39,15 @@ More screenshots are available in the [Google Play Store page][play_store_page]
 
 LRC Editor requires the storage permission so that it can read and save LRC files.
 
-Note: Android 11 brings much more stricter storage access enforcements and LRC Editor might not be able to access storage once the [`targetSdkVersion`](https://github.com/Spikatrix/LRC-Editor/blob/master/app/build.gradle#L10) is increased to 30 or above, even after granting the storage permission.
+Note: Android 11 brings much more stricter storage access enforcements and LRC Editor won't be able to access storage once the [`targetSdkVersion`](https://github.com/Spikatrix/LRC-Editor/blob/master/app/build.gradle#L10) is increased to 30 or above, even after granting the storage permission.
 
 ## Build from source
 
 If you wish to build from source, clone the repo and run gradle's `assembleDebug` task:
 
-	$ git clone https://github.com/Spikatrix/LRC-Editor
-	$ cd LRC-Editor
-	$ ./gradlew assembleDebug
+	git clone https://github.com/Spikatrix/LRC-Editor
+	cd LRC-Editor
+	./gradlew assembleDebug
 
 (Use `gradlew.bat` if you're on Windows)
 
