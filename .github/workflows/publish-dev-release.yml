@@ -32,6 +32,15 @@ jobs:
     - name: Build APK
       run: ./gradlew assembleDebug
 
+    - name: Set environment variables
+      run: |
+        SHA_SHORT=$(git rev-parse --short HEAD)
+        echo "APK_PATH=app/build/outputs/apk/fdroid/debug" >> $GITHUB_ENV
+        echo "APK_NAME=LRC.Editor.Dev.Debug.$SHA_SHORT" >> $GITHUB_ENV
+
+    - name: Rename APK
+      run: mv $APK_PATH/app-fdroid-debug.apk $APK_PATH/$APK_NAME.apk
+
     - name: Cleanup v-dev tag and release
       run: gh release delete v-dev --cleanup-tag --yes || true
       env:
@@ -39,9 +48,9 @@ jobs:
 
     - name: Upload APK release
       run: |
-        gh release create v-dev android/build/outputs/apk/debug/*.apk \
+        gh release create v-dev $APK_PATH/$APK_NAME.apk \
         --title "LRC Editor Developer Build" \
-        --notes "Unreleased developer build with the latest updates" \
+        --notes "Unreleased developer build (\`fdroid\` build variant) with the latest updates" \
         --target ${{ github.sha }} \
         --prerelease
       env:
