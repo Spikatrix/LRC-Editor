@@ -43,4 +43,6 @@ jobs:
         --title "LRC Editor Developer Build" \
         --notes "Unreleased developer build with the latest updates" \
         --target ${{ github.sha }} \
-        --prerelease    
+        --prerelease
+      env:
+        GH_TOKEN: ${{ github.token }}
