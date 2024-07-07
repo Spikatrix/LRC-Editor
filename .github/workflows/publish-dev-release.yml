@@ -1,0 +1,46 @@
+name: Publish development release
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  release_development_build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout master branch
+      uses: actions/checkout@v4
+        
+    - name: Set up JDK 8
+      uses: actions/setup-java@v4
+      with:
+        java-version: 8
+        distribution: 'zulu'
+
+    - name: Set up Android SDK
+      uses: android-actions/setup-android@v3
+      with:
+        cmdline-tools-version: 8512546
+        log-accepted-android-sdk-licenses: false
+        
+    - name: Make gradlew executable
+      run: chmod +x gradlew
+
+    - name: Build APK
+      run: ./gradlew assembleDebug
+
+    - name: Cleanup v-dev tag and release
+      run: gh release delete v-dev --cleanup-tag --yes || true
+      env:
+        GH_TOKEN: ${{ github.token }}
+
+    - name: Upload APK release
+      run: |
+        gh release create v-dev android/build/outputs/apk/debug/*.apk \
+        --title "LRC Editor Developer Build" \
+        --notes "Unreleased developer build with the latest updates" \
+        --target ${{ github.sha }} \
+        --prerelease    
