@@ -68,7 +68,7 @@
 	<string name="generic_save_path_error">无法解析路径位置。可能会无法保存</string>
 	<string name="github_contribution">对 App 作出贡献\nhttps://github.com/Spikatrix/LRC-Editor</string>
 	<string name="go_back">返回</string>
-	<string name="go_back_warning_message">如果现在退出编辑，您将丢失您编辑过的歌词。您确定要返回吗？</string>
+	<string name="go_back_warning_message">如果现在退出编辑，您将丢失您已编辑的歌词。您确定要返回吗？</string>
 	<string name="increase_timestamp_description">减少时间戳</string>
 	<string name="insert">插入</string>
 	<string name="insert_lyrics_prompt">输入要插入的歌词：\n</string>
