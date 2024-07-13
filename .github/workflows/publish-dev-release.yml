@@ -30,7 +30,7 @@ jobs:
       run: chmod +x gradlew
 
     - name: Build APK
-      run: ./gradlew assembleDebug
+      run: ./gradlew assembleFdroidDebug
 
     - name: Set environment variables
       run: |
