@@ -182,23 +182,14 @@ public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.Lyri
 				itemAdd.setImageDrawable(ctx.getDrawable(R.drawable.ic_add_light));
 			}
 
-			itemAdd.setOnClickListener(v -> {
-				clickListener.onAddButtonClick(getAdapterPosition());
-				v.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
-			});
+			itemAdd.setOnClickListener(v -> clickListener.onAddButtonClick(getAdapterPosition()));
 
-			itemPlay.setOnClickListener(v -> {
-				clickListener.onPlayButtonClick(getAdapterPosition());
-				v.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
-			});
+			itemPlay.setOnClickListener(v -> clickListener.onPlayButtonClick(getAdapterPosition()));
 
 			ImageButton incrTime = itemView.findViewById(R.id.increase_time_button);
 			ImageButton decrTime = itemView.findViewById(R.id.decrease_time_button);
 
-			incrTime.setOnClickListener(v -> {
-				clickListener.onIncreaseTimeClick(getAdapterPosition());
-				v.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
-			});
+			incrTime.setOnClickListener(v -> clickListener.onIncreaseTimeClick(getAdapterPosition()));
 
 			incrTime.setOnLongClickListener(v -> {
 				clickListener.onLongPressIncrTime(getAdapterPosition());
@@ -206,10 +197,7 @@ public class LyricListAdapter extends RecyclerView.Adapter<LyricListAdapter.Lyri
 				return false;
 			});
 
-			decrTime.setOnClickListener(v -> {
-				clickListener.onDecreaseTimeClick(getAdapterPosition());
-				v.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
-			});
+			decrTime.setOnClickListener(v -> clickListener.onDecreaseTimeClick(getAdapterPosition()));
 
 			decrTime.setOnLongClickListener(v -> {
 				clickListener.onLongPressDecrTime(getAdapterPosition());
