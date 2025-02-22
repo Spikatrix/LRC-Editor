@@ -4,12 +4,9 @@
 
 LRC Editor is an Android app that helps you to create and edit .lrc files easily
 
-It is available to download on the [Google Play Store][play_store_page], [F-Droid][fdroid_page] as well as [GitHub][github_release_page].
+It is available to download on [F-Droid][fdroid_page] and [GitHub][github_release_page]
 
 <p>
-	<a href="https://play.google.com/store/apps/details?id=com.cg.lrceditor">
-		<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="Download from Google Play" height="80px">
-	</a>
 	<a href="https://f-droid.org/packages/com.cg.lrceditor">
 		<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80px">
 	</a>
@@ -64,7 +61,6 @@ LRC Editor is a FOSS app developed by [me](https://github.com/Spikatrix). Contri
 Here are a few ways you can help:
  * Report bugs and provide suggestions via the [Issue Tracker][issue_tracker] or via [email][email_feedback]
  * Translate the app ([main][main_strings], [playstore][playstore_strings], [fdroid][fdroid_strings]) and send in the translations via a pull request or via [email][email_app_translation]
- * Translate the app's [Google Play Store description][play_store_page] and send it to me via [email][email_play_store_translation]
  * Tackle one of the issues/feature-requests from the [Issue Tracker][issue_tracker], make new useful features or fix bugs. In doing so, make sure that the app is still fast, minimal and easy to use.
  * Cleanup and refactor the code making it much more easier to understand and maintain.
 
