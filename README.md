@@ -30,7 +30,7 @@ You can then use LRC files in Music players, Karoke applications and more. The s
 
 <img src="https://raw.githubusercontent.com/Spikatrix/LRC-Editor/master/fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" height="300px"> &nbsp; &nbsp; <img src="https://raw.githubusercontent.com/Spikatrix/LRC-Editor/master/fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" height="300px">
 
-More screenshots are available in the [Google Play Store page][play_store_page]
+More screenshots are available in the [F-Droid page][fdroid_page_screenshots]
 
 ## Permissions
 
@@ -88,6 +88,7 @@ This project is licensed under the [GNU GPLv3 License][project_license]
 <!-- Link references -->
 [play_store_page]: https://play.google.com/store/apps/details?id=com.cg.lrceditor
 [fdroid_page]: https://f-droid.org/packages/com.cg.lrceditor
+[fdroid_page_screenshots]: https://f-droid.org/packages/com.cg.lrceditor#screenshots
 [github_release_page]: https://github.com/Spikatrix/LRC-Editor/releases
 
 [play_store]: https://play.google.com/store
