@@ -1,0 +1,40 @@
+name: Build
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 8
+      uses: actions/setup-java@v4
+      with:
+        java-version: 8
+        distribution: 'zulu'
+
+    - name: Set up Android SDK
+      uses: android-actions/setup-android@v3
+      with:
+        cmdline-tools-version: 8512546
+        log-accepted-android-sdk-licenses: false
+
+    - name: Make gradlew executable
+      run: chmod +x gradlew
+
+    - name: Build APK
+      run: ./gradlew assembleFdroidDebug
+
+    - name: Upload APK artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: app-fdroid-debug
+        path: app/build/outputs/apk/fdroid/debug/app-fdroid-debug.apk
+        retention-days: 1

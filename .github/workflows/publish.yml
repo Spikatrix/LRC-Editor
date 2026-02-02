@@ -1,0 +1,55 @@
+name: Publish
+
+on:
+  workflow_run:
+    workflows: ["Build"]
+    types:
+      - completed
+    #branches:
+    #  - master
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    if: "${{ github.event.workflow_run.conclusion == 'success' }}"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: "${{ github.event.workflow_run.head_sha }}"
+
+      - name: Download APK artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: app-fdroid-debug
+          path: apk_output
+          run-id: "${{ github.event.workflow_run.id }}"
+          github-token: "${{ github.token }}"
+
+      - name: Set environment variables
+        run: |
+          SHA_SHORT=$(git rev-parse --short HEAD)
+          echo "APK_NAME=LRC.Editor.Dev.Debug.$SHA_SHORT.apk" >> $GITHUB_ENV
+
+      - name: Rename APK
+        run: mv apk_output/app-fdroid-debug.apk apk_output/$APK_NAME
+
+      #- name: Cleanup v-dev tag and release
+      #  run: gh release delete v-dev --cleanup-tag --yes || true
+      #  env:
+      #    GH_TOKEN: "${{ github.token }}"
+
+      #- name: Upload APK release
+      #  run: |
+      #    gh release create v-dev apk_output/$APK_NAME \
+      #      --title "LRC Editor Developer Build" \
+      #      --notes "Unreleased developer build (\`fdroid\` build variant) with the latest updates" \
+      #      --target "${{ github.event.workflow_run.head_sha }}" \
+      #      --prerelease
+      #  env:
+      #    GH_TOKEN: "${{ github.token }}"
+
