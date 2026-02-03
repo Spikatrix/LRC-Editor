@@ -145,9 +145,9 @@
 	<string name="storage_unavailable_message">Erreur : Stockage indisponible/occupé</string>
 	<string name="tap_to_select_song_prompt">Tap pour sélectionner une musique</string>
 	<string name="thats_a_miss">Echec\nPas de fichier de parole trouvé</string>
-	<string name="three_digit_milliseconds_help">Cette option est utile pour les applications qui attendent des fichiers LRC avec des horodatages en millisecondes à trois chiffres plutôt qu'à deux. En cas de doute, laissez cette option désactivée.</string>
+	<string name="three_digit_milliseconds_help">Cette option est utile pour les applications qui attendent des fichiers LRC avec des horodatages en millisecondes à trois chiffres plutôt qu\'à deux. En cas de doute, laissez cette option désactivée.</string>
 	<string name="three_digit_milliseconds_prompt">Enregistrer avec des millisecondes en 3 caractères</string>
-	<string name="lyric_leading_space_help">Cette option est utile pour les applications qui nécessitent un espace entre l'horodatage et les paroles. En cas de doute, laissez-la désactivée.</string>
+	<string name="lyric_leading_space_help">Cette option est utile pour les applications qui nécessitent un espace entre l\'horodatage et les paroles. En cas de doute, laissez-la désactivée.</string>
 	<string name="lyric_leading_space_prompt">Enregistrer les paroles avec un espace au début</string>
 	<string name="timestamp_step_amount_prompt">Pas des marqueurs temporels</string>
 	<string name="timestamp_step_help">Précision des millisecondes du marqueur temporel. Les millisecondes auront autant de chiffres significatifs que le nombre précisé ici. A noter que le volet éditeur n\'affiche que les deux premiers chiffres des millisecondes.</string>
