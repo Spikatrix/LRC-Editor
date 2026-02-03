@@ -32,9 +32,23 @@ jobs:
     - name: Build APK
       run: ./gradlew assembleFdroidDebug
 
+    - name: Rename APK
+      id: rename
+      run: |
+        if [ "${{ github.event_name }}" == "pull_request" ]; then
+          SHA_FULL="${{ github.event.pull_request.head.sha }}"
+        else
+          SHA_FULL="${{ github.sha }}"
+        fi
+        SHA_SHORT="${SHA_FULL:0:7}"
+        
+        APK_NAME="app-fdroid-debug-$SHA_SHORT.apk"
+        mv app/build/outputs/apk/fdroid/debug/app-fdroid-debug.apk "app/build/outputs/apk/fdroid/debug/$APK_NAME"
+        echo "apk_name=$APK_NAME" >> $GITHUB_OUTPUT
+
     - name: Upload APK artifact
       uses: actions/upload-artifact@v4
       with:
-        name: app-fdroid-debug
-        path: app/build/outputs/apk/fdroid/debug/app-fdroid-debug.apk
+        name: ${{ steps.rename.outputs.apk_name }}
+        path: app/build/outputs/apk/fdroid/debug/${{ steps.rename.outputs.apk_name }}
         retention-days: 7

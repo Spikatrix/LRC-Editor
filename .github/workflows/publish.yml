@@ -22,21 +22,23 @@ jobs:
         with:
           ref: "${{ github.event.workflow_run.head_sha }}"
 
+      - name: Set environment variables
+        run: |
+          SHA_FULL="${{ github.event.workflow_run.head_sha }}"
+          SHA_SHORT="${SHA_FULL:0:7}"
+          echo "BUILD_ARTIFACT_NAME=app-fdroid-debug-$SHA_SHORT.apk" >> $GITHUB_ENV
+          echo "APK_NAME=LRC.Editor.Dev.Debug.$SHA_SHORT.apk" >> $GITHUB_ENV
+
       - name: Download APK artifact
         uses: actions/download-artifact@v4
         with:
-          name: app-fdroid-debug
+          name: ${{ env.BUILD_ARTIFACT_NAME }}
           path: apk_output
           run-id: "${{ github.event.workflow_run.id }}"
           github-token: "${{ github.token }}"
 
-      - name: Set environment variables
-        run: |
-          SHA_SHORT=$(git rev-parse --short HEAD)
-          echo "APK_NAME=LRC.Editor.Dev.Debug.$SHA_SHORT.apk" >> $GITHUB_ENV
-
       - name: Rename APK
-        run: mv apk_output/app-fdroid-debug.apk apk_output/$APK_NAME
+        run: mv apk_output/${{ env.BUILD_ARTIFACT_NAME }} apk_output/${{ env.APK_NAME }}
 
       - name: Cleanup v-dev tag and release
         run: gh release delete v-dev --cleanup-tag --yes || true
@@ -45,7 +47,7 @@ jobs:
 
       - name: Upload APK release
         run: |
-          gh release create v-dev apk_output/$APK_NAME \
+          gh release create v-dev apk_output/${{ env.APK_NAME }} \
             --title "LRC Editor Developer Build" \
             --notes "Unreleased developer build (\`fdroid\` build variant) with the latest updates" \
             --target "${{ github.event.workflow_run.head_sha }}" \
