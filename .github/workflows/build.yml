@@ -2,14 +2,14 @@ name: Build
 
 on:
   push:
-    branches: ["master", "leading-space"]
+    branches: ["master"]
   pull_request:
     branches: ["master"]
   workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -37,4 +37,4 @@ jobs:
       with:
         name: app-fdroid-debug
         path: app/build/outputs/apk/fdroid/debug/app-fdroid-debug.apk
-        retention-days: 1
+        retention-days: 7

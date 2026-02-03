@@ -5,8 +5,8 @@ on:
     workflows: ["Build"]
     types:
       - completed
-    #branches:
-    #  - master
+    branches:
+      - master
 
 permissions:
   contents: write
@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   publish:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     if: "${{ github.event.workflow_run.conclusion == 'success' }}"
     steps:
       - name: Checkout repository
@@ -38,18 +38,18 @@ jobs:
       - name: Rename APK
         run: mv apk_output/app-fdroid-debug.apk apk_output/$APK_NAME
 
-      #- name: Cleanup v-dev tag and release
-      #  run: gh release delete v-dev --cleanup-tag --yes || true
-      #  env:
-      #    GH_TOKEN: "${{ github.token }}"
+      - name: Cleanup v-dev tag and release
+        run: gh release delete v-dev --cleanup-tag --yes || true
+        env:
+          GH_TOKEN: "${{ github.token }}"
 
-      #- name: Upload APK release
-      #  run: |
-      #    gh release create v-dev apk_output/$APK_NAME \
-      #      --title "LRC Editor Developer Build" \
-      #      --notes "Unreleased developer build (\`fdroid\` build variant) with the latest updates" \
-      #      --target "${{ github.event.workflow_run.head_sha }}" \
-      #      --prerelease
-      #  env:
-      #    GH_TOKEN: "${{ github.token }}"
+      - name: Upload APK release
+        run: |
+          gh release create v-dev apk_output/$APK_NAME \
+            --title "LRC Editor Developer Build" \
+            --notes "Unreleased developer build (\`fdroid\` build variant) with the latest updates" \
+            --target "${{ github.event.workflow_run.head_sha }}" \
+            --prerelease
+        env:
+          GH_TOKEN: "${{ github.token }}"
 
