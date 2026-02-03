@@ -363,7 +363,7 @@ public class FinalizeActivity extends AppCompatActivity {
 					// Hence we replace empty lyric lines with a space
 					lyric = " ";
 				} else if (useLyricLeadingSpace) {
-					lyric = " " + lyric
+					lyric = " " + lyric;
 				}
 
 				if (useThreeDigitMilliseconds) {
