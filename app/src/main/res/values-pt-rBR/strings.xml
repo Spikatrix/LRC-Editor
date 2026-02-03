@@ -145,8 +145,10 @@
 	<string name="storage_unavailable_message">Erro: Armazenamento indisponível ou cheio</string>
 	<string name="tap_to_select_song_prompt">Toque aqui para selecionar uma música</string>
 	<string name="thats_a_miss">Falta algo aqui...\nNenhum arquivo de letra encontrado</string>
-	<string name="three_digit_milliseconds_help">Salvar com milissegundos de três dígitos pode ser útil para aplicativos que esperam arquivos LRC com timestamps de três dígitos em milissegundos em vez de timestamps de dois dígitos em milissegundos</string>
+	<string name="three_digit_milliseconds_help">Esta opção é útil para aplicativos que esperam arquivos LRC com carimbos de data/hora em milissegundos com três dígitos, em vez de dois. Em caso de dúvida, mantenha-a desativada.</string>
 	<string name="three_digit_milliseconds_prompt">Salvar com três dígitos em milissegundos</string>
+	<string name="lyric_leading_space_help">Isso é útil para aplicativos que esperam um espaço entre o carimbo de data/hora e a letra da música. Em caso de dúvida, mantenha esta opção desativada.</string>
+	<string name="lyric_leading_space_prompt">Salvar letras com um espaço inicial</string>
 	<string name="timestamp_step_amount_prompt">Valor da etapa do registro de data e hora</string>
 	<string name="timestamp_step_help">Os carimbos de data e hora serão ajustados por essa quantidade de milissegundos no editor. Observe que apenas os dois dígitos mais significativos dos milissegundos são mostrados no editor</string>
 	<string name="title_error_text">Ocorreu um erro inesperado ao tentar definir o título</string>

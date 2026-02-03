@@ -146,8 +146,10 @@
 	<string name="storage_unavailable_message">Błąd: pamięć niedostępna/zajęta</string>
 	<string name="tap_to_select_song_prompt">Stuknij tutaj, aby wybrać utwór</string>
 	<string name="thats_a_miss">"Tego brakuje\nNie znaleziono plików Lyric"</string>
-	<string name="three_digit_milliseconds_help">Zapisywanie znaczników czasowych z trzycyfrowymi milisekundami może być przydatne w aplikacjach które oczekują pliku LRC z trzycyfrowymi znacznikami milisekund, a nie dwucyfrowymi znacznikami milisekund</string>
+	<string name="three_digit_milliseconds_help">Ta opcja jest przydatna w aplikacjach, które oczekują plików LRC z trzycyfrowymi znacznikami czasu w milisekundach, a nie dwucyfrowymi. W razie wątpliwości, lepiej pozostawić ją wyłączoną.</string>
 	<string name="three_digit_milliseconds_prompt">Zapisz znaczniki z trzycyfrowymi milisekundami</string>
+	<string name="lyric_leading_space_help">Ta opcja jest przydatna w aplikacjach, które wymagają spacji między znacznikiem czasu a tekstem piosenki. W razie wątpliwości, lepiej pozostawić ją wyłączoną.</string>
+	<string name="lyric_leading_space_prompt">Zapisz tekst piosenki z wiodącą spacją</string>
 	<string name="timestamp_step_amount_prompt">Kwota kroku znacznika czasu</string>
 	<string name="timestamp_step_help">Znaczniki czasu zostaną skorygowane o tę liczbę milisekund w edytorze. Zwróć uwagę, że w edytorze wyświetlane są tylko dwie najbardziej znaczące cyfry milisekund</string>
 	<string name="title_error_text">Wystąpił nieoczekiwany błąd podczas próby ustawienia tytułu</string>

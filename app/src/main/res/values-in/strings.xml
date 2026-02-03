@@ -145,8 +145,10 @@
 	<string name="storage_unavailable_message">Kesalahan: Penyimpanan tidak tersedia/sibuk</string>
 	<string name="tap_to_select_song_prompt">Ketuk di sini untuk memilih lagu</string>
 	<string name="thats_a_miss">Meleset\nTak ditemukan berkas lirik</string>
-	<string name="three_digit_milliseconds_help">Meyimpan dengan milidetik tiga angka mungkin akan berguna bagi aplikasi yang menganggap berkas LRC dengan cap waktu milidetik tiga angka daripada cap waktu dengan milidetik dua angka saja</string>
+	<string name="three_digit_milliseconds_help">Ini berguna untuk aplikasi yang mengharapkan file LRC dengan stempel waktu milidetik tiga digit, bukan dua digit. Jika tidak yakin, biarkan pengaturan ini tetap nonaktif.</string>
 	<string name="three_digit_milliseconds_prompt">Simpan dengan milidetik tiga angka</string>
+	<string name="lyric_leading_space_help">Ini berguna untuk aplikasi yang mengharapkan adanya spasi antara stempel waktu dan lirik. Jika tidak yakin, biarkan pengaturan ini tetap nonaktif.</string>
+	<string name="lyric_leading_space_prompt">Simpan lirik dengan spasi di awal</string>
 	<string name="timestamp_step_amount_prompt">Jumlah langkah cap waktu</string>
 	<string name="timestamp_step_help">Stempel waktu akan disesuaikan dengan jumlah milidetik ini di editor. Perhatikan bahwa hanya dua digit paling signifikan dari milidetik yang ditampilkan di editor</string>
 	<string name="title_error_text">Terjadi kesalahan yang ketika mencoba menyetel judul!</string>

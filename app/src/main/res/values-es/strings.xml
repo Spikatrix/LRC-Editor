@@ -145,8 +145,10 @@
 	<string name="storage_unavailable_message">Eror: Almancimiento indisponible/ocupado</string>
 	<string name="tap_to_select_song_prompt">Toca para seleccionar una canción</string>
 	<string name="thats_a_miss">Fallo\nNo se encontraron letras</string>
-	<string name="three_digit_milliseconds_help">Guardar el archivo con precision de tres decimales (milisegundos). Puede sér útil en aplicaciones con expectativa de tiempo en milisegundos (3 decimales) en vez de centisegundos (2 decimales).</string>
+	<string name="three_digit_milliseconds_help">Esto es útil para aplicaciones que esperan archivos LRC con marcas de tiempo en milisegundos de tres dígitos en lugar de dos. Si no está seguro, manténgalo desactivado.</string>
 	<string name="three_digit_milliseconds_prompt">Guardar con milisegundos (3 decimales)</string>
+	<string name="lyric_leading_space_help">Esto es útil para aplicaciones que esperan un espacio entre la marca de tiempo y la letra. Si no está seguro, manténgalo desactivado.</string>
+	<string name="lyric_leading_space_prompt">Guardar la letra con un espacio al principio</string>
 	<string name="timestamp_step_amount_prompt">Tamaño del paso de tiempo</string>
 	<string name="timestamp_step_help">Ajuste del tamaño del paso de tiempo del editor, en milisegundos. Notar que el editor solo indica en centisegundos aunque el ajuste esté en milisegundos.</string>
 	<string name="title_error_text">Eror configurando el título</string>

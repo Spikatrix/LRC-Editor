@@ -145,8 +145,10 @@
 	<string name="storage_unavailable_message">Fehler: Speicher nicht verfügbar/überlastet</string>
 	<string name="tap_to_select_song_prompt">Musiktitel auswählen</string>
 	<string name="thats_a_miss">Fehlgeschlagen\nKeine LRC-Dateien gefunden</string>
-	<string name="three_digit_milliseconds_help">Das Speichern mit dreistelligen Millisekunden kann für Anwendungen nützlich sein, die LRC-Dateien mit dreistelligen Millisekunden-Zeitstempeln anstelle von zweistelligen Millisekunden-Zeitstempeln erwarten</string>
+	<string name="three_digit_milliseconds_help">Dies ist nützlich für Anwendungen, die LRC-Dateien mit dreistelligen Millisekunden-Zeitstempeln anstelle von zweistelligen erwarten. Im Zweifelsfall sollten Sie diese Option deaktiviert lassen.</string>
 	<string name="three_digit_milliseconds_prompt">Zeitstempel mit dreistelligen Millisekunden speichern</string>
+	<string name="lyric_leading_space_help">Dies ist nützlich für Anwendungen, die ein Leerzeichen zwischen dem Zeitstempel und dem Liedtext erwarten. Im Zweifelsfall sollten Sie diese Option deaktiviert lassen.</string>
+	<string name="lyric_leading_space_prompt">Songtexte mit einem vorangestellten Leerzeichen speichern</string>
 	<string name="timestamp_step_amount_prompt">Schrittlänge des Zeitstempels</string>
 	<string name="timestamp_step_help">Zeitstempel werden im Editor um diese Millisekunden angepasst. Beachten Sie, dass im Editor nur die beiden wichtigsten Stellen der Millisekunden angezeigt werden</string>
 	<string name="title_error_text">Ein unerwarteter Fehler trat beim Versuch, den Titel zu verwenden, auf</string>

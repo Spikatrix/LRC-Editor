@@ -71,6 +71,7 @@ public class FinalizeActivity extends AppCompatActivity {
 	private boolean overwriteFailed = false;
 	private boolean threadIsExecuting = false;
 	private boolean useThreeDigitMilliseconds = false;
+	private boolean useLyricLeadingSpace = false;
 
 	@SuppressLint("ClickableViewAccessibility")
 	@Override
@@ -111,6 +112,7 @@ public class FinalizeActivity extends AppCompatActivity {
 		});
 
 		useThreeDigitMilliseconds = preferences.getBoolean(Constants.THREE_DIGIT_MILLISECONDS_PREFERENCE, false);
+		useLyricLeadingSpace = preferences.getBoolean(Constants.LYRIC_LEADING_SPACE_PREFERENCE, false);
 
 		Toolbar toolbar = findViewById(R.id.toolbar);
 		if (isDarkTheme) {
@@ -296,7 +298,7 @@ public class FinalizeActivity extends AppCompatActivity {
 			file = file.createFile("application/*", fileName);
 
 			OutputStream out = getContentResolver().openOutputStream(file.getUri());
-			InputStream in = new ByteArrayInputStream(lyricsToString(useThreeDigitMilliseconds).getBytes(StandardCharsets.UTF_8));
+			InputStream in = new ByteArrayInputStream(lyricsToString(useThreeDigitMilliseconds, useLyricLeadingSpace).getBytes(StandardCharsets.UTF_8));
 
 			byte[] buffer = new byte[1024];
 			int read;
@@ -327,7 +329,7 @@ public class FinalizeActivity extends AppCompatActivity {
 		((EditText) dialogView.findViewById(R.id.dialog_edittext)).setText(lrcFileName);
 	}
 
-	private String lyricsToString(boolean useThreeDigitMilliseconds) {
+	private String lyricsToString(boolean useThreeDigitMilliseconds, boolean useLyricLeadingSpace) {
 		StringBuilder sb = new StringBuilder();
 
 		String str;
@@ -360,7 +362,10 @@ public class FinalizeActivity extends AppCompatActivity {
 					// Some players might skip empty lyric lines (I'm looking at you Huawei music player)
 					// Hence we replace empty lyric lines with a space
 					lyric = " ";
+				} else if (useLyricLeadingSpace) {
+					lyric = " " + lyric
 				}
+
 				if (useThreeDigitMilliseconds) {
 					sb.append("[").append(timestamp.toStringWithThreeDigitMilliseconds(Locale.ENGLISH)).append("]").append(lyric).append("\n");
 				} else {
@@ -468,7 +473,7 @@ public class FinalizeActivity extends AppCompatActivity {
 
 	public void copyLrc(View view) {
 		ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-		ClipData clip = ClipData.newPlainText("Generated LRC data", lyricsToString(useThreeDigitMilliseconds));
+		ClipData clip = ClipData.newPlainText("Generated LRC data", lyricsToString(useThreeDigitMilliseconds, useLyricLeadingSpace));
 		if (clipboard != null) {
 			clipboard.setPrimaryClip(clip);
 		} else {

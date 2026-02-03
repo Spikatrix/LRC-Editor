@@ -145,8 +145,10 @@
 	<string name="storage_unavailable_message">错误：装置存储设备不可用或繁忙</string>
 	<string name="tap_to_select_song_prompt">点击此处选择歌曲</string>
 	<string name="thats_a_miss">真的没想到\n找不到歌词文件</string>
-	<string name="three_digit_milliseconds_help">以三位数毫秒保存功能，对于需要三位数毫秒而并非二位数毫秒的 LRC 文件的应用程序可能有用</string>
+	<string name="three_digit_milliseconds_help">此功能适用于需要使用三位毫秒时间戳（而非两位时间戳）的 LRC 文件格式的应用程序。如果您不确定，请保持此功能关闭。</string>
 	<string name="three_digit_milliseconds_prompt">以三位数毫秒保存</string>
+	<string name="lyric_leading_space_help">这对于需要在时间戳和歌词之间留有空格的应用程序很有用。如果不确定，请保持此功能关闭。</string>
+	<string name="lyric_leading_space_prompt">保存歌词时在开头添加一个空格</string>
 	<string name="timestamp_step_amount_prompt">歌词时间戳步进时间</string>
 	<string name="timestamp_step_help">歌词时间戳于编辑器以毫秒（ms）来调整。请注意，编辑器中只显示毫秒的最高两位有效数字。</string>
 	<string name="title_error_text">设置标题时发生不可预料的错误</string>

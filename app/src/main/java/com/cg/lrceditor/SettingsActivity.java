@@ -29,6 +29,7 @@ public class SettingsActivity extends AppCompatActivity {
 	private TextView readLocation;
 	private TextView timestampStep;
 	private Switch threeDigitMillisecondsSwitch;
+	private Switch lyricLeadingSpaceSwitch;
 
 	private RadioButton light, dark, darker;
 
@@ -75,6 +76,14 @@ public class SettingsActivity extends AppCompatActivity {
 		threeDigitMillisecondsSwitch.setOnCheckedChangeListener((compoundButton, checked) -> {
 			SharedPreferences.Editor editor = preferences.edit();
 			editor.putBoolean(Constants.THREE_DIGIT_MILLISECONDS_PREFERENCE, checked);
+			editor.apply();
+		});
+
+		lyricLeadingSpaceSwitch = findViewById(R.id.lyric_leading_space_switch);
+		lyricLeadingSpaceSwitch.setChecked(preferences.getBoolean(Constants.LYRIC_LEADING_SPACE_PREFERENCE, false));
+		lyricLeadingSpaceSwitch.setOnCheckedChangeListener((compoundButton, checked) -> {
+			SharedPreferences.Editor editor = preferences.edit();
+			editor.putBoolean(Constants.LYRIC_LEADING_SPACE_PREFERENCE, checked);
 			editor.apply();
 		});
 
@@ -212,7 +221,7 @@ public class SettingsActivity extends AppCompatActivity {
 	public void showTimestampStepHelp(View view) {
 		new AlertDialog.Builder(this)
 				.setMessage(R.string.timestamp_step_help)
-				.setNeutralButton(getString(R.string.ok), null)
+				.setNegativeButton(getString(R.string.ok), null)
 				.create()
 				.show();
 	}
@@ -224,7 +233,19 @@ public class SettingsActivity extends AppCompatActivity {
 	public void showThreeDigitMillisecondsHelp(View view) {
 		new AlertDialog.Builder(this)
 				.setMessage(R.string.three_digit_milliseconds_help)
-				.setNeutralButton(getString(R.string.ok), null)
+				.setNegativeButton(getString(R.string.ok), null)
+				.create()
+				.show();
+	}
+
+	public void toggleLyricLeadingSpaceSwitch(View view) {
+		lyricLeadingSpaceSwitch.toggle();
+	}
+
+	public void showLyricLeadingSpaceHelp(View view) {
+		new AlertDialog.Builder(this)
+				.setMessage(R.string.lyric_leading_space_help)
+				.setNegativeButton(getString(R.string.ok), null)
 				.create()
 				.show();
 	}

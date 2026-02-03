@@ -145,8 +145,10 @@
 	<string name="storage_unavailable_message">Error: Storage unavailable/busy</string>
 	<string name="tap_to_select_song_prompt">Tap here to select a song</string>
 	<string name="thats_a_miss">That\'s-a-miss\nNo lyric files found</string>
-	<string name="three_digit_milliseconds_help">Saving with three digit milliseconds might be useful for applications that expect LRC files with three digit millisecond timestamps rather than two digit millisecond timestamps</string>
+	<string name="three_digit_milliseconds_help">This is useful for applications that expect LRC files with three digit millisecond timestamps rather than two digit ones. If unsure, keep it turned off.</string>
 	<string name="three_digit_milliseconds_prompt">Save with three digit milliseconds</string>
+	<string name="lyric_leading_space_help">This is useful for applications that expect a space between the timestamp and the lyric. If unsure, keep it turned off.</string>
+	<string name="lyric_leading_space_prompt">Save lyrics with a leading space</string>
 	<string name="timestamp_step_amount_prompt">Timestamp step amount</string>
 	<string name="timestamp_step_help">Timestamps will be adjusted by this amount of milliseconds in the editor. Note that only the two most significant digits of the milliseconds are shown in the editor</string>
 	<string name="title_error_text">An unexpected error occurred trying to set the title</string>

@@ -16,6 +16,7 @@ class Constants {
 	static final String SAVE_LOCATION_PREFERENCE = "saveLocation";
 	static final String TIMESTAMP_STEP_AMOUNT_PREFERENCE = "timestamp_step_amount";
 	static final String THREE_DIGIT_MILLISECONDS_PREFERENCE = "three_digit_milliseconds";
+	static final String LYRIC_LEADING_SPACE_PREFERENCE = "lyric_leading_space";
 	static final String THEME_PREFERENCE = "current_theme";
 	static final String PURCHASED_PREFERENCE = "lrceditor_purchased";
 }

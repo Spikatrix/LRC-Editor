@@ -183,6 +183,39 @@
 				android:layout_height="1dp"
 				android:background="@android:color/darker_gray" />
 
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="?attr/selectableItemBackground"
+				android:clickable="true"
+				android:focusable="true"
+				android:gravity="center_vertical"
+				android:onClick="toggleLyricLeadingSpaceSwitch"
+				android:orientation="horizontal"
+				android:padding="@dimen/dp16">
+
+				<Switch
+					android:id="@+id/lyric_leading_space_switch"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight=".8"
+					android:text="@string/lyric_leading_space_prompt" />
+
+				<Button
+					style="@style/Widget.AppCompat.Button.Borderless.Colored"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight=".1"
+					android:onClick="showLyricLeadingSpaceHelp"
+					android:text="\?" />
+
+			</LinearLayout>
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:background="@android:color/darker_gray" />
+
 			<TextView
 				android:id="@+id/theme_title"
 				android:layout_width="match_parent"

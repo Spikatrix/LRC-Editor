@@ -145,8 +145,10 @@
 	<string name="storage_unavailable_message">錯誤：裝置存儲設備不可用或繁忙</string>
 	<string name="tap_to_select_song_prompt">點擊此處以選擇歌曲</string>
 	<string name="thats_a_miss">真的沒想到\n找不到歌詞檔</string>
-	<string name="three_digit_milliseconds_help">以三位數毫秒儲存功能，對於需要三位數毫秒而並非二位數毫秒的LRC文件的應用程序或會有用</string>
+	<string name="three_digit_milliseconds_help">這對於需要使用三位數毫秒時間戳而不是兩位數毫秒時間戳的 LRC 檔案的應用程式非常有用。如果不確定，請將其關閉。</string>
 	<string name="three_digit_milliseconds_prompt">以三位數毫秒儲存</string>
+	<string name="lyric_leading_space_help">這對於需要在時間戳和歌詞之間留有空格的應用程式很有用。如果不確定，請將其關閉。</string>
+	<string name="lyric_leading_space_prompt">儲存歌詞時，請以空格分隔</string>
 	<string name="timestamp_step_amount_prompt">時間標記步數</string>
 	<string name="timestamp_step_help">時間標記於編輯器以毫秒 (ms) 來調整。請注意編輯器中僅顯示毫秒中最高且有效的二位數。</string>
 	<string name="title_error_text">設定標題時發生未預期的錯誤</string>
