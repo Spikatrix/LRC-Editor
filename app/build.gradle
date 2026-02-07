@@ -1,8 +1,9 @@
 apply plugin: 'com.android.application'
 
 android {
-	compileSdkVersion 29
-	buildToolsVersion "29.0.3"
+	namespace "com.cg.lrceditor"
+	compileSdkVersion 34
+	buildToolsVersion "34.0.0"
 
 	defaultConfig {
 		applicationId "com.cg.lrceditor"
@@ -42,12 +43,14 @@ android {
 
 	compileOptions {
 		encoding = 'UTF-8'
-		sourceCompatibility JavaVersion.VERSION_1_8
-		targetCompatibility JavaVersion.VERSION_1_8
+		sourceCompatibility JavaVersion.VERSION_21
+		targetCompatibility JavaVersion.VERSION_21
 	}
 
-	packagingOptions {
-		exclude 'META-INF/*'
+	packaging {
+		resources {
+			excludes += 'META-INF/*'
+		}
 	}
 }
 
