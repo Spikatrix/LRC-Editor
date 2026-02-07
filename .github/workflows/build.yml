@@ -23,7 +23,6 @@ jobs:
     - name: Set up Android SDK
       uses: android-actions/setup-android@v3
       with:
-        cmdline-tools-version: 8512546
         log-accepted-android-sdk-licenses: false
 
     - name: Make gradlew executable
